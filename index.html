@@ -80,34 +80,34 @@
 
   <script type="text/javascript">
     function highlightButtonAndShowInfo(value, on) {
-    var string = "startupButton" + value;
-    if (on) {
-      document.getElementById(string).style.backgroundColor = "#7cc1e9";
-      var message = "";
-      switch (value) {
-        case 1:
-          message = "explore the watershed";
-          break;
-        case 2:
-          message = "exercises and interaction";
-          break;
-        case 3:
-          message = "extend the application";
-          break;
+      var string = "startupButton" + value;
+      if (on) {
+        document.getElementById(string).style.backgroundColor = "#7cc1e9";
+        var message = "";
+        switch (value) {
+          case 1:
+            message = "explore the watershed";
+            break;
+          case 2:
+            message = "exercises and interaction";
+            break;
+          case 3:
+            message = "extend the application";
+            break;
+        }
+        document.getElementById('startupInformationText').innerHTML = message;
+        document.getElementById('startupInformationText').style.backgroundColor = "#fff"
+        document.getElementById('startupInformationText').style.width ="50%";
+        document.getElementById('startupInformationText').style.display ="flex";
+        document.getElementById('startupInformationText').style.justifyContent ="center";
+        document.getElementById('startupInformationText').style.alignItems ="center";
+        document.getElementById('startupInformationText').style.marginTop ="10px";
+        document.getElementById('startupInformationText').style.marginBottom ="10px";
+      } else {
+        document.getElementById('startupInformationText').innerHTML = "";
+        document.getElementById(string).style.backgroundColor = "#40A4DF";
       }
-      document.getElementById('startupInformationText').innerHTML = message;
-      document.getElementById('startupInformationText').style.backgroundColor = "#fff"
-      document.getElementById('startupInformationText').style.width ="50%";
-      document.getElementById('startupInformationText').style.display ="flex";
-      document.getElementById('startupInformationText').style.justifyContent ="center";
-      document.getElementById('startupInformationText').style.alignItems ="center";
-      document.getElementById('startupInformationText').style.marginTop ="10px";
-      document.getElementById('startupInformationText').style.marginBottom ="10px";
-    } else {
-      document.getElementById('startupInformationText').innerHTML = "";
-      document.getElementById(string).style.backgroundColor = "#40A4DF";
     }
-  }
     function startUtilities() {
       //Event Listener for utilities escape. Go back when escape is pressed
       document.addEventListener('keyup', backUp);
@@ -193,16 +193,16 @@
       document.getElementById('startupDialogueOverlay').src = "";
       document.getElementById('startupDialogueOverlay').style.visibility = "hidden";
       if (document.getElementById('startupContentsHolder')){
-      document.getElementById('startupContentsHolder').style.marginTop = "-250px";
-      document.getElementById('startupContentsHolder').style.top = "50%";
-      document.getElementById('startupContentsHolder').style.height = "500px";
-      document.getElementById('startupContentsHolder').style.backgroundColor = "rgba(0,0,0,0)";
-      // document.getElementById('startupButton1').style.visibility = "visible";
-      //document.getElementById('startupButton2').style.visibility = "visible";
-      // document.getElementById('startupButton3').style.visibility = "visible";
-      // document.getElementById('pewiTitle').style.visibility = "visible";
-      ///document.getElementById('newPewiLogo').style.visibility = "visible";
-    } }//end reset
+        document.getElementById('startupContentsHolder').style.marginTop = "-250px";
+        document.getElementById('startupContentsHolder').style.top = "50%";
+        document.getElementById('startupContentsHolder').style.height = "500px";
+        document.getElementById('startupContentsHolder').style.backgroundColor = "rgba(0,0,0,0)";
+        // document.getElementById('startupButton1').style.visibility = "visible";
+        //document.getElementById('startupButton2').style.visibility = "visible";
+        // document.getElementById('startupButton3').style.visibility = "visible";
+        // document.getElementById('pewiTitle').style.visibility = "visible";
+        ///document.getElementById('newPewiLogo').style.visibility = "visible";
+      } }//end reset
 
   </script>
 
@@ -227,674 +227,674 @@
 </head>
 
 <body id="body">
+<script>
+  //Preload gifs and backgrounds on startup
+  var img1 = new Image();
+  img1.src = "./imgs/loader.gif";
+  var img3 = new Image();
+  img3.src = "./htmlFrames/imgs/normalBackWithRiver.png";
+  var img4 = new Image();
+  img4.src = "./htmlFrames/imgs/pewiLogoLarge.png";
+  var img5 = new Image();
+  img5.src = "./htmlFrames/imgs/water.gif";
+  var img2 = new Image();
+  img2.src = "./imgs/meadowlarkanimation.gif";
+</script>
+
+<!-- Create hidden div to contain settings/options for in-game updates -->
+<div id="settingsHolder">
+  <input id="firefoxWorkaround"></input>
+  <!-- parameters div stores the parameters in options.html -->
+  <div id="parameters"></div>
+  <!-- print-option-parameters div stores the toggled options in printOptions.html -->
+  <div id="print-option-parameters"></div>
+</div>
+<!-- Main webpage element containing pewi -->
+<div id="page">
+
+  <!-- General overlay banner -->
+  <div id="genOverlay" style="visibility: hidden;"></div>
+
+  <!-- Add banner for when simulation is about to begin -->
+  <div id="overlayContainer" style="visibility:hidden;">
+    <div id="overlay">
+      <div id="overlay-message">
+        <div id="overlayMessage">Click here to begin simulation</div>
+      </div>
+      <label for="file-upload" id="simUpload">
+        <div id="overlay-message-2" onclick="bindUploadFileListener();">
+          <div id = "overlayMessage2">Click here to upload a custom PEWI map</div>
+        </div>
+      </label>
+      <input id="file-upload" type="file" />
+    </div>
+  </div>
+
+  <!-- Add banner for when simulation is done/paused -->
+  <div id="simContainer" style="visibility:hidden;">
+    <div class="simOverlay">
+      <div id="sim-message-exit">
+        <div id="exitSim">Return to Main Menu</div>
+      </div>
+      <div id="sim-message-repeat">
+        <div id="repeatSim">Repeat Simulation</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Handles the overlay shown during simulations -->
   <script>
-    //Preload gifs and backgrounds on startup
-    var img1 = new Image();
-    img1.src = "./imgs/loader.gif";
-    var img3 = new Image();
-    img3.src = "./htmlFrames/imgs/normalBackWithRiver.png";
-    var img4 = new Image();
-    img4.src = "./htmlFrames/imgs/pewiLogoLarge.png";
-    var img5 = new Image();
-    img5.src = "./htmlFrames/imgs/water.gif";
-    var img2 = new Image();
-    img2.src = "./imgs/meadowlarkanimation.gif";
+    function bindUploadFileListener() {
+      //add listener
+      $('#file-upload').bind('propertychange change', function(e) {
+        parent.uploadClicked(e);
+      });
+      //small issue: if file selected is same name as previous
+      //property change is not triggered, even if file has changed.
+    };
+
+    $(document).ready(function() {
+
+      $("#overlay-message").click(function() {
+        $("#overlayContainer").css("visibility", "hidden");
+        $("#genOverlay").css("visibility", "visible");
+        $("#genOverlay").css("background", "transparent");
+        runSimulation();
+      });
+
+      $("#sim-message-exit").click(function() {
+        $("#genOverlay").css("background", "rgba(0, 0, 0, 0.4)");
+        $("#simContainer").css("visibility", "hidden");
+        $("#sliderCon").css("visibility", "hidden");
+        //Reset defaults
+        setSimBoolean(false);
+        resetPresets();
+        resetSlider();
+        clearTimers();
+        setPause(false);
+        setUpload(false);
+        showMainMenu();
+      });
+
+      $("#sim-message-repeat").click(function() {
+        $("#simContainer").css("visibility", "hidden");
+        $("#overlayContainer").css("visibility", "visible");
+        //Reset defaults
+        setSimBoolean(false);
+        resetSlider();
+        clearTimers();
+        setPause(false);
+        setUpload(false);
+        promptUserSim();
+      })
+    });
   </script>
 
-  <!-- Create hidden div to contain settings/options for in-game updates -->
-  <div id="settingsHolder">
-    <input id="firefoxWorkaround"></input>
-    <!-- parameters div stores the parameters in options.html -->
-    <div id="parameters"></div>
-    <!-- print-option-parameters div stores the toggled options in printOptions.html -->
-    <div id="print-option-parameters"></div>
+  <!-- style="display: inline; visibility: hidden;-->
+  <div id="flyover" class="fly"> </div>
+  <img id="flyASDW" class="flydisplay" src="./imgs/asdw.png">
+  <img id="flyNavigKeys" class="flydisplay" src="./imgs/navig.png">
+
+
+  <!--Create Glossary button on screen-->
+  <div id="glossarymenu" onclick="toggleGlossary();">Glossary</div>
+
+
+  <div id="checkheader" style="display:none;">
+    <h3>Toggle Overlay</h3>
   </div>
-  <!-- Main webpage element containing pewi -->
-  <div id="page">
 
-    <!-- General overlay banner -->
-    <div id="genOverlay" style="visibility: hidden;"></div>
 
-    <!-- Add banner for when simulation is about to begin -->
-    <div id="overlayContainer" style="visibility:hidden;">
-      <div id="overlay">
-        <div id="overlay-message">
-          <div id="overlayMessage">Click here to begin simulation</div>
-        </div>
-        <label for="file-upload" id="simUpload">
-                <div id="overlay-message-2" onclick="bindUploadFileListener();">
-                    <div id = "overlayMessage2">Click here to upload a custom PEWI map</div>
-                </div>
-            </label>
-        <input id="file-upload" type="file" />
-      </div>
+  <div class="checkOverlay" style="display:none;">
+    <input type="checkbox" onclick="switchOverlayTemp();refreshBoard();redrawOverlay();" value="1" id="toggleOverlay" name="toggleOverlay" unchecked/>
+    <label for="toggleOverlay"></label>
+  </div>
+
+  <!-- UNDO button -->
+  <div id="undo" class="undocol">
+    <div class="tooltip">
+      <!-- "Undo" icon made by Hadrien on http://www.flaticon.com/authors/hadrien with CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/)-->
+      <img id="undoButton" width="40px" src="./imgs/undo.png" onclick="revertChanges();" onmouseover="toggleTabTitleHovers('tooltip-undo');" onmouseout="toggleTabTitleHovers('tooltip-undo');">
+      <span id="tooltip-undo" class="tooltiptext tooltipLandUse"> Undo </span>
     </div>
-
-    <!-- Add banner for when simulation is done/paused -->
-    <div id="simContainer" style="visibility:hidden;">
-      <div class="simOverlay">
-        <div id="sim-message-exit">
-          <div id="exitSim">Return to Main Menu</div>
-        </div>
-        <div id="sim-message-repeat">
-          <div id="repeatSim">Repeat Simulation</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Handles the overlay shown during simulations -->
-    <script>
-      function bindUploadFileListener() {
-        //add listener
-        $('#file-upload').bind('propertychange change', function(e) {
-          parent.uploadClicked(e);
-        });
-        //small issue: if file selected is same name as previous
-        //property change is not triggered, even if file has changed.
-      };
-
-      $(document).ready(function() {
-
-        $("#overlay-message").click(function() {
-          $("#overlayContainer").css("visibility", "hidden");
-          $("#genOverlay").css("visibility", "visible");
-          $("#genOverlay").css("background", "transparent");
-          runSimulation();
-        });
-
-        $("#sim-message-exit").click(function() {
-          $("#genOverlay").css("background", "rgba(0, 0, 0, 0.4)");
-          $("#simContainer").css("visibility", "hidden");
-          $("#sliderCon").css("visibility", "hidden");
-          //Reset defaults
-          setSimBoolean(false);
-          resetPresets();
-          resetSlider();
-          clearTimers();
-          setPause(false);
-          setUpload(false);
-          showMainMenu();
-        });
-
-        $("#sim-message-repeat").click(function() {
-          $("#simContainer").css("visibility", "hidden");
-          $("#overlayContainer").css("visibility", "visible");
-          //Reset defaults
-          setSimBoolean(false);
-          resetSlider();
-          clearTimers();
-          setPause(false);
-          setUpload(false);
-          promptUserSim();
-        })
-      });
-    </script>
-
-    <!-- style="display: inline; visibility: hidden;-->
-    <div id="flyover" class="fly"> </div>
-    <img id="flyASDW" class="flydisplay" src="./imgs/asdw.png">
-    <img id="flyNavigKeys" class="flydisplay" src="./imgs/navig.png">
+  </div>
 
 
-    <!--Create Glossary button on screen-->
-    <div id="glossarymenu" onclick="toggleGlossary();">Glossary</div>
-
-
-    <div id="checkheader" style="display:none;">
-      <h3>Toggle Overlay</h3>
-    </div>
-
-
-    <div class="checkOverlay" style="display:none;">
-      <input type="checkbox" onclick="switchOverlayTemp();refreshBoard();redrawOverlay();" value="1" id="toggleOverlay" name="toggleOverlay" unchecked/>
-      <label for="toggleOverlay"></label>
-    </div>
-
-    <!-- UNDO button -->
-    <div id="undo" class="undocol">
+  <!-- painter brush -->
+  <div id="settingsTab" class="settingsTab">
+    <div id="cellpaint" class="leftcol">
       <div class="tooltip">
-        <!-- "Undo" icon made by Hadrien on http://www.flaticon.com/authors/hadrien with CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/)-->
-        <img id="undoButton" width="40px" src="./imgs/undo.png" onclick="revertChanges();" onmouseover="toggleTabTitleHovers('tooltip-undo');" onmouseout="toggleTabTitleHovers('tooltip-undo');">
-        <span id="tooltip-undo" class="tooltiptext tooltipLandUse"> Undo </span>
+        <img id="cellPaint" class="painterIcon iconSelected" src="./imgs/hoverPainter.png" onclick="painterSelect(1);" onmouseover="toggleTabTitleHovers('tooltip-cellPaint');" onmouseout="toggleTabTitleHovers('tooltip-cellPaint');">
+        <span id="tooltip-cellPaint" class="tooltiptext tooltipLandUse"> Cell Paint </span>
       </div>
     </div>
 
+    <div id="gridpaint" class="rightcol">
+      <div class="tooltip">
+        <img id="gridPaint" class="painterIcon icon" src="./imgs/gridPainter.png" onclick="painterSelect(2);" onmouseover="toggleTabTitleHovers('tooltip-gridPaint');" onmouseout="toggleTabTitleHovers('tooltip-gridPaint');">
+        <span id="tooltip-gridPaint" class="tooltiptext tooltipLandUse"> Grid Paint </span>
+      </div>
+    </div>
 
-    <!-- painter brush -->
-    <div id="settingsTab" class="settingsTab">
-      <div id="cellpaint" class="leftcol">
+  </div>
+
+  <!-- Delete Confirmation -->
+  <div id = "confirmYearDelete">
+    Are you sure you want to delete this year?
+    <div class="mainEscapeButton" id = "yesDelete" onclick="deleteYearAndTransition();"> Yes </div>
+    <div class="mainEscapeButton" id = "noDelete" onclick= "yearNotDeleted();"> No </div>
+  </div>
+
+
+  <!-- "Undo" icon made by Hadrien on http://www.flaticon.com/authors/hadrien with CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/)-->
+  <!--<img id="undoButton" src="./imgs/undo.png" onclick="revertChanges();" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();"> -->
+
+
+  <!-- **BEGIN Left Side Console**
+    with land-type painter, precipitation, ecosystem indicators and feature highlighting functions -->
+
+  <!-- Create left-side console button tabs -->
+  <!-- "Pickaxe" by Luke Anthony Firth on http://thenounproject.com with with CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/) / Colors inverted -->
+  <div id="toolsButton" class="consoleButton" onclick="roll(1);">
+    <img id="pick" src="./imgs/pickOut.png" onmouseover="toggleChangeLandType(); toggleTabTitle('toolsTabTitle');" onmouseout="toggleChangeLandType(); toggleTabTitle('toolsTabTitle');">
+    <!-- Tools tab title display -->
+    <div id="toolsTabTitle" style="display: none;"></div>
+  </div>
+
+  <div id="tabButtons" class="tabButtons" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
+
+    <!-- "Mountain" by Lee Mette on http://thenounproject.com with with CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/) / Colors inverted -->
+    <div id="terrainButton" class="consoleButton" onclick="switchConsoleTab(1);refreshBoard();">
+      <img id="terrainImg" class="imgSelected" src="./imgs/terrainIcon.png" onmouseover="toggleTabTitle('terrainTabTitle', 0);" onmouseout="toggleTabTitle('terrainTabTitle', 1);">
+      <div id="terrainTabTitle" style="display:none;"></div>
+    </div>
+    <!-- "Holiday, ocean, river, sea, summer, water, wave, ..." by Olya Philipenko (https://www.iconfinder.com/hk12215) with free commercial / Inverted and resized -->
+    <div id="featuresButton" class="consoleButton" onclick="switchConsoleTab(4);">
+      <img id="featuresImg" class="imgNotSelected" src="./imgs/featuresIcon.png" onmouseover="toggleTabTitle('featuresTabTitle', 0);" onmouseout="toggleTabTitle('featuresTabTitle', 1);">
+      <div id="featuresTabTitle" style="display:none;"></div>
+    </div>
+
+    <div id="yieldButton" class="consoleButton" onclick="switchConsoleTab(7);">
+      <img id="yieldImg" class="imgNotSelected" src="./imgs/yieldProductivityIcon.png" onmouseover="toggleTabTitle('yieldTabTitle', 0);" onmouseout="toggleTabTitle('yieldTabTitle', 1);">
+      <div id="yieldTabTitle" style="display:none;"></div>
+    </div>
+    <!-- "Cloud, raindrops, sun icon" by Yannick Lung (http://yannicklung.com/) with free commercial use / Inverted and resized -->
+    <div id="precipButton" class="consoleButton" onclick="switchConsoleTab(2);">
+      <img id="precipImg" class="imgNotSelected" src="./imgs/precipIcon.png" onmouseover="toggleTabTitle('precipTabTitle', 0);" onmouseout="toggleTabTitle('precipTabTitle', 1);">
+      <div id="precipTabTitle" style="display:none;"></div>
+    </div>
+    <!-- "Calendar tool variant for time administration free icon" by FreePik (http://www.freepik.com), retrived from www.flaticon.com  with free commercial use / Inverted and resized -->
+    <div id="yearButton" class="consoleButton" onclick="switchConsoleTab(6);">
+      <img id="calendarImg" class="imgNotSelected" src="./imgs/calendarIcon.png" onmouseover="toggleTabTitle('yearTabTitle', 0);" onmouseout="toggleTabTitle('yearTabTitle', 1);">
+      <div id="yearTabTitle" style="display:none;"></div>
+    </div>
+    <!-- "Filter, levels, settings icon" by Yash Ranpara (https://www.iconfinder.com/yash11) with free commerical use / Inverted and resized -->
+    <div id="levelsButton" class="consoleButton" onclick="switchConsoleTab(3)">
+      <img id="levelsImg" class="imgNotSelected" src="./imgs/levelsIcon.png" onmouseover="toggleTabTitle('levelsTabTitle', 0);" onmouseout="toggleTabTitle('levelsTabTitle', 1);">
+      <div id="levelsTabTitle" style="display:none;"></div>
+    </div>
+    <!--inflation button-->
+    <div id="inflationButton" class="consoleButton" onclick="switchConsoleTab(8)">
+      <img id="inflationImg" class="imgNotSelected" src="./imgs/dollar_sign.png">
+      <div id="inflationTabTitle" style="display:none;"></div>
+    </div>
+
+
+  </div>
+
+  <!-- Create left-side console displays-->
+  <div id="leftConsole" class="leftConsole" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
+
+    <!-- Land type painter display -->
+    <div id="painterTab" class="consoleTab">
+      <div id="painterTab-leftcol" class="leftcol">
+
         <div class="tooltip">
-          <img id="cellPaint" class="painterIcon iconSelected" src="./imgs/hoverPainter.png" onclick="painterSelect(1);" onmouseover="toggleTabTitleHovers('tooltip-cellPaint');" onmouseout="toggleTabTitleHovers('tooltip-cellPaint');">
-          <span id="tooltip-cellPaint" class="tooltiptext tooltipLandUse"> Cell Paint </span>
+          <img id="paint1" class="landSelectorIcon iconSelected" src="./imgs/conventionalCorn.png" onclick="changeSelectedPaintTo(1);" onmouseover="toggleTabTitleHovers('tooltip-conventional-corn');" onmouseout="toggleTabTitleHovers('tooltip-conventional-corn');">
+          <span id="tooltip-conventional-corn" class="tooltiptext tooltipLandUse">Conventional Corn</span>
         </div>
-      </div>
 
-      <div id="gridpaint" class="rightcol">
         <div class="tooltip">
-          <img id="gridPaint" class="painterIcon icon" src="./imgs/gridPainter.png" onclick="painterSelect(2);" onmouseover="toggleTabTitleHovers('tooltip-gridPaint');" onmouseout="toggleTabTitleHovers('tooltip-gridPaint');">
-          <span id="tooltip-gridPaint" class="tooltiptext tooltipLandUse"> Grid Paint </span>
+          <img id="paint3" class="landSelectorIcon icon" src="./imgs/conventionalSoybean.png" onclick="changeSelectedPaintTo(3);" onmouseover="toggleTabTitleHovers('tooltip-conventional-soybean');" onmouseout="toggleTabTitleHovers('tooltip-conventional-soybean');">
+          <span id="tooltip-conventional-soybean" class="tooltiptext tooltipLandUse">Conventional Soybean</span>
         </div>
+
+        <div class="tooltip">
+          <img id="paint15" class="landSelectorIcon icon" src="./imgs/fruits.png" onclick="changeSelectedPaintTo(15);" onmouseover="toggleTabTitleHovers('tooltip-mixedFruitsVegetables');" onmouseout="toggleTabTitleHovers('tooltip-mixedFruitsVegetables');">
+          <span id="tooltip-mixedFruitsVegetables" class="tooltiptext tooltipLandUse">Mixed Fruits and Vegetables</span>
+        </div>
+
+        <div class="tooltip">
+          <img id="paint8" class="landSelectorIcon icon" src="./imgs/grassHay.png" onclick="changeSelectedPaintTo(8);" onmouseover="toggleTabTitleHovers('tooltip-grassHay');" onmouseout="toggleTabTitleHovers('tooltip-grassHay');">
+          <span id="tooltip-grassHay" class="tooltiptext tooltipLandUse">Grass Hay</span>
+        </div>
+
+        <div class="tooltip">
+          <img id="paint6" class="landSelectorIcon icon" src="./imgs/permanentPasture.png" onclick="changeSelectedPaintTo(6);" onmouseover="toggleTabTitleHovers('tooltip-permanentPasture');" onmouseout="toggleTabTitleHovers('tooltip-permanentPasture');">
+          <span id="tooltip-permanentPasture" class="tooltiptext tooltipLandUse">Permanent Pasture</span>
+        </div>
+
+        <div class="tooltip">
+          <img id="paint14" class="landSelectorIcon icon" src="./imgs/wetland.png" onclick="changeSelectedPaintTo(14);" onmouseover="toggleTabTitleHovers('tooltip-wetland');" onmouseout="toggleTabTitleHovers('tooltip-wetland');">
+          <span id="tooltip-wetland" class="tooltiptext tooltipLandUse">Wetland</span>
+        </div>
+
+        <div class="tooltip">
+          <img id="paint11" class="landSelectorIcon icon" src="./imgs/conventionalForest.png" onclick="changeSelectedPaintTo(11);" onmouseover="toggleTabTitleHovers('tooltip-conventional-forest');" onmouseout="toggleTabTitleHovers('tooltip-conventional-forest');">
+          <span id="tooltip-conventional-forest" class="tooltiptext tooltipLandUse">Conventional Forest</span>
+        </div>
+
+        <div class="tooltip">
+          <img id="paint13" class="landSelectorIcon icon" src="./imgs/shortRotation.png" onclick="changeSelectedPaintTo(13);" onmouseover="toggleTabTitleHovers('tooltip-shortRotationWoodyBioenergy');" onmouseout="toggleTabTitleHovers('tooltip-shortRotationWoodyBioenergy');">
+          <span id="tooltip-shortRotationWoodyBioenergy" class="tooltiptext tooltipLandUse">Short Rotation Woody Bioenergy</span>
+        </div>
+
+        <!-- multiplayer mode  -->
+        <div id="leftPlayerCon"></div>
+
       </div>
 
+      <div id="painterTab-rightcol" class="rightcol">
+
+        <div class="tooltip">
+          <img id="paint2" class="landSelectorIcon icon" src="./imgs/conservationCorn.png" onclick="changeSelectedPaintTo(2); " onmouseover="toggleTabTitleHovers('tooltip-conservation-corn');" onmouseout="toggleTabTitleHovers('tooltip-conservation-corn');">
+          <span id="tooltip-conservation-corn" class="tooltiptext tooltipLandUse">Conservation Corn</span>
+        </div>
+
+        <div class="tooltip">
+          <img id="paint4" class="landSelectorIcon icon" src="./imgs/conservationSoybean.png" onclick="changeSelectedPaintTo(4);" onmouseover="toggleTabTitleHovers('tooltip-conservation-soybean');" onmouseout="toggleTabTitleHovers('tooltip-conservation-soybean');">
+          <span id="tooltip-conservation-soybean" class="tooltiptext tooltipLandUse">Conservation Soybean</span>
+        </div>
+
+        <div class="tooltip">
+          <img id="paint5" class="landSelectorIcon icon" src="./imgs/alfalfa.png" onclick="changeSelectedPaintTo(5);" onmouseover="toggleTabTitleHovers('tooltip-alfalfaHay');" onmouseout="toggleTabTitleHovers('tooltip-alfalfaHay');">
+          <span id="tooltip-alfalfaHay" class="tooltiptext tooltipLandUse">Alfafa Hay</span>
+        </div>
+
+        <div class="tooltip">
+          <img id="paint12" class="landSelectorIcon icon" src="./imgs/herbaceous.png" onclick="changeSelectedPaintTo(12);" onmouseover="toggleTabTitleHovers('tooltip-switchGrass');" onmouseout="toggleTabTitleHovers('tooltip-switchGrass');">
+          <span id="tooltip-switchGrass" class="tooltiptext tooltipLandUse">Switchgrass</span>
+        </div>
+
+        <div class="tooltip">
+          <img id="paint7" class="landSelectorIcon icon" src="./imgs/rotationalGrazing.png" onclick="changeSelectedPaintTo(7);" onmouseover="toggleTabTitleHovers('tooltip-rotationalGrazing');" onmouseout="toggleTabTitleHovers('tooltip-rotationalGrazing');">
+          <span id="tooltip-rotationalGrazing" class="tooltiptext tooltipLandUse">Rotational Grazing</span>
+        </div>
+
+        <div class="tooltip">
+          <img id="paint9" class="landSelectorIcon icon" src="./imgs/prairie.png" onclick="changeSelectedPaintTo(9);" onmouseover="toggleTabTitleHovers('tooltip-prairie');" onmouseout="toggleTabTitleHovers('tooltip-prairie');">
+          <span id="tooltip-prairie" class="tooltiptext tooltipLandUse">Prairie</span>
+        </div>
+
+        <div class="tooltip">
+          <img id="paint10" class="landSelectorIcon icon" src="./imgs/conservationForest.png" onclick="changeSelectedPaintTo(10);" onmouseover="toggleTabTitleHovers('tooltip-conservation-forest');" onmouseout="toggleTabTitleHovers('tooltip-conservation-forest');">
+          <span id="tooltip-conservation-forest" class="tooltiptext tooltipLandUse">Conservation Forest</span>
+        </div>
+
+        <!-- multiplayer mode  -->
+        <div id="rightPlayerCon"></div>
+      </div>
+
+
+      <div id="playerOptions" style="display: inline; visibility: hidden;">
+        <div id="playerDeleteButton" onclick="deleteAndSort();" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
+          <img id="playerDeleteImage" style="display:inline-block;" class="playerIcon icon" src="./imgs/deleteYear.png"></div>
+        <div id="playerAddButton" onclick="addPlayer(); " onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
+          <img id="playerAddImage" style="display:inline-block;" class="playerIcon icon" src="./imgs/addYear.png"></div>
+      </div>
+      <div id="playerResetButton" onclick="resetMultiPlayer();" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
+        <div id="message">
+          <p>RESET</p>
+        </div>
+        <img id="playerResetImage" class="playerIcon icon" src="./imgs/close_black.png">
+      </div>
+      <!-- "Combine" button for combining two player's land uses -->
+      <div id="combineButton" onclick="combinePlayers();" style="visibility: hidden;">Combine Players</div>
     </div>
 
-    <!-- Delete Confirmation -->
-    <div id = "confirmYearDelete">
-      Are you sure you want to delete this year?
-      <div class="mainEscapeButton" id = "yesDelete" onclick="deleteYearAndTransition();"> Yes </div>
-      <div class="mainEscapeButton" id = "noDelete" onclick= "yearNotDeleted();"> No </div>
-    </div>
+    <!-- Precipitation display -->
+    <div id="precipTab" class="consoleTab" style="display:none;">
+      <form method="precipValues" action=" ">
+        <!-- wtf method is called precipValues? -->
+        <div id="precipTitle">
+          <h3>Precipitation</h3></div>
 
-
-    <!-- "Undo" icon made by Hadrien on http://www.flaticon.com/authors/hadrien with CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/)-->
-    <!--<img id="undoButton" src="./imgs/undo.png" onclick="revertChanges();" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();"> -->
-
-
-    <!-- **BEGIN Left Side Console**
-      with land-type painter, precipitation, ecosystem indicators and feature highlighting functions -->
-
-    <!-- Create left-side console button tabs -->
-    <!-- "Pickaxe" by Luke Anthony Firth on http://thenounproject.com with with CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/) / Colors inverted -->
-    <div id="toolsButton" class="consoleButton" onclick="roll(1);">
-      <img id="pick" src="./imgs/pickOut.png" onmouseover="toggleChangeLandType(); toggleTabTitle('toolsTabTitle');" onmouseout="toggleChangeLandType(); toggleTabTitle('toolsTabTitle');">
-      <!-- Tools tab title display -->
-      <div id="toolsTabTitle" style="display: none;"></div>
-    </div>
-
-    <div id="tabButtons" class="tabButtons" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
-
-      <!-- "Mountain" by Lee Mette on http://thenounproject.com with with CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/) / Colors inverted -->
-      <div id="terrainButton" class="consoleButton" onclick="switchConsoleTab(1);refreshBoard();">
-        <img id="terrainImg" class="imgSelected" src="./imgs/terrainIcon.png" onmouseover="toggleTabTitle('terrainTabTitle', 0);" onmouseout="toggleTabTitle('terrainTabTitle', 1);">
-        <div id="terrainTabTitle" style="display:none;"></div>
-      </div>
-      <!-- "Holiday, ocean, river, sea, summer, water, wave, ..." by Olya Philipenko (https://www.iconfinder.com/hk12215) with free commercial / Inverted and resized -->
-      <div id="featuresButton" class="consoleButton" onclick="switchConsoleTab(4);">
-        <img id="featuresImg" class="imgNotSelected" src="./imgs/featuresIcon.png" onmouseover="toggleTabTitle('featuresTabTitle', 0);" onmouseout="toggleTabTitle('featuresTabTitle', 1);">
-        <div id="featuresTabTitle" style="display:none;"></div>
-      </div>
-
-      <div id="yieldButton" class="consoleButton" onclick="switchConsoleTab(7);">
-        <img id="yieldImg" class="imgNotSelected" src="./imgs/yieldProductivityIcon.png" onmouseover="toggleTabTitle('yieldTabTitle', 0);" onmouseout="toggleTabTitle('yieldTabTitle', 1);">
-        <div id="yieldTabTitle" style="display:none;"></div>
-      </div>
-      <!-- "Cloud, raindrops, sun icon" by Yannick Lung (http://yannicklung.com/) with free commercial use / Inverted and resized -->
-      <div id="precipButton" class="consoleButton" onclick="switchConsoleTab(2);">
-        <img id="precipImg" class="imgNotSelected" src="./imgs/precipIcon.png" onmouseover="toggleTabTitle('precipTabTitle', 0);" onmouseout="toggleTabTitle('precipTabTitle', 1);">
-        <div id="precipTabTitle" style="display:none;"></div>
-      </div>
-      <!-- "Calendar tool variant for time administration free icon" by FreePik (http://www.freepik.com), retrived from www.flaticon.com  with free commercial use / Inverted and resized -->
-      <div id="yearButton" class="consoleButton" onclick="switchConsoleTab(6);">
-        <img id="calendarImg" class="imgNotSelected" src="./imgs/calendarIcon.png" onmouseover="toggleTabTitle('yearTabTitle', 0);" onmouseout="toggleTabTitle('yearTabTitle', 1);">
-        <div id="yearTabTitle" style="display:none;"></div>
-      </div>
-      <!-- "Filter, levels, settings icon" by Yash Ranpara (https://www.iconfinder.com/yash11) with free commerical use / Inverted and resized -->
-      <div id="levelsButton" class="consoleButton" onclick="switchConsoleTab(3)">
-        <img id="levelsImg" class="imgNotSelected" src="./imgs/levelsIcon.png" onmouseover="toggleTabTitle('levelsTabTitle', 0);" onmouseout="toggleTabTitle('levelsTabTitle', 1);">
-        <div id="levelsTabTitle" style="display:none;"></div>
-      </div>
-      <!--inflation button-->
-      <div id="inflationButton" class="consoleButton" onclick="switchConsoleTab(8)">
-        <img id="inflationImg" class="imgNotSelected" src="./imgs/dollar_sign.png">
-        <div id="inflationTabTitle" style="display:none;"></div>
-      </div>
-
-
-    </div>
-
-    <!-- Create left-side console displays-->
-    <div id="leftConsole" class="leftConsole" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
-
-      <!-- Land type painter display -->
-      <div id="painterTab" class="consoleTab">
-        <div id="painterTab-leftcol" class="leftcol">
-
+        <div id="year0PrecipContainer" class="styled-select" onmouseover="getPrecipType(0);" onmouseout="getPrecipType(0);">
+          <!--<div class="tooltipPrecip">-->
           <div class="tooltip">
-            <img id="paint1" class="landSelectorIcon iconSelected" src="./imgs/conventionalCorn.png" onclick="changeSelectedPaintTo(1);" onmouseover="toggleTabTitleHovers('tooltip-conventional-corn');" onmouseout="toggleTabTitleHovers('tooltip-conventional-corn');">
-            <span id="tooltip-conventional-corn" class="tooltiptext tooltipLandUse">Conventional Corn</span>
-          </div>
-
-          <div class="tooltip">
-            <img id="paint3" class="landSelectorIcon icon" src="./imgs/conventionalSoybean.png" onclick="changeSelectedPaintTo(3);" onmouseover="toggleTabTitleHovers('tooltip-conventional-soybean');" onmouseout="toggleTabTitleHovers('tooltip-conventional-soybean');">
-            <span id="tooltip-conventional-soybean" class="tooltiptext tooltipLandUse">Conventional Soybean</span>
-          </div>
-
-          <div class="tooltip">
-            <img id="paint15" class="landSelectorIcon icon" src="./imgs/fruits.png" onclick="changeSelectedPaintTo(15);" onmouseover="toggleTabTitleHovers('tooltip-mixedFruitsVegetables');" onmouseout="toggleTabTitleHovers('tooltip-mixedFruitsVegetables');">
-            <span id="tooltip-mixedFruitsVegetables" class="tooltiptext tooltipLandUse">Mixed Fruits and Vegetables</span>
-          </div>
-
-          <div class="tooltip">
-            <img id="paint8" class="landSelectorIcon icon" src="./imgs/grassHay.png" onclick="changeSelectedPaintTo(8);" onmouseover="toggleTabTitleHovers('tooltip-grassHay');" onmouseout="toggleTabTitleHovers('tooltip-grassHay');">
-            <span id="tooltip-grassHay" class="tooltiptext tooltipLandUse">Grass Hay</span>
-          </div>
-
-          <div class="tooltip">
-            <img id="paint6" class="landSelectorIcon icon" src="./imgs/permanentPasture.png" onclick="changeSelectedPaintTo(6);" onmouseover="toggleTabTitleHovers('tooltip-permanentPasture');" onmouseout="toggleTabTitleHovers('tooltip-permanentPasture');">
-            <span id="tooltip-permanentPasture" class="tooltiptext tooltipLandUse">Permanent Pasture</span>
-          </div>
-
-          <div class="tooltip">
-            <img id="paint14" class="landSelectorIcon icon" src="./imgs/wetland.png" onclick="changeSelectedPaintTo(14);" onmouseover="toggleTabTitleHovers('tooltip-wetland');" onmouseout="toggleTabTitleHovers('tooltip-wetland');">
-            <span id="tooltip-wetland" class="tooltiptext tooltipLandUse">Wetland</span>
-          </div>
-
-          <div class="tooltip">
-            <img id="paint11" class="landSelectorIcon icon" src="./imgs/conventionalForest.png" onclick="changeSelectedPaintTo(11);" onmouseover="toggleTabTitleHovers('tooltip-conventional-forest');" onmouseout="toggleTabTitleHovers('tooltip-conventional-forest');">
-            <span id="tooltip-conventional-forest" class="tooltiptext tooltipLandUse">Conventional Forest</span>
-          </div>
-
-          <div class="tooltip">
-            <img id="paint13" class="landSelectorIcon icon" src="./imgs/shortRotation.png" onclick="changeSelectedPaintTo(13);" onmouseover="toggleTabTitleHovers('tooltip-shortRotationWoodyBioenergy');" onmouseout="toggleTabTitleHovers('tooltip-shortRotationWoodyBioenergy');">
-            <span id="tooltip-shortRotationWoodyBioenergy" class="tooltiptext tooltipLandUse">Short Rotation Woody Bioenergy</span>
-          </div>
-
-          <!-- multiplayer mode  -->
-          <div id="leftPlayerCon"></div>
-
-        </div>
-
-        <div id="painterTab-rightcol" class="rightcol">
-
-          <div class="tooltip">
-            <img id="paint2" class="landSelectorIcon icon" src="./imgs/conservationCorn.png" onclick="changeSelectedPaintTo(2); " onmouseover="toggleTabTitleHovers('tooltip-conservation-corn');" onmouseout="toggleTabTitleHovers('tooltip-conservation-corn');">
-            <span id="tooltip-conservation-corn" class="tooltiptext tooltipLandUse">Conservation Corn</span>
-          </div>
-
-          <div class="tooltip">
-            <img id="paint4" class="landSelectorIcon icon" src="./imgs/conservationSoybean.png" onclick="changeSelectedPaintTo(4);" onmouseover="toggleTabTitleHovers('tooltip-conservation-soybean');" onmouseout="toggleTabTitleHovers('tooltip-conservation-soybean');">
-            <span id="tooltip-conservation-soybean" class="tooltiptext tooltipLandUse">Conservation Soybean</span>
-          </div>
-
-          <div class="tooltip">
-            <img id="paint5" class="landSelectorIcon icon" src="./imgs/alfalfa.png" onclick="changeSelectedPaintTo(5);" onmouseover="toggleTabTitleHovers('tooltip-alfalfaHay');" onmouseout="toggleTabTitleHovers('tooltip-alfalfaHay');">
-            <span id="tooltip-alfalfaHay" class="tooltiptext tooltipLandUse">Alfafa Hay</span>
-          </div>
-
-          <div class="tooltip">
-            <img id="paint12" class="landSelectorIcon icon" src="./imgs/herbaceous.png" onclick="changeSelectedPaintTo(12);" onmouseover="toggleTabTitleHovers('tooltip-switchGrass');" onmouseout="toggleTabTitleHovers('tooltip-switchGrass');">
-            <span id="tooltip-switchGrass" class="tooltiptext tooltipLandUse">Switchgrass</span>
-          </div>
-
-          <div class="tooltip">
-            <img id="paint7" class="landSelectorIcon icon" src="./imgs/rotationalGrazing.png" onclick="changeSelectedPaintTo(7);" onmouseover="toggleTabTitleHovers('tooltip-rotationalGrazing');" onmouseout="toggleTabTitleHovers('tooltip-rotationalGrazing');">
-            <span id="tooltip-rotationalGrazing" class="tooltiptext tooltipLandUse">Rotational Grazing</span>
-          </div>
-
-          <div class="tooltip">
-            <img id="paint9" class="landSelectorIcon icon" src="./imgs/prairie.png" onclick="changeSelectedPaintTo(9);" onmouseover="toggleTabTitleHovers('tooltip-prairie');" onmouseout="toggleTabTitleHovers('tooltip-prairie');">
-            <span id="tooltip-prairie" class="tooltiptext tooltipLandUse">Prairie</span>
-          </div>
-
-          <div class="tooltip">
-            <img id="paint10" class="landSelectorIcon icon" src="./imgs/conservationForest.png" onclick="changeSelectedPaintTo(10);" onmouseover="toggleTabTitleHovers('tooltip-conservation-forest');" onmouseout="toggleTabTitleHovers('tooltip-conservation-forest');">
-            <span id="tooltip-conservation-forest" class="tooltiptext tooltipLandUse">Conservation Forest</span>
-          </div>
-
-          <!-- multiplayer mode  -->
-          <div id="rightPlayerCon"></div>
-        </div>
-
-
-        <div id="playerOptions" style="display: inline; visibility: hidden;">
-          <div id="playerDeleteButton" onclick="deleteAndSort();" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
-            <img id="playerDeleteImage" style="display:inline-block;" class="playerIcon icon" src="./imgs/deleteYear.png"></div>
-          <div id="playerAddButton" onclick="addPlayer(); " onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
-            <img id="playerAddImage" style="display:inline-block;" class="playerIcon icon" src="./imgs/addYear.png"></div>
-        </div>
-        <div id="playerResetButton" onclick="resetMultiPlayer();" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
-          <div id="message">
-            <p>RESET</p>
-          </div>
-          <img id="playerResetImage" class="playerIcon icon" src="./imgs/close_black.png">
-        </div>
-        <!-- "Combine" button for combining two player's land uses -->
-        <div id="combineButton" onclick="combinePlayers();" style="visibility: hidden;">Combine Players</div>
-      </div>
-
-      <!-- Precipitation display -->
-      <div id="precipTab" class="consoleTab" style="display:none;">
-        <form method="precipValues" action=" ">
-          <!-- wtf method is called precipValues? -->
-          <div id="precipTitle">
-            <h3>Precipitation</h3></div>
-
-          <div id="year0PrecipContainer" class="styled-select" onmouseover="getPrecipType(0);" onmouseout="getPrecipType(0);">
-            <!--<div class="tooltipPrecip">-->
-            <div class="tooltip">
-              <h4>Year 0:</h4>
-              <select id="year0Precip" class="year-precip-select" onChange="updatePrecip(0); rainOnPewi(); setupStaticBackground();">
-                  <option value=0>24.58</option>
-                  <option value=1>28.18</option>
-                  <option value=2>30.39</option>
-                  <option value=3>32.16</option>
-                  <option value=4>34.34</option>
-                  <option value=5>36.47</option>
-                  <option value=6>45.10</option>
-                </select>
-              <span class="tooltiptext tooltipPrecip" id="precipYear0"></span>
-            </div>
-          </div>
-
-          <div id="year1PrecipContainer" class="styled-select" onmouseover="getPrecipType(1);" onmouseout="getPrecipType(1);">
-            <div class="tooltip">
-              <h4>Year 1:</h4>
-              <select id="year1Precip" class="year-precip-select" onChange="updatePrecip(1); rainOnPewi(); setupStaticBackground();">
-                <option value=0>24.58</option>
-                <option value=1>28.18</option>
-                <option value=2>30.39</option>
-                <option value=3>32.16</option>
-                <option value=4>34.34</option>
-                <option value=5>36.47</option>
-                <option value=6>45.10</option>
+            <h4>Year 0:</h4>
+            <select id="year0Precip" class="year-precip-select" onChange="updatePrecip(0); rainOnPewi(); setupStaticBackground();">
+              <option value=0>24.58</option>
+              <option value=1>28.18</option>
+              <option value=2>30.39</option>
+              <option value=3>32.16</option>
+              <option value=4>34.34</option>
+              <option value=5>36.47</option>
+              <option value=6>45.10</option>
             </select>
-              <span class="tooltiptext tooltipPrecip" id="precipYear1"></span>
-            </div>
+            <span class="tooltiptext tooltipPrecip" id="precipYear0"></span>
           </div>
-          <!-- <script type="text/javascript"> document.write(getPrecipType(1))</script>  -->
+        </div>
 
-          <div id="year2PrecipContainer" class="styled-select" onmouseover="getPrecipType(2);" onmouseout="getPrecipType(2);">
-            <div class="tooltip">
-              <h4>Year 2:</h4>
-              <select id="year2Precip" class="year-precip-select" onChange="updatePrecip(2); rainOnPewi(); setupStaticBackground();">
-                <option value=0>24.58</option>
-                <option value=1>28.18</option>
-                <option value=2>30.39</option>
-                <option value=3>32.16</option>
-                <option value=4>34.34</option>
-                <option value=5>36.47</option>
-                <option value=6>45.10</option>
+        <div id="year1PrecipContainer" class="styled-select" onmouseover="getPrecipType(1);" onmouseout="getPrecipType(1);">
+          <div class="tooltip">
+            <h4>Year 1:</h4>
+            <select id="year1Precip" class="year-precip-select" onChange="updatePrecip(1); rainOnPewi(); setupStaticBackground();">
+              <option value=0>24.58</option>
+              <option value=1>28.18</option>
+              <option value=2>30.39</option>
+              <option value=3>32.16</option>
+              <option value=4>34.34</option>
+              <option value=5>36.47</option>
+              <option value=6>45.10</option>
             </select>
-              <span class="tooltiptext tooltipPrecip" id="precipYear2"></span>
-            </div>
+            <span class="tooltiptext tooltipPrecip" id="precipYear1"></span>
           </div>
+        </div>
+        <!-- <script type="text/javascript"> document.write(getPrecipType(1))</script>  -->
 
-          <div id="year3PrecipContainer" class="styled-select" onmouseover="getPrecipType(3);" onmouseout="getPrecipType(3);">
-            <div class="tooltip">
-              <h4>Year 3:</h4>
-              <select id="year3Precip" class="year-precip-select" onChange="updatePrecip(3); rainOnPewi(); setupStaticBackground();">
-                <option value=0>24.58</option>
-                <option value=1>28.18</option>
-                <option value=2>30.39</option>
-                <option value=3>32.16</option>
-                <option value=4>34.34</option>
-                <option value=5>36.47</option>
-                <option value=6>45.10</option>
+        <div id="year2PrecipContainer" class="styled-select" onmouseover="getPrecipType(2);" onmouseout="getPrecipType(2);">
+          <div class="tooltip">
+            <h4>Year 2:</h4>
+            <select id="year2Precip" class="year-precip-select" onChange="updatePrecip(2); rainOnPewi(); setupStaticBackground();">
+              <option value=0>24.58</option>
+              <option value=1>28.18</option>
+              <option value=2>30.39</option>
+              <option value=3>32.16</option>
+              <option value=4>34.34</option>
+              <option value=5>36.47</option>
+              <option value=6>45.10</option>
             </select>
-              <span class="tooltiptext tooltipPrecip" id="precipYear3"></span>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div id="inflationTab" class="consoleTab" style="display:none;">
-        <div id="inflationContainer">
-          <div>
-          </div><form id="adjustmentForm" method="post" action="">
-          <div>
-            <label for="inflationFactor">Inflation Factor Adjustment:</label>
-            <input type="number" id="inflationFactor" name="inflationFactor" value="1.23" step = "0.1">
-          </div>
-          <div>
-            <label for="cornPrices">Corn Prices:</label>
-            <input type="number" id="cornPrices" name="cornPrices" value="4.4" >
-          </div>
-          <div>
-            <label for="soybeanPrices">Soybean Prices:</label>
-            <input type="number" id="soybeanPrices" name="soybeanPrices" value="12">
-          </div>
-          <div>
-            <label for="carbonPrices">Carbon Prices:</label>
-            <input type="number" id="carbonPrices" name="carbonPrices" value="25">
-          </div>
-          <div>
-            <button id="submitInflationButton" type="button" onclick="refreshEconTotals(currentYear);">Submit</button>
-          </div>
-        </form>
-          <div>
-
+            <span class="tooltiptext tooltipPrecip" id="precipYear2"></span>
           </div>
         </div>
-      </div>
 
-      <script>
-        /// here we're adding an event listener to update values in real time and alo to add keyboard controls
-        /// we will use an arrow function since we need to pass current year to econ-refresh totals function. this function is defined in the levelLoader
-        // updated by richard magala
-        const inflationInput = document.getElementById("inflationFactor")
-        const cornPriceInput = document.getElementById("cornPrices" );
-        const soybeanPriceInput = document.getElementById('soybeanPrices');
-
-        inflationInput.addEventListener('change', () => {
-          // Call refreshEconTotals with the input value
-          refreshEconTotals(currentYear);
-        });
-        cornPriceInput.addEventListener('change', () => {
-          // Call refreshEconTotals with the input value
-          refreshEconTotals(currentYear);
-        });
-        soybeanPriceInput.addEventListener('change', () => {
-          // Call refreshEconTotals with the input value
-          refreshEconTotals(currentYear);
-        });
-        inflationInput.addEventListener('click', refreshProgressBar)
-      </script>
-      <!-- year display -->
-      <div id="yearsTab" class="consoleTab" style="display:none;">
-        <!-- Create year buttons -->
-        <div id="yearTitle">Year Selection</div>
-        <!-- "Exposure, zero icon" by Google Design (https://design.google.com/) used under CC BY (https://creativecommons.org/licenses/by/3.0/) / Inverted from original -->
-        <div id="year0Button" class="yearButton" style="display:none;" onclick="transitionToYear(0); switchYearTab(0);" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();"><img id="year0Image" class="icon yearNotSelected" src="./imgs/zero_40px.png"></div>
-        <div id="year1Button" onclick="transitionToYear(1); switchYearTab(1);" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();"><img id="year1Image" class="icon yearSelected" src="./imgs/one.png"></div>
-        <div id="year2Button" onclick="transitionToYear(2); switchYearTab(2);" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();"><img id="year2Image" class="icon yearImageHidden" src="./imgs/two.png"></div>
-        <div id="year3Button" onclick="transitionToYear(3); switchYearTab(3);" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();"><img id="year3Image" class="icon yearImageHidden" src="./imgs/three.png"></div>
-        <div id="yearAddButton" onclick="addYearAndTransition();setupStaticBackground();" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();"><img id="yearAddImage" class="icon yearNotSelected" src="./imgs/addYear.png"></div>
-        <div id="yearDeleteButton" onclick = "confirmYearDelete();" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();"><img id="yearDeleteImage" class="icon yearNotSelected" src="./imgs/deleteYear.png"></div>
-        <div id="yearCopyButton" class="year-styled-select">
-          <h4>Copy From:</h4>
-          <select id="yearToCopy" class="yearCopyPasteSelect" onChange="copyYear();">
-              <option value=0>      </option>
-              <option value=1>Year 1</option>
-              <option value=2>Year 2</option>
-              <option value=3>Year 3</option>
-          </select>
-        </div>
-        <div id="yearPasteButton" class="year-styled-select">
-          <h4>Paste To:</h4>
-          <select id="yearToPaste" class="yearCopyPasteSelect" onChange="pasteYear();setupStaticBackground();">
-              <option value=0>      </option>
-              <option value=1>Year 1</option>
-              <option value=2>Year 2</option>
-              <option value=3>Year 3</option>
-          </select>
-        </div>
-      </div>
-      <div id="nitrateDetailsList" class="DetailsListRolled levelDetailsList">
-        <center>
-          <h1 class="DetailsList-title">Subwatershed Nitrate-N Percent Contribution</h1></center>
-        <div class="legendColor" style="background-color: #302486">
-          <p class="levelsTextDetails">>25% contribution</p>
-        </div>
-        <div class="legendColor" style="background-color: #0053b3">
-          <p class="levelsTextDetails">20-25% contribution</p>
-        </div>
-        <div class="legendColor" style="background-color: #2f7eb7">
-          <p class="levelsTextDetails">10-20% contribution</p>
-        </div>
-        <div class="legendColor" style="background-color: #41b7c5">
-          <p class="levelsTextDetails">5-10% contribution</p>
-        </div>
-        <div class="legendColor" style="background-color: #87ceee">
-          <p class="levelsTextDetails">0-5% contribution</p>
-        </div>
-      </div>
-
-      <div id="erosionDetailsList" class="DetailsListRolled levelDetailsList">
-        <center>
-          <h1 class="DetailsList-title">Gross Erosion</h1></center>
-        <div class="legendColor" style="background-color: #654321">
-          <p class="levelsTextDetails">Very High</p>
-        </div>
-        <div class="legendColor" style="background-color: #8b4513">
-          <p class="levelsTextDetails">High</p>
-        </div>
-        <div class="legendColor" style="background-color: #919246">
-          <p class="levelsTextDetails">Medium</p>
-        </div>
-        <div class="legendColor" style="background-color: #e3c972">
-          <p class="levelsTextDetails">Low</p>
-        </div>
-        <div class="legendColor" style="background-color: #ffffc9">
-          <p class="levelsTextDetails">Very Low</p>
-        </div>
-      </div>
-
-      <div id="phosphorusDetailsList" class="DetailsListRolled levelDetailsList">
-        <center>
-          <h1 class="DetailsList-title">Phosphorus Index Risk Assessment</h1></center>
-        <div class="legendColor" style="background-color: #871c12;">
-          <p class="levelsTextDetails">Very High</p>
-        </div>
-        <div class="legendColor" style="background-color: #9a3010;">
-          <p class="levelsTextDetails">High</p>
-        </div>
-        <div class="legendColor" style="background-color: #ad490d;">
-          <p class="levelsTextDetails">Medium</p>
-        </div>
-        <div class="legendColor" style="background-color: #c97b08;">
-          <p class="levelsTextDetails">Low</p>
-        </div>
-        <div class="legendColor" style="background-color: #e6bb00;">
-          <p class="levelsTextDetails">Very Low</p>
-        </div>
-      </div>
-
-
-      <div id="sedimentDetailsList" class="DetailsListRolled levelDetailsList">
-        <center>
-          <h1 class="DetailsList-title">Sediment Control</h1></center>
-        <div class="legendColor" style="background-color: #02635b;">
-          <p class="levelsTextDetails">Very High</p>
-        </div>
-        <div class="legendColor" style="background-color: #22877f;">
-          <p class="levelsTextDetails">High</p>
-        </div>
-        <div class="legendColor" style="background-color: #5ab8b1;">
-          <p class="levelsTextDetails">Medium</p>
-        </div>
-        <div class="legendColor" style="background-color: #a7dfdb;">
-          <p class="levelsTextDetails">Low</p>
-        </div>
-        <div class="legendColor" style="background-color: #daf2f0;">
-          <p class="levelsTextDetails">Very Low</p>
-        </div>
-      </div>
-
-      <div id="carbonDetailsList" class="DetailsListRolled levelDetailsList">
-        <center>
-          <h1 class="DetailsList-title">Carbon Sequestration</h1></center>
-        <div class="legendColor" style="background-color: #042402;">
-          <p class="levelsTextDetails">Very High</p>
-        </div>
-        <div class="legendColor" style="background-color: #1d4d19;">
-          <p class="levelsTextDetails">High</p>
-        </div>
-        <div class="legendColor" style="background-color: #346b2f;">
-          <p class="levelsTextDetails">Medium</p>
-        </div>
-        <div class="legendColor" style="background-color: #64a95e;">
-          <p class="levelsTextDetails">Low</p>
-        </div>
-        <div class="legendColor" style="background-color: #d5f0d3;">
-          <p class="levelsTextDetails">Very Low</p>
-        </div>
-      </div>
-
-      <div id="gamewildlifeDetailsList" class="DetailsListRolled levelDetailsList">
-        <center>
-          <h1 class="DetailsList-title">Game Wildlife</h1></center>
-        <div class="legendColor" style="background-color: #871c12;">
-          <p class="levelsTextDetails">Very High Impact</p>
-        </div>
-        <div class="legendColor" style="background-color: #9a3010;">
-          <p class="levelsTextDetails">High Impact</p>
-        </div>
-        <div class="legendColor" style="background-color: #ad490d;">
-          <p class="levelsTextDetails">Moderate Impact</p>
-        </div>
-        <div class="legendColor" style="background-color: #c97b08;">
-          <p class="levelsTextDetails">Low Impact</p>
-        </div>
-        <div class="legendColor" style="background-color: #e6bb00;">
-          <p class="levelsTextDetails">Very Low Impact</p>
-        </div>
-      </div>
-
-      <div id="biodiversityDetailsList" class="DetailsListRolled levelDetailsList">
-        <center>
-          <h1 class="DetailsList-title">Biodiversity</h1></center>
-        <div class="legendColor" style="background-color: #2f7eb7;">
-          <p class="levelsTextDetails">Very High Impact</p>
-        </div>
-        <div class="legendColor" style="background-color: #41b7c5;">
-          <p class="levelsTextDetails">High Impact</p>
-        </div>
-        <div class="legendColor" style="background-color: #7fcebb;">
-          <p class="levelsTextDetails">Moderate Impact</p>
-        </div>
-        <div class="legendColor" style="background-color: #c7eab4;">
-          <p class="levelsTextDetails">Low Impact</p>
-        </div>
-        <div class="legendColor" style="background-color: #ffffc9;">
-          <p class="levelsTextDetails">Very Low impact</p>
-        </div>
-      </div>
-
-      <div id="nitratetileDetailsList" class="DetailsListRolled levelDetailsList">
-        <center>
-          <h1 class="DetailsList-title">Cell Nitrate Score</h1></center>
-        <div class="legendColor" style="background-color: #871c12;">
-          <p class="levelsTextDetails">Very High Impact</p>
-        </div>
-        <div class="legendColor" style="background-color: #9a3010;">
-          <p class="levelsTextDetails">High Impact</p>
-        </div>
-        <div class="legendColor" style="background-color: #ad490d;">
-          <p class="levelsTextDetails">Moderate Impact</p>
-        </div>
-        <div class="legendColor" style="background-color: #c97b08;">
-          <p class="levelsTextDetails">Low Impact</p>
-        </div>
-        <div class="legendColor" style="background-color: #e6bb00;">
-          <p class="levelsTextDetails">Very Low Impact</p>
-        </div>
-      </div>
-
-      <!-- Ecosystem indicator highlighting display -->
-      <div id="levelsTab" class="consoleTab" style="display:none;">
-
-
-
-        <div class="leftcol">
-          <!--"B.png icon created by Sam Kerr"-->
+        <div id="year3PrecipContainer" class="styled-select" onmouseover="getPrecipType(3);" onmouseout="getPrecipType(3);">
           <div class="tooltip">
-            <img id="biodiversityIcon" class="levelsSelectorIcon icon" src="./imgs/B.png" onclick="displayLevels('biodiversity');" onmouseover="toggleTabTitleHovers('tooltip-biodiversity');" onmouseout="toggleTabTitleHovers('tooltip-biodiversity');">
-            <span id="tooltip-biodiversity" class="tooltiptext tooltipResultsMapTab">Biodiversity</span>
+            <h4>Year 3:</h4>
+            <select id="year3Precip" class="year-precip-select" onChange="updatePrecip(3); rainOnPewi(); setupStaticBackground();">
+              <option value=0>24.58</option>
+              <option value=1>28.18</option>
+              <option value=2>30.39</option>
+              <option value=3>32.16</option>
+              <option value=4>34.34</option>
+              <option value=5>36.47</option>
+              <option value=6>45.10</option>
+            </select>
+            <span class="tooltiptext tooltipPrecip" id="precipYear3"></span>
           </div>
-          <!-- "Letter E gold Icon" by Supratim Nayak (http://www.iconarchive.com/artist/hydrattz.html) with free commercial use -->
-          <div class="tooltip">
-            <img id="erosionIcon" class="levelsSelectorIcon icon" src="./imgs/E.png" onclick="displayLevels('erosion');" onmouseover="toggleTabTitleHovers('tooltip-grossErosion');" onmouseout="toggleTabTitleHovers('tooltip-grossErosion');">
-            <span id="tooltip-grossErosion" class="tooltiptext tooltipResultsMapTab">Gross Erosion</span>
-          </div>
-          <!-- "Letter N Ig Icon" by Supratim Nayak (http://www.iconarchive.com/artist/hydrattz.html) with free commercial use -->
-          <div class="tooltip">
-            <img id="nitrateIcon" class="levelsSelectorIcon icon" src="./imgs/Ns.png" onclick="displayLevels('nitrate');" onmouseover="toggleTabTitleHovers('tooltip-subwatershedNitrate');" onmouseout="toggleTabTitleHovers('tooltip-subwatershedNitrate');">
-            <span id="tooltip-subwatershedNitrate" class="tooltiptext tooltipResultsMapTab">Subwatershed Nitrate-N Percent Contribution</span>
-          </div>
-          <!-- "Letter P blue Icon" by Supratim Nayak (http://www.iconarchive.com/artist/hydrattz.html) with free commercial use -->
-          <div class="tooltip">
-            <img id="phoshorusIcon" class="levelsSelectorIcon icon" src="./imgs/P.png" onclick="displayLevels('phosphorus');" onmouseover="toggleTabTitleHovers('tooltip-phosphorusIndex');" onmouseout="toggleTabTitleHovers('tooltip-phosphorusIndex');">
-            <span id="tooltip-phosphorusIndex" class="tooltiptext tooltipResultsMapTab">Phosphorus Index Risk Assessment</span>
-          </div>
+        </div>
+      </form>
+    </div>
+    <div id="inflationTab" class="consoleTab" style="display:none;">
+      <div id="inflationContainer">
+        <div>
+        </div><form id="adjustmentForm" method="post" action="">
+        <div>
+          <label for="inflationFactor">Inflation Factor Adjustment:</label>
+          <input type="number" id="inflationFactor" name="inflationFactor" value="1.23" step = "0.1">
+        </div>
+        <div>
+          <label for="cornPrices">Corn Prices:</label>
+          <input type="number" id="cornPrices" name="cornPrices" value="4.4" >
+        </div>
+        <div>
+          <label for="soybeanPrices">Soybean Prices:</label>
+          <input type="number" id="soybeanPrices" name="soybeanPrices" value="12">
+        </div>
+        <div>
+          <label for="carbonPrices">Carbon Prices:</label>
+          <input type="number" id="carbonPrices" name="carbonPrices" value="25">
+        </div>
+        <div>
+          <button id="submitInflationButton" type="button" onclick="refreshEconTotals(currentYear);">Submit</button>
+        </div>
+      </form>
+        <div>
+
+        </div>
+      </div>
+    </div>
+
+    <script>
+      /// here we're adding an event listener to update values in real time and alo to add keyboard controls
+      /// we will use an arrow function since we need to pass current year to econ-refresh totals function. this function is defined in the levelLoader
+      // updated by richard magala
+      const inflationInput = document.getElementById("inflationFactor")
+      const cornPriceInput = document.getElementById("cornPrices" );
+      const soybeanPriceInput = document.getElementById('soybeanPrices');
+
+      inflationInput.addEventListener('change', () => {
+        // Call refreshEconTotals with the input value
+        refreshEconTotals(currentYear);
+      });
+      cornPriceInput.addEventListener('change', () => {
+        // Call refreshEconTotals with the input value
+        refreshEconTotals(currentYear);
+      });
+      soybeanPriceInput.addEventListener('change', () => {
+        // Call refreshEconTotals with the input value
+        refreshEconTotals(currentYear);
+      });
+      inflationInput.addEventListener('click', refreshProgressBar)
+    </script>
+    <!-- year display -->
+    <div id="yearsTab" class="consoleTab" style="display:none;">
+      <!-- Create year buttons -->
+      <div id="yearTitle">Year Selection</div>
+      <!-- "Exposure, zero icon" by Google Design (https://design.google.com/) used under CC BY (https://creativecommons.org/licenses/by/3.0/) / Inverted from original -->
+      <div id="year0Button" class="yearButton" style="display:none;" onclick="transitionToYear(0); switchYearTab(0);" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();"><img id="year0Image" class="icon yearNotSelected" src="./imgs/zero_40px.png"></div>
+      <div id="year1Button" onclick="transitionToYear(1); switchYearTab(1);" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();"><img id="year1Image" class="icon yearSelected" src="./imgs/one.png"></div>
+      <div id="year2Button" onclick="transitionToYear(2); switchYearTab(2);" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();"><img id="year2Image" class="icon yearImageHidden" src="./imgs/two.png"></div>
+      <div id="year3Button" onclick="transitionToYear(3); switchYearTab(3);" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();"><img id="year3Image" class="icon yearImageHidden" src="./imgs/three.png"></div>
+      <div id="yearAddButton" onclick="addYearAndTransition();setupStaticBackground();" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();"><img id="yearAddImage" class="icon yearNotSelected" src="./imgs/addYear.png"></div>
+      <div id="yearDeleteButton" onclick = "confirmYearDelete();" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();"><img id="yearDeleteImage" class="icon yearNotSelected" src="./imgs/deleteYear.png"></div>
+      <div id="yearCopyButton" class="year-styled-select">
+        <h4>Copy From:</h4>
+        <select id="yearToCopy" class="yearCopyPasteSelect" onChange="copyYear();">
+          <option value=0>      </option>
+          <option value=1>Year 1</option>
+          <option value=2>Year 2</option>
+          <option value=3>Year 3</option>
+        </select>
+      </div>
+      <div id="yearPasteButton" class="year-styled-select">
+        <h4>Paste To:</h4>
+        <select id="yearToPaste" class="yearCopyPasteSelect" onChange="pasteYear();setupStaticBackground();">
+          <option value=0>      </option>
+          <option value=1>Year 1</option>
+          <option value=2>Year 2</option>
+          <option value=3>Year 3</option>
+        </select>
+      </div>
+    </div>
+    <div id="nitrateDetailsList" class="DetailsListRolled levelDetailsList">
+      <center>
+        <h1 class="DetailsList-title">Subwatershed Nitrate-N Percent Contribution</h1></center>
+      <div class="legendColor" style="background-color: #302486">
+        <p class="levelsTextDetails">>25% contribution</p>
+      </div>
+      <div class="legendColor" style="background-color: #0053b3">
+        <p class="levelsTextDetails">20-25% contribution</p>
+      </div>
+      <div class="legendColor" style="background-color: #2f7eb7">
+        <p class="levelsTextDetails">10-20% contribution</p>
+      </div>
+      <div class="legendColor" style="background-color: #41b7c5">
+        <p class="levelsTextDetails">5-10% contribution</p>
+      </div>
+      <div class="legendColor" style="background-color: #87ceee">
+        <p class="levelsTextDetails">0-5% contribution</p>
+      </div>
+    </div>
+
+    <div id="erosionDetailsList" class="DetailsListRolled levelDetailsList">
+      <center>
+        <h1 class="DetailsList-title">Gross Erosion</h1></center>
+      <div class="legendColor" style="background-color: #654321">
+        <p class="levelsTextDetails">Very High</p>
+      </div>
+      <div class="legendColor" style="background-color: #8b4513">
+        <p class="levelsTextDetails">High</p>
+      </div>
+      <div class="legendColor" style="background-color: #919246">
+        <p class="levelsTextDetails">Medium</p>
+      </div>
+      <div class="legendColor" style="background-color: #e3c972">
+        <p class="levelsTextDetails">Low</p>
+      </div>
+      <div class="legendColor" style="background-color: #ffffc9">
+        <p class="levelsTextDetails">Very Low</p>
+      </div>
+    </div>
+
+    <div id="phosphorusDetailsList" class="DetailsListRolled levelDetailsList">
+      <center>
+        <h1 class="DetailsList-title">Phosphorus Index Risk Assessment</h1></center>
+      <div class="legendColor" style="background-color: #871c12;">
+        <p class="levelsTextDetails">Very High</p>
+      </div>
+      <div class="legendColor" style="background-color: #9a3010;">
+        <p class="levelsTextDetails">High</p>
+      </div>
+      <div class="legendColor" style="background-color: #ad490d;">
+        <p class="levelsTextDetails">Medium</p>
+      </div>
+      <div class="legendColor" style="background-color: #c97b08;">
+        <p class="levelsTextDetails">Low</p>
+      </div>
+      <div class="legendColor" style="background-color: #e6bb00;">
+        <p class="levelsTextDetails">Very Low</p>
+      </div>
+    </div>
+
+
+    <div id="sedimentDetailsList" class="DetailsListRolled levelDetailsList">
+      <center>
+        <h1 class="DetailsList-title">Sediment Control</h1></center>
+      <div class="legendColor" style="background-color: #02635b;">
+        <p class="levelsTextDetails">Very High</p>
+      </div>
+      <div class="legendColor" style="background-color: #22877f;">
+        <p class="levelsTextDetails">High</p>
+      </div>
+      <div class="legendColor" style="background-color: #5ab8b1;">
+        <p class="levelsTextDetails">Medium</p>
+      </div>
+      <div class="legendColor" style="background-color: #a7dfdb;">
+        <p class="levelsTextDetails">Low</p>
+      </div>
+      <div class="legendColor" style="background-color: #daf2f0;">
+        <p class="levelsTextDetails">Very Low</p>
+      </div>
+    </div>
+
+    <div id="carbonDetailsList" class="DetailsListRolled levelDetailsList">
+      <center>
+        <h1 class="DetailsList-title">Carbon Sequestration</h1></center>
+      <div class="legendColor" style="background-color: #042402;">
+        <p class="levelsTextDetails">Very High</p>
+      </div>
+      <div class="legendColor" style="background-color: #1d4d19;">
+        <p class="levelsTextDetails">High</p>
+      </div>
+      <div class="legendColor" style="background-color: #346b2f;">
+        <p class="levelsTextDetails">Medium</p>
+      </div>
+      <div class="legendColor" style="background-color: #64a95e;">
+        <p class="levelsTextDetails">Low</p>
+      </div>
+      <div class="legendColor" style="background-color: #d5f0d3;">
+        <p class="levelsTextDetails">Very Low</p>
+      </div>
+    </div>
+
+    <div id="gamewildlifeDetailsList" class="DetailsListRolled levelDetailsList">
+      <center>
+        <h1 class="DetailsList-title">Game Wildlife</h1></center>
+      <div class="legendColor" style="background-color: #871c12;">
+        <p class="levelsTextDetails">Very High Impact</p>
+      </div>
+      <div class="legendColor" style="background-color: #9a3010;">
+        <p class="levelsTextDetails">High Impact</p>
+      </div>
+      <div class="legendColor" style="background-color: #ad490d;">
+        <p class="levelsTextDetails">Moderate Impact</p>
+      </div>
+      <div class="legendColor" style="background-color: #c97b08;">
+        <p class="levelsTextDetails">Low Impact</p>
+      </div>
+      <div class="legendColor" style="background-color: #e6bb00;">
+        <p class="levelsTextDetails">Very Low Impact</p>
+      </div>
+    </div>
+
+    <div id="biodiversityDetailsList" class="DetailsListRolled levelDetailsList">
+      <center>
+        <h1 class="DetailsList-title">Biodiversity</h1></center>
+      <div class="legendColor" style="background-color: #2f7eb7;">
+        <p class="levelsTextDetails">Very High Impact</p>
+      </div>
+      <div class="legendColor" style="background-color: #41b7c5;">
+        <p class="levelsTextDetails">High Impact</p>
+      </div>
+      <div class="legendColor" style="background-color: #7fcebb;">
+        <p class="levelsTextDetails">Moderate Impact</p>
+      </div>
+      <div class="legendColor" style="background-color: #c7eab4;">
+        <p class="levelsTextDetails">Low Impact</p>
+      </div>
+      <div class="legendColor" style="background-color: #ffffc9;">
+        <p class="levelsTextDetails">Very Low impact</p>
+      </div>
+    </div>
+
+    <div id="nitratetileDetailsList" class="DetailsListRolled levelDetailsList">
+      <center>
+        <h1 class="DetailsList-title">Cell Nitrate Score</h1></center>
+      <div class="legendColor" style="background-color: #871c12;">
+        <p class="levelsTextDetails">Very High Impact</p>
+      </div>
+      <div class="legendColor" style="background-color: #9a3010;">
+        <p class="levelsTextDetails">High Impact</p>
+      </div>
+      <div class="legendColor" style="background-color: #ad490d;">
+        <p class="levelsTextDetails">Moderate Impact</p>
+      </div>
+      <div class="legendColor" style="background-color: #c97b08;">
+        <p class="levelsTextDetails">Low Impact</p>
+      </div>
+      <div class="legendColor" style="background-color: #e6bb00;">
+        <p class="levelsTextDetails">Very Low Impact</p>
+      </div>
+    </div>
+
+    <!-- Ecosystem indicator highlighting display -->
+    <div id="levelsTab" class="consoleTab" style="display:none;">
+
+
+
+      <div class="leftcol">
+        <!--"B.png icon created by Sam Kerr"-->
+        <div class="tooltip">
+          <img id="biodiversityIcon" class="levelsSelectorIcon icon" src="./imgs/B.png" onclick="displayLevels('biodiversity');" onmouseover="toggleTabTitleHovers('tooltip-biodiversity');" onmouseout="toggleTabTitleHovers('tooltip-biodiversity');">
+          <span id="tooltip-biodiversity" class="tooltiptext tooltipResultsMapTab">Biodiversity</span>
+        </div>
+        <!-- "Letter E gold Icon" by Supratim Nayak (http://www.iconarchive.com/artist/hydrattz.html) with free commercial use -->
+        <div class="tooltip">
+          <img id="erosionIcon" class="levelsSelectorIcon icon" src="./imgs/E.png" onclick="displayLevels('erosion');" onmouseover="toggleTabTitleHovers('tooltip-grossErosion');" onmouseout="toggleTabTitleHovers('tooltip-grossErosion');">
+          <span id="tooltip-grossErosion" class="tooltiptext tooltipResultsMapTab">Gross Erosion</span>
+        </div>
+        <!-- "Letter N Ig Icon" by Supratim Nayak (http://www.iconarchive.com/artist/hydrattz.html) with free commercial use -->
+        <div class="tooltip">
+          <img id="nitrateIcon" class="levelsSelectorIcon icon" src="./imgs/Ns.png" onclick="displayLevels('nitrate');" onmouseover="toggleTabTitleHovers('tooltip-subwatershedNitrate');" onmouseout="toggleTabTitleHovers('tooltip-subwatershedNitrate');">
+          <span id="tooltip-subwatershedNitrate" class="tooltiptext tooltipResultsMapTab">Subwatershed Nitrate-N Percent Contribution</span>
+        </div>
+        <!-- "Letter P blue Icon" by Supratim Nayak (http://www.iconarchive.com/artist/hydrattz.html) with free commercial use -->
+        <div class="tooltip">
+          <img id="phoshorusIcon" class="levelsSelectorIcon icon" src="./imgs/P.png" onclick="displayLevels('phosphorus');" onmouseover="toggleTabTitleHovers('tooltip-phosphorusIndex');" onmouseout="toggleTabTitleHovers('tooltip-phosphorusIndex');">
+          <span id="tooltip-phosphorusIndex" class="tooltiptext tooltipResultsMapTab">Phosphorus Index Risk Assessment</span>
+        </div>
       </div>
 
 
@@ -922,832 +922,832 @@
       </div>
 
 
+    </div>
+
+    <div id="floodDetailsList" class="DetailsListRolled physicalDetailsList">
+      <center>
+        <h1 class="DetailsList-title">Flood Frequency</h1></center>
+      <div class="legendColor" style="background-color: #2f7eb7;">
+        <p class="levelsTextDetails">Ponded</p>
       </div>
-
-      <div id="floodDetailsList" class="DetailsListRolled physicalDetailsList">
-        <center>
-          <h1 class="DetailsList-title">Flood Frequency</h1></center>
-        <div class="legendColor" style="background-color: #2f7eb7;">
-          <p class="levelsTextDetails">Ponded</p>
-        </div>
-        <div class="legendColor" style="background-color: #41b7c5;">
-          <p class="levelsTextDetails">Frequently</p>
-        </div>
-        <div class="legendColor" style="background-color: #7fcebb;">
-          <p class="levelsTextDetails">Occasionally</p>
-        </div>
-        <div class="legendColor" style="background-color: #c7eab4;">
-          <p class="levelsTextDetails">Rare</p>
-        </div>
-        <div class="legendColor" style="background-color: #ffffc9;">
-          <p class="levelsTextDetails" style="margin-top:10px;">None</p>
-        </div>
+      <div class="legendColor" style="background-color: #41b7c5;">
+        <p class="levelsTextDetails">Frequently</p>
       </div>
-
-      <div id="wetlandsDetailsList" class="DetailsListRolled physicalDetailsList">
-        <center>
-          <h1 class="DetailsList-title">Wetland Suitability</h1></center>
-        <div class="legendColor" style="background-color: #302486;">
-          <p class="levelsTextDetails">Strategic</p>
-        </div>
-        <div class="legendColor" style="background-color: #38638b;">
-          <p class="levelsTextDetails">Suitable</p>
-        </div>
-        <div class="legendColor" style="background-color: #FFB347;">
-          <p class="levelsTextDetails">Not Suitable</p>
-        </div>
+      <div class="legendColor" style="background-color: #7fcebb;">
+        <p class="levelsTextDetails">Occasionally</p>
       </div>
-
-      <div id="boundaryDetailsList"></div>
-
-      <div id="drainageDetailsList" class="DetailsListRolled physicalDetailsList">
-        <center>
-          <h1 class="DetailsList-title">Drainage Class</h1></center>
-        <div class="legendColor" style="background-color: #bc892f;">
-          <p class="levelsTextDetails">Excessive</p>
-        </div>
-        <div class="legendColor" style="background-color: #837856;">
-          <p class="levelsTextDetails">Moderate / Well</p>
-        </div>
-        <div class="legendColor" style="background-color: #5e6e71;">
-          <p class="levelsTextDetails">Somewhat Poor</p>
-        </div>
-        <div class="legendColor" style="background-color: #38638b;">
-          <p class="levelsTextDetails">Poor</p>
-        </div>
-        <div class="legendColor" style="background-color: #0053b3;">
-          <p class="levelsTextDetails">Very Poor</p>
-        </div>
+      <div class="legendColor" style="background-color: #c7eab4;">
+        <p class="levelsTextDetails">Rare</p>
       </div>
-
-      <div id="soilDetailsList" class="DetailsListRolled physicalDetailsList">
-        <center>
-          <h1 class="DetailsList-title">Soil Type</h1></center>
-        <div class="legendColor" style="background-color: #097c2f">
-          <p class="levelsTextDetails" style="margin-top:10px;">Clarion 138B</p>
-        </div>
-        <div class="legendColor" style="background-color: #a84597">
-          <p class="levelsTextDetails">Buckney 1636</p>
-        </div>
-        <div class="legendColor" style="background-color: #919246">
-          <p class="levelsTextDetails">Canisteo 507</p>
-        </div>
-        <div class="legendColor" style="background-color: #c97b08">
-          <p class="levelsTextDetails">Downs 162D2</p>
-        </div>
-        <div class="legendColor" style="background-color: #9a3010">
-          <p class="levelsTextDetails">Gara-Armstrong 993E2</p>
-        </div>
-        <div class="legendColor" style="background-color: #c7eab4">
-          <p class="levelsTextDetails">Ackmore-Colo 5B</p>
-        </div>
-        <div class="legendColor" style="background-color: #cc6578">
-          <p class="levelsTextDetails">Coland 135</p>
-        </div>
-        <div class="legendColor" style="background-color: #e6bb00">
-          <p class="levelsTextDetails">Tama 120C2</p>
-        </div>
-        <div class="legendColor" style="background-color: #5e6e71">
-          <p class="levelsTextDetails">Nicollet 55</p>
-        </div>
-        <div class="legendColor" style="background-color: #837856">
-          <p class="levelsTextDetails">Okoboji 90</p>
-        </div>
-        <div class="legendColor" style="background-color: #41b7c5">
-          <p class="levelsTextDetails">Tama 120B</p>
-        </div>
-        <div class="legendColor" style="background-color: #0053b3">
-          <p class="levelsTextDetails">Muscatine 119</p>
-        </div>
-        <div class="legendColor" style="background-color: #87ceee">
-          <p class="levelsTextDetails">Nodaway 220</p>
-        </div>
+      <div class="legendColor" style="background-color: #ffffc9;">
+        <p class="levelsTextDetails" style="margin-top:10px;">None</p>
       </div>
+    </div>
 
-
-      <div id="topoDetailsList" class="DetailsListRolled physicalDetailsList">
-        <center>
-          <h1 class="DetailsList-title">Topography</h1></center>
-        <div class="legendColor" style="background-color: #360b07;">
-          <p class="levelsTextDetails">Slope: 14-18%</p>
-        </div>
-        <div class="legendColor" style="background-color: #871c12;">
-          <p class="levelsTextDetails">Slope: 9-14%</p>
-        </div>
-        <div class="legendColor" style="background-color: #9a3010;">
-          <p class="levelsTextDetails">Slope: 5-9%</p>
-        </div>
-        <div class="legendColor" style="background-color: #ad490d;">
-          <p class="levelsTextDetails">Slope: 2-5%</p>
-        </div>
-        <div class="legendColor" style="background-color: #c97b08;">
-          <p class="levelsTextDetails">Slope: 1-2%</p>
-        </div>
-        <div class="legendColor" style="background-color: #e6bb00;">
-          <p class="levelsTextDetails" style="margin-top:10px;">Slope: 0-1%</p>
-        </div>
+    <div id="wetlandsDetailsList" class="DetailsListRolled physicalDetailsList">
+      <center>
+        <h1 class="DetailsList-title">Wetland Suitability</h1></center>
+      <div class="legendColor" style="background-color: #302486;">
+        <p class="levelsTextDetails">Strategic</p>
       </div>
+      <div class="legendColor" style="background-color: #38638b;">
+        <p class="levelsTextDetails">Suitable</p>
+      </div>
+      <div class="legendColor" style="background-color: #FFB347;">
+        <p class="levelsTextDetails">Not Suitable</p>
+      </div>
+    </div>
+
+    <div id="boundaryDetailsList"></div>
+
+    <div id="drainageDetailsList" class="DetailsListRolled physicalDetailsList">
+      <center>
+        <h1 class="DetailsList-title">Drainage Class</h1></center>
+      <div class="legendColor" style="background-color: #bc892f;">
+        <p class="levelsTextDetails">Excessive</p>
+      </div>
+      <div class="legendColor" style="background-color: #837856;">
+        <p class="levelsTextDetails">Moderate / Well</p>
+      </div>
+      <div class="legendColor" style="background-color: #5e6e71;">
+        <p class="levelsTextDetails">Somewhat Poor</p>
+      </div>
+      <div class="legendColor" style="background-color: #38638b;">
+        <p class="levelsTextDetails">Poor</p>
+      </div>
+      <div class="legendColor" style="background-color: #0053b3;">
+        <p class="levelsTextDetails">Very Poor</p>
+      </div>
+    </div>
+
+    <div id="soilDetailsList" class="DetailsListRolled physicalDetailsList">
+      <center>
+        <h1 class="DetailsList-title">Soil Type</h1></center>
+      <div class="legendColor" style="background-color: #097c2f">
+        <p class="levelsTextDetails" style="margin-top:10px;">Clarion 138B</p>
+      </div>
+      <div class="legendColor" style="background-color: #a84597">
+        <p class="levelsTextDetails">Buckney 1636</p>
+      </div>
+      <div class="legendColor" style="background-color: #919246">
+        <p class="levelsTextDetails">Canisteo 507</p>
+      </div>
+      <div class="legendColor" style="background-color: #c97b08">
+        <p class="levelsTextDetails">Downs 162D2</p>
+      </div>
+      <div class="legendColor" style="background-color: #9a3010">
+        <p class="levelsTextDetails">Gara-Armstrong 993E2</p>
+      </div>
+      <div class="legendColor" style="background-color: #c7eab4">
+        <p class="levelsTextDetails">Ackmore-Colo 5B</p>
+      </div>
+      <div class="legendColor" style="background-color: #cc6578">
+        <p class="levelsTextDetails">Coland 135</p>
+      </div>
+      <div class="legendColor" style="background-color: #e6bb00">
+        <p class="levelsTextDetails">Tama 120C2</p>
+      </div>
+      <div class="legendColor" style="background-color: #5e6e71">
+        <p class="levelsTextDetails">Nicollet 55</p>
+      </div>
+      <div class="legendColor" style="background-color: #837856">
+        <p class="levelsTextDetails">Okoboji 90</p>
+      </div>
+      <div class="legendColor" style="background-color: #41b7c5">
+        <p class="levelsTextDetails">Tama 120B</p>
+      </div>
+      <div class="legendColor" style="background-color: #0053b3">
+        <p class="levelsTextDetails">Muscatine 119</p>
+      </div>
+      <div class="legendColor" style="background-color: #87ceee">
+        <p class="levelsTextDetails">Nodaway 220</p>
+      </div>
+    </div>
 
 
-      <!-- Watershed feature display -->
-      <div id="featuresTab" class="consoleTab" style="display:none;">
+    <div id="topoDetailsList" class="DetailsListRolled physicalDetailsList">
+      <center>
+        <h1 class="DetailsList-title">Topography</h1></center>
+      <div class="legendColor" style="background-color: #360b07;">
+        <p class="levelsTextDetails">Slope: 14-18%</p>
+      </div>
+      <div class="legendColor" style="background-color: #871c12;">
+        <p class="levelsTextDetails">Slope: 9-14%</p>
+      </div>
+      <div class="legendColor" style="background-color: #9a3010;">
+        <p class="levelsTextDetails">Slope: 5-9%</p>
+      </div>
+      <div class="legendColor" style="background-color: #ad490d;">
+        <p class="levelsTextDetails">Slope: 2-5%</p>
+      </div>
+      <div class="legendColor" style="background-color: #c97b08;">
+        <p class="levelsTextDetails">Slope: 1-2%</p>
+      </div>
+      <div class="legendColor" style="background-color: #e6bb00;">
+        <p class="levelsTextDetails" style="margin-top:10px;">Slope: 0-1%</p>
+      </div>
+    </div>
+
+
+    <!-- Watershed feature display -->
+    <div id="featuresTab" class="consoleTab" style="display:none;">
 
 
 
-        <div class="tooltip">
-          <img id="floodFrequency" class="featureSelectorIcon icon" src="./imgs/Icon_Flood_Frequency.svg" onclick="displayLevels('flood');" onmouseover="toggleTabTitleHovers('tooltip-floodFrequency');" onmouseout="toggleTabTitleHovers('tooltip-floodFrequency');">
-          <span id="tooltip-floodFrequency" class="tooltiptext tooltipPhysicalFeatures">Flood Frequency</span>
-        </div>
-
-
-        <div class="tooltip">
-          <img id="strategicWetlands" class="featureSelectorIcon icon" src="./imgs/Icon_Strategic_Wetlands.svg" onclick="displayLevels('wetlands');" onmouseover="toggleTabTitleHovers('tooltip-wetlandSuitability');" onmouseout="toggleTabTitleHovers('tooltip-wetlandSuitability');">
-          <span id="tooltip-wetlandSuitability" class="tooltiptext tooltipPhysicalFeatures">Wetland Suitability</span>
-        </div>
-
-        <div class="tooltip">
-          <img id="subwatershedBoundaries" class="featureSelectorIcon icon" src="./imgs/Icon_Subwatershed_Boundaries.svg" onclick="displayLevels('boundary');" onmouseover="toggleTabTitleHovers('tooltip-subwatershedBoundaries');" onmouseout="toggleTabTitleHovers('tooltip-subwatershedBoundaries');">
-          <span id="tooltip-subwatershedBoundaries" class="tooltiptext tooltipPhysicalFeatures">Subwatershed Boundaries</span>
-        </div>
-
-        <div class="tooltip">
-          <img id="drainageClass" class="featureSelectorIcon icon" src="./imgs/Icon_Drainage_Class.svg" onclick="displayLevels('drainage');" onmouseover="toggleTabTitleHovers('tooltip-drainageClass');" onmouseout="toggleTabTitleHovers('tooltip-drainageClass');">
-          <span id="tooltip-drainageClass" class="tooltiptext tooltipPhysicalFeatures">Drainage Class</span>
-        </div>
-
-        <div class="tooltip">
-          <img id="soilClass" class="featureSelectorIcon icon" src="./imgs/Icon_Soil_Class.svg" onclick="displayLevels('soil');" onmouseover="toggleTabTitleHovers('tooltip-soilType');" onmouseout="toggleTabTitleHovers('tooltip-soilType');">
-          <span id="tooltip-soilType" class="tooltiptext tooltipPhysicalFeatures">Soil Type</span>
-        </div>
-
-        <div class="tooltip">
-          <img id="topoClass" class="featureSelectorIcon icon" src="./imgs/Icon_Topography.svg" onclick="displayLevels('topo');" onmouseover="toggleTabTitleHovers('tooltip-topography');" onmouseout="toggleTabTitleHovers('tooltip-topography');">
-          <span id="tooltip-topography" class="tooltiptext tooltipPhysicalFeatures">Topography</span>
-        </div>
-
+      <div class="tooltip">
+        <img id="floodFrequency" class="featureSelectorIcon icon" src="./imgs/Icon_Flood_Frequency.svg" onclick="displayLevels('flood');" onmouseover="toggleTabTitleHovers('tooltip-floodFrequency');" onmouseout="toggleTabTitleHovers('tooltip-floodFrequency');">
+        <span id="tooltip-floodFrequency" class="tooltiptext tooltipPhysicalFeatures">Flood Frequency</span>
       </div>
 
 
-      <div id="cornDetailsList" class="DetailsListRolled yieldDetailsList">
-        <center>
-          <h1 class="DetailsList-title">Corn Grain Yield Key</h1></center>
-        <div class="legendColor" style="background-color: #bc892f;">
-          <p class="levelsTextDetails">206.69-224.53 bu/ac/yr</p>
-        </div>
-        <div class="legendColor" style="background-color: #e6bb00;">
-          <p class="levelsTextDetails">196.28-206.69 bu/ac/yr</p>
-        </div>
-        <div class="legendColor" style="background-color: #e3c972;">
-          <p class="levelsTextDetails">166.54-196.28 bu/ac/yr</p>
-        </div>
-        <div class="legendColor" style="background-color: #ffffc9;">
-          <p class="levelsTextDetails">0 bu/ac/yr</p>
-        </div>
-
-        <center>
-          <h1 class="DetailsList-title">Corn Grain Precipitation Factor</h1></center>
-        <center>
-          <h1 class="DetailsList-title">At Different Precipitation Levels</h1></center>
-
-        <table id="yieldTable">
-          <tr>
-            <th>Yield Type Precipitation Factor</th>
-            <th>Precipitation Level (in)/yr</th>
-          </tr>
-          <tr>
-            <td>0.75</td>
-            <td>45.1</td>
-          </tr>
-          <tr>
-            <td>0.90</td>
-            <td>36.5</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>34.3</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>32.2</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>30.4</td>
-          </tr>
-          <tr>
-            <td>0.90</td>
-            <td>28.2</td>
-          </tr>
-          <tr>
-            <td>0.75</td>
-            <td>24.6</td>
-          </tr>
-        </table>
+      <div class="tooltip">
+        <img id="strategicWetlands" class="featureSelectorIcon icon" src="./imgs/Icon_Strategic_Wetlands.svg" onclick="displayLevels('wetlands');" onmouseover="toggleTabTitleHovers('tooltip-wetlandSuitability');" onmouseout="toggleTabTitleHovers('tooltip-wetlandSuitability');">
+        <span id="tooltip-wetlandSuitability" class="tooltiptext tooltipPhysicalFeatures">Wetland Suitability</span>
       </div>
 
-      <div id="soybeanDetailsList" class="DetailsListRolled yieldDetailsList">
-        <center>
-          <h1 class="DetailsList-title">Soybean Yield Key</h1></center>
-        <div class="legendColor" style="background-color: #00cc00;">
-          <p class="levelsTextDetails">63.94-69.89 bu/ac/yr</p>
-        </div>
-        <div class="legendColor" style="background-color: #66ff66;">
-          <p class="levelsTextDetails">57.99-63.94 bu/ac/yr</p>
-        </div>
-        <div class="legendColor" style="background-color: #ccffcc;">
-          <p class="levelsTextDetails">51.98-57.99 bu/ac/yr</p>
-        </div>
-        <div class="legendColor" style="background-color: #ffffff;">
-          <p class="levelsTextDetails">0 bu/ac/yr</p>
-        </div>
-
-        <center>
-          <h1 class="DetailsList-title">Soybean Precipitation Factor</h1></center>
-        <center>
-          <h1 class="DetailsList-title">At Different Precipitation Levels</h1></center>
-
-        <table id="yieldTable">
-          <tr>
-            <th>Yield Type Precipitation Factor </th>
-            <th>Precipitation Level (in)/yr</th>
-          </tr>
-          <tr>
-            <td>0.75</td>
-            <td>45.1</td>
-          </tr>
-          <tr>
-            <td>0.90</td>
-            <td>36.5</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>34.3</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>32.2</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>30.4</td>
-          </tr>
-          <tr>
-            <td>0.90</td>
-            <td>28.2</td>
-          </tr>
-          <tr>
-            <td>0.75</td>
-            <td>24.6</td>
-          </tr>
-        </table>
+      <div class="tooltip">
+        <img id="subwatershedBoundaries" class="featureSelectorIcon icon" src="./imgs/Icon_Subwatershed_Boundaries.svg" onclick="displayLevels('boundary');" onmouseover="toggleTabTitleHovers('tooltip-subwatershedBoundaries');" onmouseout="toggleTabTitleHovers('tooltip-subwatershedBoundaries');">
+        <span id="tooltip-subwatershedBoundaries" class="tooltiptext tooltipPhysicalFeatures">Subwatershed Boundaries</span>
       </div>
 
-      <div id="fruitDetailsList" class="DetailsListRolled yieldDetailsList">
-        <center>
-          <h1 class="DetailsList-title">Mixed Fruit and Vegetable Yield Key</h1></center>
-        <div class="legendColor" style="background-color: #aa4497;">
-          <p class="levelsTextDetails">7.34 tons/ac/yr</p>
-        </div>
-        <div class="legendColor" style="background-color: #66ff66;">
-          <p class="levelsTextDetails">6.60 tons/ac/yr</p>
-        </div>
-        <div class="legendColor" style="background-color: #e6bb00;">
-          <p class="levelsTextDetails">6.24 tons/ac/yr</p>
-        </div>
-        <div class="legendColor" style="background-color: #ff4000;">
-          <p class="levelsTextDetails">2.93 tons/ac/yr</p>
-        </div>
-
-        <center>
-          <h1 class="DetailsList-title">Mixed Fruit and Vegetable Precipitation Factor</h1></center>
-        <center>
-          <h1 class="DetailsList-title">At Different Precipitation Levels</h1></center>
-
-        <table id="yieldTable">
-          <tr>
-            <th>Yield Type Precipitation Factor </th>
-            <th>Precipitation Level (in)/yr</th>
-          </tr>
-          <tr>
-            <td>0.75</td>
-            <td>45.1</td>
-          </tr>
-          <tr>
-            <td>0.90</td>
-            <td>36.5</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>34.3</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>32.2</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>30.4</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>28.2</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>24.6</td>
-          </tr>
-        </table>
+      <div class="tooltip">
+        <img id="drainageClass" class="featureSelectorIcon icon" src="./imgs/Icon_Drainage_Class.svg" onclick="displayLevels('drainage');" onmouseover="toggleTabTitleHovers('tooltip-drainageClass');" onmouseout="toggleTabTitleHovers('tooltip-drainageClass');">
+        <span id="tooltip-drainageClass" class="tooltiptext tooltipPhysicalFeatures">Drainage Class</span>
       </div>
 
-      <div id="cattleDetailsList" class="DetailsListRolled yieldDetailsList">
-        <center>
-          <h1 class="DetailsList-title">Cattle Yield Key</h1></center>
-        <div class="legendColor" style="background-color: #000000;">
-          <p class="levelsTextDetails">6.1-6.7 animals/acre/yr</p>
-        </div>
-        <div class="legendColor" style="background-color: #5e6e71;">
-          <p class="levelsTextDetails">5.4-6.1 animals/acre/yr</p>
-        </div>
-        <div class="legendColor" style="background-color: #CECACA;">
-          <p class="levelsTextDetails">4.0-5.4 animals/acre/yr</p>
-        </div>
-        <div class="legendColor" style="background-color: #ffffff;">
-          <p class="levelsTextDetails">3.4-4.0 animals/acre/yr</p>
-        </div>
-
-        <center>
-          <h1 class="DetailsList-title">Cattle Precipitation Factor</h1></center>
-        <center>
-          <h1 class="DetailsList-title">At Different Precipitation Levels</h1></center>
-
-        <table id="yieldTable">
-          <tr>
-            <th>Yield Type Precipitation Factor </th>
-            <th>Precipitation Level (in)/yr</th>
-          </tr>
-          <tr>
-            <td>0.95</td>
-            <td>45.1</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>36.5</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>34.3</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>32.2</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>30.4</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>28.2</td>
-          </tr>
-          <tr>
-            <td>0.95</td>
-            <td>24.6</td>
-          </tr>
-        </table>
+      <div class="tooltip">
+        <img id="soilClass" class="featureSelectorIcon icon" src="./imgs/Icon_Soil_Class.svg" onclick="displayLevels('soil');" onmouseover="toggleTabTitleHovers('tooltip-soilType');" onmouseout="toggleTabTitleHovers('tooltip-soilType');">
+        <span id="tooltip-soilType" class="tooltiptext tooltipPhysicalFeatures">Soil Type</span>
       </div>
 
-      <div id="alfalfaDetailsList" class="DetailsListRolled yieldDetailsList">
-        <center>
-          <h1 class="DetailsList-title">Alfalfa Yield Key</h1></center>
-        <div class="legendColor" style="background-color: #862254;">
-          <p class="levelsTextDetails">6.49-6.91 tons/ac/yr</p>
-        </div>
-        <div class="legendColor" style="background-color: #8B008B;">
-          <p class="levelsTextDetails">5.59-6.49 tons/ac/yr</p>
-        </div>
-        <div class="legendColor" style="background-color: #aa4497;">
-          <p class="levelsTextDetails">4.19 - 5.59 tons/ac/yr</p>
-        </div>
-        <div class="legendColor" style="background-color: #cc6578;">
-          <p class="levelsTextDetails">3.59-4.19 tons/ac/yr</p>
-        </div>
-
-        <center>
-          <h1 class="DetailsList-title">Alfalfa Precipitation Factor</h1></center>
-        <center>
-          <h1 class="DetailsList-title">At Different Precipitation Levels</h1></center>
-
-        <table id="yieldTable">
-          <tr>
-            <th>Yield Type Precipitation Factor </th>
-            <th>Precipitation Level (in)/yr</th>
-          </tr>
-          <tr>
-            <td>0.95</td>
-            <td>45.1</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>36.5</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>34.3</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>32.2</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>30.4</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>28.2</td>
-          </tr>
-          <tr>
-            <td>0.95</td>
-            <td>24.6</td>
-          </tr>
-        </table>
-      </div>
-
-      <div id="grasshayDetailsList" class="DetailsListRolled yieldDetailsList">
-        <center>
-          <h1 class="DetailsList-title">Grass Hay Yield Key</h1></center>
-        <div class="legendColor" style="background-color: #187336;">
-          <p class="levelsTextDetails">6.49-6.91 tons/ac/yrr</p>
-        </div>
-        <div class="legendColor" style="background-color: #00ff00;">
-          <p class="levelsTextDetails">5.59-6.49 tons/ac/yr</p>
-        </div>
-        <div class="legendColor" style="background-color: #66ff66;">
-          <p class="levelsTextDetails">4.19-5.59 tons/ac/yr</p>
-        </div>
-        <div class="legendColor" style="background-color: #d9ff66;">
-          <p class="levelsTextDetails">3.59-4.19 tons/ac/yr</p>
-        </div>
-
-        <center>
-          <h1 class="DetailsList-title">Grass Hay Precipitation Factor</h1></center>
-        <center>
-          <h1 class="DetailsList-title">At Different Precipitation Levels</h1></center>
-
-        <table id="yieldTable">
-          <tr>
-            <th>Yield Type Precipitation Factor </th>
-            <th>Precipitation Level (in)/yr</th>
-          </tr>
-          <tr>
-            <td>0.95</td>
-            <td>45.1</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>36.5</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>34.3</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>32.2</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>30.4</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>28.2</td>
-          </tr>
-          <tr>
-            <td>0.95</td>
-            <td>24.6</td>
-          </tr>
-        </table>
-      </div>
-
-      <div id="switchgrassDetailsList" class="DetailsListRolled yieldDetailsList">
-        <center>
-          <h1 class="DetailsList-title">Switchgrass Yield Key</h1></center>
-        <div class="legendColor" style="background-color: #145214;">
-          <p class="levelsTextDetails">2.79-2.95 tons/ac/yr</p>
-        </div>
-        <div class="legendColor" style="background-color: #1f7a1f;">
-          <p class="levelsTextDetails">2.60-2.79 tons/ac/yr</p>
-        </div>
-        <div class="legendColor" style="background-color: #33cc33;">
-          <p class="levelsTextDetails">2.36-2.60 tons/ac/yr</p>
-        </div>
-        <div class="legendColor" style="background-color: #66ff66;">
-          <p class="levelsTextDetails">1.96-2.36 tons/ac/yr</p>
-        </div>
-
-        <center>
-          <h1 class="DetailsList-title">Switchgrass Precipitation Factor</h1></center>
-        <center>
-          <h1 class="DetailsList-title">At Different Precipitation Levels</h1></center>
-
-        <table id="yieldTable">
-          <tr>
-            <th>Yield Type Precipitation Factor </th>
-            <th>Precipitation Level (in)/yr</th>
-          </tr>
-          <tr>
-            <td>0.95</td>
-            <td>45.1</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>36.5</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>34.3</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>32.2</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>30.4</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>28.2</td>
-          </tr>
-          <tr>
-            <td>0.95</td>
-            <td>24.6</td>
-          </tr>
-        </table>
-      </div>
-
-      <div id="woodDetailsList" class="DetailsListRolled yieldDetailsList">
-        <center>
-          <h1 class="DetailsList-title">Wood Yield Key</h1></center>
-        <div class="legendColor" style="background-color: #734d26;">
-          <p class="levelsTextDetails">606-679 board-ft/ac/yr</p>
-        </div>
-        <div class="legendColor" style="background-color: #ac7339;">
-          <p class="levelsTextDetails">431.4-606 board-ft/ac/yr</p>
-        </div>
-        <div class="legendColor" style="background-color: #d9b38c;">
-          <p class="levelsTextDetails">308-431.4 board-ft/ac/yr</p>
-        </div>
-        <div class="legendColor" style="background-color: #f2e6d9;">
-          <p class="levelsTextDetails">209.57-308 board-ft/ac/yr</p>
-        </div>
-
-        <center>
-          <h1 class="DetailsList-title">Wood Precipitation Factor</h1></center>
-        <center>
-          <h1 class="DetailsList-title">At Different Precipitation Levels</h1></center>
-
-        <table id="yieldTable">
-          <tr>
-            <th>Yield Type Precipitation Factor </th>
-            <th>Precipitation Level (in)/yr</th>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>45.1</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>36.5</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>34.3</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>32.2</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>30.4</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>28.2</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>24.6</td>
-          </tr>
-
-        </table>
-      </div>
-
-      <div id="shortDetailsList" class="DetailsListRolled yieldDetailsList">
-        <center>
-          <h1 class="DetailsList-title">Short Rotation Woody Bioenergy Yield Key</h1></center>
-        <div class="legendColor" style="background-color: #734D26;">
-          <p class="levelsTextDetails">608.6 tons/acre/yr</p>
-        </div>
-
-        <center>
-          <h1 class="DetailsList-title">Short Rotation Woody Bioenergy Yield Precipitation Factor</h1></center>
-        <center>
-          <h1 class="DetailsList-title">At Different Precipitation Levels</h1></center>
-
-        <table id="yieldTable">
-          <tr>
-            <th>Yield Type Precipitation Factor </th>
-            <th>Precipitation Level (id)/yr</th>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>45.1</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>36.5</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>34.3</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>32.2</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>30.4</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>28.2</td>
-          </tr>
-          <tr>
-            <td>1.00</td>
-            <td>24.6</td>
-          </tr>
-        </table>
-      </div>
-
-      <!--Yield Productivity Overlay Maps -->
-      <div id="yieldTab" class="consoleTab" style="display: none;">
-
-
-
-        <div class="leftcol">
-
-          <div class="tooltip">
-            <img id="cornClass" class="yieldSelectorIcon icon" src="./imgs/cornGrainIcon.png" onclick="displayLevels('corn');" onmouseover="toggleTabTitleHovers('tooltip-cornGrainYield');" onmouseout="toggleTabTitleHovers('tooltip-cornGrainYield');">
-            <span id="tooltip-cornGrainYield" class="tooltiptext tooltipLandUse">Corn Grain Yield</span>
-          </div>
-
-          <div class="tooltip">
-            <img id="fruitClass" class="yieldSelectorIcon icon" src="./imgs/fruitIcon.png" onclick="displayLevels('fruit');" onmouseover="toggleTabTitleHovers('tooltip-mixedFruitsVegetablesYield');" onmouseout="toggleTabTitleHovers('tooltip-mixedFruitsVegetablesYield');">
-            <span id="tooltip-mixedFruitsVegetablesYield" class="tooltiptext tooltipLandUse">Mixed Fruits and Vegetables Yield</span>
-          </div>
-
-          <div class="tooltip">
-            <img id="alfalfaClass" class="yieldSelectorIcon icon" src="./imgs/alfalfaIcon.png" onclick="displayLevels('alfalfa');" onmouseover="toggleTabTitleHovers('tooltip-alfalfaHayYield');" onmouseout="toggleTabTitleHovers('tooltip-alfalfaHayYield');">
-            <span id="tooltip-alfalfaHayYield" class="tooltiptext tooltipLandUse">Alfafa Hay Yield</span>
-          </div>
-
-          <div class="tooltip">
-            <img id="switchGrassClass" class="yieldSelectorIcon icon" src="./imgs/switchGrassIcon.png" onclick="displayLevels('switchgrass');" onmouseover="toggleTabTitleHovers('tooltip-switchGrassYield');" onmouseout="toggleTabTitleHovers('tooltip-switchGrassYield');">
-            <span id="tooltip-switchGrassYield" class="tooltiptext tooltipLandUse">Switchgrass Yield</span>
-          </div>
-
-          <div class="tooltip">
-            <img id="shortClass" class="yieldSelectorIcon icon" src="./imgs/woodyBiomassIcon.png" onclick="displayLevels('short');" onmouseover="toggleTabTitleHovers('tooltip-woodyBiomassYield');" onmouseout="toggleTabTitleHovers('tooltip-woodyBiomassYield');">
-            <span id="tooltip-woodyBiomassYield" class="tooltiptext tooltipLandUse">Woody Bioenergy Yield</span>
-          </div>
-        </div>
-
-        <div class="rightcol">
-
-          <div class="tooltip">
-            <img id="soyClass" class="yieldSelectorIcon icon" src="./imgs/soybeanIcon.png" onclick="displayLevels('soybean');" onmouseover="toggleTabTitleHovers('tooltip-soybeanYield');" onmouseout="toggleTabTitleHovers('tooltip-soybeanYield');">
-            <span id="tooltip-soybeanYield" class="tooltiptext tooltipLandUse">Soybean Yield</span>
-          </div>
-
-          <div class="tooltip">
-            <img id="cattleClass" class="yieldSelectorIcon icon" src="./imgs/cowIcon.png" onclick="displayLevels('cattle');" onmouseover="toggleTabTitleHovers('tooltip-cattleYield');" onmouseout="toggleTabTitleHovers('tooltip-cattleYield');">
-            <span id="tooltip-cattleYield" class="tooltiptext tooltipLandUse">Cattle Yield</span>
-          </div>
-
-          <div class="tooltip">
-            <img id="grassHayClass" class="yieldSelectorIcon icon" src="./imgs/grassHayIcon.png" onclick="displayLevels('grasshay');" onmouseover="toggleTabTitleHovers('tooltip-grassHayYield');" onmouseout="toggleTabTitleHovers('tooltip-grassHayYield');">
-            <span id="tooltip-grassHayYield" class="tooltiptext tooltipLandUse">Grass Hay Yield</span>
-          </div>
-
-          <div class="tooltip">
-            <img id="woodClass" class="yieldSelectorIcon icon" src="./imgs/woodIcon.png" onclick="displayLevels('wood');" onmouseover="toggleTabTitleHovers('tooltip-woodYield');" onmouseout="toggleTabTitleHovers('tooltip-woodYield');">
-            <span id="tooltip-woodYield" class="tooltiptext tooltipLandUse">Wood Yield</span>
-          </div>
-        </div>
+      <div class="tooltip">
+        <img id="topoClass" class="featureSelectorIcon icon" src="./imgs/Icon_Topography.svg" onclick="displayLevels('topo');" onmouseover="toggleTabTitleHovers('tooltip-topography');" onmouseout="toggleTabTitleHovers('tooltip-topography');">
+        <span id="tooltip-topography" class="tooltiptext tooltipPhysicalFeatures">Topography</span>
       </div>
 
     </div>
 
-    <!-- END left console, there is a lot happening there -->
 
-    <!-- div which responsible for the progress bar -->
+    <div id="cornDetailsList" class="DetailsListRolled yieldDetailsList">
+      <center>
+        <h1 class="DetailsList-title">Corn Grain Yield Key</h1></center>
+      <div class="legendColor" style="background-color: #bc892f;">
+        <p class="levelsTextDetails">206.69-224.53 bu/ac/yr</p>
+      </div>
+      <div class="legendColor" style="background-color: #e6bb00;">
+        <p class="levelsTextDetails">196.28-206.69 bu/ac/yr</p>
+      </div>
+      <div class="legendColor" style="background-color: #e3c972;">
+        <p class="levelsTextDetails">166.54-196.28 bu/ac/yr</p>
+      </div>
+      <div class="legendColor" style="background-color: #ffffc9;">
+        <p class="levelsTextDetails">0 bu/ac/yr</p>
+      </div>
+
+      <center>
+        <h1 class="DetailsList-title">Corn Grain Precipitation Factor</h1></center>
+      <center>
+        <h1 class="DetailsList-title">At Different Precipitation Levels</h1></center>
+
+      <table id="yieldTable">
+        <tr>
+          <th>Yield Type Precipitation Factor</th>
+          <th>Precipitation Level (in)/yr</th>
+        </tr>
+        <tr>
+          <td>0.75</td>
+          <td>45.1</td>
+        </tr>
+        <tr>
+          <td>0.90</td>
+          <td>36.5</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>34.3</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>32.2</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>30.4</td>
+        </tr>
+        <tr>
+          <td>0.90</td>
+          <td>28.2</td>
+        </tr>
+        <tr>
+          <td>0.75</td>
+          <td>24.6</td>
+        </tr>
+      </table>
+    </div>
+
+    <div id="soybeanDetailsList" class="DetailsListRolled yieldDetailsList">
+      <center>
+        <h1 class="DetailsList-title">Soybean Yield Key</h1></center>
+      <div class="legendColor" style="background-color: #00cc00;">
+        <p class="levelsTextDetails">63.94-69.89 bu/ac/yr</p>
+      </div>
+      <div class="legendColor" style="background-color: #66ff66;">
+        <p class="levelsTextDetails">57.99-63.94 bu/ac/yr</p>
+      </div>
+      <div class="legendColor" style="background-color: #ccffcc;">
+        <p class="levelsTextDetails">51.98-57.99 bu/ac/yr</p>
+      </div>
+      <div class="legendColor" style="background-color: #ffffff;">
+        <p class="levelsTextDetails">0 bu/ac/yr</p>
+      </div>
+
+      <center>
+        <h1 class="DetailsList-title">Soybean Precipitation Factor</h1></center>
+      <center>
+        <h1 class="DetailsList-title">At Different Precipitation Levels</h1></center>
+
+      <table id="yieldTable">
+        <tr>
+          <th>Yield Type Precipitation Factor </th>
+          <th>Precipitation Level (in)/yr</th>
+        </tr>
+        <tr>
+          <td>0.75</td>
+          <td>45.1</td>
+        </tr>
+        <tr>
+          <td>0.90</td>
+          <td>36.5</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>34.3</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>32.2</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>30.4</td>
+        </tr>
+        <tr>
+          <td>0.90</td>
+          <td>28.2</td>
+        </tr>
+        <tr>
+          <td>0.75</td>
+          <td>24.6</td>
+        </tr>
+      </table>
+    </div>
+
+    <div id="fruitDetailsList" class="DetailsListRolled yieldDetailsList">
+      <center>
+        <h1 class="DetailsList-title">Mixed Fruit and Vegetable Yield Key</h1></center>
+      <div class="legendColor" style="background-color: #aa4497;">
+        <p class="levelsTextDetails">7.34 tons/ac/yr</p>
+      </div>
+      <div class="legendColor" style="background-color: #66ff66;">
+        <p class="levelsTextDetails">6.60 tons/ac/yr</p>
+      </div>
+      <div class="legendColor" style="background-color: #e6bb00;">
+        <p class="levelsTextDetails">6.24 tons/ac/yr</p>
+      </div>
+      <div class="legendColor" style="background-color: #ff4000;">
+        <p class="levelsTextDetails">2.93 tons/ac/yr</p>
+      </div>
+
+      <center>
+        <h1 class="DetailsList-title">Mixed Fruit and Vegetable Precipitation Factor</h1></center>
+      <center>
+        <h1 class="DetailsList-title">At Different Precipitation Levels</h1></center>
+
+      <table id="yieldTable">
+        <tr>
+          <th>Yield Type Precipitation Factor </th>
+          <th>Precipitation Level (in)/yr</th>
+        </tr>
+        <tr>
+          <td>0.75</td>
+          <td>45.1</td>
+        </tr>
+        <tr>
+          <td>0.90</td>
+          <td>36.5</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>34.3</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>32.2</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>30.4</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>28.2</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>24.6</td>
+        </tr>
+      </table>
+    </div>
+
+    <div id="cattleDetailsList" class="DetailsListRolled yieldDetailsList">
+      <center>
+        <h1 class="DetailsList-title">Cattle Yield Key</h1></center>
+      <div class="legendColor" style="background-color: #000000;">
+        <p class="levelsTextDetails">6.1-6.7 animals/acre/yr</p>
+      </div>
+      <div class="legendColor" style="background-color: #5e6e71;">
+        <p class="levelsTextDetails">5.4-6.1 animals/acre/yr</p>
+      </div>
+      <div class="legendColor" style="background-color: #CECACA;">
+        <p class="levelsTextDetails">4.0-5.4 animals/acre/yr</p>
+      </div>
+      <div class="legendColor" style="background-color: #ffffff;">
+        <p class="levelsTextDetails">3.4-4.0 animals/acre/yr</p>
+      </div>
+
+      <center>
+        <h1 class="DetailsList-title">Cattle Precipitation Factor</h1></center>
+      <center>
+        <h1 class="DetailsList-title">At Different Precipitation Levels</h1></center>
+
+      <table id="yieldTable">
+        <tr>
+          <th>Yield Type Precipitation Factor </th>
+          <th>Precipitation Level (in)/yr</th>
+        </tr>
+        <tr>
+          <td>0.95</td>
+          <td>45.1</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>36.5</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>34.3</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>32.2</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>30.4</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>28.2</td>
+        </tr>
+        <tr>
+          <td>0.95</td>
+          <td>24.6</td>
+        </tr>
+      </table>
+    </div>
+
+    <div id="alfalfaDetailsList" class="DetailsListRolled yieldDetailsList">
+      <center>
+        <h1 class="DetailsList-title">Alfalfa Yield Key</h1></center>
+      <div class="legendColor" style="background-color: #862254;">
+        <p class="levelsTextDetails">6.49-6.91 tons/ac/yr</p>
+      </div>
+      <div class="legendColor" style="background-color: #8B008B;">
+        <p class="levelsTextDetails">5.59-6.49 tons/ac/yr</p>
+      </div>
+      <div class="legendColor" style="background-color: #aa4497;">
+        <p class="levelsTextDetails">4.19 - 5.59 tons/ac/yr</p>
+      </div>
+      <div class="legendColor" style="background-color: #cc6578;">
+        <p class="levelsTextDetails">3.59-4.19 tons/ac/yr</p>
+      </div>
+
+      <center>
+        <h1 class="DetailsList-title">Alfalfa Precipitation Factor</h1></center>
+      <center>
+        <h1 class="DetailsList-title">At Different Precipitation Levels</h1></center>
+
+      <table id="yieldTable">
+        <tr>
+          <th>Yield Type Precipitation Factor </th>
+          <th>Precipitation Level (in)/yr</th>
+        </tr>
+        <tr>
+          <td>0.95</td>
+          <td>45.1</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>36.5</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>34.3</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>32.2</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>30.4</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>28.2</td>
+        </tr>
+        <tr>
+          <td>0.95</td>
+          <td>24.6</td>
+        </tr>
+      </table>
+    </div>
+
+    <div id="grasshayDetailsList" class="DetailsListRolled yieldDetailsList">
+      <center>
+        <h1 class="DetailsList-title">Grass Hay Yield Key</h1></center>
+      <div class="legendColor" style="background-color: #187336;">
+        <p class="levelsTextDetails">6.49-6.91 tons/ac/yrr</p>
+      </div>
+      <div class="legendColor" style="background-color: #00ff00;">
+        <p class="levelsTextDetails">5.59-6.49 tons/ac/yr</p>
+      </div>
+      <div class="legendColor" style="background-color: #66ff66;">
+        <p class="levelsTextDetails">4.19-5.59 tons/ac/yr</p>
+      </div>
+      <div class="legendColor" style="background-color: #d9ff66;">
+        <p class="levelsTextDetails">3.59-4.19 tons/ac/yr</p>
+      </div>
+
+      <center>
+        <h1 class="DetailsList-title">Grass Hay Precipitation Factor</h1></center>
+      <center>
+        <h1 class="DetailsList-title">At Different Precipitation Levels</h1></center>
+
+      <table id="yieldTable">
+        <tr>
+          <th>Yield Type Precipitation Factor </th>
+          <th>Precipitation Level (in)/yr</th>
+        </tr>
+        <tr>
+          <td>0.95</td>
+          <td>45.1</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>36.5</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>34.3</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>32.2</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>30.4</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>28.2</td>
+        </tr>
+        <tr>
+          <td>0.95</td>
+          <td>24.6</td>
+        </tr>
+      </table>
+    </div>
+
+    <div id="switchgrassDetailsList" class="DetailsListRolled yieldDetailsList">
+      <center>
+        <h1 class="DetailsList-title">Switchgrass Yield Key</h1></center>
+      <div class="legendColor" style="background-color: #145214;">
+        <p class="levelsTextDetails">2.79-2.95 tons/ac/yr</p>
+      </div>
+      <div class="legendColor" style="background-color: #1f7a1f;">
+        <p class="levelsTextDetails">2.60-2.79 tons/ac/yr</p>
+      </div>
+      <div class="legendColor" style="background-color: #33cc33;">
+        <p class="levelsTextDetails">2.36-2.60 tons/ac/yr</p>
+      </div>
+      <div class="legendColor" style="background-color: #66ff66;">
+        <p class="levelsTextDetails">1.96-2.36 tons/ac/yr</p>
+      </div>
+
+      <center>
+        <h1 class="DetailsList-title">Switchgrass Precipitation Factor</h1></center>
+      <center>
+        <h1 class="DetailsList-title">At Different Precipitation Levels</h1></center>
+
+      <table id="yieldTable">
+        <tr>
+          <th>Yield Type Precipitation Factor </th>
+          <th>Precipitation Level (in)/yr</th>
+        </tr>
+        <tr>
+          <td>0.95</td>
+          <td>45.1</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>36.5</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>34.3</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>32.2</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>30.4</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>28.2</td>
+        </tr>
+        <tr>
+          <td>0.95</td>
+          <td>24.6</td>
+        </tr>
+      </table>
+    </div>
+
+    <div id="woodDetailsList" class="DetailsListRolled yieldDetailsList">
+      <center>
+        <h1 class="DetailsList-title">Wood Yield Key</h1></center>
+      <div class="legendColor" style="background-color: #734d26;">
+        <p class="levelsTextDetails">606-679 board-ft/ac/yr</p>
+      </div>
+      <div class="legendColor" style="background-color: #ac7339;">
+        <p class="levelsTextDetails">431.4-606 board-ft/ac/yr</p>
+      </div>
+      <div class="legendColor" style="background-color: #d9b38c;">
+        <p class="levelsTextDetails">308-431.4 board-ft/ac/yr</p>
+      </div>
+      <div class="legendColor" style="background-color: #f2e6d9;">
+        <p class="levelsTextDetails">209.57-308 board-ft/ac/yr</p>
+      </div>
+
+      <center>
+        <h1 class="DetailsList-title">Wood Precipitation Factor</h1></center>
+      <center>
+        <h1 class="DetailsList-title">At Different Precipitation Levels</h1></center>
+
+      <table id="yieldTable">
+        <tr>
+          <th>Yield Type Precipitation Factor </th>
+          <th>Precipitation Level (in)/yr</th>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>45.1</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>36.5</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>34.3</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>32.2</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>30.4</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>28.2</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>24.6</td>
+        </tr>
+
+      </table>
+    </div>
+
+    <div id="shortDetailsList" class="DetailsListRolled yieldDetailsList">
+      <center>
+        <h1 class="DetailsList-title">Short Rotation Woody Bioenergy Yield Key</h1></center>
+      <div class="legendColor" style="background-color: #734D26;">
+        <p class="levelsTextDetails">608.6 tons/acre/yr</p>
+      </div>
+
+      <center>
+        <h1 class="DetailsList-title">Short Rotation Woody Bioenergy Yield Precipitation Factor</h1></center>
+      <center>
+        <h1 class="DetailsList-title">At Different Precipitation Levels</h1></center>
+
+      <table id="yieldTable">
+        <tr>
+          <th>Yield Type Precipitation Factor </th>
+          <th>Precipitation Level (id)/yr</th>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>45.1</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>36.5</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>34.3</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>32.2</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>30.4</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>28.2</td>
+        </tr>
+        <tr>
+          <td>1.00</td>
+          <td>24.6</td>
+        </tr>
+      </table>
+    </div>
+
+    <!--Yield Productivity Overlay Maps -->
+    <div id="yieldTab" class="consoleTab" style="display: none;">
+
+
+
+      <div class="leftcol">
+
+        <div class="tooltip">
+          <img id="cornClass" class="yieldSelectorIcon icon" src="./imgs/cornGrainIcon.png" onclick="displayLevels('corn');" onmouseover="toggleTabTitleHovers('tooltip-cornGrainYield');" onmouseout="toggleTabTitleHovers('tooltip-cornGrainYield');">
+          <span id="tooltip-cornGrainYield" class="tooltiptext tooltipLandUse">Corn Grain Yield</span>
+        </div>
+
+        <div class="tooltip">
+          <img id="fruitClass" class="yieldSelectorIcon icon" src="./imgs/fruitIcon.png" onclick="displayLevels('fruit');" onmouseover="toggleTabTitleHovers('tooltip-mixedFruitsVegetablesYield');" onmouseout="toggleTabTitleHovers('tooltip-mixedFruitsVegetablesYield');">
+          <span id="tooltip-mixedFruitsVegetablesYield" class="tooltiptext tooltipLandUse">Mixed Fruits and Vegetables Yield</span>
+        </div>
+
+        <div class="tooltip">
+          <img id="alfalfaClass" class="yieldSelectorIcon icon" src="./imgs/alfalfaIcon.png" onclick="displayLevels('alfalfa');" onmouseover="toggleTabTitleHovers('tooltip-alfalfaHayYield');" onmouseout="toggleTabTitleHovers('tooltip-alfalfaHayYield');">
+          <span id="tooltip-alfalfaHayYield" class="tooltiptext tooltipLandUse">Alfafa Hay Yield</span>
+        </div>
+
+        <div class="tooltip">
+          <img id="switchGrassClass" class="yieldSelectorIcon icon" src="./imgs/switchGrassIcon.png" onclick="displayLevels('switchgrass');" onmouseover="toggleTabTitleHovers('tooltip-switchGrassYield');" onmouseout="toggleTabTitleHovers('tooltip-switchGrassYield');">
+          <span id="tooltip-switchGrassYield" class="tooltiptext tooltipLandUse">Switchgrass Yield</span>
+        </div>
+
+        <div class="tooltip">
+          <img id="shortClass" class="yieldSelectorIcon icon" src="./imgs/woodyBiomassIcon.png" onclick="displayLevels('short');" onmouseover="toggleTabTitleHovers('tooltip-woodyBiomassYield');" onmouseout="toggleTabTitleHovers('tooltip-woodyBiomassYield');">
+          <span id="tooltip-woodyBiomassYield" class="tooltiptext tooltipLandUse">Woody Bioenergy Yield</span>
+        </div>
+      </div>
+
+      <div class="rightcol">
+
+        <div class="tooltip">
+          <img id="soyClass" class="yieldSelectorIcon icon" src="./imgs/soybeanIcon.png" onclick="displayLevels('soybean');" onmouseover="toggleTabTitleHovers('tooltip-soybeanYield');" onmouseout="toggleTabTitleHovers('tooltip-soybeanYield');">
+          <span id="tooltip-soybeanYield" class="tooltiptext tooltipLandUse">Soybean Yield</span>
+        </div>
+
+        <div class="tooltip">
+          <img id="cattleClass" class="yieldSelectorIcon icon" src="./imgs/cowIcon.png" onclick="displayLevels('cattle');" onmouseover="toggleTabTitleHovers('tooltip-cattleYield');" onmouseout="toggleTabTitleHovers('tooltip-cattleYield');">
+          <span id="tooltip-cattleYield" class="tooltiptext tooltipLandUse">Cattle Yield</span>
+        </div>
+
+        <div class="tooltip">
+          <img id="grassHayClass" class="yieldSelectorIcon icon" src="./imgs/grassHayIcon.png" onclick="displayLevels('grasshay');" onmouseover="toggleTabTitleHovers('tooltip-grassHayYield');" onmouseout="toggleTabTitleHovers('tooltip-grassHayYield');">
+          <span id="tooltip-grassHayYield" class="tooltiptext tooltipLandUse">Grass Hay Yield</span>
+        </div>
+
+        <div class="tooltip">
+          <img id="woodClass" class="yieldSelectorIcon icon" src="./imgs/woodIcon.png" onclick="displayLevels('wood');" onmouseover="toggleTabTitleHovers('tooltip-woodYield');" onmouseout="toggleTabTitleHovers('tooltip-woodYield');">
+          <span id="tooltip-woodYield" class="tooltiptext tooltipLandUse">Wood Yield</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- END left console, there is a lot happening there -->
+
+  <!-- div which responsible for the progress bar -->
   <div class="progressBarContainer" id="progressBarContainer">
 
-      <div id="gameWildlifeProgressBar">
-        <div class="progressBarTitle">&nbsp;&nbsp;&nbsp;GW:</div>
-        <div class="progress" onmouseover="toggleScoreDetails('gameWildlife');" onmouseout="toggleScoreDetails('gameWildlife');">
-          <div class="progress-bar progress-bar-gameWildlife" role="progressbar"></div>
-          <img id="minIndicator" src="./imgs/white-bar.png" style="left: -10%;" onmouseover="toggleMinMax('Min',0);" onmouseout="toggleMinMax('Min',0);">
-          <img id="maxIndicator" src="./imgs/white-bar.png" style="left: 110%;" onmouseover="toggleMinMax('Max',0);" onmouseout="toggleMinMax('Max',0);">
-        </div>
-        <div class="gameWildlifeScoreDetails">
-          <div class="title">Game Wildlife</div>
-          <!-- <div class="min-max">
-            <div class="min"> Total min: 0</div>
-            <div class="max"> Total max: 100</div>
-          </div> -->
-          <div class="ecoScore"></div>
-          <div class="rawValue"></div>
-        </div>
-        <div class="min-max-details"></div>
+    <div id="gameWildlifeProgressBar">
+      <div class="progressBarTitle">&nbsp;&nbsp;&nbsp;GW:</div>
+      <div class="progress" onmouseover="toggleScoreDetails('gameWildlife');" onmouseout="toggleScoreDetails('gameWildlife');">
+        <div class="progress-bar progress-bar-gameWildlife" role="progressbar"></div>
+        <img id="minIndicator" src="./imgs/white-bar.png" style="left: -10%;" onmouseover="toggleMinMax('Min',0);" onmouseout="toggleMinMax('Min',0);">
+        <img id="maxIndicator" src="./imgs/white-bar.png" style="left: 110%;" onmouseover="toggleMinMax('Max',0);" onmouseout="toggleMinMax('Max',0);">
       </div>
-      <div id="biodiversityProgressBar">
-        <div class="progressBarTitle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LB:</div>
-        <div class="progress" onmouseover="toggleScoreDetails('biodiversity');" onmouseout="toggleScoreDetails('biodiversity');">
-          <div class="progress-bar progress-bar-biodiversity" role="progressbar"></div>
-          <img id="minIndicator" src="./imgs/white-bar.png" style="left: -10%;" onmouseover="toggleMinMax('Min',1);" onmouseout="toggleMinMax('Min',1);">
-          <img id="maxIndicator" src="./imgs/white-bar.png" style="left: 110%;" onmouseover="toggleMinMax('Max',1);" onmouseout="toggleMinMax('Max',1);">
-        </div>
-        <div class="biodiversityScoreDetails">
-          <div class="title">Land Biodiversity</div>
-          <!-- <div class="min-max">
-            <div class="min"> Total min: 0</div>
-            <div class="max"> Total max: 100</div>
-          </div> -->
-          <div class="ecoScore"></div>
-          <div class="rawValue"></div>
-        </div>
-        <div class="min-max-details"></div>
+      <div class="gameWildlifeScoreDetails">
+        <div class="title">Game Wildlife</div>
+        <!-- <div class="min-max">
+          <div class="min"> Total min: 0</div>
+          <div class="max"> Total max: 100</div>
+        </div> -->
+        <div class="ecoScore"></div>
+        <div class="rawValue"></div>
       </div>
-      <!--TODO-->
-      <div id="streamBiodiversityProgressBar">
-        <div class="progressBarTitle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SB:</div>
-        <div class="progress" onmouseover="toggleScoreDetails('stream-biodiversity');" onmouseout="toggleScoreDetails('stream-biodiversity');">
-          <div class="progress-bar progress-bar-stream-biodiversity" role="progressbar"></div>
-          <img id="minIndicator" src="./imgs/white-bar.png" style="left: -10%;" onmouseover="toggleMinMax('Min',1);" onmouseout="toggleMinMax('Min',1);">
-          <img id="maxIndicator" src="./imgs/white-bar.png" style="left: 110%;" onmouseover="toggleMinMax('Max',1);" onmouseout="toggleMinMax('Max',1);">
-        </div>
-        <div class="streamBiodiversityScoreDetails">
-          <div class="title">Stream Biodiversity</div>
-          <!-- <div class="min-max">
-            <div class="min"> Total min: 0</div>
-            <div class="max"> Total max: 100</div>
-          </div> -->
-          <div class="ecoScore"></div>
-          <div class="rawValue"></div>
-        </div>
-        <div class="min-max-details"></div>
+      <div class="min-max-details"></div>
+    </div>
+    <div id="biodiversityProgressBar">
+      <div class="progressBarTitle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LB:</div>
+      <div class="progress" onmouseover="toggleScoreDetails('biodiversity');" onmouseout="toggleScoreDetails('biodiversity');">
+        <div class="progress-bar progress-bar-biodiversity" role="progressbar"></div>
+        <img id="minIndicator" src="./imgs/white-bar.png" style="left: -10%;" onmouseover="toggleMinMax('Min',1);" onmouseout="toggleMinMax('Min',1);">
+        <img id="maxIndicator" src="./imgs/white-bar.png" style="left: 110%;" onmouseover="toggleMinMax('Max',1);" onmouseout="toggleMinMax('Max',1);">
       </div>
-      <div id="carbonProgressBar">
-        <div class="progressBarTitle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOC:</div>
-        <div class="progress" onmouseover="toggleScoreDetails('carbon');" onmouseout="toggleScoreDetails('carbon');">
-          <div class="progress-bar progress-bar-carbon" role="progressbar" ></div>
-          <img id="minIndicator" src="./imgs/white-bar.png" style="left: -10%;" onmouseover="toggleMinMax('Min',2);" onmouseout="toggleMinMax('Min',2);">
-          <img id="maxIndicator" src="./imgs/white-bar.png" style="left: 110%;" onmouseover="toggleMinMax('Max',2);" onmouseout="toggleMinMax('Max',2);">
-        </div>
-        <div class="carbonScoreDetails">
-          <div class="title">Soil Organic Carbon</div>
-          <!-- <div class="min-max">
-            <div class="min"> Total min: 0</div>
-            <div class="max"> Total max: 100</div>
-          </div> -->
-          <div class="ecoScore"></div>
-          <div class="rawValue"></div>
-        </div>
-        <div class="min-max-details"></div>
+      <div class="biodiversityScoreDetails">
+        <div class="title">Land Biodiversity</div>
+        <!-- <div class="min-max">
+          <div class="min"> Total min: 0</div>
+          <div class="max"> Total max: 100</div>
+        </div> -->
+        <div class="ecoScore"></div>
+        <div class="rawValue"></div>
       </div>
-      <div id="erosionProgressBar">
-        <div class="progressBarTitle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E:</div>
-        <div class="progress" onmouseover="toggleScoreDetails('erosion');" onmouseout="toggleScoreDetails('erosion');">
-          <div class="progress-bar progress-bar-erosion" role="progressbar" ></div>
-          <img id="minIndicator" src="./imgs/white-bar.png" style="left: -10%;" onmouseover="toggleMinMax('Min',3);" onmouseout="toggleMinMax('Min',3);">
-          <img id="maxIndicator" src="./imgs/white-bar.png" style="left: 110%;" onmouseover="toggleMinMax('Max',3);" onmouseout="toggleMinMax('Max',3);">
-        </div>
-        <div class="erosionScoreDetails">
-          <div class="title">Gross Erosion</div>
-          <!-- <div class="min-max">
-            <div class="min"> Total min: 0</div>
-            <div class="max"> Total max: 100</div>
-          </div> -->
-          <div class="ecoScore"></div>
-          <div class="rawValue"></div>
-        </div>
-        <div class="min-max-details"></div>
+      <div class="min-max-details"></div>
+    </div>
+    <!--TODO-->
+    <div id="streamBiodiversityProgressBar">
+      <div class="progressBarTitle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SB:</div>
+      <div class="progress" onmouseover="toggleScoreDetails('stream-biodiversity');" onmouseout="toggleScoreDetails('stream-biodiversity');">
+        <div class="progress-bar progress-bar-stream-biodiversity" role="progressbar"></div>
+        <img id="minIndicator" src="./imgs/white-bar.png" style="left: -10%;" onmouseover="toggleMinMax('Min',1);" onmouseout="toggleMinMax('Min',1);">
+        <img id="maxIndicator" src="./imgs/white-bar.png" style="left: 110%;" onmouseover="toggleMinMax('Max',1);" onmouseout="toggleMinMax('Max',1);">
       </div>
+      <div class="streamBiodiversityScoreDetails">
+        <div class="title">Stream Biodiversity</div>
+        <!-- <div class="min-max">
+          <div class="min"> Total min: 0</div>
+          <div class="max"> Total max: 100</div>
+        </div> -->
+        <div class="ecoScore"></div>
+        <div class="rawValue"></div>
+      </div>
+      <div class="min-max-details"></div>
+    </div>
+    <div id="carbonProgressBar">
+      <div class="progressBarTitle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOC:</div>
+      <div class="progress" onmouseover="toggleScoreDetails('carbon');" onmouseout="toggleScoreDetails('carbon');">
+        <div class="progress-bar progress-bar-carbon" role="progressbar" ></div>
+        <img id="minIndicator" src="./imgs/white-bar.png" style="left: -10%;" onmouseover="toggleMinMax('Min',2);" onmouseout="toggleMinMax('Min',2);">
+        <img id="maxIndicator" src="./imgs/white-bar.png" style="left: 110%;" onmouseover="toggleMinMax('Max',2);" onmouseout="toggleMinMax('Max',2);">
+      </div>
+      <div class="carbonScoreDetails">
+        <div class="title">Soil Organic Carbon</div>
+        <!-- <div class="min-max">
+          <div class="min"> Total min: 0</div>
+          <div class="max"> Total max: 100</div>
+        </div> -->
+        <div class="ecoScore"></div>
+        <div class="rawValue"></div>
+      </div>
+      <div class="min-max-details"></div>
+    </div>
+    <div id="erosionProgressBar">
+      <div class="progressBarTitle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E:</div>
+      <div class="progress" onmouseover="toggleScoreDetails('erosion');" onmouseout="toggleScoreDetails('erosion');">
+        <div class="progress-bar progress-bar-erosion" role="progressbar" ></div>
+        <img id="minIndicator" src="./imgs/white-bar.png" style="left: -10%;" onmouseover="toggleMinMax('Min',3);" onmouseout="toggleMinMax('Min',3);">
+        <img id="maxIndicator" src="./imgs/white-bar.png" style="left: 110%;" onmouseover="toggleMinMax('Max',3);" onmouseout="toggleMinMax('Max',3);">
+      </div>
+      <div class="erosionScoreDetails">
+        <div class="title">Gross Erosion</div>
+        <!-- <div class="min-max">
+          <div class="min"> Total min: 0</div>
+          <div class="max"> Total max: 100</div>
+        </div> -->
+        <div class="ecoScore"></div>
+        <div class="rawValue"></div>
+      </div>
+      <div class="min-max-details"></div>
+    </div>
     <!--    TODO-->
     <div id="aquaticProgressBar">
       <div class="progressBarTitle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AH:</div>
@@ -1768,63 +1768,63 @@
       </div>
       <div class="min-max-details"></div>
     </div>
-      <div id="nitrateProgressBar">
-        <div class="progressBarTitle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N:</div>
-        <div class="progress" onmouseover="toggleScoreDetails('nitrate');" onmouseout="toggleScoreDetails('nitrate');">
-          <div class="progress-bar progress-bar-nitrate" role="progressbar" ></div>
-          <img id="minIndicator" src="./imgs/white-bar.png" style="left: -10%;" onmouseover="toggleMinMax('Min',4);" onmouseout="toggleMinMax('Min',4);">
-          <img id="maxIndicator" src="./imgs/white-bar.png" style="left: 110%;" onmouseover="toggleMinMax('Max',4);" onmouseout="toggleMinMax('Max',4);">
+    <div id="nitrateProgressBar">
+      <div class="progressBarTitle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N:</div>
+      <div class="progress" onmouseover="toggleScoreDetails('nitrate');" onmouseout="toggleScoreDetails('nitrate');">
+        <div class="progress-bar progress-bar-nitrate" role="progressbar" ></div>
+        <img id="minIndicator" src="./imgs/white-bar.png" style="left: -10%;" onmouseover="toggleMinMax('Min',4);" onmouseout="toggleMinMax('Min',4);">
+        <img id="maxIndicator" src="./imgs/white-bar.png" style="left: 110%;" onmouseover="toggleMinMax('Max',4);" onmouseout="toggleMinMax('Max',4);">
 
-        </div>
-        <div class="nitrateScoreDetails">
-          <div class="title">Nitrate Concentration</div>
-          <!-- <div class="min-max">
-            <div class="min"> Total min: 0</div>
-            <div class="max"> Total max: 100</div>
-          </div> -->
-          <div class="ecoScore"></div>
-          <div class="rawValue"></div>
-        </div>
-        <div class="min-max-details"></div>
       </div>
-      <div id="phoshorusProgressBar">
-        <div class="progressBarTitle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P:</div>
-        <div class="progress" onmouseover="toggleScoreDetails('phoshorus');" onmouseout="toggleScoreDetails('phoshorus');">
-          <div class="progress-bar progress-bar-phoshorus" role="progressbar" ></div>
-          <img id="minIndicator" src="./imgs/white-bar.png" style="left: -10%;" onmouseover="toggleMinMax('Min',5);" onmouseout="toggleMinMax('Min',5);">
-          <img id="maxIndicator" src="./imgs/white-bar.png" style="left: 110%;" onmouseover="toggleMinMax('Max',5);" onmouseout="toggleMinMax('Max',5);">
+      <div class="nitrateScoreDetails">
+        <div class="title">Nitrate Concentration</div>
+        <!-- <div class="min-max">
+          <div class="min"> Total min: 0</div>
+          <div class="max"> Total max: 100</div>
+        </div> -->
+        <div class="ecoScore"></div>
+        <div class="rawValue"></div>
+      </div>
+      <div class="min-max-details"></div>
+    </div>
+    <div id="phoshorusProgressBar">
+      <div class="progressBarTitle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P:</div>
+      <div class="progress" onmouseover="toggleScoreDetails('phoshorus');" onmouseout="toggleScoreDetails('phoshorus');">
+        <div class="progress-bar progress-bar-phoshorus" role="progressbar" ></div>
+        <img id="minIndicator" src="./imgs/white-bar.png" style="left: -10%;" onmouseover="toggleMinMax('Min',5);" onmouseout="toggleMinMax('Min',5);">
+        <img id="maxIndicator" src="./imgs/white-bar.png" style="left: 110%;" onmouseover="toggleMinMax('Max',5);" onmouseout="toggleMinMax('Max',5);">
 
-        </div>
-        <div class="phoshorusScoreDetails">
-          <div class="title">Phoshorus Load</div>
-          <!-- <div class="min-max">
-            <div class="min"> Total min: 0</div>
-            <div class="max"> Total max: 100</div>
-          </div> -->
-          <div class="ecoScore"></div>
-          <div class="rawValue"></div>
-        </div>
-        <div class="min-max-details"></div>
       </div>
-      <div id="sedimentProgressBar">
-        <div class="progressBarTitle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S:</div>
-        <div class="progress" onmouseover="toggleScoreDetails('sediment');" onmouseout="toggleScoreDetails('sediment');">
-          <div class="progress-bar progress-bar-sediment" role="progressbar" ></div>
-          <img id="minIndicator" src="./imgs/white-bar.png" style="left: -10%;" onmouseover="toggleMinMax('Min',6);" onmouseout="toggleMinMax('Min',6);">
-          <img id="maxIndicator" src="./imgs/white-bar.png" style="left: 110%;" onmouseover="toggleMinMax('Max',6);" onmouseout="toggleMinMax('Max',6);">
+      <div class="phoshorusScoreDetails">
+        <div class="title">Phoshorus Load</div>
+        <!-- <div class="min-max">
+          <div class="min"> Total min: 0</div>
+          <div class="max"> Total max: 100</div>
+        </div> -->
+        <div class="ecoScore"></div>
+        <div class="rawValue"></div>
+      </div>
+      <div class="min-max-details"></div>
+    </div>
+    <div id="sedimentProgressBar">
+      <div class="progressBarTitle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S:</div>
+      <div class="progress" onmouseover="toggleScoreDetails('sediment');" onmouseout="toggleScoreDetails('sediment');">
+        <div class="progress-bar progress-bar-sediment" role="progressbar" ></div>
+        <img id="minIndicator" src="./imgs/white-bar.png" style="left: -10%;" onmouseover="toggleMinMax('Min',6);" onmouseout="toggleMinMax('Min',6);">
+        <img id="maxIndicator" src="./imgs/white-bar.png" style="left: 110%;" onmouseover="toggleMinMax('Max',6);" onmouseout="toggleMinMax('Max',6);">
 
-        </div>
-        <div class="sedimentScoreDetails">
-          <div class="title">Sediment Delivery</div>
-          <!-- <div class="min-max">
-            <div class="min"> Total min: 0</div>
-            <div class="max"> Total max: 100</div>
-          </div> -->
-          <div class="ecoScore"></div>
-          <div class="rawValue"></div>
-        </div>
-        <div class="min-max-details"></div>
       </div>
+      <div class="sedimentScoreDetails">
+        <div class="title">Sediment Delivery</div>
+        <!-- <div class="min-max">
+          <div class="min"> Total min: 0</div>
+          <div class="max"> Total max: 100</div>
+        </div> -->
+        <div class="ecoScore"></div>
+        <div class="rawValue"></div>
+      </div>
+      <div class="min-max-details"></div>
+    </div>
 
 
     <div id="yieldsProgressBars" >
@@ -1978,15 +1978,15 @@
         <div class="progress" onmouseover="toggleScoreDetails('woodyBiomass');" onmouseout="toggleScoreDetails('woodyBiomass');">
           <div class="progress-bar progress-bar-woodyBiomass" role="progressbar"></div>
           <img id="minIndicator" src="./imgs/white-bar.png" style="left: -10%;" onmouseover="toggleMinMax('Min',15);" onmouseout="toggleMinMax('Min',15);">
-<!--          <img id="maxIndicator" src="./imgs/white-bar.png" style="left: 110%;" onmouseover="toggleMinMax('Max',15);" onmouseout="toggleMinMax('Max',15);">-->
+          <!--          <img id="maxIndicator" src="./imgs/white-bar.png" style="left: 110%;" onmouseover="toggleMinMax('Max',15);" onmouseout="toggleMinMax('Max',15);">-->
         </div>
-<!--        <div id="ghg" style="display:none;">-->
-<!--          <div class="progressBarTitle">Y-FV:</div>-->
-<!--          <div class="progress" onmouseover="toggleScoreDetails('ghg');" onmouseout="toggleScoreDetails('ghg');">-->
-<!--            <div class="progress-bar progress-bar-ghg" role="progressbar" ></div>-->
-<!--            <img id="minIndicator" src="./imgs/white-bar.png" style="left: -10%;" onmouseover="toggleMinMax('Min',16);" onmouseout="toggleMinMax('Min',16);">-->
-<!--            <img id="maxIndicator" src="./imgs/white-bar.png" style="left: 110%;" onmouseover="toggleMinMax('Max',16);" onmouseout="toggleMinMax('Max',16);">-->
-<!--          </div>-->
+        <!--        <div id="ghg" style="display:none;">-->
+        <!--          <div class="progressBarTitle">Y-FV:</div>-->
+        <!--          <div class="progress" onmouseover="toggleScoreDetails('ghg');" onmouseout="toggleScoreDetails('ghg');">-->
+        <!--            <div class="progress-bar progress-bar-ghg" role="progressbar" ></div>-->
+        <!--            <img id="minIndicator" src="./imgs/white-bar.png" style="left: -10%;" onmouseover="toggleMinMax('Min',16);" onmouseout="toggleMinMax('Min',16);">-->
+        <!--            <img id="maxIndicator" src="./imgs/white-bar.png" style="left: 110%;" onmouseover="toggleMinMax('Max',16);" onmouseout="toggleMinMax('Max',16);">-->
+        <!--          </div>-->
         <div class="woodyBiomassScoreDetails">
           <div class="title">Yield - Short Rotation Woody Bioenergy</div>
           <!-- <div class="min-max">
@@ -2032,303 +2032,303 @@
   </div>
 
 
-    <!-- **BEGIN Right Side Component** -->
+  <!-- **BEGIN Right Side Component** -->
 
-    <!-- Create results button -->
-    <div id="resultsButton" class="resultsButtonRolled" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();" onclick="resultsStart(); multiplayerResults();"><img src="./imgs/resultsIcon.png"></div>
-    <!--img src="./imgs/backgroundinfo.png"></div>-->
+  <!-- Create results button -->
+  <div id="resultsButton" class="resultsButtonRolled" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();" onclick="resultsStart(); multiplayerResults();"><img src="./imgs/resultsIcon.png"></div>
+  <!--img src="./imgs/backgroundinfo.png"></div>-->
 
-    <!-- Create dialogue popup box (message box) -->
-    <!-- "Bubble, speech icon" by http://www.iconsolid.com/ with free commercial usage / Inverted from original and resized -->
-<!--    <div id="bookMarkButton" class="bookMarkButtonRolled" onclick="togglePopupDisplay();"><img src="./imgs/indexIcon.png" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();"></div>-->
-<!--    <div id="popup" class="popupHidden" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">-->
-<!--      <div id="nextLevelButton" class="moveButtonHidden" onclick="loadLevel(levelGlobal + 1);">Next Level</div>-->
-<!--      <div id="mainMenuButton" class="moveButtonHidden" onclick="showMainMenu();">Main Menu</div>-->
-<!--      <p id="popupText"></p>-->
-<!--    </div>-->
+  <!-- Create dialogue popup box (message box) -->
+  <!-- "Bubble, speech icon" by http://www.iconsolid.com/ with free commercial usage / Inverted from original and resized -->
+  <!--    <div id="bookMarkButton" class="bookMarkButtonRolled" onclick="togglePopupDisplay();"><img src="./imgs/indexIcon.png" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();"></div>-->
+  <!--    <div id="popup" class="popupHidden" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">-->
+  <!--      <div id="nextLevelButton" class="moveButtonHidden" onclick="loadLevel(levelGlobal + 1);">Next Level</div>-->
+  <!--      <div id="mainMenuButton" class="moveButtonHidden" onclick="showMainMenu();">Main Menu</div>-->
+  <!--      <p id="popupText"></p>-->
+  <!--    </div>-->
 
-<!--    &lt;!&ndash;Chat box for Glossary information &ndash;&gt;-->
-<!--    <div id="backgroundInfoButton" class="backgroundInfoButton" onclick="toggleBackgroundInfoDisplay();"><img src="./imgs/questionIcon.png"></div>-->
-<!--    <div id="backgroundInfoBox" class="backgroundInfoBox">-->
-<!--      <p id="glossaryPopupText" class="glossaryPopupText"></p>-->
-<!--    </div>-->
+  <!--    &lt;!&ndash;Chat box for Glossary information &ndash;&gt;-->
+  <!--    <div id="backgroundInfoButton" class="backgroundInfoButton" onclick="toggleBackgroundInfoDisplay();"><img src="./imgs/questionIcon.png"></div>-->
+  <!--    <div id="backgroundInfoBox" class="backgroundInfoBox">-->
+  <!--      <p id="glossaryPopupText" class="glossaryPopupText"></p>-->
+  <!--    </div>-->
 
-    <!-- Bookmark button -->
-    <div id="bookMarkButton" class="bookMarkButtonRolled" onclick="togglePopupDisplay();">
-      <img src="./imgs/indexIcon.png">
-    </div>
+  <!-- Bookmark button -->
+  <!-- <div id="bookMarkButton" class="bookMarkButtonRolled" onclick="togglePopupDisplay();">
+    <img src="./imgs/indexIcon.png">
+  </div> -->
 
-    <!-- Popup that is hidden by default and only appears when clicked -->
-    <div id="popup" class="popupHidden">
-      <div id="nextLevelButton" class="moveButtonHidden" onclick="loadLevel(levelGlobal + 1);">Next Level</div>
-      <div id="mainMenuButton" class="moveButtonHidden" onclick="showMainMenu();">Main Menu</div>
-      <p id="popupText">This is popup content</p>
-    </div>
+  <!-- Popup that is hidden by default and only appears when clicked -->
+  <!-- <div id="popup" class="popupHidden">
+    <div id="nextLevelButton" class="moveButtonHidden" onclick="loadLevel(levelGlobal + 1);">Next Level</div>
+    <div id="mainMenuButton" class="moveButtonHidden" onclick="showMainMenu();">Main Menu</div>
+    <p id="popupText">This is popup content</p>
+  </div> -->
 
-    <!-- Background Info button -->
-    <div id="backgroundInfoButton" class="backgroundInfoButtonRolled" onclick="toggleBackgroundInfoDisplay();">
-      <img src="./imgs/questionIcon.png">
-    </div>
-
-    <!-- Background Info Box that is hidden by default and only appears when clicked -->
-    <div id="backgroundInfoBox" class="backgroundInfoHidden backgroundInfoBox">
-      <p id="glossaryPopupText" class="glossaryPopupText">This is background info content</p>
-    </div>
-
-    <script>
-      // Function to toggle the display of the popup (for the bookmark button)
-      function togglePopupDisplay() {
-        const popup = document.getElementById("popup");
-        // Toggle between showing and hiding the popup
-        if (popup.classList.contains("popupHidden")) {
-          popup.classList.remove("popupHidden");
-          popup.classList.add("popupVisible");
-        } else {
-          popup.classList.remove("popupVisible");
-          popup.classList.add("popupHidden");
-        }
-      }
-
-      // Function to toggle the display of the background info box
-      function toggleBackgroundInfoDisplay() {
-        const backgroundInfoBox = document.getElementById("backgroundInfoBox");
-        // Toggle between showing and hiding the background info box
-        if (backgroundInfoBox.classList.contains("backgroundInfoHidden")) {
-          backgroundInfoBox.classList.remove("backgroundInfoHidden");
-          backgroundInfoBox.classList.add("backgroundInfoVisible");
-        } else {
-          backgroundInfoBox.classList.remove("backgroundInfoVisible");
-          backgroundInfoBox.classList.add("backgroundInfoHidden");
-        }
-      }
-    </script>
-
-
-    <!-- **END Right Side Component** -->
-
-    <!-- Create buttons in upper right corner: upperHud-->
-    <img id="pewiLogo" src="./imgs/updatedPewiLogo.png">
-    <img id="logoBase" src="./imgs/inGamePEWI4.png">
-    <img id="DownloadButton" class="upperButton" src="./imgs/uploadDownloadIcon.png" title="Download" onclick="triggerDownloadSequence();" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
-
-    <!--This class will hold the input element, so we'll hide this one-->
-    <div class="uploadFile1">
-      <!--Label is used so we can click the image and still use it as input-->
-      <label for="file-upload3">
-                <!--This element is used to align the button with everything else in the top right-->
-                <div id="uploadFile" class="upperButton">
-                  <!--Here's the button image itself, give it its own class so it's animation works properly-->
-                  <img id="UploadButton" class="uploadButtonClass" src = "./imgs/UploadImage.png" title="Upload" style="height: 3vw" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
-                </div>
-            </label>
-      <!--And here's the input we'll be hiding-->
-      <input id="file-upload3" type="file" onchange="uploadFile();" />
-    </div>
-
-    <!--Script for uploading and downloading-->
-    <script type="text/javascript">
-      /**
-       * pass the file handler to uploadClicked() in helpersFE.js
-       *
-       */
-      function uploadFile() {
-        // input tag that upload-file will attach to
-        var fp = document.getElementById("file-upload3");
-        // pass the file handler
-        uploadClicked(fp.files);
-        // clean the file
-        fp.files = null;
-      } // end uploadFile()
-
-      //this function triggers a download of the current data
-      function triggerDownloadSequence() {
-
-        //helpersFE.js, creates data using current board
-        var data = writeFileToDownloadString(0);
-        var downloadBlob = new Blob([data], {
-          type: "text/csv;charset=utf-8"
-        });
-        //filesaver.min.js
-        saveAs(downloadBlob, "pewiMap.csv");
-
-        //close necessary frames
-        // setTimeout(function() {parent.downloadClicked();},1 );
-        // XXX SCRIPT438: Object doesn't support property or method 'downloadClicked'
-      } // end triggerDownloadSequence()
-    </script>
-
-
-
-    <img id="emailIcon" class="upperButton" src="./imgs/emailIcon.png" title= "Email" onclick="showEmail();" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
-    <img id="creditsButton" class="upperButton" src="./imgs/credits_button.png" title= "Credits" onclick="showCredits();" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
-    <img id="recordIcon" class="upperButton" style="visibility:hidden;" width="40px" src="./imgs/recordingIcon.gif">
-    <img id="homebutton" class="upperButton" src="imgs/Home_Icon.png" title= "Home" onclick="toggleEscapeFrame();">
-    <img id="printButton" class="upperButton" src="imgs/Button_Print.svg" title="Print" onclick="startPrintOptions();" >
-
-
-
-
-    <!-- order now becomes important to make sure elements stack and cover correctly -->
-
-    <!-- Add heads up display in lower left corner -->
-    <footer id="bottomHUD" class="bottomHUD">
-      <div id="sliderCon" style="visibility: hidden">
-        <label for="simSlider">Simulation Time</label>
-        <input id="simSlider" type="range" min="0" max="100" value="0" onclick="updateSim(this.value)">
-        <img id="pausePlay" src="imgs/pauseButton.png" onclick="togglePausePlay();">
-        <output for="simSlider" id="timer">00:00:00</output>
-      </div>
-      <p id="currentInfo">
-    </footer>
-
-    <!-- div which follows cursor for delayed hover information -->
-
-    <div id="hover-div">
-      <p id="hover-info"></p>
-    </div>
-    <!-- snackbar notification -->
-
-      <div id="snackbarNotification"></div>
-
-    <!-- Create iFrames for credits, upload/download, contact us and codex -->
-    <div id="modalCreditsFrame"><iframe id="creditsFrame" style="display:none;" src="./htmlFrames/credits.html"></iframe></div>
-    <img id="closeCredits" class="closeButton" style="display:none;" src="./imgs/close_black.png" onclick="closeCreditFrame() ;">
-    <div id="modalUploadFrame"><iframe id="uploadDownloadFrame" style="display:none;" src="./htmlFrames/uploadDownload.html"></iframe></div>
-    <img id="closeUploadDownload" class="closeButton" style="display:none;" src="./imgs/close_black.png" onclick="closeUploadDownloadFrame();">
-    <div id="modalEmailFrame"><iframe id="emailFrame" style="display:none;" src="./htmlFrames/contact_us.html"></iframe></div>
-    <img id="closeEmail" class="closeButton" style="display:none;" src="./imgs/close_black.png" onclick="closeEmailFrame() ;">
-    <!--<div id="modalCodexFrame"><iframe id="index" src="./modules/codex/codex.html" allowfullscreen="allowfullscreen"></iframe></div>-->
-    <div id="modalCodexFrame"><iframe id="glossary" src="./modules/codex/codex.html" allowfullscreen="allowfullscreen"></iframe></div>
-    <!-- glossary iframe has its own close button -->
-
-    <!-- Include fireworks javascript library -->
-    <div id="fireworks-template">
-      <div id="fw" class="firework"></div>
-      <div id="fp" class="fireworkParticle"><img src="./imgs/particles.gif" alt="" /></div>
-    </div>
-    <div id="fireContainer"></div>
-
-    <!-- Place meadowlark gif off page -->
-    <img id="meadowlark" class="meadowlarkhidden" src="./imgs/meadowlarkanimation.gif">
-
-    <!-- Create iframes for the results, options and multiplayer screens -->
-    <div id="modalResultsFrame"><iframe id="resultsFrame" class="resultsFrame" src="./htmlFrames/results.html"></iframe></div>
-    <img id="closeResults" class="closeButton" style="opacity:0; visibility:hidden; right:9%;" src="./imgs/close_black.png" onclick="resultsEnd() ;">
-    <iframe id="multiplayer" class="fullPageIframe" src="./htmlFrames/multiDownload.html"></iframe>
-    <iframe id="options" class="fullPageIframe" src="./htmlFrames/options.html"></iframe>
-    <iframe id="printOptions" class="fullPageIframe" src="./htmlFrames/printOptions.html"></iframe>
-    <iframe id="modalReplacement" class="fullPageIframe" src="./htmlFrames/replacementFrame.html"></iframe>
-  </div>
-  <!-- End of page div, this is all the meaningful content for in-game -->
-
-  <!-- the modal frame covers the page with semi-opaque layer, and escape options -->
-  <div id="modalEscapeFrame">
-    <!--Line below was added to add exit button on top right of Home options page. Reference Issue 361 for details.-->
-    <div id="closeDiv"><img id="escapeButton" onclick="toggleEscapeFrame();" src="./imgs/close_black.png"></div>
-    <div id="escapeMenu">
-      <!--Commented out Glossary button, which is div below. Reference Issue 363 on explanation for removal.-->
-      <div class="mainEscapeButton" id="directoryButton" onclick="toggleEscapeFrame(); toggleGlossary() ;">Glossary</div>
-<!--  <div class="mainEscapeButton" id="optionsButton" onclick="toggleEscapeFrame(); startOptions();">Customize</div>-->
-       <div id="optionsButton"></div>
-
-<!--      <div id="startupButton3" onmouseover="highlightButtonAndShowInfo(3,1);" onmouseout="highlightButtonAndShowInfo(3,0);" class="mainEscapeButton" onclick="startUtilities();">Utilities</div>-->
-<!--      <div id="infoHolder">-->
-<!--        <div id="startupInformationText"></div>-->
-<!--      </div>-->
-
-<!--      &lt;!&ndash;The hover options feature is currently in the Options menu, but can be changed &ndash;&gt;-->
-<!--      <div class="mainEscapeButton" id="userSettingsButton" onclick="toggleEscapeFrame(); startOptions();">User Settings</div>-->
-<!--&lt;!&ndash;      <div class="mainEscapeButton" id="exitToMenuButton" onclick="confirmEscape();">Main Menu</div>&ndash;&gt;-->
-
-      <div id="confirmEscape">
-        Are you sure you want to exit? All your progress will be lost.
-        <div class="mainEscapeButton" id="yesConfirmEscape" onclick="showMainMenu(); toggleEscapeFrame(); inMultiplayer(false);">Yes</div>
-        <div class="mainEscapeButton" id="noConfirmEscape" onclick="toggleEscapeFrame();">No</div>
-      </div>
-
-<!--      <div>-->
-<!--        <span style="color: white">Are you sure you want to leave the play page?</span>-->
-<!--        <div style="margin-top: 25px" class="mainEscapeButton" id="yesConfirmEscapePage" onclick="startUtilities(); toggleEscapeFrame(); inMultiplayer(false);">Yes</div>-->
-<!--        <div class="mainEscapeButton" id="noConfirmEscapePage" onclick="toggleEscapeFrame();">No</div>-->
-<!--      </div>-->
-      <!-- Removed the 'Utilities' button -->
-      <!-- <div id="startupButton3" onmouseover="highlightButtonAndShowInfo(3,1);" onmouseout="highlightButtonAndShowInfo(3,0);" class="mainEscapeButton" onclick="startUtilities();">Utilities</div> -->
-
-      <div id="infoHolder">
-        <div id="startupInformationText"></div>
-      </div>
-
-      <div>
-        <span style="color: white">Are you sure you want to leave the play page?</span>
-        <div style="margin-top: 25px" class="mainEscapeButton" id="yesConfirmEscapePage" onclick="startUtilities(); toggleEscapeFrame(); inMultiplayer(false);">Yes</div>
-        <div class="mainEscapeButton" id="noConfirmEscapePage" onclick="toggleEscapeFrame();">No</div>
-      </div>
-
-    </div>
-  </div>
-  <div id="utilitiesContainer" style="position: absolute;width:0px;height:0px;">
-    <iframe id="startupDialogueOverlay" style="visibility: hidden"></iframe>
+  <!-- Background Info button -->
+  <div id="backgroundInfoButton" class="backgroundInfoButtonRolled" onclick="toggleBackgroundInfoDisplay();">
+    <img src="./imgs/questionIcon.png">
   </div>
 
+  <!-- Background Info Box that is hidden by default and only appears when clicked -->
+  <div id="backgroundInfoBox" class="backgroundInfoHidden backgroundInfoBox">
+    <p id="glossaryPopupText" class="glossaryPopupText">This is background info content</p>
+  </div>
 
-  <!-- Javascript to stop event propogation for bug fix in modalEscapeFrame (above) -->
   <script>
-    //prevent modalEscapeFrame from being clicked on when using the buttons stored in the frame
-    $("#escapeMenu").click(function(e) {
-      e.stopPropagation();
-      return false;
-    });
-    $("#replacementContent").click(function(e) {
-      e.stopPropagation();
-      return false;
-    });
+    // Function to toggle the display of the popup (for the bookmark button)
+    function togglePopupDisplay() {
+      // const popup = document.getElementById("popup");
+      // // Toggle between showing and hiding the popup
+      // if (popup.classList.contains("popupHidden")) {
+      //   popup.classList.remove("popupHidden");
+      //   popup.classList.add("popupVisible");
+      // } else {
+      //   popup.classList.remove("popupVisible");
+      //   popup.classList.add("popupHidden");
+      // }
+    }
 
-    // Prompt save changes before user exit the program
-    var page = document.getElementById("page");
-
-    $(window).bind("beforeunload", function(event) {
-      if (page.style.visibility == 'visible') {
-        // on the main page, ask the user to save changes
-        //showUploadDownload();
-        return "Are you sure to leave? Make sure if you saved changes.";
+    // Function to toggle the display of the background info box
+    function toggleBackgroundInfoDisplay() {
+      const backgroundInfoBox = document.getElementById("backgroundInfoBox");
+      // Toggle between showing and hiding the background info box
+      if (backgroundInfoBox.classList.contains("backgroundInfoHidden")) {
+        backgroundInfoBox.classList.remove("backgroundInfoHidden");
+        backgroundInfoBox.classList.add("backgroundInfoVisible");
       } else {
-        // not on the main page, exit the app directly
-        return;
+        backgroundInfoBox.classList.remove("backgroundInfoVisible");
+        backgroundInfoBox.classList.add("backgroundInfoHidden");
       }
-
-    });
-
-    // // for different browsers
-    // $(window).bind("onunload", function(event) {
-    // if (page.style.visibility == 'hidden') {
-    //   // not on the main page, exit the app directly
-    //
-    //   page = null; // XXX should clean more objects (everything) here
-    //
-    //   return ;
-    // }
-    //
-    // // on the main page, ask the user to save changes
-    // showUploadDownload();
-    //   confirm("Are you sure to leave? Make sure if you saved changes.");
-    // });
+    }
   </script>
 
-  <!-- Add spinning circle loading gif, this loader is visible during transitions-->
-  <div id="loading">
-    <div id="loadingContainer">
-      <!-- center is not exactly optimal html, but will do for now -->
-      <center>
-        <br><br>
-        <img src="./imgs/loader.gif">
-      </center>
-    </div>
+
+  <!-- **END Right Side Component** -->
+
+  <!-- Create buttons in upper right corner: upperHud-->
+  <img id="pewiLogo" src="./imgs/updatedPewiLogo.png">
+  <img id="logoBase" src="./imgs/inGamePEWI4.png">
+  <img id="DownloadButton" class="upperButton" src="./imgs/uploadDownloadIcon.png" title="Download" onclick="triggerDownloadSequence();" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
+
+  <!--This class will hold the input element, so we'll hide this one-->
+  <div class="uploadFile1">
+    <!--Label is used so we can click the image and still use it as input-->
+    <label for="file-upload3">
+      <!--This element is used to align the button with everything else in the top right-->
+      <div id="uploadFile" class="upperButton">
+        <!--Here's the button image itself, give it its own class so it's animation works properly-->
+        <img id="UploadButton" class="uploadButtonClass" src = "./imgs/UploadImage.png" title="Upload" style="height: 3vw" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
+      </div>
+    </label>
+    <!--And here's the input we'll be hiding-->
+    <input id="file-upload3" type="file" onchange="uploadFile();" />
   </div>
 
-  <!-- Add div and iFrame for the startup page -->
-  <div id="startupSequence" style="position:absolute; width:100%; height:100%;">
-    <iframe id="startUpFrame" src="./htmlFrames/startup.html" style="width:100%; height:100%;"></iframe>
+  <!--Script for uploading and downloading-->
+  <script type="text/javascript">
+    /**
+     * pass the file handler to uploadClicked() in helpersFE.js
+     *
+     */
+    function uploadFile() {
+      // input tag that upload-file will attach to
+      var fp = document.getElementById("file-upload3");
+      // pass the file handler
+      uploadClicked(fp.files);
+      // clean the file
+      fp.files = null;
+    } // end uploadFile()
+
+    //this function triggers a download of the current data
+    function triggerDownloadSequence() {
+
+      //helpersFE.js, creates data using current board
+      var data = writeFileToDownloadString(0);
+      var downloadBlob = new Blob([data], {
+        type: "text/csv;charset=utf-8"
+      });
+      //filesaver.min.js
+      saveAs(downloadBlob, "pewiMap.csv");
+
+      //close necessary frames
+      // setTimeout(function() {parent.downloadClicked();},1 );
+      // XXX SCRIPT438: Object doesn't support property or method 'downloadClicked'
+    } // end triggerDownloadSequence()
+  </script>
+
+
+
+  <img id="emailIcon" class="upperButton" src="./imgs/emailIcon.png" title= "Email" onclick="showEmail();" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
+  <img id="creditsButton" class="upperButton" src="./imgs/credits_button.png" title= "Credits" onclick="showCredits();" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
+  <img id="recordIcon" class="upperButton" style="visibility:hidden;" width="40px" src="./imgs/recordingIcon.gif">
+  <img id="homebutton" class="upperButton" src="imgs/Home_Icon.png" title= "Home" onclick="toggleEscapeFrame();">
+  <img id="printButton" class="upperButton" src="imgs/Button_Print.svg" title="Print" onclick="startPrintOptions();" >
+
+
+
+
+  <!-- order now becomes important to make sure elements stack and cover correctly -->
+
+  <!-- Add heads up display in lower left corner -->
+  <footer id="bottomHUD" class="bottomHUD">
+    <div id="sliderCon" style="visibility: hidden">
+      <label for="simSlider">Simulation Time</label>
+      <input id="simSlider" type="range" min="0" max="100" value="0" onclick="updateSim(this.value)">
+      <img id="pausePlay" src="imgs/pauseButton.png" onclick="togglePausePlay();">
+      <output for="simSlider" id="timer">00:00:00</output>
+    </div>
+    <p id="currentInfo">
+  </footer>
+
+  <!-- div which follows cursor for delayed hover information -->
+
+  <div id="hover-div">
+    <p id="hover-info"></p>
   </div>
+  <!-- snackbar notification -->
+
+  <div id="snackbarNotification"></div>
+
+  <!-- Create iFrames for credits, upload/download, contact us and codex -->
+  <div id="modalCreditsFrame"><iframe id="creditsFrame" style="display:none;" src="./htmlFrames/credits.html"></iframe></div>
+  <img id="closeCredits" class="closeButton" style="display:none;" src="./imgs/close_black.png" onclick="closeCreditFrame() ;">
+  <div id="modalUploadFrame"><iframe id="uploadDownloadFrame" style="display:none;" src="./htmlFrames/uploadDownload.html"></iframe></div>
+  <img id="closeUploadDownload" class="closeButton" style="display:none;" src="./imgs/close_black.png" onclick="closeUploadDownloadFrame();">
+  <div id="modalEmailFrame"><iframe id="emailFrame" style="display:none;" src="./htmlFrames/contact_us.html"></iframe></div>
+  <img id="closeEmail" class="closeButton" style="display:none;" src="./imgs/close_black.png" onclick="closeEmailFrame() ;">
+  <!--<div id="modalCodexFrame"><iframe id="index" src="./modules/codex/codex.html" allowfullscreen="allowfullscreen"></iframe></div>-->
+  <div id="modalCodexFrame"><iframe id="glossary" src="./modules/codex/codex.html" allowfullscreen="allowfullscreen"></iframe></div>
+  <!-- glossary iframe has its own close button -->
+
+  <!-- Include fireworks javascript library -->
+  <div id="fireworks-template">
+    <div id="fw" class="firework"></div>
+    <div id="fp" class="fireworkParticle"><img src="./imgs/particles.gif" alt="" /></div>
+  </div>
+  <div id="fireContainer"></div>
+
+  <!-- Place meadowlark gif off page -->
+  <img id="meadowlark" class="meadowlarkhidden" src="./imgs/meadowlarkanimation.gif">
+
+  <!-- Create iframes for the results, options and multiplayer screens -->
+  <div id="modalResultsFrame"><iframe id="resultsFrame" class="resultsFrame" src="./htmlFrames/results.html"></iframe></div>
+  <img id="closeResults" class="closeButton" style="opacity:0; visibility:hidden; right:9%;" src="./imgs/close_black.png" onclick="resultsEnd() ;">
+  <iframe id="multiplayer" class="fullPageIframe" src="./htmlFrames/multiDownload.html"></iframe>
+  <iframe id="options" class="fullPageIframe" src="./htmlFrames/options.html"></iframe>
+  <iframe id="printOptions" class="fullPageIframe" src="./htmlFrames/printOptions.html"></iframe>
+  <iframe id="modalReplacement" class="fullPageIframe" src="./htmlFrames/replacementFrame.html"></iframe>
+</div>
+<!-- End of page div, this is all the meaningful content for in-game -->
+
+<!-- the modal frame covers the page with semi-opaque layer, and escape options -->
+<div id="modalEscapeFrame">
+  <!--Line below was added to add exit button on top right of Home options page. Reference Issue 361 for details.-->
+  <div id="closeDiv"><img id="escapeButton" onclick="toggleEscapeFrame();" src="./imgs/close_black.png"></div>
+  <div id="escapeMenu">
+    <!--Commented out Glossary button, which is div below. Reference Issue 363 on explanation for removal.-->
+    <div class="mainEscapeButton" id="directoryButton" onclick="toggleEscapeFrame(); toggleGlossary() ;">Glossary</div>
+    <!--  <div class="mainEscapeButton" id="optionsButton" onclick="toggleEscapeFrame(); startOptions();">Customize</div>-->
+    <div id="optionsButton"></div>
+
+    <!--      <div id="startupButton3" onmouseover="highlightButtonAndShowInfo(3,1);" onmouseout="highlightButtonAndShowInfo(3,0);" class="mainEscapeButton" onclick="startUtilities();">Utilities</div>-->
+    <!--      <div id="infoHolder">-->
+    <!--        <div id="startupInformationText"></div>-->
+    <!--      </div>-->
+
+    <!--      &lt;!&ndash;The hover options feature is currently in the Options menu, but can be changed &ndash;&gt;-->
+    <!--      <div class="mainEscapeButton" id="userSettingsButton" onclick="toggleEscapeFrame(); startOptions();">User Settings</div>-->
+    <!--&lt;!&ndash;      <div class="mainEscapeButton" id="exitToMenuButton" onclick="confirmEscape();">Main Menu</div>&ndash;&gt;-->
+
+    <div id="confirmEscape">
+      Are you sure you want to exit? All your progress will be lost.
+      <div class="mainEscapeButton" id="yesConfirmEscape" onclick="showMainMenu(); toggleEscapeFrame(); inMultiplayer(false);">Yes</div>
+      <div class="mainEscapeButton" id="noConfirmEscape" onclick="toggleEscapeFrame();">No</div>
+    </div>
+
+    <!--      <div>-->
+    <!--        <span style="color: white">Are you sure you want to leave the play page?</span>-->
+    <!--        <div style="margin-top: 25px" class="mainEscapeButton" id="yesConfirmEscapePage" onclick="startUtilities(); toggleEscapeFrame(); inMultiplayer(false);">Yes</div>-->
+    <!--        <div class="mainEscapeButton" id="noConfirmEscapePage" onclick="toggleEscapeFrame();">No</div>-->
+    <!--      </div>-->
+    <!-- Removed the 'Utilities' button -->
+    <!-- <div id="startupButton3" onmouseover="highlightButtonAndShowInfo(3,1);" onmouseout="highlightButtonAndShowInfo(3,0);" class="mainEscapeButton" onclick="startUtilities();">Utilities</div> -->
+
+    <div id="infoHolder">
+      <div id="startupInformationText"></div>
+    </div>
+
+    <div>
+      <span style="color: white">Are you sure you want to leave the play page?</span>
+      <div style="margin-top: 25px" class="mainEscapeButton" id="yesConfirmEscapePage" onclick="startUtilities(); toggleEscapeFrame(); inMultiplayer(false);">Yes</div>
+      <div class="mainEscapeButton" id="noConfirmEscapePage" onclick="toggleEscapeFrame();">No</div>
+    </div>
+
+  </div>
+</div>
+<div id="utilitiesContainer" style="position: absolute;width:0px;height:0px;">
+  <iframe id="startupDialogueOverlay" style="visibility: hidden"></iframe>
+</div>
+
+
+<!-- Javascript to stop event propogation for bug fix in modalEscapeFrame (above) -->
+<script>
+  //prevent modalEscapeFrame from being clicked on when using the buttons stored in the frame
+  $("#escapeMenu").click(function(e) {
+    e.stopPropagation();
+    return false;
+  });
+  $("#replacementContent").click(function(e) {
+    e.stopPropagation();
+    return false;
+  });
+
+  // Prompt save changes before user exit the program
+  var page = document.getElementById("page");
+
+  $(window).bind("beforeunload", function(event) {
+    if (page.style.visibility == 'visible') {
+      // on the main page, ask the user to save changes
+      //showUploadDownload();
+      return "Are you sure to leave? Make sure if you saved changes.";
+    } else {
+      // not on the main page, exit the app directly
+      return;
+    }
+
+  });
+
+  // // for different browsers
+  // $(window).bind("onunload", function(event) {
+  // if (page.style.visibility == 'hidden') {
+  //   // not on the main page, exit the app directly
+  //
+  //   page = null; // XXX should clean more objects (everything) here
+  //
+  //   return ;
+  // }
+  //
+  // // on the main page, ask the user to save changes
+  // showUploadDownload();
+  //   confirm("Are you sure to leave? Make sure if you saved changes.");
+  // });
+</script>
+
+<!-- Add spinning circle loading gif, this loader is visible during transitions-->
+<div id="loading">
+  <div id="loadingContainer">
+    <!-- center is not exactly optimal html, but will do for now -->
+    <center>
+      <br><br>
+      <img src="./imgs/loader.gif">
+    </center>
+  </div>
+</div>
+
+<!-- Add div and iFrame for the startup page -->
+<div id="startupSequence" style="position:absolute; width:100%; height:100%;">
+  <iframe id="startUpFrame" src="./htmlFrames/startup.html" style="width:100%; height:100%;"></iframe>
+</div>
 
 
 
@@ -2336,8 +2336,8 @@
 <!--all the scripts -->
 <!-- also define those utilities through the main page-->
 
-  <script src="./front-end/helpersFE.js"></script>
-  <script src="./front-end/mainFE.js"></script>
+<script src="./front-end/helpersFE.js"></script>
+<script src="./front-end/mainFE.js"></script>
 
 <script>
   // const greenGh = new GreenHouseGases('./ghg.csv');

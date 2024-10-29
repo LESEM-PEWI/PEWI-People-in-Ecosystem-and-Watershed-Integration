@@ -864,7 +864,7 @@ var Economics = function () {
           {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0}
       ));
 
-      this.GHGs[i] = [{'CH4':0, 'C02-e':0, 'N2O':0, 'SOC':0}]
+      this.GHGs[i] = [{'CH4':0, 'C02_e':0, 'N2O':0, 'SOC':0}]
       this.ghgTypes[i] = [{'ch4': 0, 'n2o': 0, 'co2':0}]
 
       for (let j = 0; j < boardData[currentBoard].map.length; j++) {
@@ -873,6 +873,7 @@ var Economics = function () {
         let landUseTileID= 0;
         landUseTileID = boardData[currentBoard].map[j]['landType'][1];
         let  cellLandArea  = boardData[currentBoard].map[j].area;
+        // let carbondioxide = ghgTypes.carbonSequestration < 0 ? ghgTypes.carbonSequestration : 0;
 
 
         // Increment the area for the appropriate soil type and land use without using a switch
@@ -899,7 +900,7 @@ var Economics = function () {
             numLandUseCode  = Number(ludID);
             this.GHGs[i][0]['SOC'] += soc;
             this.GHGs[i][0]['N2O'] += n20;
-            this.GHGs[i][0]['C02-e'] +=kpi;
+            this.GHGs[i][0]['C02_e'] +=kpi;
             // zero because the object is inside 0= kpi, 1 = carbon, 2= methane, 3 = nitrous oxide
             this.GHGsBylandUse[i][0][numLandUseCode] += kpi;
             this.GHGsBylandUse[i][1][numLandUseCode] += soc;
@@ -912,6 +913,7 @@ var Economics = function () {
       }
     }
 
+    window.globalGHGs = this.GHGs;
     console.log(this.GHGs);
     console.log(this.GHGsBylandUse);
   };

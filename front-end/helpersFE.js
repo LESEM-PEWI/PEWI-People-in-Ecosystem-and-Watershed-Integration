@@ -61,9 +61,9 @@ var resultsMappedHover=false;
 
 //var arrLines;
 var birds = [],
-  bird;
+    bird;
 var boids = [],
-  boid;
+    boid;
 var columnCutOffs = [];
 var highlightedTiles = [];
 var meshMaterials = [];
@@ -137,12 +137,12 @@ var hotkeyArr = [
 var data = []; // stores precip data for results page
 var activeLandUses = [];
 var radarLegendColors = [],
-  radarLegendItems = [];
+    radarLegendItems = [];
 var tempLegendItems = [],
-  maxLegendSize = 1,
-  finalLegendItems = []; // stores strings of the names in legend for print function
+    maxLegendSize = 1,
+    finalLegendItems = []; // stores strings of the names in legend for print function
 var tempLegendColors = [],
-  finalLegendColors = []; // stores colors of legent items for print function
+    finalLegendColors = []; // stores colors of legent items for print function
 
 // object to store user actions ( print function )
 var session = {
@@ -207,18 +207,18 @@ function toggleTabTitle(value, dir) {
 
 
 //If hovering over, hide legend
-if(dir == 0){
-  if(typeof document.getElementsByClassName('DetailsList')[0] !== 'undefined'){
-    document.getElementsByClassName('DetailsList')[0].style.visibility = 'hidden';
+  if(dir == 0){
+    if(typeof document.getElementsByClassName('DetailsList')[0] !== 'undefined'){
+      document.getElementsByClassName('DetailsList')[0].style.visibility = 'hidden';
+    }
   }
-}
 
 //If leaving hover, show legend
-if(dir == 1){
-  if(typeof document.getElementsByClassName('DetailsList')[0] !== 'undefined'){
-    document.getElementsByClassName('DetailsList')[0].style.visibility = 'visible';
+  if(dir == 1){
+    if(typeof document.getElementsByClassName('DetailsList')[0] !== 'undefined'){
+      document.getElementsByClassName('DetailsList')[0].style.visibility = 'visible';
+    }
   }
-}
 }
 
 
@@ -234,13 +234,13 @@ function toggleTabTitleHovers(factor) {
 
   if (curTracking)
   {
-      pushClick(0, getStamp(), 125, 0, factor);
+    pushClick(0, getStamp(), 125, 0, factor);
   }
 
   if(document.getElementById(factor).style.visibility == 'visible' && document.getElementById(factor).style.opacity == 1) {
-     document.getElementById(factor).style.visibility = 'hidden';
-     document.getElementById(factor).style.opacity = 0;
-    }
+    document.getElementById(factor).style.visibility = 'hidden';
+    document.getElementById(factor).style.opacity = 0;
+  }
   else {
     document.getElementById(factor).style.visibility = 'visible';
     document.getElementById(factor).style.opacity = 1;
@@ -269,14 +269,14 @@ function toggleScoreDetails(factor) {
   // To include hover effects on progressbars in cur tracking mode
   if (curTracking)
   {
-      pushClick(0, getStamp(), 122, 0, factor);
+    pushClick(0, getStamp(), 122, 0, factor);
   }
   switch (factor){
 
     case 'gameWildlife':
       if(document.getElementsByClassName('gameWildlifeScoreDetails')[0].style.display == 'block') {
-         document.getElementsByClassName('gameWildlifeScoreDetails')[0].style.display = 'none';
-        }
+        document.getElementsByClassName('gameWildlifeScoreDetails')[0].style.display = 'none';
+      }
       else {
         var childNodes = document.getElementsByClassName('gameWildlifeScoreDetails')[0].childNodes;
         // console.log(childNodes);
@@ -287,10 +287,10 @@ function toggleScoreDetails(factor) {
         document.getElementsByClassName('gameWildlifeScoreDetails')[0].style.display = 'block';
 
       }
-    break;
+      break;
     case 'carbon':
       if(document.getElementsByClassName('carbonScoreDetails')[0].style.display == 'block') {
-         document.getElementsByClassName('carbonScoreDetails')[0].style.display = 'none';
+        document.getElementsByClassName('carbonScoreDetails')[0].style.display = 'none';
 
       }
 
@@ -300,16 +300,16 @@ function toggleScoreDetails(factor) {
         childNodes[5].innerHTML = 'Current: ' + formatNumber((Math.round(Totals.carbonSequestrationScore[currentYear] * 10) / 10).toFixed(1))  + '/100';
         // convert English unit to Metric unit
         childNodes[7].innerHTML = formatNumber((Math.round(Totals.carbonSequestration[currentYear] * 10) / 10).toFixed(1)) + ' tons / yr' + '<br>' +
-        formatNumber((Math.round(Totals.carbonSequestration[currentYear] * 0.90718474 * 10) / 10).toFixed(1)) + ' Mg / yr';
+            formatNumber((Math.round(Totals.carbonSequestration[currentYear] * 0.90718474 * 10) / 10).toFixed(1)) + ' Mg / yr';
         document.getElementsByClassName('carbonScoreDetails')[0].style.display = 'block';
 
       }
-    break;
+      break;
     case 'biodiversity':
       if(document.getElementsByClassName('biodiversityScoreDetails')[0].style.display == 'block') {
-         document.getElementsByClassName('biodiversityScoreDetails')[0].style.display = 'none';
+        document.getElementsByClassName('biodiversityScoreDetails')[0].style.display = 'none';
 
-       }
+      }
       else{
         var childNodes = document.getElementsByClassName('biodiversityScoreDetails')[0].childNodes;
         // 0 - 100 value
@@ -319,7 +319,7 @@ function toggleScoreDetails(factor) {
         document.getElementsByClassName('biodiversityScoreDetails')[0].style.display = 'block';
 
       }
-    break;
+      break;
     case 'stream-biodiversity':
       if(document.getElementsByClassName('streamBiodiversityScoreDetails')[0].style.display == 'block') {
         document.getElementsByClassName('streamBiodiversityScoreDetails')[0].style.display = 'none';
@@ -347,11 +347,11 @@ function toggleScoreDetails(factor) {
         childNodes[5].innerHTML = 'Current: ' + formatNumber((Math.round(Totals.grossErosionScore[currentYear] * 10) / 10).toFixed(1))  + '/100';;
         // convert English unit to Metric unit
         childNodes[7].innerHTML = formatNumber((Math.round(Totals.grossErosion[currentYear] * 10) / 10).toFixed(1)) + ' tons / yr' + '<br>' +
-          formatNumber((Math.round(Totals.grossErosion[currentYear] * 0.90718474 * 10) / 10).toFixed(1)) + ' Mg / yr';
+            formatNumber((Math.round(Totals.grossErosion[currentYear] * 0.90718474 * 10) / 10).toFixed(1)) + ' Mg / yr';
         document.getElementsByClassName('erosionScoreDetails')[0].style.display = 'block';
 
       }
-    break;
+      break;
     case 'nitrate':
       if(document.getElementsByClassName('nitrateScoreDetails')[0].style.display == 'block') {
         document.getElementsByClassName('nitrateScoreDetails')[0].style.display = 'none';
@@ -363,13 +363,13 @@ function toggleScoreDetails(factor) {
         childNodes[5].innerHTML = 'Current: ' + formatNumber((Math.round(Totals.nitrateConcentrationScore[currentYear] * 10) / 10).toFixed(1))  + '/100';
         // convert English unit to Metric unit
         childNodes[7].innerHTML = formatNumber((Math.round(Totals.nitrateConcentration[currentYear] * 10) / 10).toFixed(1)) + ' ppm / yr' + '<br>' +
-          formatNumber((Math.round(Totals.nitrateConcentration[currentYear] * 10) / 10).toFixed(1)) + ' mg/L / yr'
+            formatNumber((Math.round(Totals.nitrateConcentration[currentYear] * 10) / 10).toFixed(1)) + ' mg/L / yr'
             + "<br>" + "Mussel Services:  <br>" + (Math.round(Totals.musselNitrateReduction[currentYear] * 10) / 10).toFixed(1) +" ppm/mg/L";
         ;
         document.getElementsByClassName('nitrateScoreDetails')[0].style.display = 'block';
 
       }
-    break;
+      break;
     case 'phoshorus':
       if(document.getElementsByClassName('phoshorusScoreDetails')[0].style.display == 'block') {
         document.getElementsByClassName('phoshorusScoreDetails')[0].style.display = 'none';
@@ -381,11 +381,11 @@ function toggleScoreDetails(factor) {
         childNodes[5].innerHTML = 'Current: ' + formatNumber((Math.round(Totals.phosphorusLoadScore[currentYear] * 10) / 10).toFixed(1))  + '/100';
         // convert English unit to Metric unit
         childNodes[7].innerHTML = formatNumber((Math.round(Totals.phosphorusLoad[currentYear] * 10) / 10).toFixed(1)) + ' tons / yr' + '<br>' +
-          formatNumber(Math.round(Totals.phosphorusLoad[currentYear] * 0.90718474 * 10) / 10 )+ ' Mg / yr';
+            formatNumber(Math.round(Totals.phosphorusLoad[currentYear] * 0.90718474 * 10) / 10 )+ ' Mg / yr';
         document.getElementsByClassName('phoshorusScoreDetails')[0].style.display = 'block';
 
       }
-    break;
+      break;
     case 'sediment':
       if(document.getElementsByClassName('sedimentScoreDetails')[0].style.display == 'block') {
         document.getElementsByClassName('sedimentScoreDetails')[0].style.display = 'none';
@@ -396,10 +396,10 @@ function toggleScoreDetails(factor) {
         childNodes[5].innerHTML = 'Current: ' + formatNumber((Math.round(Totals.sedimentDeliveryScore[currentYear] * 10) / 10).toFixed(1))  + '/100';;
         // convert English unit to Metric unit
         childNodes[7].innerHTML = formatNumber((Math.round(Totals.sedimentDelivery[currentYear] * 10) / 10).toFixed(1)) + ' tons / yr' + '<br>' +
-          formatNumber((Math.round(Totals.sedimentDelivery[currentYear] * 0.90718474 * 10) / 10).toFixed(1)) + ' Mg / yr';
+            formatNumber((Math.round(Totals.sedimentDelivery[currentYear] * 0.90718474 * 10) / 10).toFixed(1)) + ' Mg / yr';
         document.getElementsByClassName('sedimentScoreDetails')[0].style.display = 'block';
       }
-    break;
+      break;
     case 'aquatic':
       if(document.getElementsByClassName('aquaticScoreDetails')[0].style.display == 'block') {
         document.getElementsByClassName('aquaticScoreDetails')[0].style.display = 'none';
@@ -422,14 +422,14 @@ function toggleScoreDetails(factor) {
         var childNodes = document.getElementsByClassName('totalScoreDetails')[0].childNodes;
         // 0 - 100 value
         var totalScore = Math.min(cornYieldAdjScore + soyYieldAdjScore + Totals.mixedFruitsAndVegetablesYieldScore[currentYear] + Totals.alfalfaHayYieldScore[currentYear] +
-          Totals.grassHayYieldScore[currentYear] + Totals.switchgrassYieldScore[currentYear] + Totals.cattleYieldScore[currentYear] + Totals.woodYieldScore[currentYear] + Totals.shortRotationWoodyBiomassYieldScore[currentYear], 100);
+            Totals.grassHayYieldScore[currentYear] + Totals.switchgrassYieldScore[currentYear] + Totals.cattleYieldScore[currentYear] + Totals.woodYieldScore[currentYear] + Totals.shortRotationWoodyBiomassYieldScore[currentYear], 100);
 
 
         childNodes[5].innerHTML = 'Current: ' + formatNumber((Math.round(totalScore * 10) / 10).toFixed(1))  + '/100';
 
         document.getElementsByClassName('totalScoreDetails')[0].style.display = 'block';
       }
-    break;
+      break;
     case 'cornGrain':
       if(document.getElementsByClassName('cornGrainScoreDetails')[0].style.display == 'block') {
         document.getElementsByClassName('cornGrainScoreDetails')[0].style.display = 'none';
@@ -444,11 +444,11 @@ function toggleScoreDetails(factor) {
         // convert English unit to Metric unit
         //TODO
         childNodes[7].innerHTML = formatNumber((Math.round(cornYield * 10) / 10).toFixed(1)) + ' bu / yr' + '<br>' +
-          formatNumber((Math.round(cornYield * 0.0254 * 10) / 10).toFixed(1)) + ' Mg / yr';
+            formatNumber((Math.round(cornYield * 0.0254 * 10) / 10).toFixed(1)) + ' Mg / yr';
 
         document.getElementsByClassName('cornGrainScoreDetails')[0].style.display = 'block';
       }
-    break;
+      break;
     case 'soybeans':
       if(document.getElementsByClassName('soybeansScoreDetails')[0].style.display == 'block') {
         document.getElementsByClassName('soybeansScoreDetails')[0].style.display = 'none';
@@ -462,11 +462,11 @@ function toggleScoreDetails(factor) {
         // convert English unit to Metric unit
         //TODO
         childNodes[7].innerHTML = formatNumber((Math.round(soybeanYield * 10) / 10).toFixed(1)) + ' bu / yr' + '<br>' +
-          formatNumber((Math.round(soybeanYield * 0.0272 * 10) / 10).toFixed(1)) + ' Mg / yr';
+            formatNumber((Math.round(soybeanYield * 0.0272 * 10) / 10).toFixed(1)) + ' Mg / yr';
 
         document.getElementsByClassName('soybeansScoreDetails')[0].style.display = 'block';
       }
-    break;
+      break;
     case 'fruitsAndVegetables':
       if(document.getElementsByClassName('fruitsAndVegetablesScoreDetails')[0].style.display == 'block') {
         document.getElementsByClassName('fruitsAndVegetablesScoreDetails')[0].style.display = 'none';
@@ -477,11 +477,11 @@ function toggleScoreDetails(factor) {
         childNodes[5].innerHTML = 'Current: ' + (Math.round(Totals.mixedFruitsAndVegetablesYieldScore[currentYear] * 10) / 10).toFixed(1)  + '/100';
         // convert English unit to Metric unit
         childNodes[7].innerHTML = (Math.round(Totals.yieldResults[currentYear].mixedFruitsAndVegetablesYield * 10) / 10).toFixed(1) + ' tons / yr' + '<br>' +
-          (Math.round(Totals.yieldResults[currentYear].mixedFruitsAndVegetablesYield * 0.90718474 * 10) / 10).toFixed(1) + ' Mg / yr';
+            (Math.round(Totals.yieldResults[currentYear].mixedFruitsAndVegetablesYield * 0.90718474 * 10) / 10).toFixed(1) + ' Mg / yr';
 
         document.getElementsByClassName('fruitsAndVegetablesScoreDetails')[0].style.display = 'block';
       }
-    break;
+      break;
     case 'cattle':
       if(document.getElementsByClassName('cattleScoreDetails')[0].style.display == 'block') {
         document.getElementsByClassName('cattleScoreDetails')[0].style.display = 'none';
@@ -495,7 +495,7 @@ function toggleScoreDetails(factor) {
 
         document.getElementsByClassName('cattleScoreDetails')[0].style.display = 'block';
       }
-    break;
+      break;
     case 'alfalfaHay':
       if(document.getElementsByClassName('alfalfaHayScoreDetails')[0].style.display == 'block') {
         document.getElementsByClassName('alfalfaHayScoreDetails')[0].style.display = 'none';
@@ -506,11 +506,11 @@ function toggleScoreDetails(factor) {
         childNodes[5].innerHTML = 'Current: ' + (Math.round(Totals.alfalfaHayYieldScore[currentYear] * 10) / 10).toFixed(1)  + '/100';
         // convert English unit to Metric unit
         childNodes[7].innerHTML = (Math.round(Totals.yieldResults[currentYear].alfalfaHayYield * 10) / 10).toFixed(1) + ' tons / yr' + '<br>' +
-          (Math.round(Totals.yieldResults[currentYear].alfalfaHayYield * 0.90718474 * 10) / 10).toFixed(1) + ' Mg / yr';
+            (Math.round(Totals.yieldResults[currentYear].alfalfaHayYield * 0.90718474 * 10) / 10).toFixed(1) + ' Mg / yr';
 
         document.getElementsByClassName('alfalfaHayScoreDetails')[0].style.display = 'block';
       }
-    break;
+      break;
     case 'grassHay':
       if(document.getElementsByClassName('grassHayScoreDetails')[0].style.display == 'block') {
         document.getElementsByClassName('grassHayScoreDetails')[0].style.display = 'none';
@@ -521,11 +521,11 @@ function toggleScoreDetails(factor) {
         childNodes[5].innerHTML = 'Current: ' + (Math.round(Totals.grassHayYieldScore[currentYear] * 10) / 10).toFixed(1)  + '/100';
         // convert English unit to Metric unit
         childNodes[7].innerHTML = (Math.round(Totals.yieldResults[currentYear].grassHayYield * 10) / 10).toFixed(1) + ' tons / yr' + '<br>' +
-          (Math.round(Totals.yieldResults[currentYear].grassHayYield * 0.90718474 * 10) / 10).toFixed(1) + ' Mg / yr';
+            (Math.round(Totals.yieldResults[currentYear].grassHayYield * 0.90718474 * 10) / 10).toFixed(1) + ' Mg / yr';
 
         document.getElementsByClassName('grassHayScoreDetails')[0].style.display = 'block';
       }
-    break;
+      break;
     case 'switchgrassBiomass':
       if(document.getElementsByClassName('switchgrassBiomassScoreDetails')[0].style.display == 'block') {
         document.getElementsByClassName('switchgrassBiomassScoreDetails')[0].style.display = 'none';
@@ -536,11 +536,11 @@ function toggleScoreDetails(factor) {
         childNodes[5].innerHTML = 'Current: ' + (Math.round(Totals.switchgrassYieldScore[currentYear] * 10) / 10).toFixed(1)  + '/100';
         // convert English unit to Metric unit
         childNodes[7].innerHTML = (Math.round(Totals.yieldResults[currentYear].switchgrassYield * 10) / 10).toFixed(1) + ' tons / yr' + '<br>' +
-          (Math.round(Totals.yieldResults[currentYear].switchgrassYield * 0.90718474 * 10) / 10).toFixed(1) + ' Mg / yr';
+            (Math.round(Totals.yieldResults[currentYear].switchgrassYield * 0.90718474 * 10) / 10).toFixed(1) + ' Mg / yr';
 
         document.getElementsByClassName('switchgrassBiomassScoreDetails')[0].style.display = 'block';
       }
-    break;
+      break;
     case 'wood':
       if(document.getElementsByClassName('woodScoreDetails')[0].style.display == 'block') {
         document.getElementsByClassName('woodScoreDetails')[0].style.display = 'none';
@@ -551,11 +551,11 @@ function toggleScoreDetails(factor) {
         childNodes[5].innerHTML = 'Current: ' + (Math.round(Totals.woodYieldScore[currentYear] * 10) / 10).toFixed(1)  + '/100';
         // convert English unit to Metric unit
         childNodes[7].innerHTML = (Math.round(Totals.yieldResults[currentYear].woodYield * 10) / 10).toFixed(1) + ' board-ft / yr' + '<br>' +
-          (Math.round(Totals.yieldResults[currentYear].woodYield * 0.002359737 * 10) / 10).toFixed(1) + ' M^3 / yr';
+            (Math.round(Totals.yieldResults[currentYear].woodYield * 0.002359737 * 10) / 10).toFixed(1) + ' M^3 / yr';
 
         document.getElementsByClassName('woodScoreDetails')[0].style.display = 'block';
       }
-    break;
+      break;
     case 'woodyBiomass':
       if(document.getElementsByClassName('woodyBiomassScoreDetails')[0].style.display == 'block') {
         document.getElementsByClassName('woodyBiomassScoreDetails')[0].style.display = 'none';
@@ -566,18 +566,18 @@ function toggleScoreDetails(factor) {
         childNodes[5].innerHTML = 'Current: ' + (Math.round(Totals.shortRotationWoodyBiomassYieldScore[currentYear] * 10) / 10).toFixed(1)  + '/100';
         // convert English unit to Metric unit
         childNodes[7].innerHTML = (Math.round(Totals.yieldResults[currentYear].shortRotationWoodyBiomassYield * 10) / 10).toFixed(1) + ' tons / yr' + '<br>' +
-          (Math.round(Totals.yieldResults[currentYear].shortRotationWoodyBiomassYield * 0.90718474 * 10) / 10).toFixed(1) + ' Mg / yr';
+            (Math.round(Totals.yieldResults[currentYear].shortRotationWoodyBiomassYield * 0.90718474 * 10) / 10).toFixed(1) + ' Mg / yr';
 
         document.getElementsByClassName('woodyBiomassScoreDetails')[0].style.display = 'block';
       }
-    break;
+      break;
   }
 }
 
 function toggleMinMax(option, idNum){
   var progressbarIds = ["gameWildlifeProgressBar","biodiversityProgressBar","carbonProgressBar","erosionProgressBar","nitrateProgressBar","phoshorusProgressBar",
-                        "sedimentProgressBar","cornGrainProgressBar","soybeansProgressBar","fruitsAndVegetablesProgressBar","cattleProgressBar","alfalfaHayProgressBar",
-                        "grassHayProgressBar","switchgrassBiomassProgressBar","woodProgressBar","woodyBiomassProgressBar","totalYieldsProgressBar"];
+    "sedimentProgressBar","cornGrainProgressBar","soybeansProgressBar","fruitsAndVegetablesProgressBar","cattleProgressBar","alfalfaHayProgressBar",
+    "grassHayProgressBar","switchgrassBiomassProgressBar","woodProgressBar","woodyBiomassProgressBar","totalYieldsProgressBar"];
   var tempElement = document.getElementById(progressbarIds[idNum]);
   // console.log(tempElement.childNodes[7].style.display);
   if(tempElement.childNodes[7].style.display == 'none' || tempElement.childNodes[7].style.display == '' ){
@@ -799,7 +799,7 @@ function setProgressbarMinMaxValues(id, option, value) {
   // if(value > 100) value = 110;
   //console.log("SET VALUE:" , value)
   var children = document.getElementById(id).childNodes[3].childNodes;
-   //console.log(children[5].style.left);
+  //console.log(children[5].style.left);
   if(option == 'min'){
     if(value < parseFloat(children[5].style.left)){
       children[3].style.left = value + "%";
@@ -844,17 +844,17 @@ function addPlayer(givenPlayer) {
       var tempPlayer = document.createElement("paintPlayer" + totalPlayers);
       tempPlayer.id = "paintPlayer" + totalPlayers;
       var playerString = "<div id='paintPlayer" + totalPlayers + "' class='players' onclick='changeSelectedPaintTo(" + totalPlayers + ");'" +
-        "onmouseover='toggleChangeLandType();'' onmouseout='toggleChangeLandType();'>";
+          "onmouseover='toggleChangeLandType();'' onmouseout='toggleChangeLandType();'>";
       playerString += "<img id='player" + totalPlayers + "Image' style='display:inline-block;' class='playerIcon iconSelected'" +
-        " src='./imgs/player" + totalPlayers + "a.png'></div>";
+          " src='./imgs/player" + totalPlayers + "a.png'></div>";
       //Toggled when you are sorting boards
     } else {
       var tempPlayer = document.createElement("paintPlayer" + givenPlayer);
       tempPlayer.id = "paintPlayer" + givenPlayer;
       var playerString = "<div id='paintPlayer" + givenPlayer + "' class='players' onclick='changeSelectedPaintTo(" + givenPlayer + ");'" +
-        "onmouseover='toggleChangeLandType();'' onmouseout='toggleChangeLandType();'>";
+          "onmouseover='toggleChangeLandType();'' onmouseout='toggleChangeLandType();'>";
       playerString += "<img id='player" + givenPlayer + "Image' style='display:inline-block;' class='playerIcon iconSelected'" +
-        " src='./imgs/player" + givenPlayer + "a.png'></div>";
+          " src='./imgs/player" + givenPlayer + "a.png'></div>";
     }
     tempPlayer.innerHTML = playerString;
     var whichSide = parseInt(tempPlayer.id.substr(11, 1));
@@ -912,11 +912,11 @@ function addTile(tile) {
 
   //Calculate the heights of vertices by averaging topographies of adjacent tiles and create a vector for each corner
 
-    tile.h1 = (topN24 + topN23 + topN1 + tile.topography) / 4 * 5;
-    tile.h2 = (topN23 + topN22 + top1 + tile.topography) / 4 * 5;
-    tile.h3 = (top24 + top23 + top1 + tile.topography) / 4 * 5;
-    tile.h4 = (top22 + top23 + topN1 + tile.topography) / 4 * 5;
-if (tToggle) {
+  tile.h1 = (topN24 + topN23 + topN1 + tile.topography) / 4 * 5;
+  tile.h2 = (topN23 + topN22 + top1 + tile.topography) / 4 * 5;
+  tile.h3 = (top24 + top23 + top1 + tile.topography) / 4 * 5;
+  tile.h4 = (top22 + top23 + topN1 + tile.topography) / 4 * 5;
+  if (tToggle) {
     v1 = new THREE.Vector3(0, tile.h1, 0);
     v2 = new THREE.Vector3(tileWidth, tile.h2, 0);
     v3 = new THREE.Vector3(tileWidth, tile.h3, tileHeight);
@@ -1125,11 +1125,11 @@ function addYearAndTransition() {
 
     else
     {
-    switchYearTab(nextYear);
-    transitionToYear(nextYear);
+      switchYearTab(nextYear);
+      transitionToYear(nextYear);
 
-    document.getElementById("yearToCopy").options[nextYear].style.display = 'block';
-    document.getElementById("yearToPaste").options[nextYear].style.display = 'block';
+      document.getElementById("yearToCopy").options[nextYear].style.display = 'block';
+      document.getElementById("yearToPaste").options[nextYear].style.display = 'block';
 
     }
   }
@@ -1194,127 +1194,127 @@ function deleteYearAndTransition()
   {
     yearSelected = 1;
   }
-    var response;
-      if(yearSelected == 1)
-      {
-        //if selected year is 1 and there are no other years
-        if(currMaxYear == 1)
-         {
-           snackBar.innerHTML = "Cannot delete year 1!";
-           snackBar.className = "show";
-           setTimeout(function(){ snackBar.className = snackBar.className.replace("show", ""); }, 3000);
-           yearSelected = 1;
-           currMaxYear = 1;
-           g_isDeleted = false;
-           g_year1delete = false;
-         }
-         else
-         {
-           g_year1delete = true;
-           snackBar.innerHTML = "Deleted year " + yearSelected + "!";
-           snackBar.className = "show";
-           setTimeout(function(){ snackBar.className = snackBar.className.replace("show", ""); }, 3000);
-           // Remove Yes/no confirmation buttons after user has selected an option
-           document.getElementById('yesDelete').style.display = "none";
-           document.getElementById('noDelete').style.display = "none";
-           document.getElementById('confirmYearDelete').style.display = "none";
-           }
-
-           //make copy field blank if deleted year was selected
-           if(yearSelected == yearCopyPaste){
-             document.getElementById("yearToCopy").value = 0;
-             document.getElementById("yearPasteButton").style.display = "none";
-           }
-
-           document.getElementById("year" + currMaxYear + "Button").style.display = "none";
-           document.getElementById("yearToCopy").options[currMaxYear].style.display = 'none';
-           document.getElementById("yearToPaste").options[currMaxYear].style.display = 'none';
-           snackBar.innerHTML = "Year 2 is now Year 1!";
-           snackBar.className = "show";
-           setTimeout(function(){ snackBar.className = snackBar.className.replace("show", ""); }, 3000);
-           //copy year 2 to year 1 - including the precipitation
-           boardData[currentBoard].precipitation[yearSelected] = boardData[currentBoard].precipitation[2];
-           document.getElementById("year" + yearSelected+ "Precip").value = reversePrecipValue(boardData[currentBoard].precipitation[yearSelected]);
-           transitionToYear(2);
-           switchYearTab(1);
-           boardData[currentBoard].calculatedToYear = 1;
-           currMaxYear -=1;
-           yearSelected = 1;
-           //and if there is a year 3- copy it to year 2 and set year 3 as default.
-           if(maxYear == 3)
-           {
-             boardData[currentBoard].calculatedToYear = 3;
-             //when year 2 is deleted, we transition to 3 so that year 3 = year 2 and highlight the year 2; then year 3 is default
-            //this includes the precipitation too
-             year2and3Delete();
-          }
-         }
-
-
-      //special case - deletes year 2 when year 3 is present and then makes year 2 = year 3 and the next year, i.e year 3 as default
-      else if(yearSelected == 2 && currMaxYear == 3)
-      {
-        snackBar.innerHTML = "Deleted year " + yearSelected + "!";
-        snackBar.className = "show";
-        setTimeout(function(){ snackBar.className = snackBar.className.replace("show", ""); }, 3000);
-        // Remove Yes/no confirmation buttons after user has selected an option
-        document.getElementById('yesDelete').style.display = "none";
-        document.getElementById('noDelete').style.display = "none";
-        document.getElementById('confirmYearDelete').style.display = "none";
-
-        //make copy field blank if deleted year was selected
-        if(yearSelected == yearCopyPaste){
-          document.getElementById("yearToCopy").value = 0;
-          document.getElementById("yearPasteButton").style.display = "none";
-        }
-
-        //delete the button of the year - actual deletion is done in transitionToYear
-        document.getElementById("year3Button").style.display = "none";
-        document.getElementById("yearToCopy").options[3].style.display = 'none';
-        document.getElementById("yearToPaste").options[3].style.display = 'none';
-        //make it year 2
-        year2and3Delete();
-      }
-      else
-      {
-        snackBar.innerHTML = "Deleted year " + yearSelected + "!";
-        snackBar.className = "show";
-        setTimeout(function(){ snackBar.className = snackBar.className.replace("show", ""); }, 3000);
-        //delete the button of the year - actual deletion is done in transitionToYear
-        document.getElementById("year" + yearSelected + "Button").style.display = "none";
-        document.getElementById("yearToCopy").options[yearSelected].style.display = 'none';
-        document.getElementById("yearToPaste").options[yearSelected].style.display = 'none';
-
-        //make copy field blank if deleted year was selected
-        if(yearSelected == yearCopyPaste){
-          document.getElementById("yearToCopy").value = 0;
-          document.getElementById("yearPasteButton").style.display = "none";
-        }
-
-        currMaxYear -=1;
-        yearSelected -= 1;
-        g_isDeleted = true;
-
-        //switch to the previous year
-        transitionToYear(yearSelected);
-        switchYearTab(yearSelected);
-        // Remove Yes/no confirmation buttons after user has selected an option
-        document.getElementById('yesDelete').style.display = "none";
-        document.getElementById('noDelete').style.display = "none";
-        document.getElementById('confirmYearDelete').style.display = "none";
-
-      }
-
-    //if the maximum year is 1 now, don't show the option in  the copy and paste boxes
-    if(boardData[currentBoard].calculatedToYear == 1)
+  var response;
+  if(yearSelected == 1)
+  {
+    //if selected year is 1 and there are no other years
+    if(currMaxYear == 1)
     {
-      document.getElementById("yearToCopy").options[1].style.display = 'none';
-      document.getElementById("yearToPaste").options[1].style.display = 'none';
+      snackBar.innerHTML = "Cannot delete year 1!";
+      snackBar.className = "show";
+      setTimeout(function(){ snackBar.className = snackBar.className.replace("show", ""); }, 3000);
+      yearSelected = 1;
+      currMaxYear = 1;
+      g_isDeleted = false;
+      g_year1delete = false;
     }
-    // refresh the progress bar
-    // calculateResults();
-    refreshEconTotals(currentYear);
-    refreshProgressBar(currentYear);
+    else
+    {
+      g_year1delete = true;
+      snackBar.innerHTML = "Deleted year " + yearSelected + "!";
+      snackBar.className = "show";
+      setTimeout(function(){ snackBar.className = snackBar.className.replace("show", ""); }, 3000);
+      // Remove Yes/no confirmation buttons after user has selected an option
+      document.getElementById('yesDelete').style.display = "none";
+      document.getElementById('noDelete').style.display = "none";
+      document.getElementById('confirmYearDelete').style.display = "none";
+    }
+
+    //make copy field blank if deleted year was selected
+    if(yearSelected == yearCopyPaste){
+      document.getElementById("yearToCopy").value = 0;
+      document.getElementById("yearPasteButton").style.display = "none";
+    }
+
+    document.getElementById("year" + currMaxYear + "Button").style.display = "none";
+    document.getElementById("yearToCopy").options[currMaxYear].style.display = 'none';
+    document.getElementById("yearToPaste").options[currMaxYear].style.display = 'none';
+    snackBar.innerHTML = "Year 2 is now Year 1!";
+    snackBar.className = "show";
+    setTimeout(function(){ snackBar.className = snackBar.className.replace("show", ""); }, 3000);
+    //copy year 2 to year 1 - including the precipitation
+    boardData[currentBoard].precipitation[yearSelected] = boardData[currentBoard].precipitation[2];
+    document.getElementById("year" + yearSelected+ "Precip").value = reversePrecipValue(boardData[currentBoard].precipitation[yearSelected]);
+    transitionToYear(2);
+    switchYearTab(1);
+    boardData[currentBoard].calculatedToYear = 1;
+    currMaxYear -=1;
+    yearSelected = 1;
+    //and if there is a year 3- copy it to year 2 and set year 3 as default.
+    if(maxYear == 3)
+    {
+      boardData[currentBoard].calculatedToYear = 3;
+      //when year 2 is deleted, we transition to 3 so that year 3 = year 2 and highlight the year 2; then year 3 is default
+      //this includes the precipitation too
+      year2and3Delete();
+    }
+  }
+
+
+  //special case - deletes year 2 when year 3 is present and then makes year 2 = year 3 and the next year, i.e year 3 as default
+  else if(yearSelected == 2 && currMaxYear == 3)
+  {
+    snackBar.innerHTML = "Deleted year " + yearSelected + "!";
+    snackBar.className = "show";
+    setTimeout(function(){ snackBar.className = snackBar.className.replace("show", ""); }, 3000);
+    // Remove Yes/no confirmation buttons after user has selected an option
+    document.getElementById('yesDelete').style.display = "none";
+    document.getElementById('noDelete').style.display = "none";
+    document.getElementById('confirmYearDelete').style.display = "none";
+
+    //make copy field blank if deleted year was selected
+    if(yearSelected == yearCopyPaste){
+      document.getElementById("yearToCopy").value = 0;
+      document.getElementById("yearPasteButton").style.display = "none";
+    }
+
+    //delete the button of the year - actual deletion is done in transitionToYear
+    document.getElementById("year3Button").style.display = "none";
+    document.getElementById("yearToCopy").options[3].style.display = 'none';
+    document.getElementById("yearToPaste").options[3].style.display = 'none';
+    //make it year 2
+    year2and3Delete();
+  }
+  else
+  {
+    snackBar.innerHTML = "Deleted year " + yearSelected + "!";
+    snackBar.className = "show";
+    setTimeout(function(){ snackBar.className = snackBar.className.replace("show", ""); }, 3000);
+    //delete the button of the year - actual deletion is done in transitionToYear
+    document.getElementById("year" + yearSelected + "Button").style.display = "none";
+    document.getElementById("yearToCopy").options[yearSelected].style.display = 'none';
+    document.getElementById("yearToPaste").options[yearSelected].style.display = 'none';
+
+    //make copy field blank if deleted year was selected
+    if(yearSelected == yearCopyPaste){
+      document.getElementById("yearToCopy").value = 0;
+      document.getElementById("yearPasteButton").style.display = "none";
+    }
+
+    currMaxYear -=1;
+    yearSelected -= 1;
+    g_isDeleted = true;
+
+    //switch to the previous year
+    transitionToYear(yearSelected);
+    switchYearTab(yearSelected);
+    // Remove Yes/no confirmation buttons after user has selected an option
+    document.getElementById('yesDelete').style.display = "none";
+    document.getElementById('noDelete').style.display = "none";
+    document.getElementById('confirmYearDelete').style.display = "none";
+
+  }
+
+  //if the maximum year is 1 now, don't show the option in  the copy and paste boxes
+  if(boardData[currentBoard].calculatedToYear == 1)
+  {
+    document.getElementById("yearToCopy").options[1].style.display = 'none';
+    document.getElementById("yearToPaste").options[1].style.display = 'none';
+  }
+  // refresh the progress bar
+  // calculateResults();
+  refreshEconTotals(currentYear);
+  refreshProgressBar(currentYear);
 }// end deleteYearAndTransition
 
 // function to be called if user decides to not delete a year.
@@ -1457,18 +1457,18 @@ function changeLandTypeTileNitrate(tileId){
   if (document.getElementById("overlayContainer").style.visibility != "visible" && document.getElementById("combineButton").innerHTML != "Merge") {
     //If this function is called, it means changeLandTypeTile() was just called, meaning every tile in the map needs to be recalculated
     //Hence the for loop
-      if(typeof tileId=='undefined'){
+    if(typeof tileId=='undefined'){
 
-        boardData[currentBoard].updateAllTileNitrate(currentYear);
-      }else{
-        //if land type of tile is nonzero
-        if (boardData[currentBoard].map[tileId].landType[currentYear] != 0) {
-          //change the materials of the faces in the meshMaterials array and update the boardData
-          if (!multiplayerAssigningModeOn) {
+      boardData[currentBoard].updateAllTileNitrate(currentYear);
+    }else{
+      //if land type of tile is nonzero
+      if (boardData[currentBoard].map[tileId].landType[currentYear] != 0) {
+        //change the materials of the faces in the meshMaterials array and update the boardData
+        if (!multiplayerAssigningModeOn) {
 
-            boardData[currentBoard].map[tileId].updateNitrate(currentYear);
-          }
+          boardData[currentBoard].map[tileId].updateNitrate(currentYear);
         }
+      }
     }
 
     refreshEconTotals(currentYear);
@@ -1620,9 +1620,9 @@ function clearInfo() {
 
 //clearPopup removes all text from the popup dialogue and hides it
 function clearPopup() {
-  document.getElementById("popupText").innerHTML = " ";
-  document.getElementById("popup").className = "popupHidden";
-  document.getElementById("bookMarkButton").className = "bookMarkButtonRolled";
+  // document.getElementById("popupText").innerHTML = " ";
+  // document.getElementById("popup").className = "popupHidden";
+  // document.getElementById("bookMarkButton").className = "bookMarkButtonRolled";
 } //end clearPopup
 
 //Clears all relative timers
@@ -1752,7 +1752,7 @@ function combineMulti(givenPlayers) {
     }
   }
 
-changeLandTypeTileNitrate();
+  changeLandTypeTileNitrate();
 
   //Delete the other (now unused) players
   givenPlayers.shift();
@@ -2076,84 +2076,84 @@ function displayLevels(overlayHighlightType) {
       }
       break;
     case 'sediment':
-     selectionHighlightNumber = 19;
-     updateGlossaryPopup('To learn more about <span style="color:orange;">Sediment Control</span>, go to the <span style="color:yellow;">Glossary</span>, select "Modules" and then <span style="color:yellow;">"Water Quality"</span>.');
-     if (curTracking) {
-       pushClick(0, getStamp(), 121, 0, null);
-     }
-     break;
+      selectionHighlightNumber = 19;
+      updateGlossaryPopup('To learn more about <span style="color:orange;">Sediment Control</span>, go to the <span style="color:yellow;">Glossary</span>, select "Modules" and then <span style="color:yellow;">"Water Quality"</span>.');
+      if (curTracking) {
+        pushClick(0, getStamp(), 121, 0, null);
+      }
+      break;
 
     case 'carbon':
-    selectionHighlightNumber = 20;
-    updateGlossaryPopup('To learn more about <span style="color:orange;">Carbon Sequestration</span>, go to the <span style="color:yellow;">Glossary</span>, select "Modules" and then <span style="color:yellow;">"Water Quality"</span>.');
-    if (curTracking) {
-      pushClick(0, getStamp(), 119, 0, null);
-    }
-    break;
+      selectionHighlightNumber = 20;
+      updateGlossaryPopup('To learn more about <span style="color:orange;">Carbon Sequestration</span>, go to the <span style="color:yellow;">Glossary</span>, select "Modules" and then <span style="color:yellow;">"Water Quality"</span>.');
+      if (curTracking) {
+        pushClick(0, getStamp(), 119, 0, null);
+      }
+      break;
 
     case 'gamewildlife':
-    selectionHighlightNumber = 21;
-    updateGlossaryPopup('To learn more about <span style="color:orange;">Game Wildlife</span>, go to the <span style="color:yellow;">Glossary</span>, select "Modules" and then <span style="color:yellow;">"Water Quality"</span>.');
-    if (curTracking) {
-      pushClick(0, getStamp(), 118, 0, null);
-    }
-    break;
+      selectionHighlightNumber = 21;
+      updateGlossaryPopup('To learn more about <span style="color:orange;">Game Wildlife</span>, go to the <span style="color:yellow;">Glossary</span>, select "Modules" and then <span style="color:yellow;">"Water Quality"</span>.');
+      if (curTracking) {
+        pushClick(0, getStamp(), 118, 0, null);
+      }
+      break;
 
     case 'biodiversity':
-    selectionHighlightNumber = 22;
-    updateGlossaryPopup('To learn more about <span style="color:orange;">Biodiversity</span>, go to the <span style="color:yellow;">Glossary</span>, select "Modules" and then <span style="color:yellow;">"Water Quality"</span>.');
-    if (curTracking) {
-      pushClick(0, getStamp(), 117, 0, null);
-    }
-    break;
+      selectionHighlightNumber = 22;
+      updateGlossaryPopup('To learn more about <span style="color:orange;">Biodiversity</span>, go to the <span style="color:yellow;">Glossary</span>, select "Modules" and then <span style="color:yellow;">"Water Quality"</span>.');
+      if (curTracking) {
+        pushClick(0, getStamp(), 117, 0, null);
+      }
+      break;
 
     case 'nitratetile':
-    selectionHighlightNumber = 23;
-    updateGlossaryPopup('To learn more about <span style="color:orange;">Nitrate</span>, go to the <span style="color:yellow;">Glossary</span>, select "Modules" and then <span style="color:yellow;">"Water Quality"</span>.');
-    if (curTracking) {
-      pushClick(0, getStamp(), 120, 0, null);
-    }
-    break;
+      selectionHighlightNumber = 23;
+      updateGlossaryPopup('To learn more about <span style="color:orange;">Nitrate</span>, go to the <span style="color:yellow;">Glossary</span>, select "Modules" and then <span style="color:yellow;">"Water Quality"</span>.');
+      if (curTracking) {
+        pushClick(0, getStamp(), 120, 0, null);
+      }
+      break;
   } //end switch
 
   //save selectionHighlightNumber for quick access via hotkey
   if (selectionHighlightNumber != 0) {
     previousOverlay = overlayHighlightType;
   }
-    if (!mapIsHighlighted) {
-      if(checkbox.checked == true){
-        overlayTemp = true;
-      }
-      else{
+  if (!mapIsHighlighted) {
+    if(checkbox.checked == true){
+      overlayTemp = true;
+    }
+    else{
+      overlayTemp = false;
+    }
+    refreshBoard();
+
+    drawOverlayOntoBoard(selectionHighlightNumber, overlayHighlightType);
+  }
+  //if the map is previously highlighted
+  else {
+    //if the highlight is the same... turn it off
+    if (currentHighlightType == selectionHighlightNumber || selectionHighlightNumber == 0) {
+
+      if(overlayTemp == true){
         overlayTemp = false;
       }
+      mapIsHighlighted = false;
       refreshBoard();
+      showLevelDetails(-1 * currentHighlightType);
+      currentHighlightType = 0;
+      currentHighlightTypeString = null;
 
-      drawOverlayOntoBoard(selectionHighlightNumber, overlayHighlightType);
     }
-    //if the map is previously highlighted
+    //else if the highlighting is different, let's change to the new highlighting
     else {
-      //if the highlight is the same... turn it off
-      if (currentHighlightType == selectionHighlightNumber || selectionHighlightNumber == 0) {
-
-        if(overlayTemp == true){
-          overlayTemp = false;
-        }
-        mapIsHighlighted = false;
-        refreshBoard();
-        showLevelDetails(-1 * currentHighlightType);
-        currentHighlightType = 0;
-        currentHighlightTypeString = null;
-
-      }
-      //else if the highlighting is different, let's change to the new highlighting
-      else {
-        //close previous legend
-        showLevelDetails(-1 * currentHighlightType);
-        //highlight board
-        drawOverlayOntoBoard(selectionHighlightNumber, overlayHighlightType);
-      } //end else/if group
-    }
+      //close previous legend
+      showLevelDetails(-1 * currentHighlightType);
+      //highlight board
+      drawOverlayOntoBoard(selectionHighlightNumber, overlayHighlightType);
+    } //end else/if group
+  }
 
   //}
 
@@ -2318,44 +2318,44 @@ function redrawOverlay(highlightType){
       }
       break;
     case 'sediment':
-     selectionHighlightNumber = 19;
-     updateGlossaryPopup('To learn more about <span style="color:orange;">Sediment Control</span>, go to the <span style="color:yellow;">Glossary</span>, select "Modules" and then <span style="color:yellow;">"Water Quality"</span>.');
-     if (curTracking) {
-       pushClick(0, getStamp(), 78, 0, null);
-     }
-     break;
+      selectionHighlightNumber = 19;
+      updateGlossaryPopup('To learn more about <span style="color:orange;">Sediment Control</span>, go to the <span style="color:yellow;">Glossary</span>, select "Modules" and then <span style="color:yellow;">"Water Quality"</span>.');
+      if (curTracking) {
+        pushClick(0, getStamp(), 78, 0, null);
+      }
+      break;
 
     case 'carbon':
-    selectionHighlightNumber = 20;
-    updateGlossaryPopup('To learn more about <span style="color:orange;">Carbon Sequestration</span>, go to the <span style="color:yellow;">Glossary</span>, select "Modules" and then <span style="color:yellow;">"Water Quality"</span>.');
-    if (curTracking) {
-      pushClick(0, getStamp(), 79, 0, null);
-    }
-    break;
+      selectionHighlightNumber = 20;
+      updateGlossaryPopup('To learn more about <span style="color:orange;">Carbon Sequestration</span>, go to the <span style="color:yellow;">Glossary</span>, select "Modules" and then <span style="color:yellow;">"Water Quality"</span>.');
+      if (curTracking) {
+        pushClick(0, getStamp(), 79, 0, null);
+      }
+      break;
 
     case 'gamewildlife':
-    selectionHighlightNumber = 21;
-    updateGlossaryPopup('To learn more about <span style="color:orange;">Game Wildlife</span>, go to the <span style="color:yellow;">Glossary</span>, select "Modules" and then <span style="color:yellow;">"Water Quality"</span>.');
-    if (curTracking) {
-      pushClick(0, getStamp(), 80, 0, null);
-    }
-    break;
+      selectionHighlightNumber = 21;
+      updateGlossaryPopup('To learn more about <span style="color:orange;">Game Wildlife</span>, go to the <span style="color:yellow;">Glossary</span>, select "Modules" and then <span style="color:yellow;">"Water Quality"</span>.');
+      if (curTracking) {
+        pushClick(0, getStamp(), 80, 0, null);
+      }
+      break;
 
     case 'biodiversity':
-    selectionHighlightNumber = 22;
-    updateGlossaryPopup('To learn more about <span style="color:orange;">Biodiversity</span>, go to the <span style="color:yellow;">Glossary</span>, select "Modules" and then <span style="color:yellow;">"Water Quality"</span>.');
-    if (curTracking) {
-      pushClick(0, getStamp(), 81, 0, null);
-    }
-    break;
+      selectionHighlightNumber = 22;
+      updateGlossaryPopup('To learn more about <span style="color:orange;">Biodiversity</span>, go to the <span style="color:yellow;">Glossary</span>, select "Modules" and then <span style="color:yellow;">"Water Quality"</span>.');
+      if (curTracking) {
+        pushClick(0, getStamp(), 81, 0, null);
+      }
+      break;
 
     case 'nitratetile':
-    selectionHighlightNumber = 23;
-    updateGlossaryPopup('To learn more about <span style="color:orange;">Nitrate</span>, go to the <span style="color:yellow;">Glossary</span>, select "Modules" and then <span style="color:yellow;">"Water Quality"</span>.');
-    if (curTracking) {
-      pushClick(0, getStamp(), 82, 0, null);
-    }
-    break;
+      selectionHighlightNumber = 23;
+      updateGlossaryPopup('To learn more about <span style="color:orange;">Nitrate</span>, go to the <span style="color:yellow;">Glossary</span>, select "Modules" and then <span style="color:yellow;">"Water Quality"</span>.');
+      if (curTracking) {
+        pushClick(0, getStamp(), 82, 0, null);
+      }
+      break;
   }
 
 
@@ -2383,7 +2383,7 @@ function drawOverlayOntoBoard(selectionHighlightNumber, highlightType) {
     //if there is an actual tile there
     if (boardData[currentBoard].map[i].landType[currentYear] != 0) {
       //then change mesh material
-        meshOverlay[i].map = highlightArray[getHighlightColor(highlightType, i)];
+      meshOverlay[i].map = highlightArray[getHighlightColor(highlightType, i)];
     } //end if
   } //end for
 
@@ -2698,21 +2698,21 @@ function getHighlightColor(highlightType, tileId) {
 
 
   else if (highlightType == "gamewildlife") {
-  var gamewildlifescore = getTileGameWildlifeScore(tileId);
-  if(gamewildlifescore == 0) return 0;
-  if(gamewildlifescore > 0 && gamewildlifescore <= 2.1) return 1;
-  else if (gamewildlifescore>2.1 && gamewildlifescore<=4.1) return 2;
-  else if (gamewildlifescore>4 && gamewildlifescore<=6.1) return 3;
-  else if (gamewildlifescore>6.1) return 4;
+    var gamewildlifescore = getTileGameWildlifeScore(tileId);
+    if(gamewildlifescore == 0) return 0;
+    if(gamewildlifescore > 0 && gamewildlifescore <= 2.1) return 1;
+    else if (gamewildlifescore>2.1 && gamewildlifescore<=4.1) return 2;
+    else if (gamewildlifescore>4 && gamewildlifescore<=6.1) return 3;
+    else if (gamewildlifescore>6.1) return 4;
   }
 
   else if (highlightType == "biodiversity") {
-  var biodiversityscore = getTileBiodiversityScore(tileId);
-  if(biodiversityscore == 0) return 5;
-  else if (biodiversityscore> 0 && biodiversityscore<=2.5) return 6;
-  else if (biodiversityscore>2.5 && biodiversityscore<=5) return 7;
-  else if (biodiversityscore> 5 && biodiversityscore<=7.5) return 8;
-  else if (biodiversityscore>7.5) return 9;
+    var biodiversityscore = getTileBiodiversityScore(tileId);
+    if(biodiversityscore == 0) return 5;
+    else if (biodiversityscore> 0 && biodiversityscore<=2.5) return 6;
+    else if (biodiversityscore>2.5 && biodiversityscore<=5) return 7;
+    else if (biodiversityscore> 5 && biodiversityscore<=7.5) return 8;
+    else if (biodiversityscore>7.5) return 9;
   }
 
   else if (highlightType == "nitratetile") {
@@ -2776,15 +2776,15 @@ function getHighlightColor(highlightType, tileId) {
     {
       if((Number(boardData[currentBoard].map[tileId].topography) <= 1))
       {
-          return 32;
+        return 32;
       }
       else
       {
-      return 41;
-    }
+        return 41;
+      }
     }
   }
-  // loader
+      // loader
   //subwatershed highlight color indicies
   else if (highlightType == "boundary") {
 
@@ -2818,7 +2818,7 @@ function getHighlightColor(highlightType, tileId) {
     var soil = boardData[currentBoard].map[tileId].soilType;
 
     switch (soil) {
-      //color 097c2f
+        //color 097c2f
       case "A":
         return 19;
         //color a84597
@@ -3094,19 +3094,19 @@ function SedimentControlClassification(score){
 //get flood frequency classification in text
 function floodFrequencyClassification(scoreFloodFrequency){
   switch (scoreFloodFrequency) {
-     case 0:
+    case 0:
       return "None";
-     case 10:
-       return "None";
-     case 20:
-       return "Rare";
-     case 30:
-       return "Occasionally";
-     case 40:
-       return "Frequently";
-     case 50:
-       return "Ponded";
-   }
+    case 10:
+      return "None";
+    case 20:
+      return "Rare";
+    case 30:
+      return "Occasionally";
+    case 40:
+      return "Frequently";
+    case 50:
+      return "Ponded";
+  }
 }
 //get drainage classification in text
 function drainageClassClassification(drainage) {
@@ -3143,15 +3143,15 @@ function phoshorusIndexRiskAssessmentClassification(pindex) {
  */
 function calculateSubwatershedTotalNitrateScore(tileId){
   var result=boardData[currentBoard].map.filter(
-    function(item){
-      return item.subwatershed==boardData[currentBoard].map[tileId].subwatershed;
-    }
+      function(item){
+        return item.subwatershed==boardData[currentBoard].map[tileId].subwatershed;
+      }
   );
   var total=0;
-    for (var i = 0; i < result.length; i++) {
-      total+=result[i].results[currentYear].calculatedTileNitrate;
-    }
-    return total;
+  for (var i = 0; i < result.length; i++) {
+    total+=result[i].results[currentYear].calculatedTileNitrate;
+  }
+  return total;
 }
 //getHighlightedInfo returns the value of the corresponding highlighted setting in a tile
 //More hover information
@@ -3163,7 +3163,7 @@ function getHighlightedInfo(tileId) {
   } else {
     var highlightString = "";
     switch (currentHighlightType) {
-      //create string for nitrate levels
+        //create string for nitrate levels
       case 1:
         var subwatershed=boardData[currentBoard].map[tileId].subwatershed;
         highlightString = (Totals.nitrateContribution[currentYear][tileId] * 100).toFixed(2) + "% Nitrate by subwatershed" + "<br>"+boardData[currentBoard].subWatershedNitrateNoMin[subwatershed].toFixed(4)+" ppm"+"<br>";
@@ -3171,12 +3171,12 @@ function getHighlightedInfo(tileId) {
         //create string for gross erosion levels
       case 2:
         highlightString = GrossErosionClassification(Number(boardData[currentBoard].map[tileId].results[currentYear].calculatedGrossErosionRate).toFixed(2))+"<br>"+
-        Number(boardData[currentBoard].map[tileId].results[currentYear].calculatedGrossErosionRate).toFixed(2) + " t/ac/yr" + "<br>";
+            Number(boardData[currentBoard].map[tileId].results[currentYear].calculatedGrossErosionRate).toFixed(2) + " t/ac/yr" + "<br>";
         break;
         //create string for phosphorus load levels
       case 3:
         highlightString = phoshorusIndexRiskAssessmentClassification((boardData[currentBoard].map[tileId].results[currentYear].phosphorusDelivered / boardData[currentBoard].map[tileId].area).toFixed(2))
-        +(boardData[currentBoard].map[tileId].results[currentYear].phosphorusDelivered / boardData[currentBoard].map[tileId].area).toFixed(2) + " lb/ac/yr" + "<br>";
+            +(boardData[currentBoard].map[tileId].results[currentYear].phosphorusDelivered / boardData[currentBoard].map[tileId].area).toFixed(2) + " lb/ac/yr" + "<br>";
         break;
         //create string for flood frequency levels
       case 4:
@@ -3210,63 +3210,63 @@ function getHighlightedInfo(tileId) {
         if (boardData[currentBoard].map[tileId].strategicWetland == 1)
           highlightString = "Strategic" + "<br>";
         else
-          if((Number(boardData[currentBoard].map[tileId].topography) <= 1))
-          {
-            highlightString = "Suitable" + "<br>";
-          }
-          else
-          {
-            highlightString = "Not Suitable" + "<br>";
-          }
+        if((Number(boardData[currentBoard].map[tileId].topography) <= 1))
+        {
+          highlightString = "Suitable" + "<br>";
+        }
+        else
+        {
+          highlightString = "Not Suitable" + "<br>";
+        }
         break;
         //create string for subwatershed number
       case 7:
         highlightString = "Subwatershed " + boardData[currentBoard].map[tileId].subwatershed + "<br>";
         break;
       case 8:
-          var soil = boardData[currentBoard].map[tileId].soilType;
-          switch(soil)
-          {
-            case "A":
+        var soil = boardData[currentBoard].map[tileId].soilType;
+        switch(soil)
+        {
+          case "A":
             highlightString = printSoilType(tileId);
             break;
-            case "B":
+          case "B":
             highlightString =  printSoilType(tileId);
             break;
-            case "C":
+          case "C":
             highlightString = printSoilType(tileId);
             break;
-            case "D":
+          case "D":
             highlightString =  printSoilType(tileId);
             break;
-            case "G":
+          case "G":
             highlightString =  printSoilType(tileId);
             break;
-            case "K":
+          case "K":
             highlightString =  printSoilType(tileId);
             break;
-            case "L":
+          case "L":
             highlightString =  printSoilType(tileId);
             break;
-            case "M":
+          case "M":
             highlightString =  printSoilType(tileId);
             break;
-            case "N":
+          case "N":
             highlightString =  printSoilType(tileId);
             break;
-            case "O":
+          case "O":
             highlightString =  printSoilType(tileId);
             break;
-            case "Q":
+          case "Q":
             highlightString =  printSoilType(tileId);
             break;
-            case "T":
+          case "T":
             highlightString =  printSoilType(tileId);
             break;
-            case "Y":
+          case "Y":
             highlightString =  printSoilType(tileId);
             break;
-          }
+        }
         break;
         //Raw numbers are for conversion of the units (conversion doesn't exist in the back end)
         //create string for corn grain yield
@@ -3310,12 +3310,12 @@ function getHighlightedInfo(tileId) {
         //create string for sediment control
       case 19:
         highlightString = SedimentControlClassification((Number(boardData[currentBoard].map[tileId].results[yearSelected].calculatedSedimentDeliveryToStreamTile) * Number(boardData[currentBoard].map[tileId].area)).toFixed(2))+"<br>"+
-        (Number(boardData[currentBoard].map[tileId].results[yearSelected].calculatedSedimentDeliveryToStreamTile) * Number(boardData[currentBoard].map[tileId].area)).toFixed(2) + " tons" + "<br>";
+            (Number(boardData[currentBoard].map[tileId].results[yearSelected].calculatedSedimentDeliveryToStreamTile) * Number(boardData[currentBoard].map[tileId].area)).toFixed(2) + " tons" + "<br>";
         break;
         //create string for carbon sequestration
       case 20:
         highlightString = CarbonSequestrationClassification((Number(boardData[currentBoard].map[tileId].results[yearSelected].calculatedCarbonSequestration/1000)*1.10231).toFixed(1))+"<br>"+
-        (Number(boardData[currentBoard].map[tileId].results[yearSelected].calculatedCarbonSequestration/1000)*1.10231).toFixed(1) + " tons" + "<br>";
+            (Number(boardData[currentBoard].map[tileId].results[yearSelected].calculatedCarbonSequestration/1000)*1.10231).toFixed(1) + " tons" + "<br>";
         break;
         //create string for Game Wildlife score
       case 21:
@@ -3329,7 +3329,7 @@ function getHighlightedInfo(tileId) {
         var subwatershed=boardData[currentBoard].map[tileId].subwatershed;
         //calculate the nitrate cell equation- single cell point / total point in subWatershed * subWatershed nitrate
         highlightString = "Nitrate Tile: " + getTileNitrateInfoText((Number(boardData[currentBoard].map[tileId].results[currentYear].calculatedTileNitrate)).toFixed(2)) + "<br>"+
-        ((boardData[currentBoard].map[tileId].results[currentYear].calculatedTileNitrate/calculateSubwatershedTotalNitrateScore(tileId))*boardData[currentBoard].subWatershedNitrateNoMin[subwatershed]).toFixed(4)+" ppm <br>";
+            ((boardData[currentBoard].map[tileId].results[currentYear].calculatedTileNitrate/calculateSubwatershedTotalNitrateScore(tileId))*boardData[currentBoard].subWatershedNitrateNoMin[subwatershed]).toFixed(4)+" ppm <br>";
         break;
     }
     return highlightString;
@@ -3390,7 +3390,7 @@ function getPrecipType(a){
 }
 
 //gets the topography (percentage of slope) of a tile
-  /*Topography numbers in data sheet are not indicative of exact percent slope. Rather, 0 -> 0-1%, 1 -> 1-2%, 2-> 2-5%  ...and so on*/
+/*Topography numbers in data sheet are not indicative of exact percent slope. Rather, 0 -> 0-1%, 1 -> 1-2%, 2-> 2-5%  ...and so on*/
 function getSlope(tileId)
 {
   switch (Number(boardData[currentBoard].map[tileId].topography)) {
@@ -3424,14 +3424,14 @@ function getSuitable(tileId){
   if (boardData[currentBoard].map[tileId].strategicWetland == 1)
     return "Wetland Suitability: Strategic" + "<br>";
   else
-    if((Number(boardData[currentBoard].map[tileId].topography) <= 1))
-    {
-      return "Wetland Suitability: Suitable" + "<br>";
-    }
-    else
-    {
-      return "Wetland Suitability: Not Suitable" + "<br>";
-    }
+  if((Number(boardData[currentBoard].map[tileId].topography) <= 1))
+  {
+    return "Wetland Suitability: Suitable" + "<br>";
+  }
+  else
+  {
+    return "Wetland Suitability: Not Suitable" + "<br>";
+  }
 }
 
 //Gets the current timestamp for the click (event)
@@ -3503,7 +3503,7 @@ function getFloodFrequencyName(floodFrequencyNum){
   switch (floodFrequencyNum) {
     case 0:
       return "None"
-    }
+  }
 }
 //highlightTile updates the tile that should be highlighted.
 function highlightTile(tileId) {
@@ -3527,7 +3527,7 @@ function highlightTile(tileId) {
 
     //remove currently highlighted land type from HUD if over a clear tile
     if (boardData[currentBoard].map[tileId].landType[currentYear] == 0 ||
-      boardData[currentBoard].map[tileId].landType[0] == -1) {
+        boardData[currentBoard].map[tileId].landType[0] == -1) {
 
       showInfo("Year: " + currentYear + "&#160;&#160;&#160;Precipitation: " + printPrecipYearType() + "&#160;&#160;&#160;Current Selection: " + printLandUseType(painter) + "&#160;&#160;&#160;Current Cell: " + "&#160;&#160;&#160;");
 
@@ -3579,38 +3579,38 @@ function highlightTile(tileId) {
           break;
       }
       document.getElementById("hover-info").innerHTML = "(" + boardData[currentBoard].map[tileId].row + "," + boardData[currentBoard].map[tileId].column + ")" + "<br>" +
-      info4 +  info9 +info1 +info2 + info3 + info5+info6+ info7+info8+info10;
-        //May use strings and iterate through them for removing hover information
-        if (document.getElementById('parameters').innerHTML.includes('hover1')&&currentHighlightType!=0) {
-          document.getElementById("hover-info").innerHTML = document.getElementById("hover-info").innerHTML.replace(info1, '');
-        }
-        if (document.getElementById('parameters').innerHTML.includes('hover2')) {
-          document.getElementById("hover-info").innerHTML = document.getElementById("hover-info").innerHTML.replace(info2, '');
-        }
-        if (document.getElementById('parameters').innerHTML.includes('hover3')&&currentHighlightType!=8) {
-          document.getElementById("hover-info").innerHTML = document.getElementById("hover-info").innerHTML.replace(info3, '');
-        }
-        if (document.getElementById('parameters').innerHTML.includes('hover4')&&resultsMappedHover) {
-          document.getElementById("hover-info").innerHTML = document.getElementById("hover-info").innerHTML.replace(info4, '');
-        }
-        if (document.getElementById('parameters').innerHTML.includes('hover5')&&currentHighlightType!=7) {
-          document.getElementById("hover-info").innerHTML = document.getElementById("hover-info").innerHTML.replace(info5, '');
-        }
-        if (document.getElementById('parameters').innerHTML.includes('hover6')&&currentHighlightType!=4) {
-          document.getElementById("hover-info").innerHTML = document.getElementById("hover-info").innerHTML.replace(info6, '');
-        }
-        if (document.getElementById('parameters').innerHTML.includes('hover7')&&currentHighlightType!=5) {
-          document.getElementById("hover-info").innerHTML = document.getElementById("hover-info").innerHTML.replace(info7, '');
-        }
-        if (document.getElementById('parameters').innerHTML.includes('hover8')&&currentHighlightType!=6) {
-          document.getElementById("hover-info").innerHTML = document.getElementById("hover-info").innerHTML.replace(info8, '');
-        }
-        if (document.getElementById('parameters').innerHTML.includes('hover9')&&currentHighlightType!=9) {
-          document.getElementById("hover-info").innerHTML = document.getElementById("hover-info").innerHTML.replace( info9, '');
-        }
-        if (document.getElementById('parameters').innerHTML.includes('hover10')) {
-          document.getElementById("hover-info").innerHTML = document.getElementById("hover-info").innerHTML.replace( info10, '');
-        }
+          info4 +  info9 +info1 +info2 + info3 + info5+info6+ info7+info8+info10;
+      //May use strings and iterate through them for removing hover information
+      if (document.getElementById('parameters').innerHTML.includes('hover1')&&currentHighlightType!=0) {
+        document.getElementById("hover-info").innerHTML = document.getElementById("hover-info").innerHTML.replace(info1, '');
+      }
+      if (document.getElementById('parameters').innerHTML.includes('hover2')) {
+        document.getElementById("hover-info").innerHTML = document.getElementById("hover-info").innerHTML.replace(info2, '');
+      }
+      if (document.getElementById('parameters').innerHTML.includes('hover3')&&currentHighlightType!=8) {
+        document.getElementById("hover-info").innerHTML = document.getElementById("hover-info").innerHTML.replace(info3, '');
+      }
+      if (document.getElementById('parameters').innerHTML.includes('hover4')&&resultsMappedHover) {
+        document.getElementById("hover-info").innerHTML = document.getElementById("hover-info").innerHTML.replace(info4, '');
+      }
+      if (document.getElementById('parameters').innerHTML.includes('hover5')&&currentHighlightType!=7) {
+        document.getElementById("hover-info").innerHTML = document.getElementById("hover-info").innerHTML.replace(info5, '');
+      }
+      if (document.getElementById('parameters').innerHTML.includes('hover6')&&currentHighlightType!=4) {
+        document.getElementById("hover-info").innerHTML = document.getElementById("hover-info").innerHTML.replace(info6, '');
+      }
+      if (document.getElementById('parameters').innerHTML.includes('hover7')&&currentHighlightType!=5) {
+        document.getElementById("hover-info").innerHTML = document.getElementById("hover-info").innerHTML.replace(info7, '');
+      }
+      if (document.getElementById('parameters').innerHTML.includes('hover8')&&currentHighlightType!=6) {
+        document.getElementById("hover-info").innerHTML = document.getElementById("hover-info").innerHTML.replace(info8, '');
+      }
+      if (document.getElementById('parameters').innerHTML.includes('hover9')&&currentHighlightType!=9) {
+        document.getElementById("hover-info").innerHTML = document.getElementById("hover-info").innerHTML.replace( info9, '');
+      }
+      if (document.getElementById('parameters').innerHTML.includes('hover10')) {
+        document.getElementById("hover-info").innerHTML = document.getElementById("hover-info").innerHTML.replace( info10, '');
+      }
       //this is where you should include the code about the topography for the hover over button
 
     }
@@ -3881,8 +3881,8 @@ function objectiveCheck() {
       launchFireworks();
 
       //Switch to next level or return to menu
-      document.getElementById("nextLevelButton").className = "moveButtonShow";
-      document.getElementById("mainMenuButton").className = "moveButtonShow";
+      // document.getElementById("nextLevelButton").className = "moveButtonShow";
+      // document.getElementById("mainMenuButton").className = "moveButtonShow";
     }
   }
 } //end objectiveCheck
@@ -3936,8 +3936,8 @@ function onDocumentMouseMove(event) {
 
         //clear Previous highlighting
         for (var i = 0; i < highlightedTiles.length; i++) {
-         meshMaterials[highlightedTiles[i] - 1].emissive.setHex(0x000000);
-         meshOverlay[highlightedTiles[i] - 1].emissive.setHex(0x000000);
+          meshMaterials[highlightedTiles[i] - 1].emissive.setHex(0x000000);
+          meshOverlay[highlightedTiles[i] - 1].emissive.setHex(0x000000);
 
         }
 
@@ -3959,18 +3959,18 @@ function onDocumentMouseMove(event) {
           }
           highlightedTiles = tilesToHighlight;
         } // end if highlighting tiles
-       } // end if grid painter brush
+      } // end if grid painter brush
 
 
       //if painter tool type is the clickAndDrag painter
       else if (clickAndDrag) {
         var currentTile = getTileID(intersects[0].point.x, -intersects[0].point.z);
         if (boardData[currentBoard].map[currentTile].landType[0] != 0){
-           changeLandTypeTile(currentTile);
+          changeLandTypeTile(currentTile);
 
-           changeLandTypeTileNitrate(currentTile);
+          changeLandTypeTileNitrate(currentTile);
 
-         }
+        }
       } else {
         //just a normal highlighting
         highlightTile(getTileID(intersects[0].point.x, -intersects[0].point.z));
@@ -3998,7 +3998,7 @@ function onDocumentMouseDown(event) {
       if (!isShiftDown) {
         if (!modalUp && (!painterTool.hover || mapIsHighlighted)) {
           if (painterTool.status > 0) { //CHANGE
-             //take care of grid painting
+            //take care of grid painting
             //if the painter is not active, set to active
             if (painterTool.status == 1) {
               //start grid painting option
@@ -4120,7 +4120,7 @@ function onDocumentKeyDown(event) {
     // }
     // var keycode = event.keyCode || event.charCode;
     switch (event.keyCode) {
-      //case shift - update isShiftDown
+        //case shift - update isShiftDown
       case 16:
         isShiftDown = true;
         break;
@@ -4300,8 +4300,8 @@ function onDocumentKeyDown(event) {
 // contour map
       case hotkeyArr[12][0]:
       case hotkeyArr[12][1]:
-          generatedContourMap.toggleTopoMap();
-          break;
+        generatedContourMap.toggleTopoMap();
+        break;
 
 // print
       case hotkeyArr[13][0]:
@@ -4407,45 +4407,45 @@ function pasteYear()
 
 
   // trying to push the current map so that it can be undone after undoing the paste
-   var currentMap = getMap(yearToPasteIn);
-   undoArr[yearToPasteIn].push(currentMap);
+  var currentMap = getMap(yearToPasteIn);
+  undoArr[yearToPasteIn].push(currentMap);
 
 
-    for (var i = 0; i < boardData[currentBoard].map.length; i++)
-    {
-      boardData[currentBoard].map[i].landType[yearToPasteIn] = boardData[currentBoard].map[i].landType[yearCopyPaste];
-    } //end for loop
-    //copy the precipitation if the settings allow for a change in precip
-    if(!document.getElementById('parameters').innerHTML.includes('precipOff')){
-      boardData[currentBoard].precipitation[yearToPasteIn] = boardData[currentBoard].precipitation[yearCopyPaste];
-    }
-    boardData[currentBoard].updateBoard();
-    refreshBoard();
-    calculateResults(undefined,yearToPasteIn);
+  for (var i = 0; i < boardData[currentBoard].map.length; i++)
+  {
+    boardData[currentBoard].map[i].landType[yearToPasteIn] = boardData[currentBoard].map[i].landType[yearCopyPaste];
+  } //end for loop
+  //copy the precipitation if the settings allow for a change in precip
+  if(!document.getElementById('parameters').innerHTML.includes('precipOff')){
+    boardData[currentBoard].precipitation[yearToPasteIn] = boardData[currentBoard].precipitation[yearCopyPaste];
+  }
+  boardData[currentBoard].updateBoard();
+  refreshBoard();
+  calculateResults(undefined,yearToPasteIn);
 
-    refreshEconTotals(currentYear);
-    refreshProgressBar(currentYear);
-    //if (!isSimRunning()) {
-      snackBar.innerHTML = ("Year " + yearCopyPaste + " is now pasted in year " +yearToPasteIn +"!");
-      snackBar.className = "show";
-      setTimeout(function(){ snackBar.className = snackBar.className.replace("show", ""); }, 3000);
-    //}
+  refreshEconTotals(currentYear);
+  refreshProgressBar(currentYear);
+  //if (!isSimRunning()) {
+  snackBar.innerHTML = ("Year " + yearCopyPaste + " is now pasted in year " +yearToPasteIn +"!");
+  snackBar.className = "show";
+  setTimeout(function(){ snackBar.className = snackBar.className.replace("show", ""); }, 3000);
+  //}
 
-    document.getElementById("yearToCopy").value = 0;
-    document.getElementById("yearToPaste").value = 0;
-    document.getElementById("year" + yearToPasteIn+ "Precip").value = reversePrecipValue(boardData[currentBoard].precipitation[yearToPasteIn]);
-    document.getElementById("yearToPaste").options[yearCopyPaste].style.display = 'block';
-    document.getElementById("yearPasteButton").style.display = "none";
+  document.getElementById("yearToCopy").value = 0;
+  document.getElementById("yearToPaste").value = 0;
+  document.getElementById("year" + yearToPasteIn+ "Precip").value = reversePrecipValue(boardData[currentBoard].precipitation[yearToPasteIn]);
+  document.getElementById("yearToPaste").options[yearCopyPaste].style.display = 'block';
+  document.getElementById("yearPasteButton").style.display = "none";
 
-    if (curTracking)
-    {
-      // sending the yearToPasteIn value at tileID position to store it and reproduce it during run simulation
-      pushClick(0, getStamp(), 102, 0, yearToPasteIn);
-    }
+  if (curTracking)
+  {
+    // sending the yearToPasteIn value at tileID position to store it and reproduce it during run simulation
+    pushClick(0, getStamp(), 102, 0, yearToPasteIn);
+  }
 
-    // makes a deep copy of all the arrays inside of undoArr for the given year so that the undo for the copy is fully functional
-    var newStuff = JSON.parse(JSON.stringify(undoArr[yearCopyPaste]));
-    undoArr[yearToPasteIn] = undoArr[yearToPasteIn].concat(newStuff);
+  // makes a deep copy of all the arrays inside of undoArr for the given year so that the undo for the copy is fully functional
+  var newStuff = JSON.parse(JSON.stringify(undoArr[yearCopyPaste]));
+  undoArr[yearToPasteIn] = undoArr[yearToPasteIn].concat(newStuff);
 
 
 } //end pasteYear
@@ -4471,8 +4471,8 @@ function printLandUseType(type) {
 
 //printPrecipYearType returns the precipitation category of the year's precipitation
 function printPrecipYearType(year) {
-   //This checks to see if a year was specified. This function riginally assumed the current year.
-    var precipLevel = boardData[currentBoard].precipitation[year] || boardData[currentBoard].precipitation[currentYear];
+  //This checks to see if a year was specified. This function riginally assumed the current year.
+  var precipLevel = boardData[currentBoard].precipitation[year] || boardData[currentBoard].precipitation[currentYear];
 
   if (precipLevel == 24.58 || precipLevel == 28.18) {
     return "Dry";
@@ -4480,8 +4480,8 @@ function printPrecipYearType(year) {
     return "Normal";
   } else {
     if (currentYear > 0 &&
-      (boardData[currentBoard].precipitation[currentYear - 1] == 24.58 ||
-        boardData[currentBoard].precipitation[currentYear - 1] == 28.18)
+        (boardData[currentBoard].precipitation[currentYear - 1] == 24.58 ||
+            boardData[currentBoard].precipitation[currentYear - 1] == 28.18)
     ) {
       return "Flood";
     }
@@ -4743,7 +4743,7 @@ function resetOptions() {
 function resetOptionsPage() {
   //This sets the parameter div string to an empty string
   document.getElementById('parameters').innerHTML = "cornGrainProgressBar" + "\n" + "soybeansProgressBar"+"\n"+"fruitsAndVegetablesProgressBar"+"\n"+"cattleProgressBar"+"\n"+"alfalfaHayProgressBar"+"\n"+
-                                                    "grassHayProgressBar"+"\n"+"switchgrassBiomassProgressBar"+"\n"+"woodProgressBar"+"\n"+"woodyBiomassProgressBar";
+      "grassHayProgressBar"+"\n"+"switchgrassBiomassProgressBar"+"\n"+"woodProgressBar"+"\n"+"woodyBiomassProgressBar";
   optionsString = "";
   //Save ad randomize to make sure that the mao behind the options page is being refreshed when the options are reset
   saveAndRandomize();
@@ -4761,8 +4761,8 @@ function resetOptionsPage() {
   }
   // untoggle progress bars
   var progressbarIds = ["gameWildlifeProgressBar","biodiversityProgressBar","carbonProgressBar","erosionProgressBar","nitrateProgressBar","phoshorusProgressBar",
-                        "sedimentProgressBar","cornGrainProgressBar","soybeansProgressBar","fruitsAndVegetablesProgressBar","cattleProgressBar","alfalfaHayProgressBar",
-                        "grassHayProgressBar","switchgrassBiomassProgressBar","woodProgressBar","woodyBiomassProgressBar","totalYieldsProgressBar"];
+    "sedimentProgressBar","cornGrainProgressBar","soybeansProgressBar","fruitsAndVegetablesProgressBar","cattleProgressBar","alfalfaHayProgressBar",
+    "grassHayProgressBar","switchgrassBiomassProgressBar","woodProgressBar","woodyBiomassProgressBar","totalYieldsProgressBar"];
   if (window.frames[6].document.getElementById("gameWildlifeProgressBar")) {
     for (var i = 0; i < progressbarIds.length; i++) {
       if(i < 7 || i == 16)
@@ -4774,9 +4774,9 @@ function resetOptionsPage() {
   }
   //Untoggles all the other elements
   if (window.frames[6].document.getElementById("year0") &&
-    window.frames[6].document.getElementById("progressbars") &&
-    window.frames[6].document.getElementById("precip") &&
-    window.frames[6].document.getElementById("statFrame")) {
+      window.frames[6].document.getElementById("progressbars") &&
+      window.frames[6].document.getElementById("precip") &&
+      window.frames[6].document.getElementById("statFrame")) {
 
     window.frames[6].document.getElementById("year0").checked = false;
     window.frames[6].document.getElementById("precip").checked = false;
@@ -5000,10 +5000,10 @@ function resultsStart() {
     }
     //right popup
     rightPopupWasOpen = false;
-    if (document.getElementById("popup").className == "popup") {
-      togglePopupDisplay();
-      rightPopupWasOpen = true;
-    }
+    // if (document.getElementById("popup").className == "popup") {
+    //   togglePopupDisplay();
+    //   rightPopupWasOpen = true;
+    // }
     backgroundInfoBoxWasOpen = false;
     if(document.getElementById("backgroundInfoBox").className == "backgroundInfoBox"){
       toggleBackgroundInfoDisplay();
@@ -5241,8 +5241,8 @@ function saveAndRandomize() {
     if(randomPainterTile.length === 0){
       throw new Error('Please select at least one land use.');
     }
-     //If the only land use selected is wetlands throw an Error
-     //This is because wetlands cannot be placed on tiles that are not suitable for wetlands
+    //If the only land use selected is wetlands throw an Error
+    //This is because wetlands cannot be placed on tiles that are not suitable for wetlands
     if(randomPainterTile == 14){
       throw new Error('Wetlands cannot be the only selected land use. \nPlease select an additional land use.');
     }
@@ -5640,7 +5640,7 @@ function startOptions() {
     console.log("asdfghgfdsadfghjgfd");
     pushClick(0, getStamp(), 107, 0, null);
   }
-console.log("modalUp",modalUp);
+  console.log("modalUp",modalUp);
 
   // Clear the arrays that hold the options to be set to true or false
   selectedOptionsTrue = [];
@@ -5684,12 +5684,12 @@ console.log("modalUp",modalUp);
 
 function startPrintOptions() {
 
-    if(curTracking) {
-      pushClick(0,getStamp(),113,0,null);
-    }
+  if(curTracking) {
+    pushClick(0,getStamp(),113,0,null);
+  }
 
-    camera.aspect = 1.5;
-    camera.updateProjectionMatrix();
+  camera.aspect = 1.5;
+  camera.updateProjectionMatrix();
 
   //if nothing else has precedence
   if (!modalUp) {
@@ -5758,7 +5758,7 @@ function switchConsoleTab(value) {
 
   //update the left console tab according to the value selected
   switch (value) {
-    // Painters Tab or land use icon selected
+      // Painters Tab or land use icon selected
     case 1:
       inDispLevels = false;
       resultsMappedHover=false;
@@ -5793,7 +5793,7 @@ function switchConsoleTab(value) {
       yearPrecipManager();
       updateGlossaryPopup('This is the <span style="color:orange;">Precipitation Tab.</span> To learn more, go to the <span style="color:yellow;">Glossary</span> and select<span style="color:yellow;"> "Precipitation"</span>.');
       break;
-    // 'Result maps' icon selected
+      // 'Result maps' icon selected
     case 3:
       resultsMappedHover=true;
       inDispLevels = true;
@@ -5829,7 +5829,7 @@ function switchConsoleTab(value) {
       document.getElementById('checkheader').style.display = "block";
       updateGlossaryPopup('This is the <span style="color:orange;">Physical Features Tab</span>, where you will find information on topography, soil properties, subwatershed boundaries, and strategic wetland areas.');
       break;
-    // ** No description given of what this case does **
+      // ** No description given of what this case does **
     case 5:
       inDispLevels = false;
       resultsMappedHover=false;
@@ -5845,7 +5845,7 @@ function switchConsoleTab(value) {
       }
       document.getElementById('checkheader').style.display = "none";
       break;
-    // Year selection tab selected
+      // Year selection tab selected
     case 6:
       inDispLevels = false;
       resultsMappedHover=false;
@@ -5863,7 +5863,7 @@ function switchConsoleTab(value) {
       yearCopyPasteInit();
       updateGlossaryPopup('The <span style="color:orange;">Years Tab</span> allows you to play across multiple years. Different years can affect impact of land use choices. Check them out!');
       break;
-    // Yield base rate tab selected
+      // Yield base rate tab selected
     case 7:
       inDispLevels = true;
       resultsMappedHover=false;
@@ -5883,25 +5883,25 @@ function switchConsoleTab(value) {
       updateGlossaryPopup('The <span style="color:orange;">Yield Tab</span> allows you to see different yield base rates based on soil type for different landuse types.');
       break;
 
-  // Inflation adjustment factor
+      // Inflation adjustment factor
     case 8:
-  inDispLevels = true;
-  resultsMappedHover=false;
-  if (curTracking) {
-    pushClick(0, getStamp(), 8, 0, null);
-  }
-  document.getElementById('inflationImg').className = "imgSelected";
-  document.getElementById('inflationTab').style.display = "block";
+      inDispLevels = true;
+      resultsMappedHover=false;
+      if (curTracking) {
+        pushClick(0, getStamp(), 8, 0, null);
+      }
+      document.getElementById('inflationImg').className = "imgSelected";
+      document.getElementById('inflationTab').style.display = "block";
 
-  var overlay = document.getElementsByClassName('checkOverlay');
-  //show overlay toggle switch
+      var overlay = document.getElementsByClassName('checkOverlay');
+      //show overlay toggle switch
 
-  for(var i = 0; i < overlay.length; i++){
-    overlay[i].style.display = "block";
-  }
-  document.getElementById('checkheader').style.display = "block";
-  // updateGlossaryPopup('The <span style="color:orange;">Yield Tab</span> allows you to see different yield base rates based on soil type for different landuse types.');
-    break;
+      for(var i = 0; i < overlay.length; i++){
+        overlay[i].style.display = "block";
+      }
+      document.getElementById('checkheader').style.display = "block";
+      // updateGlossaryPopup('The <span style="color:orange;">Yield Tab</span> allows you to see different yield base rates based on soil type for different landuse types.');
+      break;
   } // END switch
 
 
@@ -5938,7 +5938,7 @@ function submitInflationForm() {
     alert("Please enter valid numbers in all fields.");
     return; // Stop form submission if validation fails
   }
-   alert('Form submitted successfully!');
+  alert('Form submitted successfully!');
 
 }
 
@@ -6000,7 +6000,7 @@ function toggleBackgroundInfoDisplay() {
 function toggleChangeLandType() {
   //ternary toggle on clearToChangeLandType being true
   clearToChangeLandType =
-    (clearToChangeLandType) ? false : true;
+      (clearToChangeLandType) ? false : true;
 } //end toggleChangeLandType
 
 //toggleEscapeFrame displays and hides the div that allows the user to go to the main menu, options, or directory
@@ -6173,26 +6173,26 @@ function toggleOverlay() {
 
 //togglePopupDisplay allows for displaying and hiding the popup dialogue
 function togglePopupDisplay() {
-  if (!modalUp) {
-    if (document.getElementById("popup").className == "popup") {
-      if (curTracking) {
-        pushClick(0, getStamp(), 14, 0, null);
-      }
-        document.getElementById("popup").className = "popupHidden";
-        document.getElementById("bookMarkButton").className = "bookMarkButtonRolled";
-    }
-    else {
-      if (curTracking) {
-        pushClick(0, getStamp(), 54, 0, null);
-      }
-      // Bookmark popup locked in simulation replay mode
-      if(!isSimRunning()) {
-        document.getElementById("popup").className = "popup";
-        document.getElementById("bookMarkButton").className = "bookMarkButton";
-      }
+  // if (!modalUp) {
+  //   if (document.getElementById("popup").className == "popup") {
+  //     if (curTracking) {
+  //       pushClick(0, getStamp(), 14, 0, null);
+  //     }
+  //       // document.getElementById("popup").className = "popupHidden";
+  //       // document.getElementById("bookMarkButton").className = "bookMarkButtonRolled";
+  //   }
+  //   else {
+  //     if (curTracking) {
+  //       pushClick(0, getStamp(), 54, 0, null);
+  //     }
+  //     // Bookmark popup locked in simulation replay mode
+  //     if(!isSimRunning()) {
+  //       document.getElementById("popup").className = "popup";
+  //       // document.getElementById("bookMarkButton").className = "bookMarkButton";
+  //     }
 
-    }
-  } //end if
+  //   }
+  // } //end if
 } // togglePopupDisplay()
 
 //toggleVisibility parses the options stored in the parameters div and toggles their visibility
@@ -6214,8 +6214,8 @@ function toggleVisibility() {
   //currentPlayer=1;
 
   var progressbarIds = ["gameWildlifeProgressBar","biodiversityProgressBar", "streamBiodiversityProgressBar"  , "carbonProgressBar","erosionProgressBar","nitrateProgressBar","phoshorusProgressBar",
-                        "sedimentProgressBar", "aquaticProgressBar", "cornGrainProgressBar","soybeansProgressBar","fruitsAndVegetablesProgressBar","cattleProgressBar","alfalfaHayProgressBar",
-                        "grassHayProgressBar","switchgrassBiomassProgressBar","woodProgressBar","woodyBiomassProgressBar","totalYieldsProgressBar"];
+    "sedimentProgressBar", "aquaticProgressBar", "cornGrainProgressBar","soybeansProgressBar","fruitsAndVegetablesProgressBar","cattleProgressBar","alfalfaHayProgressBar",
+    "grassHayProgressBar","switchgrassBiomassProgressBar","woodProgressBar","woodyBiomassProgressBar","totalYieldsProgressBar"];
 
   //reset default on items
   if (!multiplayerAssigningModeOn) {
@@ -6228,7 +6228,7 @@ function toggleVisibility() {
 
     for(var i = 0; i < progressbarIds.length; i++){
       // if(i < 7 || i == 16)
-        document.getElementById(progressbarIds[i]).style.display = "block";
+      document.getElementById(progressbarIds[i]).style.display = "block";
       // else{
       //   window.frames[6].document.getElementById(progressbarIds[i]).checked = true;
       // }
@@ -6286,10 +6286,10 @@ function toggleVisibility() {
           }
           break;
       } // end switch
-    if(progressbarIds.indexOf(arrLines[i]) != -1){
-      document.getElementById(arrLines[i]).style.display = "none";
-    }
-   } // end if
+      if(progressbarIds.indexOf(arrLines[i]) != -1){
+        document.getElementById(arrLines[i]).style.display = "none";
+      }
+    } // end if
   } //end for
 
 
@@ -6555,9 +6555,9 @@ function updatePrecip(year) {
 // TODO we need to create a function that calls all these three methods at once for
 //updatePopup appends text to the popup dialogue
 function updatePopup(string) {
-  document.getElementById("popupText").innerHTML = string + "<br>___________________________<br>" + document.getElementById("popupText").innerHTML;
-  document.getElementById("popup").className = "popup";
-  document.getElementById("bookMarkButton").className = "bookMarkButton";
+  // document.getElementById("popupText").innerHTML = string + "<br>___________________________<br>" + document.getElementById("popupText").innerHTML;
+  // document.getElementById("popup").className = "popup";
+  // document.getElementById("bookMarkButton").className = "bookMarkButton";
   // document.getElementById("bookMarkButton").style.background = '#' + Math.random().toString(16).slice(-6); // Assign random background color.
   //document.getElementById("popup").style.background= "green";
   //Will activate an animation on the lower right side of the screen to show that the message box has updated
@@ -6566,9 +6566,9 @@ function updatePopup(string) {
 //Updates the slider's input value (duration is in milliseconds) [Note: Format is 00:00:00.0]
 function updateSlider(duration) {
   var milliseconds = parseInt((duration % 1000) / 100),
-    seconds = parseInt((duration / 1000) % 60),
-    minutes = parseInt((duration / (1000 * 60)) % 60),
-    hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+      seconds = parseInt((duration / 1000) % 60),
+      minutes = parseInt((duration / (1000 * 60)) % 60),
+      hours = parseInt((duration / (1000 * 60 * 60)) % 24);
   hours = (hours < 10) ? "0" + hours : hours;
   minutes = (minutes < 10) ? "0" + minutes : minutes;
   seconds = (seconds < 10) ? "0" + seconds : seconds;
@@ -6691,28 +6691,28 @@ function uploadJSON(reader) {
       try {
         //This variable 'string' stores the extracted data from the .json file. Won't comment this too much since it's self explainatory
         string = string + obj["1"].id.data[i] + "," + obj["1"].row.data[i] + "," + obj["1"].column.data[i] + "," +
-          ((obj["1"].area.data[i] == null) ? 0 : obj["1"].area.data[i]) + "," +
-          ((obj["1"].baseLandUseType.data[i] == null) ? 0 : obj["1"].baseLandUseType.data[i]) + "," +
-          ((obj["1"].carbonmax.data[i] == null) ? "NA" : obj["1"].carbonmax.data[i]) + "," +
-          ((obj["1"].carbonmin.data[i] == null) ? "NA" : obj["1"].carbonmin.data[i]) + "," +
-          ((obj["1"].cattle.data[i] == null) ? "NA" : obj["1"].cattle.data[i]) + "," +
-          ((obj["1"].cornyield.data[i] == null) ? "NA" : obj["1"].cornyield.data[i]) + "," +
-          ((obj["1"].drainageclass.data[i] == null) ? "NA" : obj["1"].drainageclass.data[i]) + "," +
-          ((obj["1"].erosion.data[i] == null) ? "NA" : obj["1"].erosion.data[i]) + "," +
-          ((obj["1"].floodfrequency.data[i] == null) ? "NA" : obj["1"].floodfrequency.data[i]) + "," +
-          ((obj["1"].group.data[i] == null && obj["1"].group.data[i] != 0) ? "NA" : " ") + "," +
-          ((obj["1"].nitratespmm.data[i] == null) ? "NA" : obj["1"].nitratespmm.data[i]) + "," +
-          ((obj["1"].pindex.data[i] == null) ? "NA" : obj["1"].pindex.data[i]) + "," +
-          ((obj["1"].sediment.data[i] == null) ? "NA" : obj["1"].sediment.data[i]) + "," +
-          ((obj["1"].soiltype.data[i] == null) ? 0 : obj["1"].soiltype.data[i]) + "," +
-          ((obj["1"].soybeanyield.data[i] == null) ? "NA" : obj["1"].soybeanyield.data[i]) + "," +
-          ((obj["1"].streamnetwork.data[i] == null) ? "NA" : obj["1"].streamnetwork.data[i]) + "," +
-          ((obj["1"].subwatershed.data[i] == null) ? 0 : obj["1"].subwatershed.data[i]) + "," +
-          ((obj["1"].timber.data[i] == null) ? "NA" : obj["1"].timber.data[i]) + "," +
-          ((obj["1"].topography.data[i] == null) ? 0 : obj["1"].topography.data[i]) + "," +
-          ((obj["1"].watershednitrogencontribution.data[i] == null) ? "NA" : obj["1"].watershednitrogencontribution.data[i]) + "," +
-          ((obj["1"].wetland.data[i] == null) ? "NA" : obj["1"].wetland.data[i]) + "," +
-          ((boardData[currentBoard].map[i].riverStreams == null) ? 0 : boardData[currentBoard].map[i].riverStreams) + "," /*riverStreams is taken from the rever stream of currrent board*/ ;
+            ((obj["1"].area.data[i] == null) ? 0 : obj["1"].area.data[i]) + "," +
+            ((obj["1"].baseLandUseType.data[i] == null) ? 0 : obj["1"].baseLandUseType.data[i]) + "," +
+            ((obj["1"].carbonmax.data[i] == null) ? "NA" : obj["1"].carbonmax.data[i]) + "," +
+            ((obj["1"].carbonmin.data[i] == null) ? "NA" : obj["1"].carbonmin.data[i]) + "," +
+            ((obj["1"].cattle.data[i] == null) ? "NA" : obj["1"].cattle.data[i]) + "," +
+            ((obj["1"].cornyield.data[i] == null) ? "NA" : obj["1"].cornyield.data[i]) + "," +
+            ((obj["1"].drainageclass.data[i] == null) ? "NA" : obj["1"].drainageclass.data[i]) + "," +
+            ((obj["1"].erosion.data[i] == null) ? "NA" : obj["1"].erosion.data[i]) + "," +
+            ((obj["1"].floodfrequency.data[i] == null) ? "NA" : obj["1"].floodfrequency.data[i]) + "," +
+            ((obj["1"].group.data[i] == null && obj["1"].group.data[i] != 0) ? "NA" : " ") + "," +
+            ((obj["1"].nitratespmm.data[i] == null) ? "NA" : obj["1"].nitratespmm.data[i]) + "," +
+            ((obj["1"].pindex.data[i] == null) ? "NA" : obj["1"].pindex.data[i]) + "," +
+            ((obj["1"].sediment.data[i] == null) ? "NA" : obj["1"].sediment.data[i]) + "," +
+            ((obj["1"].soiltype.data[i] == null) ? 0 : obj["1"].soiltype.data[i]) + "," +
+            ((obj["1"].soybeanyield.data[i] == null) ? "NA" : obj["1"].soybeanyield.data[i]) + "," +
+            ((obj["1"].streamnetwork.data[i] == null) ? "NA" : obj["1"].streamnetwork.data[i]) + "," +
+            ((obj["1"].subwatershed.data[i] == null) ? 0 : obj["1"].subwatershed.data[i]) + "," +
+            ((obj["1"].timber.data[i] == null) ? "NA" : obj["1"].timber.data[i]) + "," +
+            ((obj["1"].topography.data[i] == null) ? 0 : obj["1"].topography.data[i]) + "," +
+            ((obj["1"].watershednitrogencontribution.data[i] == null) ? "NA" : obj["1"].watershednitrogencontribution.data[i]) + "," +
+            ((obj["1"].wetland.data[i] == null) ? "NA" : obj["1"].wetland.data[i]) + "," +
+            ((boardData[currentBoard].map[i].riverStreams == null) ? 0 : boardData[currentBoard].map[i].riverStreams) + "," /*riverStreams is taken from the rever stream of currrent board*/ ;
       } catch (except) {
         //catches for a wrong json file type error
         alert("This file format is not compatible...");
@@ -6896,9 +6896,9 @@ function uploadCSV(reader) {
       }
 
       /** If values of columns 'contour area', 'buffer area' are not present in this row, then add them.
-        * If 'Years owned' column is absent, add it here.
-         Skip this step if csv file already contains the columns.
-      **/
+       * If 'Years owned' column is absent, add it here.
+       Skip this step if csv file already contains the columns.
+       **/
       if (noContBuffArrCol == 1) {
         data.splice(25, 0, contArr, buffArr);
 
@@ -6974,11 +6974,11 @@ function uploadCSV(reader) {
       toggleVisibility();
     }
 
-      // transitionToYear(1); //transition to year one
-      // switchYearTab(1);
-      // boardData[currentBoard].updateBoard();
-      // calculateResults();
-      // generateResultsTable();
+    // transitionToYear(1); //transition to year one
+    // switchYearTab(1);
+    // boardData[currentBoard].updateBoard();
+    // calculateResults();
+    // generateResultsTable();
     // fresh progress bars
     calculateResults();
     refreshEconTotals(currentYear);
@@ -7012,14 +7012,14 @@ function writeFileToDownloadString(mapPlayerNumber) {
     for (var i = 0; i < boardData[currentBoard].map.length; i++) {
       if (boardData[currentBoard].map[i].landType[1] != mapPlayerNumber && multiplayerAssigningModeOn) {
         string = string + boardData[currentBoard].map[i].id + "," +
-          boardData[currentBoard].map[i].row + "," +
-          boardData[currentBoard].map[i].column + "," +
-          "0" + ",";
+            boardData[currentBoard].map[i].row + "," +
+            boardData[currentBoard].map[i].column + "," +
+            "0" + ",";
       } else {
         string = string + boardData[currentBoard].map[i].id + "," +
-          boardData[currentBoard].map[i].row + "," +
-          boardData[currentBoard].map[i].column + "," +
-          boardData[currentBoard].map[i].area + ",";
+            boardData[currentBoard].map[i].row + "," +
+            boardData[currentBoard].map[i].column + "," +
+            boardData[currentBoard].map[i].area + ",";
       }
 
       if (mapPlayerNumber > 0) {
@@ -7033,46 +7033,46 @@ function writeFileToDownloadString(mapPlayerNumber) {
       // If the user made a multipler map, and a tile still has values when it's not that player's tile
       if (boardData[currentBoard].map[i].landType[1] != mapPlayerNumber && multiplayerAssigningModeOn) {
         string += "NA" + "," +
-          "NA" + "," +
-          "NA" + "," +
-          "NA" + "," +
-          "NA" + "," +
-          "NA" + "," +
-          "NA" + "," +
-          "NA" + "," +
-          "NA" + "," +
-          "NA" + "," +
-          "NA" + "," +
-          "0" + "," +
-          "NA" + "," +
-          "NA" + "," +
-          "0" + "," +
-          "NA" + "," +
-          boardData[currentBoard].map[i].topography + "," +
-          "NA" + "," +
-          "NA" + "," +
-          boardData[currentBoard].map[i].riverStreams + ",";
+            "NA" + "," +
+            "NA" + "," +
+            "NA" + "," +
+            "NA" + "," +
+            "NA" + "," +
+            "NA" + "," +
+            "NA" + "," +
+            "NA" + "," +
+            "NA" + "," +
+            "NA" + "," +
+            "0" + "," +
+            "NA" + "," +
+            "NA" + "," +
+            "0" + "," +
+            "NA" + "," +
+            boardData[currentBoard].map[i].topography + "," +
+            "NA" + "," +
+            "NA" + "," +
+            boardData[currentBoard].map[i].riverStreams + ",";
       } else {
         string += boardData[currentBoard].map[i].carbonMax + "," +
-          boardData[currentBoard].map[i].carbonMin + "," +
-          boardData[currentBoard].map[i].cattle + "," +
-          boardData[currentBoard].map[i].cornYield + "," +
-          boardData[currentBoard].map[i].drainageClass + "," +
-          boardData[currentBoard].map[i].erosion + "," +
-          boardData[currentBoard].map[i].floodFrequency + "," +
-          boardData[currentBoard].map[i].group + "," +
-          boardData[currentBoard].map[i].nitratesPPM + "," +
-          boardData[currentBoard].map[i].pIndex + "," +
-          boardData[currentBoard].map[i].sediment + "," +
-          boardData[currentBoard].map[i].soilType + "," +
-          boardData[currentBoard].map[i].soybeanYield + "," +
-          boardData[currentBoard].map[i].streamNetwork + "," +
-          boardData[currentBoard].map[i].subwatershed + "," +
-          boardData[currentBoard].map[i].timber + "," +
-          boardData[currentBoard].map[i].topography + "," +
-          boardData[currentBoard].map[i].watershedNitrogenContribution + "," +
-          boardData[currentBoard].map[i].strategicWetland + "," +
-          boardData[currentBoard].map[i].riverStreams + ",";
+            boardData[currentBoard].map[i].carbonMin + "," +
+            boardData[currentBoard].map[i].cattle + "," +
+            boardData[currentBoard].map[i].cornYield + "," +
+            boardData[currentBoard].map[i].drainageClass + "," +
+            boardData[currentBoard].map[i].erosion + "," +
+            boardData[currentBoard].map[i].floodFrequency + "," +
+            boardData[currentBoard].map[i].group + "," +
+            boardData[currentBoard].map[i].nitratesPPM + "," +
+            boardData[currentBoard].map[i].pIndex + "," +
+            boardData[currentBoard].map[i].sediment + "," +
+            boardData[currentBoard].map[i].soilType + "," +
+            boardData[currentBoard].map[i].soybeanYield + "," +
+            boardData[currentBoard].map[i].streamNetwork + "," +
+            boardData[currentBoard].map[i].subwatershed + "," +
+            boardData[currentBoard].map[i].timber + "," +
+            boardData[currentBoard].map[i].topography + "," +
+            boardData[currentBoard].map[i].watershedNitrogenContribution + "," +
+            boardData[currentBoard].map[i].strategicWetland + "," +
+            boardData[currentBoard].map[i].riverStreams + ",";
       }
 
       // Filling the Contour Area column
@@ -7107,18 +7107,18 @@ function writeFileToDownloadString(mapPlayerNumber) {
 
       if (mapPlayerNumber > 0) {
         string += ((boardData[currentBoard].map[i].landType[1] == mapPlayerNumber) ? "1," : "0,") + //year1
-          ((boardData[currentBoard].map[i].landType[1] == mapPlayerNumber) ? "1," : "0,") + //year2
-          ((boardData[currentBoard].map[i].landType[1] == mapPlayerNumber) ? "1," : "0,"); //year3
+            ((boardData[currentBoard].map[i].landType[1] == mapPlayerNumber) ? "1," : "0,") + //year2
+            ((boardData[currentBoard].map[i].landType[1] == mapPlayerNumber) ? "1," : "0,"); //year3
       } else {
         string += boardData[currentBoard].map[i].landType[1] + "," +
-          boardData[currentBoard].map[i].landType[2] + "," +
-          boardData[currentBoard].map[i].landType[3] + ",";
+            boardData[currentBoard].map[i].landType[2] + "," +
+            boardData[currentBoard].map[i].landType[3] + ",";
       }
       string += boardData[currentBoard].calculatedToYear + ",";
       string += boardData[currentBoard].precipitation[0] + "," +
-        boardData[currentBoard].precipitation[1] + "," +
-        boardData[currentBoard].precipitation[2] + "," +
-        boardData[currentBoard].precipitation[3];
+          boardData[currentBoard].precipitation[1] + "," +
+          boardData[currentBoard].precipitation[2] + "," +
+          boardData[currentBoard].precipitation[3];
       if (optionsString !== "") {
         string = string + "," + optionsString; //optionsString added here if not empty
       }
@@ -7173,8 +7173,8 @@ function yearCopyPasteInit()
     }
     else
     {
-    document.getElementById("yearToCopy").options[i].style.display = 'block';
-    document.getElementById("yearToPaste").options[i].style.display = 'block';
+      document.getElementById("yearToCopy").options[i].style.display = 'block';
+      document.getElementById("yearToPaste").options[i].style.display = 'block';
     }
   }//end for
 
@@ -7354,11 +7354,11 @@ function getTileBiodiversityInfoText(score){
 }
 
 function getTileNitrateInfoText(score){
-if(score>=0 && score<510) return "Very Low Impact";
-else if(score>=510 && score<1020) return "Low Impact";
-else if(score>=1020 && score<1530) return "Moderate Impact";
-else if(score>=1530 && score<2040) return "High Impact";
-else if(score>2040) return "Very High Impact";
+  if(score>=0 && score<510) return "Very Low Impact";
+  else if(score>=510 && score<1020) return "Low Impact";
+  else if(score>=1020 && score<1530) return "Moderate Impact";
+  else if(score>=1530 && score<2040) return "High Impact";
+  else if(score>2040) return "Very High Impact";
 }
 
 function getTilePrecipitationMultiplier(year){
@@ -7449,7 +7449,7 @@ function getBoldedCells(tileId, color){
     subwatershedleft = boardData[currentBoard].map[tileId-1].subwatershed;
   }
   if(!didright){
-  subwatershedright = boardData[currentBoard].map[tileId+1].subwatershed;
+    subwatershedright = boardData[currentBoard].map[tileId+1].subwatershed;
   }
 
 
@@ -7460,19 +7460,19 @@ function getBoldedCells(tileId, color){
 
   //Needs bolded on right
   if(subwatershedcurr!=subwatershedright && subwatershedcurr==subwatershedleft && subwatershedcurr==subwatershedtop && subwatershedcurr==subwatershedbottom){
-      return getColorForBoldedCells('right', color);
+    return getColorForBoldedCells('right', color);
   }
   //Needs bolded on left
   else if(subwatershedcurr!=subwatershedleft && subwatershedcurr==subwatershedright && subwatershedcurr==subwatershedtop && subwatershedcurr==subwatershedbottom){
-      return getColorForBoldedCells('left', color);
+    return getColorForBoldedCells('left', color);
   }
   //Needs bolded on bottom
   else if(subwatershedcurr!=subwatershedbottom && subwatershedcurr==subwatershedright && subwatershedcurr==subwatershedtop && subwatershedcurr==subwatershedleft){
-      return getColorForBoldedCells('bottom', color);
+    return getColorForBoldedCells('bottom', color);
   }
   //Needs bolded on top
   else if(subwatershedcurr!=subwatershedtop && subwatershedcurr==subwatershedright && subwatershedcurr==subwatershedbottom && subwatershedcurr==subwatershedleft){
-      return getColorForBoldedCells('top', color);
+    return getColorForBoldedCells('top', color);
   }
   //Needs bolded on top and right
   else if(subwatershedcurr==subwatershedleft && subwatershedcurr==subwatershedbottom && subwatershedcurr!=subwatershedtop && subwatershedcurr!=subwatershedright){
@@ -7691,11 +7691,11 @@ function getColorForBoldedCells(direction, color){
       else if(direction=='leftright') return 209;
       break;
 
-    }
-
-
-
   }
+
+
+
+}
 
 
 
@@ -7726,115 +7726,115 @@ var saveAs = saveAs || function(e) {
     return
   }
   var t = e.document,
-    n = function() {
-      return e.URL || e.webkitURL || e
-    },
-    r = t.createElementNS("http://www.w3.org/1999/xhtml", "a"),
-    o = "download" in r,
-    i = function(e) {
-      var t = new MouseEvent("click");
-      e.dispatchEvent(t)
-    },
-    a = /constructor/i.test(e.HTMLElement),
-    f = /CriOS\/[\d]+/.test(navigator.userAgent),
-    u = function(t) {
-      (e.setImmediate || e.setTimeout)(function() {
-        throw t
-      }, 0)
-    },
-    d = "application/octet-stream",
-    s = 1e3 * 40,
-    c = function(e) {
-      var t = function() {
-        if (typeof e === "string") {
-          n().revokeObjectURL(e)
-        } else {
-          e.remove()
-        }
-      };
-      setTimeout(t, s)
-    },
-    l = function(e, t, n) {
-      t = [].concat(t);
-      var r = t.length;
-      while (r--) {
-        var o = e["on" + t[r]];
-        if (typeof o === "function") {
-          try {
-            o.call(e, n || e)
-          } catch (i) {
-            u(i)
-          }
-        }
-      }
-    },
-    p = function(e) {
-      if (/^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(e.type)) {
-        return new Blob([String.fromCharCode(65279), e], {
-          type: e.type
-        })
-      }
-      return e
-    },
-    v = function(t, u, s) {
-      if (!s) {
-        t = p(t)
-      }
-      var v = this,
-        w = t.type,
-        m = w === d,
-        y, h = function() {
-          l(v, "writestart progress write writeend".split(" "))
-        },
-        S = function() {
-          if ((f || m && a) && e.FileReader) {
-            var r = new FileReader;
-            r.onloadend = function() {
-              var t = f ? r.result : r.result.replace(/^data:[^;]*;/, "data:attachment/file;");
-              var n = e.open(t, "_blank");
-              if (!n) e.location.href = t;
-              t = undefined;
-              v.readyState = v.DONE;
-              h()
-            };
-            r.readAsDataURL(t);
-            v.readyState = v.INIT;
-            return
-          }
-          if (!y) {
-            y = n().createObjectURL(t)
-          }
-          if (m) {
-            e.location.href = y
+      n = function() {
+        return e.URL || e.webkitURL || e
+      },
+      r = t.createElementNS("http://www.w3.org/1999/xhtml", "a"),
+      o = "download" in r,
+      i = function(e) {
+        var t = new MouseEvent("click");
+        e.dispatchEvent(t)
+      },
+      a = /constructor/i.test(e.HTMLElement),
+      f = /CriOS\/[\d]+/.test(navigator.userAgent),
+      u = function(t) {
+        (e.setImmediate || e.setTimeout)(function() {
+          throw t
+        }, 0)
+      },
+      d = "application/octet-stream",
+      s = 1e3 * 40,
+      c = function(e) {
+        var t = function() {
+          if (typeof e === "string") {
+            n().revokeObjectURL(e)
           } else {
-            var o = e.open(y, "_blank");
-            if (!o) {
-              e.location.href = y
+            e.remove()
+          }
+        };
+        setTimeout(t, s)
+      },
+      l = function(e, t, n) {
+        t = [].concat(t);
+        var r = t.length;
+        while (r--) {
+          var o = e["on" + t[r]];
+          if (typeof o === "function") {
+            try {
+              o.call(e, n || e)
+            } catch (i) {
+              u(i)
             }
           }
-          v.readyState = v.DONE;
-          h();
-          c(y)
-        };
-      v.readyState = v.INIT;
-      if (o) {
-        y = n().createObjectURL(t);
-        setTimeout(function() {
-          r.href = y;
-          r.download = u;
-          i(r);
-          h();
-          c(y);
-          v.readyState = v.DONE
-        });
-        return
-      }
-      S()
-    },
-    w = v.prototype,
-    m = function(e, t, n) {
-      return new v(e, t || e.name || "download", n)
-    };
+        }
+      },
+      p = function(e) {
+        if (/^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(e.type)) {
+          return new Blob([String.fromCharCode(65279), e], {
+            type: e.type
+          })
+        }
+        return e
+      },
+      v = function(t, u, s) {
+        if (!s) {
+          t = p(t)
+        }
+        var v = this,
+            w = t.type,
+            m = w === d,
+            y, h = function() {
+              l(v, "writestart progress write writeend".split(" "))
+            },
+            S = function() {
+              if ((f || m && a) && e.FileReader) {
+                var r = new FileReader;
+                r.onloadend = function() {
+                  var t = f ? r.result : r.result.replace(/^data:[^;]*;/, "data:attachment/file;");
+                  var n = e.open(t, "_blank");
+                  if (!n) e.location.href = t;
+                  t = undefined;
+                  v.readyState = v.DONE;
+                  h()
+                };
+                r.readAsDataURL(t);
+                v.readyState = v.INIT;
+                return
+              }
+              if (!y) {
+                y = n().createObjectURL(t)
+              }
+              if (m) {
+                e.location.href = y
+              } else {
+                var o = e.open(y, "_blank");
+                if (!o) {
+                  e.location.href = y
+                }
+              }
+              v.readyState = v.DONE;
+              h();
+              c(y)
+            };
+        v.readyState = v.INIT;
+        if (o) {
+          y = n().createObjectURL(t);
+          setTimeout(function() {
+            r.href = y;
+            r.download = u;
+            i(r);
+            h();
+            c(y);
+            v.readyState = v.DONE
+          });
+          return
+        }
+        S()
+      },
+      w = v.prototype,
+      m = function(e, t, n) {
+        return new v(e, t || e.name || "download", n)
+      };
   if (typeof navigator !== "undefined" && navigator.msSaveOrOpenBlob) {
     return function(e, t, n) {
       t = t || e.name || "download";
@@ -7911,98 +7911,98 @@ if (typeof module !== "undefined" && module.exports) {
 
 
 
-  /**
-  This function looks through the undoArr for the given year, and deletes everything after the first land type not allowed is found.
-  @param undoArray the undoArr
-  @param theYear the year that is being modified
-  **/
+/**
+ This function looks through the undoArr for the given year, and deletes everything after the first land type not allowed is found.
+ @param undoArray the undoArr
+ @param theYear the year that is being modified
+ **/
 
-  function removeAfterFirstNotAllowed(undoArray, theYear)
+function removeAfterFirstNotAllowed(undoArray, theYear)
+{
+  notAllowedArray = getLandUseNotAllowed();
+
+  if(notAllowedArray.length == 0) // if all tiles are allowed then end here
+    return;
+
+  for(var i = undoArray[theYear].length - 1; i >= 0; i--)
   {
-    notAllowedArray = getLandUseNotAllowed();
 
-    if(notAllowedArray.length == 0) // if all tiles are allowed then end here
-      return;
-
-    for(var i = undoArray[theYear].length - 1; i >= 0; i--)
+    if (Array.isArray(undoArray[theYear][i][1])) //check to see if we are undoing a grid paint, so we need to search the whole thing in case there are types not allowed underneath
     {
-
-      if (Array.isArray(undoArray[theYear][i][1])) //check to see if we are undoing a grid paint, so we need to search the whole thing in case there are types not allowed underneath
+      for(var j = 0; j < undoArray[theYear][i][1].length; j++)
       {
-        for(var j = 0; j < undoArray[theYear][i][1].length; j++)
+        if (notAllowedArray.includes(undoArray[theYear][i][1][j]))
         {
-          if (notAllowedArray.includes(undoArray[theYear][i][1][j]))
-          {
-            undoArray[theYear] = undoArray[theYear].slice(i + 1);
-            return; //used return so it will break out of both loops
-          }
+          undoArray[theYear] = undoArray[theYear].slice(i + 1);
+          return; //used return so it will break out of both loops
         }
       }
+    }
 
 
-      else if (notAllowedArray.includes(undoArray[theYear][i][1])) // takes care of being covered by a cell paint tile
+    else if (notAllowedArray.includes(undoArray[theYear][i][1])) // takes care of being covered by a cell paint tile
+    {
+      undoArray[theYear] = undoArray[theYear].slice(i + 1);
+      break;
+    }
+  }
+}
+
+/**
+ This function returns an array of land use types that are currently toggled of. This is used in the removeAfterFirstNotAllowed function right above.
+ **/
+function getLandUseNotAllowed()
+{
+  var toReturn = [];
+
+  for(var i = 1; i <= 15; i++)
+  {
+    if(document.getElementById('parameters').innerHTML.indexOf('paint' + i + "\n") != -1)
+    {
+      toReturn.push(i);
+    }
+  }
+
+  return toReturn;
+}
+
+/**
+ This method gets the land use type that is currently selected by the user, this is used to fill
+ the map with the current selection if tiles on the map are toggled off.
+ **/
+function getCurrentLandType()
+{
+  var currentType = LandUseType.getNumericalType(printLandUseType(painter)); // set equal to the current land type that is selected, numerical value
+  return currentType;
+}
+
+
+/**
+ This function is used to set the new default land use type. It sets to the current selected, but if it cant do that it starts at 1 and moveds up until it
+ finds a usable type
+ **/
+function getNewLandType()
+{
+  var toReturn = getCurrentLandType();
+  var notAllowed = getLandUseNotAllowed();
+  var randomPainterTile = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15];
+
+  // if the current selection is toggled off, or wetland because it would set the whole map to wetland
+  if(notAllowed.includes(toReturn)|| toReturn == 14)
+  {
+    // loop through to find the first one that is toggled on
+    for (var r = 1; r <= 15; r++)
+    {
+      if (!(notAllowed.includes(r)))
       {
-        undoArray[theYear] = undoArray[theYear].slice(i + 1);
+        toReturn = r;
         break;
       }
     }
+
   }
-
-  /**
-  This function returns an array of land use types that are currently toggled of. This is used in the removeAfterFirstNotAllowed function right above.
-  **/
-  function getLandUseNotAllowed()
-  {
-    var toReturn = [];
-
-    for(var i = 1; i <= 15; i++)
-    {
-      if(document.getElementById('parameters').innerHTML.indexOf('paint' + i + "\n") != -1)
-      {
-        toReturn.push(i);
-      }
-    }
-
-    return toReturn;
-  }
-
-/**
-This method gets the land use type that is currently selected by the user, this is used to fill
-the map with the current selection if tiles on the map are toggled off.
-**/
-  function getCurrentLandType()
-  {
-    var currentType = LandUseType.getNumericalType(printLandUseType(painter)); // set equal to the current land type that is selected, numerical value
-    return currentType;
-  }
-
-
-/**
-This function is used to set the new default land use type. It sets to the current selected, but if it cant do that it starts at 1 and moveds up until it
-finds a usable type
-**/
-  function getNewLandType()
-  {
-    var toReturn = getCurrentLandType();
-    var notAllowed = getLandUseNotAllowed();
-    var randomPainterTile = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15];
-
-    // if the current selection is toggled off, or wetland because it would set the whole map to wetland
-    if(notAllowed.includes(toReturn)|| toReturn == 14)
-    {
-      // loop through to find the first one that is toggled on
-      for (var r = 1; r <= 15; r++)
-      {
-        if (!(notAllowed.includes(r)))
-        {
-          toReturn = r;
-          break;
-        }
-      }
-
-    }
-    return toReturn;
-  }
+  return toReturn;
+}
 
 
 /**
@@ -8011,24 +8011,24 @@ finds a usable type
  * @param  {[type]} year [The year to copy]
  * @return {[type]}      [An array with an array of IDs and an array of land types to push into the undoArr]
  */
-  function getMap(year)
-  {
-    var tileIDs = [];
-    var landTypes = [];
+function getMap(year)
+{
+  var tileIDs = [];
+  var landTypes = [];
 
-    // loop through the map and get each tiles ID and landtype
-    for (var i = 0; i < boardData[currentBoard].map.length; i++) {
+  // loop through the map and get each tiles ID and landtype
+  for (var i = 0; i < boardData[currentBoard].map.length; i++) {
 
-      //check if the tile is actually a game tile
-      if(boardData[currentBoard].map[i].landType[year] != 0)
-      {
-        tileIDs.push(i);
-        landTypes.push(boardData[currentBoard].map[i].landType[year]);
-      }
+    //check if the tile is actually a game tile
+    if(boardData[currentBoard].map[i].landType[year] != 0)
+    {
+      tileIDs.push(i);
+      landTypes.push(boardData[currentBoard].map[i].landType[year]);
+    }
 
-    } // end for
+  } // end for
 
-    var toReturn = [tileIDs, landTypes];
+  var toReturn = [tileIDs, landTypes];
 
-    return toReturn;
-  }
+  return toReturn;
+}
