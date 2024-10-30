@@ -847,10 +847,11 @@ var Economics = function () {
      * @returns {void} This function does not return any value; it updates instance variables directly.
      */
 
+    let co2_emission = 0; // Zero for non emiting land uses with a postive carbon balance
     for (let i = 1; i <= boardData[currentBoard].calculatedToYear; i++) {
       // Initialize getSoilArea for year 'i'
       let _PrecipitationData = boardData[currentBoard].precipitation[i];
-      _PrecipitationData  = _PrecipitationData.toString();
+      _PrecipitationData = _PrecipitationData.toString();
       // This is to display greenhouse gases by land use types
       this.ghgTypes = [];
       this.landUseArea[i] =
@@ -860,47 +861,57 @@ var Economics = function () {
             11: 0, 12: 0, 13: 0, 14: 0, 15: 0
           }]
       // Repeats by four the object inside, for storing kpi, carbon methane and nitrous oxide
-      this.GHGsBylandUse[i] = Array(4).fill().map(() =>(
-          {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0}
+      this.GHGsBylandUse[i] = Array(4).fill().map(() => (
+          {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0, 13: 0, 14: 0, 15: 0}
       ));
 
-      this.GHGs[i] = [{'CH4':0, 'C02_e':0, 'N2O':0, 'SOC':0}]
-      this.ghgTypes[i] = [{'ch4': 0, 'n2o': 0, 'co2':0}]
+      this.GHGs[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2-emissions': 0}]
+      this.ghgTypes[i] = [{'ch4': 0, 'n2o': 0, 'co2': 0}]
 
       for (let j = 0; j < boardData[currentBoard].map.length; j++) {
         // Get the soil type and area directly
         let getSoilType = boardData[currentBoard].map[j]['soilType'];
-        let landUseTileID= 0;
+        let landUseTileID = 0;
         landUseTileID = boardData[currentBoard].map[j]['landType'][1];
-        let  cellLandArea  = boardData[currentBoard].map[j].area;
+        let cellLandArea = boardData[currentBoard].map[j].area;
         // let carbondioxide = ghgTypes.carbonSequestration < 0 ? ghgTypes.carbonSequestration : 0;
 
 
         // Increment the area for the appropriate soil type and land use without using a switch
         // perfect we have just reduced this code by about 15 lines
         if (this.landUseArea[i][0].hasOwnProperty(landUseTileID)) {
-          this.landUseArea[i][0][landUseTileID] +=  cellLandArea ;
+          this.landUseArea[i][0][landUseTileID] += cellLandArea;
 
-          if (landUseTileID >0) {
+          if (landUseTileID > 0) {
             let ludID = landUseTileID.toString();
             /**
              * Apparently, the column for landUseType, soilType, precipitation levels in the kpi.csv data are named as follows:
              * [code, SoilType, precipitation_level]  if these columns are changed in that file, this method won't work if not updated from the source file for filterByLandUseAndSoilType
              According to our data, the  'filterByLandUseAndSoilType' will always return one entity or row because duplicates are removed
              */
-           // let gasesData = filterByLandUseAndSoilType(this.loadedGHGData, ludID, getSoilType, _PrecipitationData);
+                // let gasesData = filterByLandUseAndSoilType(this.loadedGHGData, ludID, getSoilType, _PrecipitationData);
             let gasesData = filteredArray(this.loadedGHGData, ludID, getSoilType, _PrecipitationData);
             console.log('length of filtered data:', gasesData.length);
             // Convert to hectares
             let soilArea = cellLandArea * 0.404685642;
             // This will need to be converted to carbon dioxide equivalents
-            let soc= parseFloat(gasesData[0]['to_carb'])/ 35 * soilArea;
+            let soc = parseFloat(gasesData[0]['to_carb']) / 35 * soilArea;
             let n20 = parseFloat(gasesData[0]['TopN2O']) * soilArea;
             let kpi = parseFloat(gasesData[0]['kpi']) * soilArea
-            numLandUseCode  = Number(ludID);
+
+            soc = parseFloat(soc.toFixed(0));
+            n20 = parseFloat(n20.toFixed(0));
+            kpi = parseFloat(kpi.toFixed(0));
+            numLandUseCode = Number(ludID);
+            if (soc < 0) {
+              co2_emission = soc;
+              soc = 0;
+            }
+
             this.GHGs[i][0]['SOC'] += soc;
-            this.GHGs[i][0]['N2O'] += n20;
-            this.GHGs[i][0]['C02_e'] +=kpi;
+            this.GHGs[i][0]['N2O'] += n20
+            this.GHGs[i][0]['C02_e'] += kpi
+            this.GHGs[i][0]['CO2-emissions'] += co2_emission
             // zero because the object is inside 0= kpi, 1 = carbon, 2= methane, 3 = nitrous oxide
             this.GHGsBylandUse[i][0][numLandUseCode] += kpi;
             this.GHGsBylandUse[i][1][numLandUseCode] += soc;
