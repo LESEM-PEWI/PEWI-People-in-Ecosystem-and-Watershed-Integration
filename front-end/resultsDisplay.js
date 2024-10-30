@@ -3348,14 +3348,11 @@ function generateResultsTable() {
         else if (backendDataIdentifiers[l] === "N2O") {
           htmlTableString += window.globalGHGs[1][0]?.N2O + "<br>";
         }
-        else if (backendDataIdentifiers[l] === "SOC"
-        ) {
+        else if (backendDataIdentifiers[l] === "SOC") {
           htmlTableString += window.globalGHGs[1][0]?.SOC + "<br>";
         }
-        // else if (backendDataIdentifiers[l] === "carbonSequestration"
-        // ) {
-        //   htmlTableString += window.globalGHGs[1][0]?.carbonSequestration + "<br>";
-        // }
+        else if (backendDataIdentifiers[l] === "carbonSequestration") {
+          htmlTableString += Totals.carbonSequestrationScore[y] < 0 ? addCommas((Math.round(Totals.carbonSequestrationScore[y] * 10) / 10).toFixed(1)) : 0  + "<br>";        }
         else {
           htmlTableString += addCommas((Math.round(Totals?.[tempString]?.[y] * 10) / 10).toFixed(1)) + "<br>";
         }
@@ -3394,14 +3391,11 @@ function generateResultsTable() {
         else if (backendDataIdentifiers[l] === "N2O") {
           htmlTableString += window.globalGHGs[1][0]?.N2O + "<br>";
         }
-        else if (backendDataIdentifiers[l] === "SOC"
-        ) {
+        else if (backendDataIdentifiers[l] === "SOC") {
           htmlTableString += window.globalGHGs[1][0]?.SOC + "<br>";
         }
-        // else if (backendDataIdentifiers[l] === "carbonSequestration"
-        // ) {
-        //   htmlTableString += window.globalGHGs[1][0]?.carbonSequestration + "<br>";
-        // }
+        else if (backendDataIdentifiers[l] === "carbonSequestration") {
+          htmlTableString += Totals.carbonSequestration[y] < 0 ? addCommas((Math.round(Totals.carbonSequestration[y] * 10) / 10).toFixed(1)) : 0  + "<br>";        }
         else {
           htmlTableString += addCommas((Math.round(Totals?.[tempString]?.[y] * 10) / 10).toFixed(1)) + "<br>";
         }
@@ -3468,9 +3462,11 @@ function generateResultsTable() {
         else if (backendDataIdentifiers[l] === "N2O") {
           htmlTableString += window.globalGHGs[1][0]?.N2O + "<br>";
         }
-        else if (backendDataIdentifiers[l] === "SOC"
-        ) {
+        else if (backendDataIdentifiers[l] === "SOC") {
           htmlTableString += window.globalGHGs[1][0]?.SOC + "<br>";
+        }
+        else if (backendDataIdentifiers[l] === "carbonSequestration") {
+          htmlTableString += Totals.carbonSequestration[y] < 0 ? addCommas((Math.round(Totals.carbonSequestration[y] * 10) / 10).toFixed(1)) : 0  + "<br>";
         }
         else {
           htmlTableString += addCommas((Math.round(Totals?.[tempString]?.[y] * conversionArray[l] * 10) / 10).toFixed(1)) + "<br>";
