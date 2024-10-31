@@ -847,7 +847,7 @@ var Economics = function () {
      * @returns {void} This function does not return any value; it updates instance variables directly.
      */
 
-    let co2_emission = 0; // Zero for non emiting land uses with a postive carbon balance
+    let co2_emission = 0; // Zero for non emiting land uses with a positive carbon balance
     for (let i = 1; i <= boardData[currentBoard].calculatedToYear; i++) {
       // Initialize getSoilArea for year 'i'
       let _PrecipitationData = boardData[currentBoard].precipitation[i];
@@ -872,7 +872,8 @@ var Economics = function () {
         // Get the soil type and area directly
         let getSoilType = boardData[currentBoard].map[j]['soilType'];
         let landUseTileID = 0;
-        landUseTileID = boardData[currentBoard].map[j]['landType'][1];
+        landUseTileID = boardData[currentBoard].map[j]['landType'][i];
+        console.log(boardData[currentBoard].map[j]['landType'][i], i, 'Board land use data***')
         let cellLandArea = boardData[currentBoard].map[j].area;
         // let carbondioxide = ghgTypes.carbonSequestration < 0 ? ghgTypes.carbonSequestration : 0;
 
@@ -913,10 +914,10 @@ var Economics = function () {
             this.GHGs[i][0]['C02_e'] += kpi
             this.GHGs[i][0]['CO2-emissions'] += co2_emission
             // zero because the object is inside 0= kpi, 1 = carbon, 2= methane, 3 = nitrous oxide
-            this.GHGsBylandUse[i][0][numLandUseCode] += kpi;
-            this.GHGsBylandUse[i][1][numLandUseCode] += soc;
-            this.GHGsBylandUse[i][2][numLandUseCode] += soc;
-            this.GHGsBylandUse[i][3][numLandUseCode] += n20;
+            // this.GHGsBylandUse[i][0][numLandUseCode] += kpi;
+            // this.GHGsBylandUse[i][1][numLandUseCode] += soc;
+            // this.GHGsBylandUse[i][2][numLandUseCode] += soc;
+            // this.GHGsBylandUse[i][3][numLandUseCode] += n20;
 
           }
 
@@ -925,7 +926,7 @@ var Economics = function () {
     }
 
     window.globalGHGs = this.GHGs;
-    console.log(this.GHGs);
+
     console.log(this.GHGsBylandUse);
   };
 
