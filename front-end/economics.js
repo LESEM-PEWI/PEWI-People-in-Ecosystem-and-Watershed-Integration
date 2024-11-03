@@ -873,7 +873,7 @@ var Economics = function () {
         let getSoilType = boardData[currentBoard].map[j]['soilType'];
         let landUseTileID = 0;
         landUseTileID = boardData[currentBoard].map[j]['landType'][i];
-        console.log(boardData[currentBoard].map[j]['landType'][i], i, 'Board land use data***')
+        console.log(boardData[currentBoard].map[j]['landType'],  'Board land use data, *** ', i)
         let cellLandArea = boardData[currentBoard].map[j].area;
         // let carbondioxide = ghgTypes.carbonSequestration < 0 ? ghgTypes.carbonSequestration : 0;
 
@@ -892,7 +892,7 @@ var Economics = function () {
              */
                 // let gasesData = filterByLandUseAndSoilType(this.loadedGHGData, ludID, getSoilType, _PrecipitationData);
             let gasesData = filteredArray(this.loadedGHGData, ludID, getSoilType, _PrecipitationData);
-            console.log('length of filtered data:', gasesData.length);
+
             // Convert to hectares
             let soilArea = cellLandArea * 0.404685642;
             // This will need to be converted to carbon dioxide equivalents
@@ -924,12 +924,13 @@ var Economics = function () {
         }
       }
     }
+    // empty the loaded data
 
     window.globalGHGs = this.GHGs;
+    //this.loadedGHGData =[];
 
-    console.log(this.GHGsBylandUse);
   };
-
+      delete this.loadedGHGData;
       calculateCornYieldRate = (soilType) => {
       var yieldBaseRates = [223, 0, 214, 206, 0, 200, 210, 221, 228, 179, 235, 240, 209, 0];
 
