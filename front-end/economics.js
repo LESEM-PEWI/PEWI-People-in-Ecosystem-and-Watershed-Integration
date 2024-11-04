@@ -817,7 +817,17 @@ var Economics = function () {
     );
     return dropDuplicates(filterRows)
   };
+  function calculateScores(x, base) {
+    const xLog = Math.log(Math.abs(x) + 1);
+    const bLog = Math.log(Math.abs(base) + 1);
+    const ans = (xLog / bLog) * 100;
 
+    if (x > 0) {
+      return 100 - ans;
+    } else {
+      return ans;
+    }
+  }
   collectTotalWatershedGHGData = () => {
     /**
      * Collects and aggregates greenhouse gas (GHG) data based on land use and soil type
@@ -894,7 +904,7 @@ var Economics = function () {
             let gasesData = filteredArray(this.loadedGHGData, ludID, getSoilType, _PrecipitationData);
 
             // Convert to hectares
-            let soilArea = cellLandArea * 0.404685642;
+            let soilArea = cellLandArea/2.471;
             // This will need to be converted to carbon dioxide equivalents
             let soc = parseFloat(gasesData[0]['to_carb']) / 35 * soilArea;
             let n20 = parseFloat(gasesData[0]['TopN2O']) * soilArea;
