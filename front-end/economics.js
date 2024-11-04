@@ -1,5 +1,6 @@
 // Define the function
 
+
 var Economics = function () {
   this.rawData;
   this.rawBMPData;
@@ -8,6 +9,7 @@ var Economics = function () {
   this.data4 = [];
   this.loadedGHGData = [];
   this.calculatedGHG =[];
+  this.GHGsScore =[]
   this.landUseArea = []
   this.GHGs = [];
   this.GHGsBylandUse = []
@@ -197,7 +199,8 @@ var Economics = function () {
     calculateForrestYields();
     calulateBMPBudgets();
     calculateForestAreaBySoil();
-    collectTotalWatershedGHGData()
+    collectTotalWatershedGHGData();
+    GHGScores();
     calculateRent();
 
     let landUses = [];
@@ -822,17 +825,24 @@ var Economics = function () {
     }
 
   };
-  function calculateScores(x, base) {
-    const xLog = Math.log(Math.abs(x) + 1);
+   calculateGHGScores = (ghg, base) =>{
+    const xLog = Math.log(Math.abs(ghg) + 1);
     const bLog = Math.log(Math.abs(base) + 1);
     const ans = (xLog / bLog) * 100;
 
-    if (x > 0) {
+    if (ghg > 0) {
       return 100 - ans;
     } else {
       return ans;
     }
-  }
+  };
+  const calculateN2OScores = (x_n2o,base_n20) => {
+    const baseLog = Math.log(Math.abs(base_n20) + 1);
+    const xLog_dif = baseLog - Math.log(Math.abs(x_n2o) + 1);
+    let ans_n2o = (xLog_dif / baseLog) * 100;
+    console.log( ans_n2o, 'this is the original answer');
+    return Math.abs(Math.abs(ans_n2o) - 100);
+  };
   collectTotalWatershedGHGData = () => {
     /**
      * Collects and aggregates greenhouse gas (GHG) data based on land use and soil type
@@ -869,7 +879,8 @@ var Economics = function () {
 
       _PrecipitationData = _PrecipitationData.toString();
       // This is to display greenhouse gases by land use types
-      this.ghgTypes = [];
+      this.ghgBenchmark = [];
+      this.GHGsScore[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2-emissions': 0}];
       this.landUseArea[i] =
           [{
             1: 0, 2: 0, 3: 0, 4: 0, 5: 0,
@@ -881,17 +892,17 @@ var Economics = function () {
           {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0, 13: 0, 14: 0, 15: 0}
       ));
 
-      this.GHGs[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2-emissions': 0, 'benchmark_ghg':0}]
-      this.ghgTypes[i] = [{'ch4': 0, 'n2o': 0, 'co2': 0}]
+      this.GHGs[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2-emissions': 0}]
+      this.ghgBenchmark[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2-emissions': 0}]
 
       for (let j = 0; j < boardData[currentBoard].map.length; j++) {
         // Get the soil type and area directly
         let getSoilType = boardData[currentBoard].map[j]['soilType'];
         let landUseTileID = 0;
         landUseTileID = boardData[currentBoard].map[j]['landType'][i];
-        console.log(boardData[currentBoard].map[j]['landType'],  'Board land use data, *** ', i)
+        // console.log(boardData[currentBoard].map[j]['landType'],  'Board land use data, *** ', i)
         let cellLandArea = boardData[currentBoard].map[j].area;
-        // let carbondioxide = ghgTypes.carbonSequestration < 0 ? ghgTypes.carbonSequestration : 0;
+        // let carbon dioxide = ghgTypes.carbonSequestration < 0 ? ghgTypes.carbonSequestration : 0;
 
 
         // Increment the area for the appropriate soil type and land use without using a switch
@@ -909,16 +920,22 @@ var Economics = function () {
                 // let gasesData = filterByLandUseAndSoilType(this.loadedGHGData, ludID, getSoilType, _PrecipitationData);
             let gasesData = filteredArray(this.loadedGHGData, ludID, getSoilType, _PrecipitationData);
             // we need to always benchmark it to conservation forestry based on the selected soil types
-            let baseData = filteredArray(this.loadedGHGData, '11', getSoilType, _PrecipitationData);
+            let baseData = filteredArray(this.loadedGHGData, '10', getSoilType, _PrecipitationData);
+            //console.log(baseData, 'base-data')
             // let kpiSum = baseData.reduce((sum, item) => sum + (item.kpi || 0), 0);
 
             // Convert to hectares
             let soilArea = cellLandArea/2.471;
+
             // This will need to be converted to carbon dioxide equivalents
-            let soc = parseFloat(gasesData[0]['to_carb']) / 35 * soilArea;
+            let soc = parseFloat(gasesData[0]?.to_carb) / 35 * soilArea;
             let n20 = parseFloat(gasesData[0]['TopN2O']) * soilArea;
             let kpi = parseFloat(gasesData[0]['kpi']) * soilArea
-            let kpiSum =  parseFloat(baseData[0]['kpi']) * soilArea;
+            // BASE DATA FOR CALCULATIGN SCORES IS BASED ON CONSERVATION F0RESTRY CODE 11
+            let bGHG =  parseFloat(baseData[0]['kpi']) * soilArea;
+            let bN2O =  parseFloat(baseData[0]['TopN2O']) * soilArea;
+            let bCH4 =  parseFloat(baseData[0]['TopN2O']) * soilArea;
+            let bSOC = parseFloat(baseData[0]['SOC']) * soilArea;
 
             soc = parseFloat(soc.toFixed(0));
             n20 = parseFloat(n20.toFixed(0));
@@ -933,13 +950,17 @@ var Economics = function () {
             this.GHGs[i][0]['N2O'] += n20;
             this.GHGs[i][0]['C02_e'] += kpi;
             this.GHGs[i][0]['CO2-emissions'] += co2_emission;
-            this.GHGs[i][0]['benchmark_ghg'] += kpiSum;
+            this.ghgBenchmark[i][0]['C02_e'] +=bGHG;
+            this.ghgBenchmark[i][0]['N2O'] += bN2O;
+            //this.ghgBenchmark[i][0]['C02_e'] +=bGHG;
+            this.ghgBenchmark[i][0]['SOC'] +=bSOC;
 
 
           }
 
         }
       }
+
     }
     // empty the loaded data
 
@@ -947,7 +968,39 @@ var Economics = function () {
     //this.loadedGHGData =[];
 
   };
-      delete this.loadedGHGData;
+  GHGScores = () => {
+    this.GHGs.forEach((element, index) => {
+      console.log(typeof element);
+      console.log(Array.isArray(element));
+      // Ensure `this.GHGsScore[index][0]` exists before assigning values
+      //if (!this.GHGsScore[index]) this.GHGsScore[index] = [{}];
+
+      // Iterate over each key in the `element` object
+      for (let key in element[0]) {
+        if (element[0].hasOwnProperty(key)) {
+          // Dynamically check if the benchmark value exists, provide a default if not
+          const benchmarkValue = this.ghgBenchmark[index]?.[0]?.[key] || 0;
+          console.log(benchmarkValue, 'benchmark value')
+
+          // Calculate and assign score
+          if (key ==='N2O'){
+
+            this.GHGsScore[index][0][key] = calculateN2OScores(element[0][key], benchmarkValue);
+          }else if (key ==='SOC') {
+            this.GHGsScore[index][0][key] = (element[0][key]/benchmarkValue) *100
+          }else {
+            this.GHGsScore[index][0][key] = calculateGHGScores(element[0][key], benchmarkValue);
+            console.log(`Key: ${key}, Value: ${element[0][key]}`);
+          }
+        }
+      }
+    });
+    //console.log(this.GHGsScore, 'scores');
+  };
+
+
+
+  delete this.loadedGHGData;
       calculateCornYieldRate = (soilType) => {
       var yieldBaseRates = [223, 0, 214, 206, 0, 200, 210, 221, 228, 179, 235, 240, 209, 0];
 

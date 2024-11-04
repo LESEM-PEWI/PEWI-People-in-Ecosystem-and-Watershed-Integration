@@ -3341,16 +3341,16 @@ function generateResultsTable() {
           htmlTableString += Totals.musselServicesScore[y] + "<br>";
         }
         else if (backendDataIdentifiers[l] === "CH4") {
-          htmlTableString += window.globalGHGs[y][0]?.CH4 + "<br>";
+          htmlTableString += economics.GHGsScore[y][0]?.CH4 + "<br>";
         }
         else if (backendDataIdentifiers[l] === "C02_e") {
-          htmlTableString += window.globalGHGs[y][0]?.C02_e + "<br>";
+          htmlTableString += economics.GHGsScore[y][0]?.C02_e + "<br>";
         }
         else if (backendDataIdentifiers[l] === "N2O") {
-          htmlTableString += window.globalGHGs[y][0]?.N2O + "<br>";
+          htmlTableString += economics.GHGsScore[y][0]?.N2O + "<br>";
         }
         else if (backendDataIdentifiers[l] === "SOC") {
-          htmlTableString += window.globalGHGs[y][0]?.SOC + "<br>";
+          htmlTableString += economics.GHGsScore[y][0]?.SOC + "<br>";
         }
         else if (backendDataIdentifiers[l] === "carbonSequestration") {
           htmlTableString += Totals.carbonSequestrationScore[y] < 0 ? addCommas((Math.round(Totals.carbonSequestrationScore[y] * 10) / 10).toFixed(1)) : 0  + "<br>";        }
