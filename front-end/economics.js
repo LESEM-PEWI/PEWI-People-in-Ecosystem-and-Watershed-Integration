@@ -934,11 +934,7 @@ var Economics = function () {
             this.GHGs[i][0]['C02_e'] += kpi;
             this.GHGs[i][0]['CO2-emissions'] += co2_emission;
             this.GHGs[i][0]['benchmark_ghg'] += kpiSum;
-            // zero because the object is inside 0= kpi, 1 = carbon, 2= methane, 3 = nitrous oxide
-            // this.GHGsBylandUse[i][0][numLandUseCode] += kpi;
-            // this.GHGsBylandUse[i][1][numLandUseCode] += soc;
-            // this.GHGsBylandUse[i][2][numLandUseCode] += soc;
-            // this.GHGsBylandUse[i][3][numLandUseCode] += n20;
+
 
           }
 
