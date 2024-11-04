@@ -808,14 +808,19 @@ var Economics = function () {
       return accumulator;
     }, []);
   }
-  const filteredArray = function(arrayData, landUseType, soilType, precipLevel) {
+  const filteredArray = function(arrayData, landUseType, soilType, precipLevel, drop_dup_s =true) {
     let filterRows = arrayData.filter(row =>
         row.soil_type === soilType &&
         row.land_use_code === landUseType &&
         row.precipitation_level === precipLevel
 
     );
-    return dropDuplicates(filterRows)
+    if (drop_dup_s){
+      return dropDuplicates(filterRows)
+    } else{
+      return filterRows
+    }
+
   };
   function calculateScores(x, base) {
     const xLog = Math.log(Math.abs(x) + 1);
@@ -861,6 +866,7 @@ var Economics = function () {
     for (let i = 1; i <= boardData[currentBoard].calculatedToYear; i++) {
       // Initialize getSoilArea for year 'i'
       let _PrecipitationData = boardData[currentBoard].precipitation[i];
+
       _PrecipitationData = _PrecipitationData.toString();
       // This is to display greenhouse gases by land use types
       this.ghgTypes = [];
@@ -875,7 +881,7 @@ var Economics = function () {
           {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0, 13: 0, 14: 0, 15: 0}
       ));
 
-      this.GHGs[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2-emissions': 0}]
+      this.GHGs[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2-emissions': 0, 'benchmark_ghg':0}]
       this.ghgTypes[i] = [{'ch4': 0, 'n2o': 0, 'co2': 0}]
 
       for (let j = 0; j < boardData[currentBoard].map.length; j++) {
@@ -902,6 +908,9 @@ var Economics = function () {
              */
                 // let gasesData = filterByLandUseAndSoilType(this.loadedGHGData, ludID, getSoilType, _PrecipitationData);
             let gasesData = filteredArray(this.loadedGHGData, ludID, getSoilType, _PrecipitationData);
+            // we need to always benchmark it to conservation forestry based on the selected soil types
+            let baseData = filteredArray(this.loadedGHGData, '11', getSoilType, _PrecipitationData);
+            // let kpiSum = baseData.reduce((sum, item) => sum + (item.kpi || 0), 0);
 
             // Convert to hectares
             let soilArea = cellLandArea/2.471;
@@ -909,6 +918,7 @@ var Economics = function () {
             let soc = parseFloat(gasesData[0]['to_carb']) / 35 * soilArea;
             let n20 = parseFloat(gasesData[0]['TopN2O']) * soilArea;
             let kpi = parseFloat(gasesData[0]['kpi']) * soilArea
+            let kpiSum =  parseFloat(baseData[0]['kpi']) * soilArea;
 
             soc = parseFloat(soc.toFixed(0));
             n20 = parseFloat(n20.toFixed(0));
@@ -920,9 +930,10 @@ var Economics = function () {
             }
 
             this.GHGs[i][0]['SOC'] += soc;
-            this.GHGs[i][0]['N2O'] += n20
-            this.GHGs[i][0]['C02_e'] += kpi
-            this.GHGs[i][0]['CO2-emissions'] += co2_emission
+            this.GHGs[i][0]['N2O'] += n20;
+            this.GHGs[i][0]['C02_e'] += kpi;
+            this.GHGs[i][0]['CO2-emissions'] += co2_emission;
+            this.GHGs[i][0]['benchmark_ghg'] += kpiSum;
             // zero because the object is inside 0= kpi, 1 = carbon, 2= methane, 3 = nitrous oxide
             // this.GHGsBylandUse[i][0][numLandUseCode] += kpi;
             // this.GHGsBylandUse[i][1][numLandUseCode] += soc;
