@@ -200,6 +200,7 @@ var Economics = function () {
     calulateBMPBudgets();
     calculateForestAreaBySoil();
     collectTotalWatershedGHGData();
+    collectTotalWatershedGHGData_a();
     GHGScores();
     calculateRent();
 
@@ -843,6 +844,8 @@ var Economics = function () {
     console.log( ans_n2o, 'this is the original answer');
     return Math.abs(Math.abs(ans_n2o) - 100);
   };
+
+
   collectTotalWatershedGHGData = () => {
     /**
      * Collects and aggregates greenhouse gas (GHG) data based on land use and soil type
@@ -968,6 +971,102 @@ var Economics = function () {
     //this.loadedGHGData =[];
 
   };
+
+  async function collectTotalWatershedGHGData_a() {
+    const filterByLandUseDSoilType = (data, landUseTypes, soilTypes, precipitationLevel) => {
+      if (!data || data.length === 0) {
+        console.error("Data not loaded or empty.");
+        return [];
+      }
+
+      // Normalize inputs and convert to sets
+      const landUseSet = new Set(Array.isArray(landUseTypes) ? landUseTypes : [landUseTypes]);
+      const soilSet = new Set(Array.isArray(soilTypes) ? soilTypes : [soilTypes]);
+      const precipitationSet = new Set(Array.isArray(precipitationLevel) ? precipitationLevel : [precipitationLevel]);
+
+      // Filter data
+      const filteredData = data.filter(row =>
+          landUseSet.has(row['land_use_code']) &&
+          soilSet.has(row['soil_type']) &&
+          precipitationSet.has(row['precipitation_level'])
+      );
+
+      if (filteredData.length === 0) {
+        console.log(filteredData.length)
+        console.warn(`No data found for specified parameters: Land Use: ${landUseTypes}, Precipitation: ${precipitationLevel}, Soil Types: ${soilTypes}`);
+        return [];
+      }
+
+      return removeDuplicates(filteredData);
+    };
+
+    let co2_emission = 0;
+    let ghgBenchmark = [];
+    let GHGsScore = [];
+    let landUseArea = Array(boardData[currentBoard].calculatedToYear + 1).fill(null).map(() => ({
+      1: 0, 2: 0, 3: 0, 4: 0, 5: 0,
+      6: 0, 7: 0, 8: 0, 9: 0, 10: 0,
+      11: 0, 12: 0, 13: 0, 14: 0, 15: 0
+    }));
+
+    for (let i = 1; i <= boardData[currentBoard].calculatedToYear; i++) {
+      const _PrecipitationData = boardData[currentBoard].precipitation[i].toString();
+
+      ghgBenchmark[i] = [{ 'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2-emissions': 0 }];
+      GHGsScore[i] = [{ 'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2-emissions': 0 }];
+
+      // Perform async processing on each map entry
+      const ghgCalculations = boardData[currentBoard].map.map(async (mapEntry) => {
+        const getSoilType = mapEntry.soilType;
+        const landUseTileID = mapEntry.landType[i];
+        const cellLandArea = mapEntry.area;
+
+        if (landUseArea[i].hasOwnProperty(landUseTileID)) {
+          landUseArea[i][landUseTileID] += cellLandArea;
+
+          if (landUseTileID > 0) {
+            const ludID = landUseTileID.toString();
+
+            // Execute both `filteredArray` calls concurrently
+            const [gasesData, baseDData] = await Promise.all([
+              filterByLandUseDSoilType(this.loadedGHGData, ludID, getSoilType, _PrecipitationData),
+              filterByLandUseDSoilType(this.loadedGHGData, '11', getSoilType, _PrecipitationData)
+            ]);
+
+            const soilArea = cellLandArea / 2.471;
+            let soc = parseFloat(gasesData[0]?.to_carb) / 35 * soilArea;
+            let n20 = parseFloat(gasesData[0]?.TopN2O) * soilArea;
+            let kpi = parseFloat(gasesData[0]?.kpi) * soilArea;
+
+            soc = parseFloat(soc.toFixed(0));
+            n20 = parseFloat(n20.toFixed(0));
+            kpi = parseFloat(kpi.toFixed(0));
+
+            if (soc < 0) {
+              co2_emission = soc;
+              soc = 0;
+            }
+
+            // Update GHG values for the year
+            if (!GHGsScore[i][0]) GHGsScore[i][0] = {};
+            GHGsScore[i][0]['SOC'] = (GHGsScore[i][0]['SOC'] || 0) + soc;
+            GHGsScore[i][0]['N2O'] = (GHGsScore[i][0]['N2O'] || 0) + n20;
+            GHGsScore[i][0]['C02_e'] = (GHGsScore[i][0]['C02_e'] || 0) + kpi;
+            GHGsScore[i][0]['CO2-emissions'] = (GHGsScore[i][0]['CO2-emissions'] || 0) + co2_emission;
+          }
+        }
+      });
+
+      // Wait for all map entries in year `i` to complete
+      await Promise.all(ghgCalculations);
+    }
+
+    // Log the results if needed
+    console.log("GHGsScore: from async", GHGsScore);
+    console.log("landUseArea: from async", landUseArea);
+    console.log("ghgBenchmark: from async", ghgBenchmark);
+  }
+
   GHGScores = () => {
     this.GHGs.forEach((element, index) => {
       console.log(typeof element);
