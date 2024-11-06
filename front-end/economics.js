@@ -984,12 +984,16 @@ var Economics = function () {
 
           // Calculate and assign score
           if (key ==='N2O'){
-
-            this.GHGsScore[index][0][key] = calculateN2OScores(element[0][key], benchmarkValue);
+            let calN20Score =  calculateN2OScores(element[0][key], benchmarkValue);
+            calN20Score= parseFloat(calN20Score.toFixed(1))
+            this.GHGsScore[index][0][key] = calN20Score;
           }else if (key ==='SOC') {
             this.GHGsScore[index][0][key] = (element[0][key]/benchmarkValue) *100
           }else {
-            this.GHGsScore[index][0][key] = calculateGHGScores(element[0][key], benchmarkValue);
+
+            let calCO_eScore = calculateGHGScores(element[0][key], benchmarkValue);
+            calCO_eScore = parseFloat(calCO_eScore.toFixed(1));
+            this.GHGsScore[index][0][key] = calCO_eScore;
             console.log(`Key: ${key}, Value: ${element[0][key]}`);
           }
         }
