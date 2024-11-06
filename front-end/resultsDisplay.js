@@ -3384,7 +3384,7 @@ function generateResultsTable() {
         else if (backendDataIdentifiers[l] === "musselPopulation"){
         }
         else if (backendDataIdentifiers[l] === "CH4") {
-          htmlTableString += window.globalGHGs[y][0]?.CH4 + "<br>";
+          htmlTableString += economics.GHGs[y][0]?.CH4 + "<br>";
         }
         else if (backendDataIdentifiers[l] === "C02_e") {
           htmlTableString += economics.GHGs[y][0]?.C02_e + "<br>";

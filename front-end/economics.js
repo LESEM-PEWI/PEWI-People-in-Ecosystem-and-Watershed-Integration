@@ -920,7 +920,7 @@ var Economics = function () {
                 // let gasesData = filterByLandUseAndSoilType(this.loadedGHGData, ludID, getSoilType, _PrecipitationData);
             let gasesData = filteredArray(this.loadedGHGData, ludID, getSoilType, _PrecipitationData);
             // we need to always benchmark it to conservation forestry based on the selected soil types
-            let baseData = filteredArray(this.loadedGHGData, '10', getSoilType, _PrecipitationData);
+            let baseDData = filteredArray(this.loadedGHGData, '11', getSoilType, _PrecipitationData);
             //console.log(baseData, 'base-data')
             // let kpiSum = baseData.reduce((sum, item) => sum + (item.kpi || 0), 0);
 
@@ -931,11 +931,11 @@ var Economics = function () {
             let soc = parseFloat(gasesData[0]?.to_carb) / 35 * soilArea;
             let n20 = parseFloat(gasesData[0]['TopN2O']) * soilArea;
             let kpi = parseFloat(gasesData[0]['kpi']) * soilArea
-            // BASE DATA FOR CALCULATIGN SCORES IS BASED ON CONSERVATION F0RESTRY CODE 11
-            let bGHG =  parseFloat(baseData[0]['kpi']) * soilArea;
-            let bN2O =  parseFloat(baseData[0]['TopN2O']) * soilArea;
-            let bCH4 =  parseFloat(baseData[0]['TopN2O']) * soilArea;
-            let bSOC = parseFloat(baseData[0]['SOC']) * soilArea;
+            // BASE DATA FOR CALCULATION SCORES IS BASED ON CONSERVATION F0RESTRY CODE 11
+            let bGHG =  parseFloat(baseDData[0]?.kpi) * soilArea;
+            let bN2O =  parseFloat(baseDData[0]?.TopN2O) * soilArea;
+            let bCH4 =  parseFloat(baseDData[0]?.TopN2O) * soilArea;
+            let bSOC = parseFloat(baseDData[0]?.SOC) * soilArea;
 
             soc = parseFloat(soc.toFixed(0));
             n20 = parseFloat(n20.toFixed(0));
@@ -964,7 +964,7 @@ var Economics = function () {
     }
     // empty the loaded data
 
-    window.globalGHGs = this.GHGs;
+    //window.globalGHGs = this.GHGs;
     //this.loadedGHGData =[];
 
   };
@@ -1002,9 +1002,6 @@ var Economics = function () {
     //console.log(this.GHGsScore, 'scores');
   };
 
-
-
-  delete this.loadedGHGData;
       calculateCornYieldRate = (soilType) => {
       var yieldBaseRates = [223, 0, 214, 206, 0, 200, 210, 221, 228, 179, 235, 240, 209, 0];
 
