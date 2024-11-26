@@ -105,6 +105,11 @@
   -o-animation: progress-bar-stripes 1s linear infinite;
   animation: progress-bar-stripes 1s linear infinite;
 }
+
+.progress-bar-greenHouseGases {
+  background-color: #f0ad4e;
+}
+
 .progress-bar-gameWildlife {
   background-color: #5cb85c;
 }
@@ -198,7 +203,7 @@
   right: 0;
 }
 
-.gameWildlifeScoreDetails, .carbonScoreDetails, .erosionScoreDetails,.nitrateScoreDetails,
+.greenHouseGasesDetails,.gameWildlifeScoreDetails, .carbonScoreDetails, .erosionScoreDetails,.nitrateScoreDetails,
 .phoshorusScoreDetails, .sedimentScoreDetails, .aquaticScoreDetails, .totalScoreDetails, .biodiversityScoreDetails,.streamBiodiversityScoreDetails,
 .cornGrainScoreDetails,.soybeansScoreDetails, .fruitsAndVegetablesScoreDetails, .cattleScoreDetails,
 .alfalfaHayScoreDetails, .grassHayScoreDetails, .switchgrassBiomassScoreDetails, .woodScoreDetails,

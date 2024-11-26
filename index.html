@@ -1656,6 +1656,20 @@
 
   <!-- div which responsible for the progress bar -->
   <div class="progressBarContainer" id="progressBarContainer">
+    <div id="greenHouseGasesProgressBar">
+      <div class="progressBarTitle">&nbsp;&nbsp;&nbsp;GHG:</div>
+      <div class="progress" onmouseover="toggleScoreDetails('greenHouseGases');" onmouseout="toggleScoreDetails('greenHouseGases');">
+        <div class="progress-bar progress-bar-greenHouseGases" role="progressbar"></div>
+        <img id="minIndicator" src="./imgs/white-bar.png" style="left: -10%;" onmouseover="toggleMinMax('Min',0);" onmouseout="toggleMinMax('Min',0);">
+        <img id="maxIndicator" src="./imgs/white-bar.png" style="left: 110%;" onmouseover="toggleMinMax('Max',0);" onmouseout="toggleMinMax('Max',0);">
+      </div>
+      <div class="greenHouseGasesDetails">
+        <div class="title">Green House Gases</div>
+        <div class="ecoScore"></div>
+        <div class="rawValue"></div>
+      </div>
+      <div class="min-max-details"></div>
+    </div>
 
     <div id="gameWildlifeProgressBar">
       <div class="progressBarTitle">&nbsp;&nbsp;&nbsp;GW:</div>

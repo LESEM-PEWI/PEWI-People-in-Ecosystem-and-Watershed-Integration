@@ -200,7 +200,7 @@ var Economics = function () {
     calulateBMPBudgets();
     calculateForestAreaBySoil();
     collectTotalWatershedGHGData();
-    collectTotalWatershedGHGData_a();
+    // collectTotalWatershedGHGData_a();
     GHGScores();
     calculateRent();
 
@@ -975,7 +975,6 @@ var Economics = function () {
   async function collectTotalWatershedGHGData_a() {
     const filterByLandUseDSoilType = (data, landUseTypes, soilTypes, precipitationLevel) => {
       if (!data || data.length === 0) {
-        console.error("Data not loaded or empty.");
         return [];
       }
 

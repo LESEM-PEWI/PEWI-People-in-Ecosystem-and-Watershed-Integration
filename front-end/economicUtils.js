@@ -116,7 +116,6 @@ function flattenNestedObject(arr){
 filterByValue = (data, soilType, columnName = 'soilType') => {
     // Check if data is loaded
     if (!data || data.length === 0) {
-        console.error("Data not loaded yet or is empty.");
         return [];
     }
 
@@ -137,7 +136,6 @@ filterByValue = (data, soilType, columnName = 'soilType') => {
 const filterByLandUseAndSoilType = (data, landUseTypes, soilTypes, precipitationLevel) => {
     // Check if data is loaded
     if (!data || data.length === 0) {
-        console.error("Data not loaded yet or is empty.");
         return [];
     }
 

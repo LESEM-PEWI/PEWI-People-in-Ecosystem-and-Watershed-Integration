@@ -88,38 +88,16 @@ Cleaned and Prepared - August 2016
 
           </div>
 
-          <!-- Aster HUD Deprecated, along with the functions that support it
-                               code is left for future implementations, if needed -->
-          <!--
-                        <div id="asterChart"></div>
-
-                        <div id="yearHolder2">
-                            <div id="yearUpESI" onclick="changeESIAsterBy(1);" class="upArrow"></div>
-                            <div id="yearDownESI" onclick="changeESIAsterBy(-1);" class="downArrow"></div>
-                        </div>
-
-
-                        <div id="asterHUD">
-                            <div id="asterContainer"></div>
-                        </div>
-                        -->
-
           <div id="radarContainer" class="graph-section">
             <div id="radarChart"></div>
             <div id="radarLegend"></div>
           </div>
 
           <div id="scoreChart" style="height: 600px"></div>
-
-          <div id="precipSection" class="graph-section">
-            <div id="PrecipitationTitle"> Annual Precipitation</div>
-            <div id="precipInfo" class="precipInfo"></div>
-            <div id="precipTitle">
-              <img src="./imgs/precipBack.png" alt="Precipitation">
+            <div style="display: flex;gap: 20px;margin-top: 20px;">
+              <div><b>Precipitation</b></div>
+              <div id="randomprecipvalue" style="display: flex"></div>
             </div>
-            <svg id="precipChart"></svg>
-          </div>
-
         </div>
       </div>
 
@@ -131,15 +109,6 @@ Cleaned and Prepared - August 2016
 
       <div style="display:none;" id="econ"><br>
         <div style="display:inline-block;width:20%;vertical-align:top" >
-        <!--<div id="tOrAbutton">
-          <h4>View By</h4>
-          <select id="timeOrAction" onChange="updateTorA();">
-              <option value=0>Time</option>
-              <option value=1>Action</option>
-              <option value=2>All</option>
-          </select>
-        </div>-->
-
         <div id="yearCopyButton">
           <h4>Year Select:</h4>
           <select id="yearSelect" onChange="parent.changeYear();">
