@@ -3157,7 +3157,7 @@ function generateResultsTable() {
       "Game Wildlife", " Land Biodiversity", "Stream Biodiversity", "Mussel Population",
     ];
     backendDataIdentifiers = [
-      "C02_e", "carbonSequestration", "CH4", "N2O",
+      "C02_e", 'CO2-emissions', "CH4", "N2O",
       "SOC", "grossErosion",
       "aquaticHealth", "nitrateConcentration","phosphorusLoad", "sedimentDelivery",
       "gameWildlifePoints", "biodiversityPoints", "streamBiodiversity", "musselPopulation",
@@ -3350,10 +3350,10 @@ function generateResultsTable() {
           htmlTableString += economics.GHGsScore[y][0]?.N2O + "<br>";
         }
         else if (backendDataIdentifiers[l] === "SOC") {
-          htmlTableString += economics.GHGsScore[y][0]?.SOC + "<br>";
+          htmlTableString += Math.round(economics.GHGsScore[y][0]?.SOC, 1)+ "<br>";
         }
-        else if (backendDataIdentifiers[l] === "carbonSequestration") {
-          htmlTableString += Totals.carbonSequestrationScore[y] < 0 ? addCommas((Math.round(Totals.carbonSequestrationScore[y] * 10) / 10).toFixed(1)) : 0  + "<br>";        }
+        else if (backendDataIdentifiers[l] === 'CO2_emissions') {
+          htmlTableString += economics.GHGsScore[y][0]?.CO2_emissions + "<br>";        }
         else {
           htmlTableString += addCommas((Math.round(Totals?.[tempString]?.[y] * 10) / 10).toFixed(1)) + "<br>";
         }
@@ -3395,8 +3395,8 @@ function generateResultsTable() {
         else if (backendDataIdentifiers[l] === "SOC") {
           htmlTableString += economics.GHGs[y][0]?.SOC + "<br>";
         }
-        else if (backendDataIdentifiers[l] === "carbonSequestration") {
-          htmlTableString += Totals.carbonSequestration[y] < 0 ? addCommas((Math.round(Totals.carbonSequestration[y] * 10) / 10).toFixed(1)) : 0  + "<br>";        }
+        else if (backendDataIdentifiers[l] === 'CO2_emissions') {
+          htmlTableString += economics.GHGs[y][0]?.CO2_emissions + "<br>";        }
         else {
           htmlTableString += addCommas((Math.round(Totals?.[tempString]?.[y] * 10) / 10).toFixed(1)) + "<br>";
         }
@@ -3466,8 +3466,8 @@ function generateResultsTable() {
         else if (backendDataIdentifiers[l] === "SOC") {
           htmlTableString += economics.GHGs[y][0]?.SOC + "<br>";
         }
-        else if (backendDataIdentifiers[l] === "carbonSequestration") {
-          htmlTableString += Totals.carbonSequestration[y] < 0 ? addCommas((Math.round(Totals.carbonSequestration[y] * 10) / 10).toFixed(1)) : 0  + "<br>";
+        else if (backendDataIdentifiers[l] === 'CO2_emissions') {
+          htmlTableString += economics.GHGs[y][0]?.CO2_emissions + "<br>";  + "<br>";
         }
         else {
           htmlTableString += addCommas((Math.round(Totals?.[tempString]?.[y] * conversionArray[l] * 10) / 10).toFixed(1)) + "<br>";
