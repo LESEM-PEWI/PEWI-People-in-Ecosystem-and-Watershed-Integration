@@ -2850,13 +2850,14 @@ function generateResultsTable() {
     //add header
     //Players section of table START
     //The code below is to add the column titles for Players section of results table
+    // TODO please check these repetitions
     htmlTableString += "<tr class='tableHeading'> <th> Players </th>";
     for (var y = 1; y <= upToYear; y++) {
       htmlTableString += "<th>";
       htmlTableString += "Y" + y;
       htmlTableString += "</th>";
     }
-
+  // TODO please check these repetitions
     htmlTableString += "<th>Percentage</th>";
 
     for (var y = 1; y <= upToYear; y++) {
@@ -2866,7 +2867,7 @@ function generateResultsTable() {
     }
 
     htmlTableString += "<th>Units (English) </th>";
-
+// TODO please check these repetitions
     for (var y = 1; y <= upToYear; y++) {
       htmlTableString += "<th>";
       htmlTableString += "Y" + y;
@@ -3174,7 +3175,7 @@ function generateResultsTable() {
     //add header row
 
     htmlTableString += "<tr class='tableHeading'> <th width='28%' class='leftText'> Ecosystem Service Indicator <br> / Measurement </th>";
-
+// TODO please check these repetitions
     for (var y = 1; y <= upToYear; y++) {
       htmlTableString += "<th width=" + yearWidth + " class='rightText'>";
       htmlTableString += "Y" + y;
@@ -3182,7 +3183,7 @@ function generateResultsTable() {
     }
 
     htmlTableString += "<th width='11%' class='centerText'>Score</th>";
-
+// TODO please check these repetitions
     for (var y = 1; y <= upToYear; y++) {
       htmlTableString += "<th width=" + yearWidth + " class='rightText'>";
       htmlTableString += "Y" + y;
@@ -3190,7 +3191,7 @@ function generateResultsTable() {
     }
 
     htmlTableString += "<th width='11%' class='centerText'>Units (English) </th>";
-
+// TODO please check these repetitions
     for (var y = 1; y <= upToYear; y++) {
       htmlTableString += "<th width=" + yearWidth + " class='rightText'>";
       htmlTableString += "Y" + y;
@@ -3384,13 +3385,19 @@ function generateResultsTable() {
         else if (backendDataIdentifiers[l] === "musselPopulation"){
         }
         else if (backendDataIdentifiers[l] === "CH4") {
-          htmlTableString += economics.GHGs[y][0]?.CH4 + "<br>";
+          let methane = economics.GHGs[y][0]?.CH4 * 0.984206 // convert to English tonnes
+          methane = Math.round(methane, 2)
+          htmlTableString += methane + "<br>";
         }
         else if (backendDataIdentifiers[l] === "C02_e") {
-          htmlTableString += economics.GHGs[y][0]?.C02_e + "<br>";
+          let co_equiv =  economics.GHGs[y][0]?.C02_e/1000 * 0.984206 // convert to English tonnes
+          co_equiv  = Math.round(co_equiv, 2)
+          htmlTableString +=  co_equiv + "<br>";
         }
         else if (backendDataIdentifiers[l] === "N2O") {
-          htmlTableString += economics.GHGs[y][0]?.N2O + "<br>";
+          let n2oHere =  economics.GHGs[y][0]?.N2O * 0.984206 // convert to English tonnes
+          n2oHere= Math.round(n2oHere, 2)
+          htmlTableString += n2oHere + "<br>";
         }
         else if (backendDataIdentifiers[l] === "SOC") {
           htmlTableString += economics.GHGs[y][0]?.SOC + "<br>";
@@ -3455,13 +3462,18 @@ function generateResultsTable() {
         else if (backendDataIdentifiers[l] === "musselPopulation"||backendDataIdentifiers[l] === "gameWildlifePoints"||backendDataIdentifiers[l] === "biodiversityPoints"){
         }
         else if (backendDataIdentifiers[l] === "CH4") {
-          htmlTableString += economics.GHGs[y][0]?.CH4 + "<br>";
+          let methane = Math.round(economics.GHGs[y][0]?.CH4)
+          htmlTableString += methane + "<br>";
         }
         else if (backendDataIdentifiers[l] === "C02_e") {
-          htmlTableString += economics.GHGs[y][0]?.C02_e + "<br>";
+          let co_equiv =  economics.GHGs[y][0]?.C02_e/1000 //convert to mega grams // no need to convert to English tonnes
+          co_equiv  = Math.round(co_equiv, 2)
+          htmlTableString +=  co_equiv + "<br>";
         }
         else if (backendDataIdentifiers[l] === "N2O") {
-          htmlTableString += economics.GHGs[y][0]?.N2O + "<br>";
+          let n2oHere =  economics.GHGs[y][0]?.N2O * 0.984206 //  no need to convert if already in Mega grams
+          n2oHere= Math.round(n2oHere, 2)
+          htmlTableString +=n2oHere + "<br>";
         }
         else if (backendDataIdentifiers[l] === "SOC") {
           htmlTableString += economics.GHGs[y][0]?.SOC + "<br>";

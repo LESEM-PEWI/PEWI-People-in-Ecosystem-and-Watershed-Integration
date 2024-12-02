@@ -826,35 +826,29 @@ var Economics = function () {
     }
 
   };
-   calculateGHGScores = (ghg, base, max = 307) =>{
-    // const xLog = Math.log(Math.abs(ghg) + 1);
-    // const bLog = Math.log(Math.abs(base) + 1);
-    // const ans = (xLog / bLog) * 100;
-    // if (ghg > 0) {
-    //   return Math.abs(100 - ans);
-    // } else {
-    //   return Math.abs(ans);
-    // }
-     const diff = ((ghg-base)/base * 100)/max * 100
-     return Math.abs(diff);
-  };
-   socScore = (base, current)=>{
-     const xLog = Math.log(Math.abs(current) + 1);
-     const bLog = Math.log(Math.abs(base) + 1);
-     const ans = (xLog / bLog) * 100;
-     if (current > 0) {
-       return Math.abs(100 - ans);
-     } else {
-       return Math.abs(ans);
-     }
-   };
+   calculateGHGScores = (current, base, maximum_score = 307, element = 'CO2-e') =>{
+     // maximum_score is the expected maximum score for each element based on the best performing land use
+     // using switch in case something specific needs to tailored to an element
+     function getElementCal(element) {
+       switch (element) {
+         case 'CO2-e':
+           const diff = ((current-base)/base * 100)/maximum_score * 100
+           return Math.abs(diff);
+         case 'N20':
+           const n2O_diff = ((current-base)/base * 100)/maximum_score * 100
+           return Math.abs(n2O_diff);
+         case 'CO2_em':
+           let cur_CO2_em  = Math.abs(current)
+           let base_co_em = Math.abs(2342)
+           const emissionsReductions  =  ((base_co_em -  cur_CO2_em)/base_co_em)/maximum_score * 100
+           return Math.abs(emissionsReductions)
 
-  const calculateN2OScores = (x_n2o,base_n20) => {
-    const baseLog = Math.log(Math.abs(base_n20) + 1);
-    const xLog_dif = baseLog - Math.log(Math.abs(x_n2o) + 1);
-    let ans_n2o = (xLog_dif / baseLog) * 100;
-    console.log( ans_n2o, 'this is the original answer');
-    return Math.abs(Math.abs(ans_n2o) - 100);
+         default:
+           return 0;
+       }
+     }
+
+     return getElementCal(element);
   };
 
 
@@ -949,15 +943,19 @@ var Economics = function () {
             let n20 = parseFloat(gasesData[0]?.TopN2O) * soilArea;
             let kpi = parseFloat(gasesData[0]?.kpi) * soilArea
             let ch4 = parseFloat(gasesData[0]?.ch4_kg_ha_yr) * soilArea;
+            let Respiration  = parseFloat(gasesData[0]?.Whole_repsiration) * soilArea
             // BASE DATA FOR CALCULATION SCORES IS BASED ON CONSERVATION F0RESTRY CODE 11
             let bGHG = parseFloat(baseDData[0]?.kpi) * soilArea;
             let bN2O = parseFloat(baseDData[0]?.TopN2O) * soilArea;
             let bCH4 = parseFloat(baseDData[0]?.ch4_kg_ha_yr) * soilArea;
             let bSOC = parseFloat(baseDData[0]?.to_carb) * soilArea;
+            let bRespiration  = parseFloat(baseDData[0]?.Whole_repsiration) * soilArea
 
             soc = parseFloat(soc.toFixed(0));
-            n20 = parseFloat(n20.toFixed(0));
+            n20 = parseFloat(n20.toFixed(4));
             kpi = parseFloat(kpi.toFixed(0));
+            Respiration = parseFloat(Respiration.toFixed(0));
+            bRespiration = parseFloat(bRespiration.toFixed(0));
             numLandUseCode = Number(ludID);
             if (soc < 0) {
               co2_emission = Math.abs(soc); // we dont want negative values
@@ -971,11 +969,11 @@ var Economics = function () {
             this.GHGs[i][0]['N2O'] += n20;
             this.GHGs[i][0]['C02_e'] += kpi;
             this.GHGs[i][0]['CH4'] += ch4;
-            this.GHGs[i][0]['CO2_emissions'] += co2_emission;
+            this.GHGs[i][0]['CO2_emissions'] += Respiration;
             this.ghgBenchmark[i][0]['C02_e'] += bGHG;
             this.ghgBenchmark[i][0]['N2O'] += bN2O;
             this.ghgBenchmark[i][0]['CH4'] += bCH4;
-            this.ghgBenchmark[i][0]['CO2_emissions'] += bSOC_emissions;
+            this.ghgBenchmark[i][0]['CO2_emissions'] += bRespiration;
             this.ghgBenchmark[i][0]['SOC'] += bSOC;
 
 
@@ -1010,24 +1008,28 @@ var Economics = function () {
 
           // Calculate and assign score
           if (key ==='N2O'){
-            let calN20Score =  calculateN2OScores(element[0][key], benchmarkValue);
+            let calN20Score =  calculateGHGScores(element[0][key], benchmarkValue, maximum_score=100);
             calN20Score= parseFloat(calN20Score.toFixed(1))
             this.GHGsScore[index][0][key] = calN20Score;
           }else if (key ==='SOC') {
-            let value = socScore(element[0][key], benchmarkValue)//(element[0][key]/benchmarkValue) *100
+            let value = calculateGHGScores(element[0][key], benchmarkValue, maximum_score=4512);//(element[0][key]/benchmarkValue) *100
+            value = parseFloat(value.toFixed(1));
+            this.GHGsScore[index][0][key] = value;
 
-            if (typeof value === "number" && !isFinite(value)) {
-              value = 0;
-              this.GHGsScore[index][0][key] = value;
-            }
-          }else if(key ==='C02_e'){
-            let calCO_eScore = calculateGHGScores(element[0][key], benchmarkValue, max =307);
+          }else if (key ==='CO2_emissions') {
+            let value = calculateGHGScores(element[0][key], benchmarkValue, maximum_score=11);//(element[0][key]/benchmarkValue) *100
+            value = parseFloat(value.toFixed(1));
+            this.GHGsScore[index][0][key] = value;
+
+          }
+          else if(key ==='C02_e'){
+            let calCO_eScore = calculateGHGScores(element[0][key], benchmarkValue,  307); //307 is the maximum expected score
             calCO_eScore = parseFloat(calCO_eScore.toFixed(1));
             this.GHGsScore[index][0][key] = calCO_eScore;
           }
           else {
 
-            let others = calculateGHGScores(element[0][key], benchmarkValue, max = 100);
+            let others = calculateGHGScores(element[0][key], benchmarkValue,   100);
             others = parseFloat(others.toFixed(1));
             this.GHGsScore[index][0][key] = others;
             //console.log(`Key: ${key}, Value: ${element[0][key]}`);
