@@ -586,7 +586,7 @@ function loadingManager() {
   THREE.DefaultLoadingManager.onLoad = function() {
 
     //update allLoaded status
-    console.log("Everything is loaded and good to go!");
+    //console.log("Everything is loaded and good to go!");
     allLoaded = true;
 
     //show main PEWI page elements

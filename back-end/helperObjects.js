@@ -3427,7 +3427,9 @@ this.tileNitrate = Array(4);
 
 
     this.calculateMusselServices = function(y) { //calculates in ppm / mg/L
-
+      if (typeof this.musselNitrateReduction[y] === 'undefined') {
+        this.musselNitrateReduction[y] = 0;
+      }
       if (this.aquaticHealthIndex[y] < 10) { //Sediment under 10 ppm
         this.musselServices[y] = 14; // 10 mussels / ft2
         this.musselServicesScore[y] = "HIGH";
@@ -3446,18 +3448,19 @@ this.tileNitrate = Array(4);
         this.musselServicesScore[y] = "NONE";
         this.musselNitrateReduction[y] = 0;
       }
-
+     // Evaluate nitrate reduction based on mussel services, which is basically the population derived from sediment reduction
       if (this.musselServices[y] >= 14) {
-        this.musselNitrateReduction[y] = .127 * this.nitrateConcentration[y];
-      }
-      else if (this.musselServices[y] >= 10) {
+        // High mussel services lead to fixed nitrate reduction based on concentration
+        this.musselNitrateReduction[y] = 0.127 * this.nitrateConcentration[y];
+      } else if (this.musselServices[y] >= 10) {
+        // Moderate mussel services follow a linear reduction model
         this.musselNitrateReduction[y] = 2.625 * this.musselServices[y] - 24.05;
-      }
-      else if (this.musselServices[y] >= 0) {
+      } else if (this.musselServices[y] < 10 && this.musselServices[y] >= 1) {
+        // Low mussel services follow a different linear reduction model
         this.musselNitrateReduction[y] = 0.220879 * this.musselServices[y] - 0.00989011;
-        if (this.musselNitrateReduction[y] < 0) {
-          this.musselNitrateReduction[y] = 0;
-        }
+      } else {
+        // This ensures that mussel nitrate reduction is always positive
+        this.musselNitrateReduction[y] = 0;
       }
 
       

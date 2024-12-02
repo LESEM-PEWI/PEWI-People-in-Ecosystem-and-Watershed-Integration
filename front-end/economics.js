@@ -200,7 +200,7 @@ var Economics = function () {
     calulateBMPBudgets();
     calculateForestAreaBySoil();
     collectTotalWatershedGHGData();
-    // collectTotalWatershedGHGData_a();
+    //collectTotalWatershedGHGData_a();
     GHGScores();
     calculateRent();
 
@@ -539,7 +539,7 @@ var Economics = function () {
 
   };
 
-  // TESTING WATERSHED TOTALS
+  // TESTING readmWATERSHED TOTALS
   this.watershedTotals = () => {
 
     for(let i = 1; i <= boardData[currentBoard].calculatedToYear; i++){
@@ -917,13 +917,13 @@ var Economics = function () {
             let ludID = landUseTileID.toString();
             /**
              * Apparently, the column for landUseType, soilType, precipitation levels in the kpi.csv data are named as follows:
-             * [code, SoilType, precipitation_level]  if these columns are changed in that file, this method won't work if not updated from the source file for filterByLandUseAndSoilType
-             According to our data, the  'filterByLandUseAndSoilType' will always return one entity or row because duplicates are removed
+             * [soil_type, land_use_code precipitation_level]  if these columns are changed in that file, this method won't work if not updated from the source file for filterByLandUseAndSoilType
+
              */
                 // let gasesData = filterByLandUseAndSoilType(this.loadedGHGData, ludID, getSoilType, _PrecipitationData);
             let gasesData = filteredArray(this.loadedGHGData, ludID, getSoilType, _PrecipitationData);
             // we need to always benchmark it to conservation forestry based on the selected soil types
-            let baseDData = filteredArray(this.loadedGHGData, '11', getSoilType, _PrecipitationData);
+            let baseDData = filteredArray(this.loadedGHGData, '1', getSoilType, _PrecipitationData);
             //console.log(baseData, 'base-data')
             // let kpiSum = baseData.reduce((sum, item) => sum + (item.kpi || 0), 0);
 
@@ -931,9 +931,10 @@ var Economics = function () {
             let soilArea = cellLandArea/2.471;
 
             // This will need to be converted to carbon dioxide equivalents
-            let soc = parseFloat(gasesData[0]?.to_carb) / 35 * soilArea;
-            let n20 = parseFloat(gasesData[0]['TopN2O']) * soilArea;
-            let kpi = parseFloat(gasesData[0]['kpi']) * soilArea
+            let soc = parseFloat(gasesData[0]?.to_carb) * soilArea;
+            console.log('soil organic carbon', soc)
+            let n20 = parseFloat(gasesData[0]?.TopN2O) * soilArea;
+            let kpi = parseFloat(gasesData[0]?.kpi) * soilArea
             // BASE DATA FOR CALCULATION SCORES IS BASED ON CONSERVATION F0RESTRY CODE 11
             let bGHG =  parseFloat(baseDData[0]?.kpi) * soilArea;
             let bN2O =  parseFloat(baseDData[0]?.TopN2O) * soilArea;
@@ -975,6 +976,7 @@ var Economics = function () {
   async function collectTotalWatershedGHGData_a() {
     const filterByLandUseDSoilType = (data, landUseTypes, soilTypes, precipitationLevel) => {
       if (!data || data.length === 0) {
+        console.error("Data not loaded or empty.");
         return [];
       }
 
