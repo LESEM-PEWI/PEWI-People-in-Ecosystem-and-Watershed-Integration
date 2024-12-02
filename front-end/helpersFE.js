@@ -271,7 +271,7 @@ function toggleScoreDetails(factor) {
   {
     pushClick(0, getStamp(), 122, 0, factor);
   }
-
+  // console.log("economics.GHGsScore[currentYear][0]?.C02_e",economics.GHGsScore[currentYear][0]?.C02_e)
   switch (factor){
     // case for green house gases which takes CO2_e value from economics.js file
     case 'greenHouseGases':
