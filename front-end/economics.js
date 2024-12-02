@@ -830,11 +830,10 @@ var Economics = function () {
     const xLog = Math.log(Math.abs(ghg) + 1);
     const bLog = Math.log(Math.abs(base) + 1);
     const ans = (xLog / bLog) * 100;
-
     if (ghg > 0) {
-      return 100 - ans;
+      return Math.abs(100 - ans);
     } else {
-      return ans;
+      return Math.abs(ans);
     }
   };
   const calculateN2OScores = (x_n2o,base_n20) => {
@@ -936,10 +935,11 @@ var Economics = function () {
             //console.log('soil organic carbon', soc)
             let n20 = parseFloat(gasesData[0]?.TopN2O) * soilArea;
             let kpi = parseFloat(gasesData[0]?.kpi) * soilArea
+            let ch4 = parseFloat(gasesData[0]?.ch4_kg_ha_yr) * soilArea;
             // BASE DATA FOR CALCULATION SCORES IS BASED ON CONSERVATION F0RESTRY CODE 11
             let bGHG = parseFloat(baseDData[0]?.kpi) * soilArea;
             let bN2O = parseFloat(baseDData[0]?.TopN2O) * soilArea;
-            let bCH4 = parseFloat(baseDData[0]?.TopN2O) * soilArea;
+            let bCH4 = parseFloat(baseDData[0]?.ch4_kg_ha_yr) * soilArea;
             let bSOC = parseFloat(baseDData[0]?.to_carb) * soilArea;
 
             soc = parseFloat(soc.toFixed(0));
@@ -947,19 +947,21 @@ var Economics = function () {
             kpi = parseFloat(kpi.toFixed(0));
             numLandUseCode = Number(ludID);
             if (soc < 0) {
-              co2_emission = soc;
+              co2_emission = Math.abs(soc); // we dont want negative values
               soc = 0;
             }
             if (bSOC < 0) {
-              bSOC_emissions = bSOC;
+              bSOC_emissions =Math.abs(bSOC);// we don't want to display negative values
               bSOC = 0;
             }
             this.GHGs[i][0]['SOC'] += soc;
             this.GHGs[i][0]['N2O'] += n20;
             this.GHGs[i][0]['C02_e'] += kpi;
+            this.GHGs[i][0]['CH4'] += ch4;
             this.GHGs[i][0]['CO2_emissions'] += co2_emission;
             this.ghgBenchmark[i][0]['C02_e'] += bGHG;
             this.ghgBenchmark[i][0]['N2O'] += bN2O;
+            this.ghgBenchmark[i][0]['CH4'] += bCH4;
             this.ghgBenchmark[i][0]['CO2_emissions'] += bSOC_emissions;
             this.ghgBenchmark[i][0]['SOC'] += bSOC;
 

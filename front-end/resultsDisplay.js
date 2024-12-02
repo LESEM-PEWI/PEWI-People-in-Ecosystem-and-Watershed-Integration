@@ -3157,7 +3157,7 @@ function generateResultsTable() {
       "Game Wildlife", " Land Biodiversity", "Stream Biodiversity", "Mussel Population",
     ];
     backendDataIdentifiers = [
-      "C02_e", 'CO2-emissions', "CH4", "N2O",
+      "C02_e", 'CO2_emissions', "CH4", "N2O",
       "SOC", "grossErosion",
       "aquaticHealth", "nitrateConcentration","phosphorusLoad", "sedimentDelivery",
       "gameWildlifePoints", "biodiversityPoints", "streamBiodiversity", "musselPopulation",
