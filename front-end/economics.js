@@ -826,16 +826,29 @@ var Economics = function () {
     }
 
   };
-   calculateGHGScores = (ghg, base) =>{
-    const xLog = Math.log(Math.abs(ghg) + 1);
-    const bLog = Math.log(Math.abs(base) + 1);
-    const ans = (xLog / bLog) * 100;
-    if (ghg > 0) {
-      return Math.abs(100 - ans);
-    } else {
-      return Math.abs(ans);
-    }
+   calculateGHGScores = (ghg, base, max = 307) =>{
+    // const xLog = Math.log(Math.abs(ghg) + 1);
+    // const bLog = Math.log(Math.abs(base) + 1);
+    // const ans = (xLog / bLog) * 100;
+    // if (ghg > 0) {
+    //   return Math.abs(100 - ans);
+    // } else {
+    //   return Math.abs(ans);
+    // }
+     const diff = ((ghg-base)/base * 100)/max * 100
+     return Math.abs(diff);
   };
+   socScore = (base, current)=>{
+     const xLog = Math.log(Math.abs(current) + 1);
+     const bLog = Math.log(Math.abs(base) + 1);
+     const ans = (xLog / bLog) * 100;
+     if (current > 0) {
+       return Math.abs(100 - ans);
+     } else {
+       return Math.abs(ans);
+     }
+   };
+
   const calculateN2OScores = (x_n2o,base_n20) => {
     const baseLog = Math.log(Math.abs(base_n20) + 1);
     const xLog_dif = baseLog - Math.log(Math.abs(x_n2o) + 1);
@@ -1001,15 +1014,23 @@ var Economics = function () {
             calN20Score= parseFloat(calN20Score.toFixed(1))
             this.GHGsScore[index][0][key] = calN20Score;
           }else if (key ==='SOC') {
-            var soc_ = this.GHGsScore[index][0]?.SOC;
-            console.log('score for soc is:', soc_);
-            this.GHGsScore[index][0][key] = calculateGHGScores(element[0][key], benchmarkValue)//(element[0][key]/benchmarkValue) *100
-          }else {
+            let value = socScore(element[0][key], benchmarkValue)//(element[0][key]/benchmarkValue) *100
 
-            let calCO_eScore = calculateGHGScores(element[0][key], benchmarkValue);
+            if (typeof value === "number" && !isFinite(value)) {
+              value = 0;
+              this.GHGsScore[index][0][key] = value;
+            }
+          }else if(key ==='C02_e'){
+            let calCO_eScore = calculateGHGScores(element[0][key], benchmarkValue, max =307);
             calCO_eScore = parseFloat(calCO_eScore.toFixed(1));
             this.GHGsScore[index][0][key] = calCO_eScore;
-            console.log(`Key: ${key}, Value: ${element[0][key]}`);
+          }
+          else {
+
+            let others = calculateGHGScores(element[0][key], benchmarkValue, max = 100);
+            others = parseFloat(others.toFixed(1));
+            this.GHGsScore[index][0][key] = others;
+            //console.log(`Key: ${key}, Value: ${element[0][key]}`);
           }
         }
       }
