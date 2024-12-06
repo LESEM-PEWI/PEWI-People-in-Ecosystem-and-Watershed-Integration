@@ -3140,8 +3140,8 @@ function generateResultsTable() {
     //SECOND TABLE, ECOSYSTEM INDICATORS
 
     frontendNames = ["Carbon Dioxide Equivalent", "Carbon Dioxide", "Methane", "Nitrous Oxide",
-      "Soil Organic Carbon", "Erosion Control / Gross Erosion",
-      "Aquatic Health","Nitrate Pollution Control <br> / In-Stream Concentration", "Phosphorus Pollution Control <br> / In-Stream Loading","Sediment Control <br> / In-Stream Delivery",
+      "Carbon Storage", "Erosion Control | Gross Erosion | Gross Erosion",
+      "Aquatic Health | Stream Sediment Concentration | Stream Sediment Concentration","Nitrogen Retention | Stream Nitrate Concentration | Stream Nitrate Concentration ", "Phosphorus Retention | Stream Phosphorus Concentration | Stream Phosphorus Concentration","Sediment Retention | Sediment Delivery to Stream | Sediment Delivery to Stream",
       "Game Wildlife", " Land Biodiversity", "Stream Biodiversity", "Mussel Population",
     ];
     backendDataIdentifiers = [
