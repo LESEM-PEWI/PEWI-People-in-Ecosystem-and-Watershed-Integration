@@ -1816,7 +1816,6 @@ function drawEcosystemRadar(yearArray) {
 
     let cornYieldMax = boardData[currentBoard].maximums.cornMax;
     let soyYieldMax = boardData[currentBoard].maximums.soybeanMax;
-
     let cornYieldAdjScore = (cornYield / cornYieldMax) * 100;
     let soyYieldAdjScore = (soybeanYield / soyYieldMax) * 100;
     var obj = [{
@@ -1844,7 +1843,7 @@ function drawEcosystemRadar(yearArray) {
       {
         label: "Green House Gases",
         axis: "GHG",
-        value: (Totals.ghgScore[y] / 100),
+        value: (economics.GHGsScore[y][0]?.C02_e),
         raw: (Math.round(Totals.ghg[y] * 10) / 10).toFixed(1) + " tons"
       }, {
         label: "Gross Erosion",
@@ -2060,9 +2059,6 @@ function drawPrecipitationInformationChart() {
 
   //reset precip chart on page
   var element = document.getElementById('resultsFrame').contentWindow.document.getElementById('precipChart');
-  //pass information to the page by inserting it into a hidden div
-  document.getElementById('resultsFrame').contentWindow.document.getElementById('precipChart').innerHTML = " ";
-  document.getElementById('resultsFrame').contentWindow.document.getElementById('precipInfo').innerHTML = " ";
 
   //assign data
   for (var i = 0; i < boardData[currentBoard].precipitation.length - 2; i++) {
@@ -3143,20 +3139,11 @@ function generateResultsTable() {
     //===================================================
     //SECOND TABLE, ECOSYSTEM INDICATORS
 
-
-    // frontendNames = ["Carbon dioxide equivalent", "Carbon dioxide", "Methane", "Nitrous Oxide",
-    //   "Soil Organic Carbon", "Erosion Control / Gross Erosion",
-    //   "Aquatic Health","Nitrate Pollution Control <br> / In-Stream Concentration", "Phosphorus Pollution Control <br> / In-Stream Loading","Sediment Control <br> / In-Stream Delivery",
-    //   "Game Wildlife", " Land Biodiversity", "Stream Biodiversity", "Mussel Population",
-    // ];
-    // backendDataIdentifiers = ["gameWildlifePoints", "biodiversityPoints", "streamBiodiversity", "musselPopulation" ,"carbonSequestration", "grossErosion", "aquaticHealth", "nitrateConcentration",
-    //   "phosphorusLoad", "sedimentDelivery","","","",""];
-
     frontendNames = ["Carbon Dioxide Equivalent", "Carbon Dioxide", "Methane", "Nitrous Oxide",
       "Carbon Storage", "Erosion Control | Gross Erosion | Gross Erosion",
       "Aquatic Health | Stream Sediment Concentration | Stream Sediment Concentration","Nitrogen Retention | Stream Nitrate Concentration | Stream Nitrate Concentration ", "Phosphorus Retention | Stream Phosphorus Concentration | Stream Phosphorus Concentration","Sediment Retention | Sediment Delivery to Stream | Sediment Delivery to Stream",
-      "Game Wildlife", " Land Biodiversity", "Stream Biodiversity", "Mussel Population",
-    ];
+      "Game Wildlife", "Land Biodiversity", "Stream Biodiversity", "Mussel Population",
+    ];    
     backendDataIdentifiers = [
       "C02_e", 'CO2_emissions', "CH4", "N2O",
       "SOC", "grossErosion",
@@ -3197,138 +3184,29 @@ function generateResultsTable() {
       htmlTableString += "Y" + y;
       htmlTableString += "</th>";
     }
-
     htmlTableString += "<th width='11%' class='centerText'>Units (Metric) </th>";
-
     htmlTableString += "</tr>";
 
     //table data
-
     for (var l = 0; l < backendDataIdentifiers.length; l++) {
-
       //keep track if we need to add the appropriate subheading lines
       switch (l) {
-
         case 0:
-
-          //htmlTableString += "<tr class='tableHeading'><td><b>Climate Quality</b></td></tr>";
-          htmlTableString += "<tr>";
-          htmlTableString += "<td class='verticalLine'><b>" + "Climate" + "<b></td>";
-          //calculate total score for each year and place next to Habitat header
-          // for(var y = 1; y <= upToYear; y++){
-          //   htmlTableString += "<td class='rightText'><b>";
-
-          //   var totalScore = (Totals.carbonSequestrationScore[y]+Totals.grossErosionScore[y])/2;
-
-          //   htmlTableString += addCommas((Math.round(totalScore * 10) / 10).toFixed(1)) + "<br>";
-
-          //   htmlTableString += "<b></td>";
-          // }
-          // htmlTableString += "<td class='verticalLine centerText'><b>(out of 100)<b></td>";
-          htmlTableString += "<td class='rightText'></td>";
-          htmlTableString += "<td class='verticalLine centerText'></td>";
-          //add extra spaces to fill out bar across screen
-          for(var y = 1; y <= (2*upToYear)+2; y++){
-            if(y == ((2*upToYear) + 2) / 2){
-              htmlTableString += "<td  class='verticalLine centerText'></td>";
-            }
-            else{
-              htmlTableString += "<td></td>";
-            }
-          }
+          htmlTableString += "<tr class='tableHeading'><td class='verticalLine'><b>Climate</b></td>" + format + "</tr>"
           break;
         case 4:
-          //htmlTableString += "<tr class='tableHeading'><td><b>Soil Quality</b></td></tr>";
-          htmlTableString += "<tr>";
-          htmlTableString += "<td class='verticalLine'><b>" + "Soil" + "<b></td>";
-          //calculate total score for each year and place next to Habitat header
-          // for(var y = 1; y <= upToYear; y++){
-          //   htmlTableString += "<td class='rightText'><b>";
-          //
-          //   var totalScore = (Totals.carbonSequestrationScore[y]+Totals.grossErosionScore[y])/2;
-          //
-          //   htmlTableString += addCommas((Math.round(totalScore * 10) / 10).toFixed(1)) + "<br>";
-          //
-          //   htmlTableString += "<b></td>";
-          // }
-          // htmlTableString += "<td class='verticalLine centerText'><b>(out of 100)<b></td>";
-          htmlTableString += "<td class='rightText'></td>";
-          htmlTableString += "<td class='verticalLine centerText'></td>";
-          //add extra spaces to fill out bar across screen
-          for(var y = 1; y <= (2*upToYear)+2; y++){
-            if(y == ((2*upToYear) + 2) / 2){
-              console.log()
-              htmlTableString += "<td  class='verticalLine centerText'></td>";
-            }
-            else{
-              htmlTableString += "<td></td>";
-            }
-          }
+          htmlTableString += "<tr class='tableHeading'><td class='verticalLine'><b>Soil</b></td>" + format + "</tr>"
           break;
-
         case 6:
-          //htmlTableString += "<tr class='tableHeading'><td><b>Water Quality</b></td></tr>";
-          htmlTableString += "<tr>";
-          htmlTableString += "<td class='verticalLine'><b>" + "Water" + "<b></td>";
-          //calculate total score for each year and place next to Habitat header
-          // for(var y = 1; y <= upToYear; y++){
-          //   htmlTableString += "<td class='rightText'><b>";
-          //
-          //   var totalScore = (Totals.nitrateConcentrationScore[y]+Totals.phosphorusLoadScore[y]+Totals.sedimentDeliveryScore[y]+Totals.aquaticHealthIndexScore[y])/4;
-          //
-          //   htmlTableString += addCommas((Math.round(totalScore * 10) / 10).toFixed(1)) + "<br>";
-          //
-          //   htmlTableString += "<b></td>";
-          // }
-          // htmlTableString += "<td class='verticalLine centerText'><b>(out of 100)<b></td>";
-          htmlTableString += "<td class='rightText'></td>";
-          htmlTableString += "<td class='verticalLine centerText'></td>";
-          //add extra spaces to fill out bar across screen
-          for(var y = 1; y <= (2*upToYear)+2; y++){
-            if(y == ((2*upToYear) + 2) / 2){
-              htmlTableString += "<td  class='verticalLine'></td>";
-            }
-            else{
-              htmlTableString += "<td></td>";
-            }
-          }
+          htmlTableString += "<tr class='tableHeading'><td class='verticalLine'><b>Water</b></td>" + format + "</tr>"
           break;
         case 10:
-          //htmlTableString += "<tr class='tableHeading'><td><b>Habitat</b></td></tr>";
-          //  //put Habitat header, in bold
-          htmlTableString += "<tr>";
-          htmlTableString += "<td class='verticalLine'><b>" + "Habitat" + "<b></td>";
-          //calculate total score for each year and place next to Habitat header
-          // for(var y = 1; y <= upToYear; y++){
-          //   htmlTableString += "<td class='rightText'><b>";
-          //
-          //   var totalScore = (Totals.gameWildlifePointsScore[y]+Totals.biodiversityPointsScore[y]+Totals.streamBiodiversityScore[y])/3;
-          //
-          //   htmlTableString += addCommas((Math.round(totalScore * 10) / 10).toFixed(1)) + "<br>";
-          //
-          //   htmlTableString += "<b></td>";
-          // }
-          // htmlTableString += "<td class='verticalLine centerText'><b>(out of 100)<b></td>";
-          htmlTableString += "<td class='rightText'></td>";
-          htmlTableString += "<td class='verticalLine centerText'></td>";
-          //add extra spaces to fill out bar across screen
-          for(var y = 1; y <= (2*upToYear)+2; y++){
-            if(y == ((2*upToYear) + 2) / 2){
-              htmlTableString += "<td  class='verticalLine centerText'></td>";
-            }
-            else{
-              htmlTableString += "<td></td>";
-            }
-          }
-          break;
+          htmlTableString += "<tr class='tableHeading'><td class='verticalLine'><b>Habitat</b></td>" + format + "</tr>"
           break;
       } //end switch
+      // Column 1
       htmlTableString += "<tr>";
-
       htmlTableString += "<td  class='verticalLine'>" + frontendNames[l] + "</td>";
-
-      // console.log("Totals", Totals);
-      // console.log("GHGs", window.globalGHGs[1][0]);
       for (var y = 1; y <= upToYear; y++) {
         htmlTableString += "<td class='rightText'>";
         var tempString = backendDataIdentifiers[l] + "Score";
@@ -3361,6 +3239,7 @@ function generateResultsTable() {
         htmlTableString += "</td>";
       } //for each year
 
+      // Column 2
       //units cell
       if (backendDataIdentifiers[l] === "musselPopulation") {
         htmlTableString += "<td class='verticalLine centerText'></td>";
@@ -3448,10 +3327,10 @@ function generateResultsTable() {
       else if (2 <= l && l < 4) htmlTableString += "<td class='verticalLine centerText'>tons</td>";
       else if (4 <= l && l < 5) htmlTableString += "<td class='verticalLine centerText'>ppm</td>";
       else if (5 <= l && l < 10) htmlTableString += "<td class='verticalLine centerText'>tons</td>";
+      // Column 4
       else htmlTableString += "<td class='verticalLine centerText`>";
       for (var y = 1; y <= upToYear; y++) {
         htmlTableString += "<td  class='rightText'>";
-
         var tempString = backendDataIdentifiers[l];
         if(backendDataIdentifiers[l] === "streamBiodiversity") {
           htmlTableString += Math.round(Totals.streamBiodiversityPoints[y]).toFixed(1) + "<br>";
@@ -3459,7 +3338,13 @@ function generateResultsTable() {
         else if (backendDataIdentifiers[l] === "aquaticHealth"){
           htmlTableString += addCommas((Math.round(Totals.aquaticHealthIndex[y] * 10) /10).toFixed(1)) + "<br>";
         }
-        else if (backendDataIdentifiers[l] === "musselPopulation"||backendDataIdentifiers[l] === "gameWildlifePoints"||backendDataIdentifiers[l] === "biodiversityPoints"){
+        else if (backendDataIdentifiers[l] === "musselPopulation"){
+        }
+        else if (backendDataIdentifiers[l] === "gameWildlifePoints"){
+          htmlTableString += addCommas((Math.round(Totals.gameWildlifePoints[y] * 10) /10).toFixed(1)) + "<br>";
+        }
+        else if (backendDataIdentifiers[l] === "biodiversityPoints"){
+          htmlTableString += addCommas((Math.round(Totals.biodiversityPoints[y] * 10) /10).toFixed(1)) + "<br>";
         }
         else if (backendDataIdentifiers[l] === "CH4") {
           let methane = Math.round(economics.GHGs[y][0]?.CH4)
@@ -3480,12 +3365,20 @@ function generateResultsTable() {
         }
         else if (backendDataIdentifiers[l] === 'CO2_emissions') {
           htmlTableString += economics.GHGs[y][0]?.CO2_emissions + "<br>";  + "<br>";
+        }  
+        else if (backendDataIdentifiers[l] === "carbonSequestration") {
+          htmlTableString += Totals.carbonSequestration[y] < 0 ? addCommas((Math.round(Totals.carbonSequestration[y] /1000)).toFixed(1)) : 0  + "<br>";
+        }
+        else if (backendDataIdentifiers[l] === "phosphorusLoad") {
+          htmlTableString += addCommas((Math.round(Totals.phosphorusLoad[y]/1000)).toFixed(1))   + "<br>";
+        }
+        else if (backendDataIdentifiers[l] === "sedimentDelivery") {
+          htmlTableString += addCommas((Math.round(Totals.sedimentDelivery[y]/1000)).toFixed(1))   + "<br>";
         }
         else {
           htmlTableString += addCommas((Math.round(Totals?.[tempString]?.[y] * conversionArray[l] * 10) / 10).toFixed(1)) + "<br>";
         }
         htmlTableString += "</td>";
-
       } //for each year
 
       //units cell
@@ -3549,9 +3442,7 @@ function generateResultsTable() {
         case 0:
           //htmlTableString += "<tr class='tableHeading'><td><b>Yield</b></td></tr>";
           //put Yield header, in bold
-          htmlTableString += "<tr>";
-          htmlTableString += "<td class='verticalLine'><b>" + "Yield" + "<b></td>";
-
+          htmlTableString += "<tr class='tableHeading'><td class='verticalLine'><b>Yield</b></td>" + format + "</tr>"
           //GET DATA FROM ECONOMICS UPDATES i.e., YIELDS FOR SPECIAL CASE - CONS/CONV CORN & CONS/CONV SOYBEAN (based on BMP Budget changes)
           let bmpBudgetYields = [];
           for(let i = 1; i <= upToYear; i++){
@@ -3566,45 +3457,10 @@ function generateResultsTable() {
                       economics.getBMPAreas[i][3].landUseYield).toFixed(1),
             }
           }
-
-
-          //calculate total score for each year and place next to Yield header
-          // for(var y = 1; y <= upToYear; y++){
-          //   let cornYieldMax = boardData[currentBoard].maximums.cornMax;
-          //   let soyYieldMax = boardData[currentBoard].maximums.soybeanMax;
-          //
-          //   let cornYieldAdjScore = (bmpBudgetYields[y].cornYield / cornYieldMax) * 100;
-          //   let soyYieldAdjScore = (bmpBudgetYields[y].soybeanYield / soyYieldMax) * 100;
-          //
-          //   htmlTableString += "<td class='rightText'><b>";
-          //
-          //   var totalScore = Math.min(cornYieldAdjScore +
-          //       soyYieldAdjScore + Totals.mixedFruitsAndVegetablesYieldScore[y] + Totals.alfalfaHayYieldScore[y] +
-          //       Totals.grassHayYieldScore[y] + Totals.switchgrassYieldScore[y] + Totals.cattleYieldScore[y] + Totals.woodYieldScore[y] + Totals.shortRotationWoodyBiomassYieldScore[y], 100);
-          //
-          //   htmlTableString += addCommas((Math.round(totalScore * 10)/10).toFixed(1)) + "<br>";
-          //
-          //   htmlTableString += "<b></td>";
-          // }
-          // htmlTableString += "<td  class='verticalLine centerText'><b>(out of 100)<b></td>";
-          htmlTableString += "<td class='rightText'></td>";
-          htmlTableString += "<td class='verticalLine centerText'></td>";
-          //add extra spaces to fill out bar across screen
-          for(var y = 1; y <= (2*upToYear)+2; y++){
-            if(y == ((2*upToYear) + 2) / 2){
-              htmlTableString += "<td  class='verticalLine'></td>";
-            }
-            else{
-              htmlTableString += "<td></td>";
-            }
-          }
           break;
       } //end switch
-
       htmlTableString += "<tr>";
-
       htmlTableString += "<td class='verticalLine'>" + frontendNames[l] + "</td>";
-
       for (var y = 1; y <= upToYear; y++) {
         let bmpBudgetYields = [];
         for(let i = 1; i <= upToYear; i++){
@@ -3621,14 +3477,10 @@ function generateResultsTable() {
         }
         let cornYieldMax = boardData[currentBoard].maximums.cornMax;
         let soyYieldMax = boardData[currentBoard].maximums.soybeanMax;
-
         let cornYieldAdjScore = (bmpBudgetYields[y].cornYield / cornYieldMax) * 100;
         let soyYieldAdjScore = (bmpBudgetYields[y].soybeanYield / soyYieldMax) * 100;
-
         htmlTableString += "<td class='rightText'>";
-
         var tempString = backendDataIdentifiers[l] + "Score";
-
         //TODO
         if(tempString === 'cornGrainYieldScore') {
           htmlTableString += addCommas((Math.round(cornYieldAdjScore * 10)/10).toFixed(1)) + "<br>";
@@ -3643,8 +3495,6 @@ function generateResultsTable() {
       } //for each year
       //units cell
       htmlTableString += "<td class='verticalLine centerText'>(out of 100)</td>";
-
-
       //GET DATA FROM ECONOMICS UPDATES i.e., YIELDS FOR SPECIAL CASE - CONS/CONV CORN & CONS/CONV SOYBEAN (based on BMP Budget changes)
       let bmpBudgetYields = [];
       for(let i = 1; i <= upToYear; i++){
@@ -3659,23 +3509,15 @@ function generateResultsTable() {
                   economics.getBMPAreas[i][3].landUseYield).toFixed(1),
         }
       }
-
-
       for (let y = 1; y <= upToYear; y++) {
-
         htmlTableString += "<td class='rightText'>";
-
         var tempString = backendDataIdentifiers[l];
-
         let valueString  = tempString === 'cornGrainYield' ? addCommas(bmpBudgetYields[y].cornYield)
             : tempString === 'soybeanYield' ? addCommas(bmpBudgetYields[y].soybeanYield)
                 : addCommas((Math.round(Totals.yieldResults[y][tempString] * 10) / 10).toFixed(1));
-
         htmlTableString +=  valueString + "<br>";
-
         htmlTableString += "</td>";
       } //for each year
-
       //units cell, lots of different ones to keep track of here
       if (l < 2) htmlTableString += "<td class='verticalLine centerText'>bu</td>";
       if (l == 2) htmlTableString += "<td class='verticalLine centerText'>tons</td>";
@@ -3686,20 +3528,13 @@ function generateResultsTable() {
 
       for (var y = 1; y <= upToYear; y++) {
         htmlTableString += "<td class='rightText'>";
-
         var tempString = backendDataIdentifiers[l];
-
         let valueString  = tempString === 'cornGrainYield' ? addCommas(Math.round(bmpBudgetYields[y].cornYield * conversionArray[l] * 10)/10)
             : tempString === 'soybeanYield' ? addCommas(Math.round(bmpBudgetYields[y].soybeanYield * conversionArray[l] * 10)/10)
                 : addCommas((Math.round(Totals.yieldResults[y][tempString] * conversionArray[l] * 10) / 10).toFixed(1));
-
         htmlTableString += valueString + "<br>";
-
         htmlTableString += "</td>";
-
-
       } //for each year
-
       //units cell
       if (l < 2) htmlTableString += "<td class='centerText'>Mg</td>";
       if (l == 2) htmlTableString += "<td class='centerText'>Mg</td>";
@@ -3708,10 +3543,7 @@ function generateResultsTable() {
       if (l == 7) htmlTableString += "<td class='centerText'>m^3</td>";
       if (l == 8) htmlTableString += "<td class='centerText'>Mg</td>";
     }
-
-
     htmlTableString += "</table><br>";
-
     //============================
     //TABLE FOUR, SPECIAL INDICATORS
 
@@ -4202,7 +4034,7 @@ function render(years){
           return "Green House Gases";
         }
         else if(type === "boxY"){
-          return 45;
+          return 75;
         }
         else if(type === "boxID"){
           return "b2";
@@ -4967,16 +4799,22 @@ function render(years){
     }
   }
 
+  const precipitationRandomValuesArray=[];
+
   /*
   * The function newRCalculator takes in an HTML element and checks the R of that element and based on that returns the new R.
   * This function was created for Issue 357. For more information refer to Issue 357.
   */
 
   function getPrecipColor(year){
-    switch(printPrecipYearType(year)){
-      case 'Dry': return '#67dee5'; break;
-      case 'Normal': return '#4b98d9'; break;
-      default: return '#2847dd';
+    if (precipitationRandomValuesArray[year] > 62 && precipitationRandomValuesArray[year] < 72) {
+      return '#FEE0B6'; // Dry
+    } else if (precipitationRandomValuesArray[year] > 77 && precipitationRandomValuesArray[year] < 88) {
+      return '#FFFFFF'; // Normal
+    } else if (precipitationRandomValuesArray[year] > 92 && precipitationRandomValuesArray[year] < 115) {
+      return '#87BEDC'; // Wet
+    } else{
+      return '#2847dd'
     }
   }
 
@@ -5049,7 +4887,7 @@ function render(years){
           .style("stroke", "black")
           .style("stroke-width", "3px")
           .style('opacity', .5)
-          .style("fill", getPrecipColor(i+1));
+          .style("fill", getPrecipColor(i));
 
       //This is going to add all the names of categories that are in the dataset.
       svg.append("text")
@@ -5645,13 +5483,46 @@ function render(years){
         });
   }
 
+  // To generate random precipitation values
+  function generateRandomPrecipitation() {
+    const array = ['62.4', '71.6', '77.2', '81.7', '87.2', '92.6', '114.6'];
+    const randomPrecipContainer = document.getElementById('resultsFrame').contentWindow.document.getElementById('randomprecipvalue');
+    randomPrecipContainer.innerHTML = '';
+    for (let i = 0; i < boardData[currentBoard].calculatedToYear; i++) {
+        const stringValue = localStorage.getItem("prevPercpValues") || '';
+        const prevRandomValue = stringValue ? stringValue.split(',').map(Number) : [];
+        const randomIndex = Math.floor(Math.random() * array.length);
+        const randomValue = array[randomIndex];
+        const valueWrapper = document.createElement('div');
+        valueWrapper.style.display = 'inline-block'; 
+        valueWrapper.style.textAlign = 'center'; 
+        valueWrapper.style.marginRight = '20px'; 
+        const randomDivCm = document.createElement('div');
+        const randomDivInch = document.createElement('div');
+        randomDivCm.style.fontWeight = 'bold';
+        randomDivInch.style.fontStyle = 'italic';
+        if (!prevRandomValue[i]) {
+            precipitationRandomValuesArray[i] = randomValue;
+            randomDivCm.textContent = `${randomValue} cm`;
+            randomDivInch.textContent = `${(randomValue / 2.54).toFixed(2)} inches`;
+        } else {
+            precipitationRandomValuesArray[i] = prevRandomValue[i];
+            randomDivCm.textContent = `${prevRandomValue[i]} cm`;
+            randomDivInch.textContent = `${(prevRandomValue[i] / 2.54).toFixed(2)} inches`;
+        }
+        valueWrapper.appendChild(randomDivCm);
+        valueWrapper.appendChild(randomDivInch);
+        randomPrecipContainer.appendChild(valueWrapper);
+    }
+  }
 
+  generateRandomPrecipitation();
   placeText(dataset, years);
   placeStandards(years);
   plotDataPoints(dataset)
   renderData(dataset);
-
-//--------------------End of Render function
+  localStorage.setItem("prevPercpValues",precipitationRandomValuesArray);
+  /*-------End of Render function----------*/
 }
 
 function addCommas(x) {
@@ -5681,6 +5552,7 @@ function createMockDataGraphic1(){
   }
   return dataEcon1;
 }
+
 function EconomicsGraphic1() {
   //console.log(this);
   options = [];

@@ -36,7 +36,6 @@ function checkFileCorrectness(file, callback) {
 
     // check the content length here
     if (arrLines.length != 829) {
-      console.log("Lines number not correct. " + arrLines.length);
       result = false;
     }
 
@@ -71,10 +70,6 @@ function getRandomInt(min, max) {
 function initDataIsCorrupt() {
   // check length
   if (initData.length != 828) {
-    console.log("I thought this will never be triggered");
-    console.log("initData.length: " + initData.length);
-    console.log("initData ");
-    console.log(initData);
     return 1;
   }
   // Each cell is an array, check the length of each cell

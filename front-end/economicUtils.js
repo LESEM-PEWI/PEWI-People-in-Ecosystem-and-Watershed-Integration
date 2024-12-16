@@ -156,7 +156,6 @@ const filterByLandUseAndSoilType = (data, landUseTypes, soilTypes, precipitation
         soilSet.has(row['SoilType']) &&
         precipitationSet.has(row['precipitation_level'])
     );
-    console.log(filteredData.length)
     // Check if filteredData is empty
     if (filteredData.length === 0) {
         console.warn(`No data found for the specified land use types: ${landUseTypes.join(', ')}, 
@@ -164,9 +163,7 @@ const filterByLandUseAndSoilType = (data, landUseTypes, soilTypes, precipitation
         and soil types: ${soilTypes.join(', ')}`);
         return [];
     }
-
     // we don't want any duplicates as this is for each soil tileID
-    console.log('perfect++++++++++++============================\n============')
     return removeDuplicates(filteredData);
 };
 

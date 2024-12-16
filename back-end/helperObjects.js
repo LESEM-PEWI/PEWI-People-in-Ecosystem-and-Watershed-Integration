@@ -3385,12 +3385,8 @@ this.tileNitrate = Array(4);
      */
      //4 subcategories total, each with equal 25% weighting
     this.calculateAquaticHealthIndex = function(y) { //calculates in ppm / mg/L
-
       var tempScore = 0;
       var streamflow = 0; // ft3/s
-
-      console.log("Precip = " + board.precipitation[y]);
-
       switch (board.precipitation[y]) {
 
         case 24.58:
@@ -3415,14 +3411,8 @@ this.tileNitrate = Array(4);
           streamflow = 11.53;
           break;
       }
-
       tempScore = (0.90718474 * this.sedimentDelivery[y]/365) / (streamflow * 0.0027);
-
       this.aquaticHealthIndex[y] = tempScore; //sediment ppm
-      console.log("Aquatic Health Index = " + this.aquaticHealthIndex[y] + " ppm");
-
-
-
     }; //end calculations of stream biodiversity points
 
 
@@ -3462,11 +3452,6 @@ this.tileNitrate = Array(4);
         // This ensures that mussel nitrate reduction is always positive
         this.musselNitrateReduction[y] = 0;
       }
-
-      
-      console.log("Mussels at " + this.musselServices[y] + " / ft2.");
-      console.log("Score: " + this.musselServicesScore[y]);
-      console.log("Nitrate Reduction: " + this.musselNitrateReduction[y]);
     }
 
 
@@ -3897,7 +3882,6 @@ this.tileNitrate = Array(4);
 
         this.streamBiodiversityScore[y] = 10 * this.streamBiodiversityPoints[y];
         this.aquaticHealthIndexScore[y] = 100 * ((2085.74098179255 - this.aquaticHealthIndex[y]) / 2085.74098179255);
-        console.log("Aquatic Health Index Score = " + this.aquaticHealthIndexScore[y]);
 
         //this.cornGrainYieldScore[y] = cornYieldAdjScore;
         this.cornGrainYieldScore[y] = 100 * this.yieldResults[y].cornGrainYield / board.maximums.cornMax;

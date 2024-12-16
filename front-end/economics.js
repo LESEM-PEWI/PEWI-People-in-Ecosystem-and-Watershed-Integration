@@ -38,8 +38,6 @@ var Economics = function () {
   d3.csv('./kpi.csv', (data) => {
     this.loadedGHGData = data;
   })
-  console.log("this is the loaded GHG data, **")
-  console.log(this.loadedGHGData.length)
   this.divideByCategory = function (listofCats){
     for(var i =1; i <= boardData[currentBoard].calculatedToYear; i++){
       this.data[i] = [];
@@ -65,8 +63,6 @@ var Economics = function () {
             //ideally this.data[i][dataPoint['LU_ID']][cat][dataPoint[cat]] + Number.parseFloat(dataPoint['Value'])
             Math.round(1000*(this.data[i][dataPoint['LU_ID']][cat][dataPoint[cat]] + Number.parseFloat(dataPoint['EAA'])))/1000
             this.data[i][dataPoint['LU_ID']][cat][dataPoint[cat]]
-
-            // console.log("DATA POINT: ", this.data[i])
           }
           this.data[i][dataPoint['LU_ID']][cat].total = //either way add it to the total
           Math.round(1000*this.data[i][dataPoint['LU_ID']][cat].total + 1000*Number.parseFloat(dataPoint['EAA']))/1000
@@ -219,7 +215,6 @@ var Economics = function () {
     //Less than ideal coding, but given how Totals is structured the easiest way
     //I found to map Land Use IDS to total LandUse without recalculation
     for(let i = 1; i <= boardData[currentBoard].calculatedToYear; i++){
-      console.log(i);
       landUses[i] = [];
       this.mapData[i] = [];
       this.scaledRev[i] = [];
@@ -352,8 +347,6 @@ var Economics = function () {
             }
             if (copy['PerAcreORPerYield'] === 'per yield') {
               if (copy['Sub Crop'] === 'Corn after Corn') {
-                  // console.log("CONV CORN: ",copy['Cost Name'] , copy['EAA'] )
-
                   copy['EAA'] *= this.cornAfters[i][1].ConvCornAfterCornYield
               } else {
                 copy['EAA'] *= this.cornAfters[i][1].ConvCornAfterSoybeanYield
@@ -383,7 +376,6 @@ var Economics = function () {
                 copy['# Labor Hours'] *= this.getBMPAreas[i][2].landUseYield;
               }
               if (copy['Sub Crop'] === 'Corn after Corn' && copy['BMP'] !== 'GrassedWaterways' && copy['BMP'] !== 'Terraces' && copy['BMP'] !== 'Buffers') {
-                  // console.log("CONS CORN BMP AREA: ",copy['Cost Name'] , copy['EAA'], "BMP AREA: ", this.getBMPAreas[i][3].landUseYield )
                 copy['EAA'] *= this.getBMPAreas[i][3].landUseYield;
                 copy['# Labor Hours'] *= this.getBMPAreas[i][3].landUseYield;
               }
@@ -649,7 +641,6 @@ var Economics = function () {
           }
           if(["A", "D", "G", "M", "Q", "Y"].indexOf(boardData[currentBoard].map[j]['soilType']) !==- 1){
             this.getForrestYields[i][1].seventyAreaConv += boardData[currentBoard].map[j].area;
-            //console.log(this.getForrestYields[i][1].seventyAreaConv += boardData[currentBoard].map[j].area);
           }
         }
       }
@@ -994,8 +985,6 @@ var Economics = function () {
 
   GHGScores = () => {
     this.GHGs.forEach((element, index) => {
-      console.log(typeof element);
-      console.log(Array.isArray(element));
       // Ensure `this.GHGsScore[index][0]` exists before assigning values
       //if (!this.GHGsScore[index]) this.GHGsScore[index] = [{}];
 
@@ -1004,8 +993,6 @@ var Economics = function () {
         if (element[0].hasOwnProperty(key)) {
           // Dynamically check if the benchmark value exists, provide a default if not
           const benchmarkValue = this.ghgBenchmark[index]?.[0]?.[key] || 0;
-          console.log(benchmarkValue, 'benchmark value')
-
           // Calculate and assign score
           if (key ==='N2O'){
             let calN20Score =  calculateGHGScores(element[0][key], benchmarkValue, maximum_score=100);

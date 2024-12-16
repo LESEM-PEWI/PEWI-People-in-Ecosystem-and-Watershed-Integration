@@ -4739,7 +4739,6 @@ function resetOptions() {
 
   //close frame
   modalUp = false;
-  console.log("resetOptions");
   document.getElementById('options').style.visibility = "hidden";
   //make sure the frame is no longer accepting input such as keyboard or mouse events
   document.activeElement.blur();
@@ -5251,7 +5250,6 @@ function saveAndRandomize() {
         randomPainterTile.splice(j--, 1);
       }
     }
-    console.log(randomPainterTile);
     if(randomPainterTile.length === 0){
       throw new Error('Please select at least one land use.');
     }
@@ -5651,7 +5649,6 @@ var modalUp = false;
 
 function startOptions() {
   if (curTracking) {
-    console.log("asdfghgfdsadfghjgfd");
     pushClick(0, getStamp(), 107, 0, null);
   }
   console.log("modalUp",modalUp);
