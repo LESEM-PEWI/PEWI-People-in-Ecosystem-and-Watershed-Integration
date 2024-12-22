@@ -1818,60 +1818,67 @@ function drawEcosystemRadar(yearArray) {
     let soyYieldMax = boardData[currentBoard].maximums.soybeanMax;
     let cornYieldAdjScore = (cornYield / cornYieldMax) * 100;
     let soyYieldAdjScore = (soybeanYield / soyYieldMax) * 100;
-    var obj = [{
+    var obj = [  {
+        label: "Gross Erosion",
+        axis: "Soil Erosion Control",
+        value: (Totals.grossErosionScore[y] / 100),
+        raw: (Math.round(Totals.grossErosion[y] * 10) / 10).toFixed(1) + " tons"
+      },
+      {
+        label: "SOC",
+        axis: "Soil Carbon Storage",
+        value: (Totals.carbonSequestrationScore[y] / 100),
+        raw: (Math.round(Totals.carbonSequestrationPoints[y] * 10) / 10).toFixed(1) + " tons"
+      },
+      {
+      label: "Land Biodiversity",
+      axis: "Land Biodiversity",
+      value: (Totals.biodiversityPointsScore[y] / 100),
+      raw: (Math.round(Totals.biodiversityPoints[y] * 10) / 10).toFixed(1) + " pts"
+    }, {
+      label: "Stream Biodiversity",
+      axis: "Stream Biodiversity",
+      value: (Totals.streamBiodiversityScore[y] / 100),
+      raw: (Math.round(Totals.streamBiodiversityPoints[y] * 10) / 10).toFixed(1)  + " pts"
+    },{
+      label: "Phosphorus Load",
+      axis: "Phosphorus Retention",
+      value: (Totals.phosphorusLoadScore[y] / 100),
+      raw: (Math.round(Totals.phosphorusLoad[y] * 10) / 10).toFixed(1) + " tons"
+    },{
       label: "Nitrate Concentration",
-      axis: "Nitrate",
+      axis: "Nitrate Retention",
       value: (Totals.nitrateConcentrationScore[y] / 100),
       raw: (Math.round(Totals.nitrateConcentration[y] * 10) / 10).toFixed(1) + " ppm"
     }, {
+      label: "Green House Gases",
+      axis: "GHG Reduction",
+      value: (economics.GHGsScore[y][0]?.C02_e),
+      raw: (Math.round(Totals.ghg[y] * 10) / 10).toFixed(1) + " tons"
+    }, {
       label: "Total Sum Yields",
-      axis: "Total Yields",
+      axis: " Yield",
 
       value: (Math.min((cornYieldAdjScore  + soyYieldAdjScore  + Totals.mixedFruitsAndVegetablesYieldScore[y] + Totals.alfalfaHayYieldScore[y]  + Totals.grassHayYieldScore[y]  +
-          Totals.switchgrassYieldScore[y] + Totals.cattleYieldScore[y] + Totals.woodYieldScore[y] + Totals.shortRotationWoodyBiomassYieldScore[y]) / 100, 100)),
-    }, {
-      label: "Phosphorus Load",
-      axis: "Phosphorus",
-      value: (Totals.phosphorusLoadScore[y] / 100),
-      raw: (Math.round(Totals.phosphorusLoad[y] * 10) / 10).toFixed(1) + " tons"
-    }, {
-      label: "Sediment Delivery",
-      axis: "Sediment",
-      value: (Totals.sedimentDeliveryScore[y] / 100),
-      raw: (Math.round(Totals.sedimentDelivery[y] * 10) / 10).toFixed(1) + " tons"
-    },
-      {
-        label: "Green House Gases",
-        axis: "GHG",
-        value: (economics.GHGsScore[y][0]?.C02_e),
-        raw: (Math.round(Totals.ghg[y] * 10) / 10).toFixed(1) + " tons"
-      }, {
-        label: "Gross Erosion",
-        axis: "Erosion Control",
-        value: (Totals.grossErosionScore[y] / 100),
-        raw: (Math.round(Totals.grossErosion[y] * 10) / 10).toFixed(1) + " tons"
-      }, {
-        label: "Game Wildlife",
-        axis: "Wildlife",
-        value: (Totals.gameWildlifePointsScore[y] / 100),
-        raw: (Math.round(Totals.gameWildlifePoints[y] * 10) / 10).toFixed(1) + " pts"
-      }, {
-        label: "Land Biodiversity",
-        axis: "Land Biodiversity",
-        value: (Totals.biodiversityPointsScore[y] / 100),
-        raw: (Math.round(Totals.biodiversityPoints[y] * 10) / 10).toFixed(1) + " pts"
-      },
-      {
-        label: "Stream Biodiversity",
-        axis: "Stream Biodiversity",
-        value: (Totals.streamBiodiversityScore[y] / 100),
-        raw: (Math.round(Totals.streamBiodiversityPoints[y] * 10) / 10).toFixed(1)  + " pts"
-      },
-      {
-        label: "Aquatic Health",
-        axis: "Aquatic Health",
-        value: (Totals.aquaticHealthIndexScore[y] / 100),
-        raw: (Math.round(Totals.aquaticHealthIndex[y] * 10) / 10).toFixed(1) + " ppm"},
+          Totals.switchgrassYieldScore[y] + Totals.cattleYieldScore[y] + Totals.woodYieldScore[y] + Totals.shortRotationWoodyBiomassYieldScore[y]) / 100, 100)),}
+    // }, {
+    //   label: "Sediment Delivery",
+    //   axis: "Sediment",
+    //   value: (Totals.sedimentDeliveryScore[y] / 100),
+    //   raw: (Math.round(Totals.sedimentDelivery[y] * 10) / 10).toFixed(1) + " tons"
+    // },
+    //   {
+    //     label: "Game Wildlife",
+    //     axis: "Wildlife",
+    //     value: (Totals.gameWildlifePointsScore[y] / 100),
+    //     raw: (Math.round(Totals.gameWildlifePoints[y] * 10) / 10).toFixed(1) + " pts"
+    //   },
+    //
+    //   {
+    //     label: "Aquatic Health",
+    //     axis: "Aquatic Health",
+    //     value: (Totals.aquaticHealthIndexScore[y] / 100),
+    //     raw: (Math.round(Totals.aquaticHealthIndex[y] * 10) / 10).toFixed(1) + " ppm"},
       // },{
       //    label: "GHG",
       //     axis: "GHG",
