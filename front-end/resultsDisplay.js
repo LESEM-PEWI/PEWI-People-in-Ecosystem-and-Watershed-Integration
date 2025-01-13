@@ -1819,10 +1819,11 @@ function drawEcosystemRadar(yearArray) {
     let cornYieldAdjScore = (cornYield / cornYieldMax) * 100;
     let soyYieldAdjScore = (soybeanYield / soyYieldMax) * 100;
     var obj = [  {
-        label: "Gross Erosion",
-        axis: "Soil Erosion Control",
-        value: (Totals.grossErosionScore[y] / 100),
-        raw: (Math.round(Totals.grossErosion[y] * 10) / 10).toFixed(1) + " tons"
+
+      label: "Total Sum Yields",
+      axis: " Yield",
+      value: (Math.min((cornYieldAdjScore  + soyYieldAdjScore  + Totals.mixedFruitsAndVegetablesYieldScore[y] + Totals.alfalfaHayYieldScore[y]  + Totals.grassHayYieldScore[y]  +
+          Totals.switchgrassYieldScore[y] + Totals.cattleYieldScore[y] + Totals.woodYieldScore[y] + Totals.shortRotationWoodyBiomassYieldScore[y]) / 100, 100)),
       },
       {
         label: "SOC",
@@ -1855,12 +1856,11 @@ function drawEcosystemRadar(yearArray) {
       axis: "GHG Reduction",
       value: (economics.GHGsScore[y][0]?.C02_e),
       raw: (Math.round(Totals.ghg[y] * 10) / 10).toFixed(1) + " tons"
-    }, {
-      label: "Total Sum Yields",
-      axis: " Yield",
+    }, { label: "Gross Erosion",
+      axis: "Soil Erosion Control",
+      value: (Totals.grossErosionScore[y] / 100),
+      raw: (Math.round(Totals.grossErosion[y] * 10) / 10).toFixed(1) + " tons"}
 
-      value: (Math.min((cornYieldAdjScore  + soyYieldAdjScore  + Totals.mixedFruitsAndVegetablesYieldScore[y] + Totals.alfalfaHayYieldScore[y]  + Totals.grassHayYieldScore[y]  +
-          Totals.switchgrassYieldScore[y] + Totals.cattleYieldScore[y] + Totals.woodYieldScore[y] + Totals.shortRotationWoodyBiomassYieldScore[y]) / 100, 100)),}
     // }, {
     //   label: "Sediment Delivery",
     //   axis: "Sediment",
