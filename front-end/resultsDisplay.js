@@ -1812,7 +1812,7 @@ function drawEcosystemRadar(yearArray) {
         economics.getBMPAreas[y][3].landUseYield).toFixed(1);
 
     let soybeanYield = Math.round(economics.getCropYields[y][1].convSoybeanYield +
-        economics.getBMPAreas[y][1].landUseYield).toFixed(1)
+        economics.getBMPAreas[y][1].landUseYield).toFixed(1);
 
     let cornYieldMax = boardData[currentBoard].maximums.cornMax;
     let soyYieldMax = boardData[currentBoard].maximums.soybeanMax;
@@ -1848,18 +1848,20 @@ function drawEcosystemRadar(yearArray) {
       raw: (Math.round(Totals.phosphorusLoad[y] * 10) / 10).toFixed(1) + " tons"
     },{
       label: "Nitrate Concentration",
-      axis: "Nitrate Retention",
+      axis: "Nitrogen Retention",
       value: (Totals.nitrateConcentrationScore[y] / 100),
       raw: (Math.round(Totals.nitrateConcentration[y] * 10) / 10).toFixed(1) + " ppm"
     }, {
       label: "Green House Gases",
       axis: "GHG Reduction",
-      value: (economics.GHGsScore[y][0]?.C02_e),
+        value: (economics.GHGsScore[y][0]?.C02_e === Infinity || economics.GHGsScore[y][0]?.C02_e === null ? 0 : economics.GHGsScore[y][0]?.C02_e),
       raw: (Math.round(Totals.ghg[y] * 10) / 10).toFixed(1) + " tons"
     }, { label: "Gross Erosion",
       axis: "Soil Erosion Control",
       value: (Totals.grossErosionScore[y] / 100),
       raw: (Math.round(Totals.grossErosion[y] * 10) / 10).toFixed(1) + " tons"}
+
+
 
     // }, {
     //   label: "Sediment Delivery",
@@ -1886,10 +1888,10 @@ function drawEcosystemRadar(yearArray) {
       //     raw: (Math.round(Totals.gameWildlifePoints[y] * 10) / 10).toFixed(1) + " pts"
       //   }
     ];
-
     dataset.push(obj);
     legendOptions.push("Year " + y);
   } //end for loop
+  console.log("-------",economics,"-----------------------");
 
   //Separate configuration options for the radar
   var overrideConfig = {
