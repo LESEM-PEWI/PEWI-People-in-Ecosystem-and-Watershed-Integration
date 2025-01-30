@@ -1854,45 +1854,17 @@ function drawEcosystemRadar(yearArray) {
     }, {
       label: "Green House Gases",
       axis: "GHG Reduction",
-        value: (economics.GHGsScore[y][0]?.C02_e === Infinity || economics.GHGsScore[y][0]?.C02_e === null ? 0 : economics.GHGsScore[y][0]?.C02_e),
-      raw: (Math.round(Totals.ghg[y] * 10) / 10).toFixed(1) + " tons"
-    }, { label: "Gross Erosion",
+        value: (economics.GHGsScore[y][0]?.C02_e === Infinity || economics.GHGsScore[y][0]?.C02_e === null ? 0 : economics.GHGsScore[y][0]?.C02_e/100),
+      raw: (Math.round( economics.GHGs[y][0]?.C02_e/1000 * 0.984206).toFixed(1)) + " tons"
+    }, {
+      label: "Gross Erosion",
       axis: "Soil Erosion Control",
       value: (Totals.grossErosionScore[y] / 100),
-      raw: (Math.round(Totals.grossErosion[y] * 10) / 10).toFixed(1) + " tons"}
-
-
-
-    // }, {
-    //   label: "Sediment Delivery",
-    //   axis: "Sediment",
-    //   value: (Totals.sedimentDeliveryScore[y] / 100),
-    //   raw: (Math.round(Totals.sedimentDelivery[y] * 10) / 10).toFixed(1) + " tons"
-    // },
-    //   {
-    //     label: "Game Wildlife",
-    //     axis: "Wildlife",
-    //     value: (Totals.gameWildlifePointsScore[y] / 100),
-    //     raw: (Math.round(Totals.gameWildlifePoints[y] * 10) / 10).toFixed(1) + " pts"
-    //   },
-    //
-    //   {
-    //     label: "Aquatic Health",
-    //     axis: "Aquatic Health",
-    //     value: (Totals.aquaticHealthIndexScore[y] / 100),
-    //     raw: (Math.round(Totals.aquaticHealthIndex[y] * 10) / 10).toFixed(1) + " ppm"},
-      // },{
-      //    label: "GHG",
-      //     axis: "GHG",
-      //     value: (Totals.gameWildlifePointsScore[y] / 100),
-      //     raw: (Math.round(Totals.gameWildlifePoints[y] * 10) / 10).toFixed(1) + " pts"
-      //   }
-    ];
+      raw: (Math.round(Totals.grossErosion[y] * 10) / 10).toFixed(1) + " tons"
+      }];
     dataset.push(obj);
     legendOptions.push("Year " + y);
   } //end for loop
-  console.log("-------",economics,"-----------------------");
-
   //Separate configuration options for the radar
   var overrideConfig = {
     // w: graphWidth,
