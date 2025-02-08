@@ -844,6 +844,17 @@ var Economics = function () {
 
 
   collectTotalWatershedGHGData = () => {
+
+    // TODO this function should be investigated thoroughly for performance
+
+    /*
+    load base data before running the function that is the one for conventional corn
+    separate the data for each different land use and use switch while indexing. such data can be loaded before
+    calculate results for each cell in the spreadsheet. This need to be executed cautiously though
+    investigate calculatedToYear function
+
+   */
+
     /**
      * Collects and aggregates greenhouse gas (GHG) data based on land use and soil type
      * over a specified range of years for the current board configuration.
@@ -868,7 +879,7 @@ var Economics = function () {
      * - `this.GHGsBylandUse[i]`: An array of objects categorizing GHG emissions by land use type.
      *
      * Logs the resulting GHG data and aggregated results to the console for verification.
-     * the data base for this function is loaded by d3 library at the top of this module. the .csv name is kpi.csv in front-end and in the root folder
+     * the database for this function is loaded by d3 library at the top of this module. the .csv name is kpi.csv in front-end and in the root folder
      * @returns {void} This function does not return any value; it updates instance variables directly.
      */
 
