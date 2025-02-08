@@ -196,7 +196,6 @@ var Economics = function () {
     calulateBMPBudgets();
     calculateForestAreaBySoil();
     collectTotalWatershedGHGData();
-    //collectTotalWatershedGHGData_a();
     GHGScores();
     calculateRent();
 
@@ -1193,6 +1192,7 @@ var Economics = function () {
 }
 
 var economics = new Economics();
+economics.loadedGHGData = null;
 
 //kind of a precalc? Not really but its calculated before its needed.
 // I still think this has cost to incur but time and debugging will tell
