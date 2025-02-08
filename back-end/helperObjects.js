@@ -2687,6 +2687,7 @@ function Results(board) {
   this.acre = null;
   this.gameWildlifePoints = [0, 0, 0, 0];
   this.biodiversityPoints = [0, 0, 0, 0];
+  this.carbonSequestrationPoints=[0, 0, 0, 0],
   this.streamBiodiversityPoints = [0, 0, 0, 0];
   this.aquaticHealthIndex = [0, 0, 0, 0];
   this.musselServices = [0, 0, 0, 0];

@@ -283,7 +283,8 @@ function toggleScoreDetails(factor) {
         // 0 - 100 value
         childNodes[3].innerHTML = 'Current: ' + formatNumber((Math.round(economics.GHGsScore[currentYear][0]?.C02_e * 10) / 10).toFixed(1)) + '/100';
         // convert English unit to Metric unit
-        childNodes[5].innerHTML = (economics.GHGsScore[currentYear][0]?.C02_e).toFixed(1) + ' tons / yr';
+        childNodes[5].innerHTML = (economics.GHGs[currentYear][0]?.C02_e/1000 * 0.984206).toFixed(1) + ' tons / yr';
+        childNodes[7].innerHTML = (economics.GHGs[currentYear][0]?.C02_e/1000).toFixed(1) + ' mg ';
         document.getElementsByClassName('greenHouseGasesDetails')[0].style.display = 'block';
       }
       break;
