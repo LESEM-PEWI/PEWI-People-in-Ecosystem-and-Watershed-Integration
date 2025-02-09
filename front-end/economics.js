@@ -35,7 +35,7 @@ var Economics = function () {
 
     this.rawRev = data;
   })
-  d3.csv('./kpii.csv', (data) => {
+  d3.csv('./ghgData.csv', (data) => {
     this.loadedGHGData = data;
   })
   this.divideByCategory = function (listofCats){
