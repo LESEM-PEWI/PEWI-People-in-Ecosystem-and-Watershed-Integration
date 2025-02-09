@@ -35,7 +35,7 @@ var Economics = function () {
 
     this.rawRev = data;
   })
-  d3.csv('./kpi.csv', (data) => {
+  d3.csv('./kpii.csv', (data) => {
     this.loadedGHGData = data;
   })
   this.divideByCategory = function (listofCats){
@@ -845,197 +845,167 @@ var Economics = function () {
   collectTotalWatershedGHGData = () => {
 
     // TODO this function should be investigated thoroughly for performance
+    const CurrentBoard = boardData[currentBoard]
 
-    /*
-    load base data before running the function that is the one for conventional corn
-    separate the data for each different land use and use switch while indexing. such data can be loaded before
-    calculate results for each cell in the spreadsheet. This need to be executed cautiously though
-    investigate calculatedToYear function
-
-   */
-
-    /**
-     * Collects and aggregates greenhouse gas (GHG) data based on land use and soil type
-     * over a specified range of years for the current board configuration.
-     *
-     * This function iterates through each year up to the 'calculatedToYear' specified in
-     * the board data. For each year, it initializes arrays to hold data for greenhouse gases,
-     * land use areas, and GHGs by land use type. The function then processes the data for each
-     * land use tile, updating the relevant GHG values and land use areas based on soil type
-     * and precipitation data.
-     *
-     * Specifically, the function performs the following actions:
-     * - Initializes GHG data structures for each year.
-     * - Iterates through each land use tile in the current board.
-     * - Retrieves and processes soil type, land use type, and area data.
-     * - Aggregates GHG values (SOC, N2O, and CO2 equivalent) based on the filtered data
-     *   from the loaded greenhouse gas dataset.
-     * - Converts land area from acres to hectares during calculations.
-     *
-     * The data is stored in the following structures:
-     * - `this.landUseArea[i]`: An array holding the total area for each land use type per year.
-     * - `this.GHGs[i]`: An array of objects holding total GHG emissions (CH4, CO2-e, N2O, SOC) for each year.
-     * - `this.GHGsBylandUse[i]`: An array of objects categorizing GHG emissions by land use type.
-     *
-     * Logs the resulting GHG data and aggregated results to the console for verification.
-     * the database for this function is loaded by d3 library at the top of this module. the .csv name is kpi.csv in front-end and in the root folder
-     * @returns {void} This function does not return any value; it updates instance variables directly.
-     */
 
     let co2_emission = 0; // Zero for non emiting land uses with a positive carbon balance
     let bSOC_emissions;
-    for (let i = 1; i <= boardData[currentBoard].calculatedToYear; i++) {
-      // Initialize getSoilArea for year 'i'
-      let _PrecipitationData = boardData[currentBoard].precipitation[i];
+    for (let i = 1; i <= CurrentBoard.calculatedToYear; i++) {
 
-      _PrecipitationData = _PrecipitationData.toString();
-      // This is to display greenhouse gases by land use types
-      this.ghgBenchmark = [];
-      this.GHGsScore[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2_emissions': 0}];
-      this.landUseArea[i] =
-          [{
-            1: 0, 2: 0, 3: 0, 4: 0, 5: 0,
-            6: 0, 7: 0, 8: 0, 9: 0, 10: 0,
-            11: 0, 12: 0, 13: 0, 14: 0, 15: 0
-          }]
-      // Repeats by four the object inside, for storing kpi, carbon methane and nitrous oxide
-      this.GHGsBylandUse[i] = Array(4).fill().map(() => (
-          {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0, 13: 0, 14: 0, 15: 0}
-      ));
+        // Initialize getSoilArea for year 'i'
+        let _PrecipitationData = CurrentBoard.precipitation[i];
 
-      this.GHGs[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2_emissions': 0}]
-      this.ghgBenchmark[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2_emissions': 0}]
+        _PrecipitationData = _PrecipitationData.toString();
+        // This is to display greenhouse gases by land use types
+        this.ghgBenchmark = [];
+        this.GHGsScore[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2_emissions': 0}];
+        this.landUseArea[i] =
+            [{
+              1: 0, 2: 0, 3: 0, 4: 0, 5: 0,
+              6: 0, 7: 0, 8: 0, 9: 0, 10: 0,
+              11: 0, 12: 0, 13: 0, 14: 0, 15: 0
+            }]
+        // Repeats by four the object inside, for storing kpi, carbon methane and nitrous oxide
+        this.GHGsBylandUse[i] = Array(4).fill().map(() => (
+            {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0, 13: 0, 14: 0, 15: 0}
+        ));
 
-      for (let j = 0; j < boardData[currentBoard].map.length; j++) {
-        // Get the soil type and area directly
-        let getSoilType = boardData[currentBoard].map[j]['soilType'];
-        let landUseTileID = 0;
-        landUseTileID = boardData[currentBoard].map[j]['landType'][i];
-        // console.log(boardData[currentBoard].map[j]['landType'],  'Board land use data, *** ', i)
-        let cellLandArea = boardData[currentBoard].map[j].area;
-        // let carbon dioxide = ghgTypes.carbonSequestration < 0 ? ghgTypes.carbonSequestration : 0;
+        this.GHGs[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2_emissions': 0}]
+        this.ghgBenchmark[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2_emissions': 0}]
+
+        for (let j = 0; j < CurrentBoard.map.length; j++) {
+          // Get the soil type and area directly
+          let getSoilType = CurrentBoard.map[j]['soilType'];
+          let landUseTileID = 0;
+          landUseTileID = CurrentBoard.map[j]['landType'][i];
+          // console.log(boardData[currentBoard].map[j]['landType'],  'Board land use data, *** ', i)
+          let cellLandArea = CurrentBoard.map[j].area;
+          // let carbon dioxide = ghgTypes.carbonSequestration < 0 ? ghgTypes.carbonSequestration : 0;
 
 
-        // Increment the area for the appropriate soil type and land use without using a switch
-        // perfect we have just reduced this code by about 15 lines
-        if (this.landUseArea[i][0].hasOwnProperty(landUseTileID)) {
-          this.landUseArea[i][0][landUseTileID] += cellLandArea;
+          // Increment the area for the appropriate soil type and land use without using a switch
+          // perfect we have just reduced this code by about 15 lines
+          if (this.landUseArea[i][0].hasOwnProperty(landUseTileID)) {
+            this.landUseArea[i][0][landUseTileID] += cellLandArea;
 
-          if (landUseTileID > 0) {
-            let ludID = landUseTileID.toString();
-            /**
-             * Apparently, the column for landUseType, soilType, precipitation levels in the kpi.csv data are named as follows:
-             * [soil_type, land_use_code precipitation_level]  if these columns are changed in that file, this method won't work if not updated from the source file for filterByLandUseAndSoilType
+            if (landUseTileID > 0) {
+              let ludID = landUseTileID.toString();
+              /**
+               * Apparently, the column for landUseType, soilType, precipitation levels in the kpi.csv data are named as follows:
+               * [soil_type, land_use_code precipitation_level]  if these columns are changed in that file, this method won't work if not updated from the source file for filterByLandUseAndSoilType
 
-             */
-                // let gasesData = filterByLandUseAndSoilType(this.loadedGHGData, ludID, getSoilType, _PrecipitationData);
-            let gasesData = filteredArray(this.loadedGHGData, ludID, getSoilType, _PrecipitationData);
-            // we need to always benchmark it to conservation forestry based on the selected soil types
-            let baseDData = filteredArray(this.loadedGHGData, '1', getSoilType, _PrecipitationData);
-            //console.log(baseData, 'base-data')
-            // let kpiSum = baseData.reduce((sum, item) => sum + (item.kpi || 0), 0);
+               */
+                  // let gasesData = filterByLandUseAndSoilType(this.loadedGHGData, ludID, getSoilType, _PrecipitationData);
+              let gasesData = filteredArray(this.loadedGHGData, ludID, getSoilType, _PrecipitationData);
+              // we need to always benchmark it to conservation forestry based on the selected soil types
+              let baseDData = filteredArray(this.loadedGHGData, '1', getSoilType, _PrecipitationData);
+              //console.log(baseData, 'base-data')
+              // let kpiSum = baseData.reduce((sum, item) => sum + (item.kpi || 0), 0);
 
-            // Convert to hectares
-            let soilArea = cellLandArea / 2.471;
+              // Convert to hectares
+              let soilArea = cellLandArea / 2.471;
 
-            // This will need to be converted to carbon dioxide equivalents
-            let soc = parseFloat(gasesData[0]?.to_carb) * soilArea;
-            //console.log('soil organic carbon', soc)
-            let n20 = parseFloat(gasesData[0]?.TopN2O) * soilArea;
-            let kpi = parseFloat(gasesData[0]?.kpi) * soilArea
-            let ch4 = parseFloat(gasesData[0]?.ch4_kg_ha_yr) * soilArea;
-            let Respiration  = parseFloat(gasesData[0]?.Whole_repsiration) * soilArea
-            // BASE DATA FOR CALCULATION SCORES IS BASED ON CONSERVATION F0RESTRY CODE 11
-            let bGHG = parseFloat(baseDData[0]?.kpi) * soilArea;
-            let bN2O = parseFloat(baseDData[0]?.TopN2O) * soilArea;
-            let bCH4 = parseFloat(baseDData[0]?.ch4_kg_ha_yr) * soilArea;
-            let bSOC = parseFloat(baseDData[0]?.to_carb) * soilArea;
-            let bRespiration  = parseFloat(baseDData[0]?.Whole_repsiration) * soilArea
+              // This will need to be converted to carbon dioxide equivalents
+              let soc = parseFloat(gasesData[0]?.to_carb) * soilArea;
+              //console.log('soil organic carbon', soc)
+              let n20 = parseFloat(gasesData[0]?.TopN2O) * soilArea;
+              let kpi = parseFloat(gasesData[0]?.kpi) * soilArea
+              let ch4 = parseFloat(gasesData[0]?.ch4_kg_ha_yr) * soilArea;
+              let Respiration = parseFloat(gasesData[0]?.Whole_repsiration) * soilArea
+              // BASE DATA FOR CALCULATION SCORES IS BASED ON CONSERVATION F0RESTRY CODE 11
+              let bGHG = parseFloat(baseDData[0]?.kpi) * soilArea;
+              let bN2O = parseFloat(baseDData[0]?.TopN2O) * soilArea;
+              let bCH4 = parseFloat(baseDData[0]?.ch4_kg_ha_yr) * soilArea;
+              let bSOC = parseFloat(baseDData[0]?.to_carb) * soilArea;
+              let bRespiration = parseFloat(baseDData[0]?.Whole_repsiration) * soilArea
 
-            soc = parseFloat(soc.toFixed(0));
-            n20 = parseFloat(n20.toFixed(4));
-            kpi = parseFloat(kpi.toFixed(0));
-            Respiration = parseFloat(Respiration.toFixed(0));
-            bRespiration = parseFloat(bRespiration.toFixed(0));
-            numLandUseCode = Number(ludID);
-            if (soc < 0) {
-              co2_emission = Math.abs(soc); // we dont want negative values
-              soc = 0;
+              soc = parseFloat(soc.toFixed(0));
+              n20 = parseFloat(n20.toFixed(4));
+              kpi = parseFloat(kpi.toFixed(0));
+              Respiration = parseFloat(Respiration.toFixed(0));
+              bRespiration = parseFloat(bRespiration.toFixed(0));
+              numLandUseCode = Number(ludID);
+              if (soc < 0) {
+                co2_emission = Math.abs(soc); // we dont want negative values
+                soc = 0;
+              }
+              if (bSOC < 0) {
+                bSOC_emissions = Math.abs(bSOC);// we don't want to display negative values
+                bSOC = 0;
+              }
+              this.GHGs[i][0]['SOC'] += soc;
+              this.GHGs[i][0]['N2O'] += n20;
+              this.GHGs[i][0]['C02_e'] += kpi;
+              this.GHGs[i][0]['CH4'] += ch4;
+              this.GHGs[i][0]['CO2_emissions'] += Respiration;
+              this.ghgBenchmark[i][0]['C02_e'] += bGHG;
+              this.ghgBenchmark[i][0]['N2O'] += bN2O;
+              this.ghgBenchmark[i][0]['CH4'] += bCH4;
+              this.ghgBenchmark[i][0]['CO2_emissions'] += bRespiration;
+              this.ghgBenchmark[i][0]['SOC'] += bSOC;
+
+
             }
-            if (bSOC < 0) {
-              bSOC_emissions =Math.abs(bSOC);// we don't want to display negative values
-              bSOC = 0;
-            }
-            this.GHGs[i][0]['SOC'] += soc;
-            this.GHGs[i][0]['N2O'] += n20;
-            this.GHGs[i][0]['C02_e'] += kpi;
-            this.GHGs[i][0]['CH4'] += ch4;
-            this.GHGs[i][0]['CO2_emissions'] += Respiration;
-            this.ghgBenchmark[i][0]['C02_e'] += bGHG;
-            this.ghgBenchmark[i][0]['N2O'] += bN2O;
-            this.ghgBenchmark[i][0]['CH4'] += bCH4;
-            this.ghgBenchmark[i][0]['CO2_emissions'] += bRespiration;
-            this.ghgBenchmark[i][0]['SOC'] += bSOC;
-
 
           }
-
         }
-      }
 
+      }
+      // empty the loaded data
+
+      //window.globalGHGs = this.GHGs;
+      //this.loadedGHGData =[];
+
+  };
+
+
+
+  let GHGScores = () => {
+
+    console.log(this.GHGs.length, 'lengths', this.GHGs)
+  this.GHGs.forEach((element, index) => {
+    // Ensure `this.GHGsScore[index][0]` exists before assigning values
+    if (!this.GHGsScore[index]) {
+      this.GHGsScore[index] = [{}];
     }
-    // empty the loaded data
 
-    //window.globalGHGs = this.GHGs;
-    //this.loadedGHGData =[];
+    // Iterate over each key in the `element` object
+    for (let key in element[0]) {
+      if (element[0].hasOwnProperty(key)) {
+        // Dynamically check if the benchmark value exists, provide a default if not
+        const benchmarkValue = this.ghgBenchmark[index]?.[0]?.[key] || 0;
 
-  };
+        // Switch based on key to calculate and assign score
+        switch (key) {
+          case 'N2O':
+            let calN20Score = calculateGHGScores(element[0][key], benchmarkValue, 100);
+            this.GHGsScore[index][0][key] = parseFloat(calN20Score.toFixed(1));
+            break;
 
+          case 'SOC':
+            let socValue = calculateGHGScores(element[0][key], benchmarkValue, 4512);
+            this.GHGsScore[index][0][key] = parseFloat(socValue.toFixed(1));
+            break;
 
+          case 'CO2_emissions':
+            let co2Value = calculateGHGScores(element[0][key], benchmarkValue, 11);
+            this.GHGsScore[index][0][key] = parseFloat(co2Value.toFixed(1));
+            break;
 
-  GHGScores = () => {
-    this.GHGs.forEach((element, index) => {
-      // Ensure `this.GHGsScore[index][0]` exists before assigning values
-      //if (!this.GHGsScore[index]) this.GHGsScore[index] = [{}];
+          case 'C02_e':
+            let calCO2eScore = calculateGHGScores(element[0][key], benchmarkValue, 307);
+            this.GHGsScore[index][0][key] = parseFloat(calCO2eScore.toFixed(1));
+            break;
 
-      // Iterate over each key in the `element` object
-      for (let key in element[0]) {
-        if (element[0].hasOwnProperty(key)) {
-          // Dynamically check if the benchmark value exists, provide a default if not
-          const benchmarkValue = this.ghgBenchmark[index]?.[0]?.[key] || 0;
-          // Calculate and assign score
-          if (key ==='N2O'){
-            let calN20Score =  calculateGHGScores(element[0][key], benchmarkValue, maximum_score=100);
-            calN20Score= parseFloat(calN20Score.toFixed(1))
-            this.GHGsScore[index][0][key] = calN20Score;
-          }else if (key ==='SOC') {
-            let value = calculateGHGScores(element[0][key], benchmarkValue, maximum_score=4512);//(element[0][key]/benchmarkValue) *100
-            value = parseFloat(value.toFixed(1));
-            this.GHGsScore[index][0][key] = value;
-
-          }else if (key ==='CO2_emissions') {
-            let value = calculateGHGScores(element[0][key], benchmarkValue, maximum_score=11);//(element[0][key]/benchmarkValue) *100
-            value = parseFloat(value.toFixed(1));
-            this.GHGsScore[index][0][key] = value;
-
-          }
-          else if(key ==='C02_e'){
-            let calCO_eScore = calculateGHGScores(element[0][key], benchmarkValue,  307); //307 is the maximum expected score
-            calCO_eScore = parseFloat(calCO_eScore.toFixed(1));
-            this.GHGsScore[index][0][key] = calCO_eScore;
-          }
-          else {
-
-            let others = calculateGHGScores(element[0][key], benchmarkValue,   100);
-            others = parseFloat(others.toFixed(1));
-            this.GHGsScore[index][0][key] = others;
-            //console.log(`Key: ${key}, Value: ${element[0][key]}`);
-          }
+          default:
+            let others = calculateGHGScores(element[0][key], benchmarkValue, 100);
+            this.GHGsScore[index][0][key] = parseFloat(others.toFixed(1));
+            break;
         }
       }
-    });
-    //console.log(this.GHGsScore, 'scores');
-  };
+    }
+  });
+};
 
       calculateCornYieldRate = (soilType) => {
       var yieldBaseRates = [223, 0, 214, 206, 0, 200, 210, 221, 228, 179, 235, 240, 209, 0];

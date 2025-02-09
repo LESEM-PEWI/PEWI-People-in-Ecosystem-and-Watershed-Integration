@@ -119,7 +119,7 @@ function addCommas(x) {
 }
 
 // I think we need to call this everytime we refresh
-var economics = new Economics();
+//var economics = new Economics();
 function refreshEconTotals(yearToLoad){
 
 
