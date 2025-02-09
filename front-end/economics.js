@@ -987,8 +987,8 @@ var Economics = function () {
             break;
 
           default:
-            let others = calculateGHGScores(element[0][key], benchmarkValue, 100);
-            this.GHGsScore[index][0][key] = parseFloat(others.toFixed(1));
+            let others = calculateGHGScores(element[0][key], benchmarkValue, 39495.4);
+            this.GHGsScore[index][0][key] = 100-parseFloat(others.toFixed(1));
             break;
         }
       }
