@@ -866,9 +866,9 @@ var Economics = function () {
               11: 0, 12: 0, 13: 0, 14: 0, 15: 0
             }]
         // Repeats by four the object inside, for storing kpi, carbon methane and nitrous oxide
-        this.GHGsBylandUse[i] = Array(4).fill().map(() => (
-            {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0, 13: 0, 14: 0, 15: 0}
-        ));
+        // this.GHGsBylandUse[i] = Array(4).fill().map(() => (
+        //     {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0, 13: 0, 14: 0, 15: 0}
+        // ));
 
         this.GHGs[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2_emissions': 0}]
         this.ghgBenchmark[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2_emissions': 0}]
@@ -880,13 +880,6 @@ var Economics = function () {
           landUseTileID = CurrentBoard.map[j]['landType'][i];
           // console.log(boardData[currentBoard].map[j]['landType'],  'Board land use data, *** ', i)
           let cellLandArea = CurrentBoard.map[j].area;
-          // let carbon dioxide = ghgTypes.carbonSequestration < 0 ? ghgTypes.carbonSequestration : 0;
-
-
-          // Increment the area for the appropriate soil type and land use without using a switch
-          // perfect we have just reduced this code by about 15 lines
-          if (this.landUseArea[i][0].hasOwnProperty(landUseTileID)) {
-            this.landUseArea[i][0][landUseTileID] += cellLandArea;
 
             if (landUseTileID > 0) {
               let ludID = landUseTileID.toString();
@@ -947,7 +940,7 @@ var Economics = function () {
 
             }
 
-          }
+
         }
 
       }
