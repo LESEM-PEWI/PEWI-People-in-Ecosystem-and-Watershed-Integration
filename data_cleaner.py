@@ -33,11 +33,11 @@ landUSes = {'Conservation forest',
             'shortRotationWoodyBioenergy',
             'switchgrass'}
 
-landUseCodes = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 14}
+LAND_USE_CODES = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 14}
 
-precipitationLevels = {24.58, 28.18, 30.39, 32.16, 34.34, 36.47, 45.1, 37.}
+PRECIPITATION_LEVELS = {24.58, 28.18, 30.39, 32.16, 34.34, 36.47, 45.1, 37.}
 
-soil = {'M', 'Q', 'A', 'O', 'C', 'N', 'B', 'L', 'K', 'D', 'G', 'Y', 'T'}
+SOIL = {'M', 'Q', 'A', 'O', 'C', 'N', 'B', 'L', 'K', 'D', 'G', 'Y', 'T'}
 
 
 def _check_values(values: Union[ndarray, list, tuple], category: str) -> None:
@@ -45,18 +45,18 @@ def _check_values(values: Union[ndarray, list, tuple], category: str) -> None:
     Validates that the provided values match the expected categories and their associated treatment levels.
 
     :param values: A collection of values to be checked. Must be a list, numpy array (ndarray), pandas Series, or tuple.
-    :param category: The category of the values, which must be one of ['soil', 'precipitation', 'land_use', 'land use].
+    :param category: The category of the values, which must be one of ['SOIL', 'precipitation', 'land_use', 'land use].
     :raises AssertionError: If `category` is not a string, or if `values` is not a valid collection type.
     :raises ValueError: If `category` is not among the expected categories or if any expected values are missing.
     :return: None
     """
     assert isinstance(category, str), "category must be a string"
-    categories = ['soil', 'precipitation', 'land_use', 'land use']
+    categories = ['SOIL', 'precipitation', 'land_use', 'land use']
     categories = [i.lower() for i in categories]
     if category.lower() not in categories:
         raise ValueError(f'category should be any of of: {categories}')
 
-    pick_category = dict(zip(categories, [soil, precipitationLevels, landUseCodes, landUseCodes]))[category.lower()]
+    pick_category = dict(zip(categories, [SOIL, PRECIPITATION_LEVELS, LAND_USE_CODES, LAND_USE_CODES]))[category.lower()]
 
     assert isinstance(values,
                       (list, ndarray, pd.Series, tuple)), (f"Values must be a list, np.ndarray, pd.Series, "
@@ -107,8 +107,8 @@ def load_and_clean(data =None, view_in_excel: bool = False, **kwargs) -> pd.Data
         _check_values(cdata.precipitation_level, category='precipitation')
         # check land use codes
 
-        # check soil types
-        _check_values(cdata.soil_type, category='soil')
+        # check SOIL types
+        _check_values(cdata.soil_type, category='SOIL')
     data.reset_index(drop=True, inplace=True)
     data.to_csv( file_name, index=False)
     if view_in_excel:
