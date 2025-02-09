@@ -886,6 +886,7 @@ var Economics = function () {
               const currentData = gasesData[0];
               // we need to always benchmark it to conservation forestry based on the selected soil types
               let baseDData = filteredArray(this.loadedGHGData, '1', getSoilType, _PrecipitationData);
+              const  refenceData = baseDData[0]
               //console.log(baseData, 'base-data')
               // let kpiSum = baseData.reduce((sum, item) => sum + (item.kpi || 0), 0);
 
@@ -897,14 +898,14 @@ var Economics = function () {
               //console.log('soil organic carbon', soc)
               let n20 = parseFloat(currentData?.TopN2O) * soilArea;
               let kpi = parseFloat(currentData?.kpi) * soilArea
-              let ch4 = parseFloat(gasesData[0]?.ch4_kg_ha_yr) * soilArea;
-              let Respiration = parseFloat(gasesData[0]?.Whole_repsiration) * soilArea
+              let ch4 = parseFloat(currentData?.ch4_kg_ha_yr) * soilArea;
+              let Respiration = parseFloat(currentData?.Whole_repsiration) * soilArea
               // BASE DATA FOR CALCULATION SCORES IS BASED ON CONSERVATION F0RESTRY CODE 11
-              let bGHG = parseFloat(baseDData[0]?.kpi) * soilArea;
-              let bN2O = parseFloat(baseDData[0]?.TopN2O) * soilArea;
-              let bCH4 = parseFloat(baseDData[0]?.ch4_kg_ha_yr) * soilArea;
-              let bSOC = parseFloat(baseDData[0]?.to_carb) * soilArea;
-              let bRespiration = parseFloat(baseDData[0]?.Whole_repsiration) * soilArea
+              let bGHG = parseFloat(refenceData?.kpi) * soilArea;
+              let bN2O = parseFloat(refenceData?.TopN2O) * soilArea;
+              let bCH4 = parseFloat(refenceData?.ch4_kg_ha_yr) * soilArea;
+              let bSOC = parseFloat(refenceData?.to_carb) * soilArea;
+              let bRespiration = parseFloat(refenceData?.Whole_repsiration) * soilArea
 
               soc = parseFloat(soc.toFixed(0));
               n20 = parseFloat(n20.toFixed(4));
