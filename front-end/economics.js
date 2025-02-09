@@ -859,16 +859,6 @@ var Economics = function () {
         // This is to display greenhouse gases by land use types
         this.ghgBenchmark = [];
         this.GHGsScore[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2_emissions': 0}];
-        this.landUseArea[i] =
-            [{
-              1: 0, 2: 0, 3: 0, 4: 0, 5: 0,
-              6: 0, 7: 0, 8: 0, 9: 0, 10: 0,
-              11: 0, 12: 0, 13: 0, 14: 0, 15: 0
-            }]
-        // Repeats by four the object inside, for storing kpi, carbon methane and nitrous oxide
-        // this.GHGsBylandUse[i] = Array(4).fill().map(() => (
-        //     {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0, 13: 0, 14: 0, 15: 0}
-        // ));
 
         this.GHGs[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2_emissions': 0}]
         this.ghgBenchmark[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2_emissions': 0}]
@@ -884,12 +874,16 @@ var Economics = function () {
             if (landUseTileID > 0) {
               let ludID = landUseTileID.toString();
               /**
-               * Apparently, the column for landUseType, soilType, precipitation levels in the kpi.csv data are named as follows:
-               * [soil_type, land_use_code precipitation_level]  if these columns are changed in that file, this method won't work if not updated from the source file for filterByLandUseAndSoilType
-
+               * Apparently, the column for  soilType, methane, nitrous oxide kpi, precipitations and land use landUseType, soilType,
+               * in the ghgData.csv data are named as follows:
+               * [soil_type, land_use_code precipitation_level, 'soil_type', 'ch4_kg_ha_yr', 'TopN2O', 'kpi',
+               *  'precipitation_level', 'land_use']  if these columns are changed in that file, this method won't work
+               *  if not updated from the source file ./pewi3.0/ghgData.csv
+              for more info see data_cleaner.py in the base dir
                */
                   // let gasesData = filterByLandUseAndSoilType(this.loadedGHGData, ludID, getSoilType, _PrecipitationData);
               let gasesData = filteredArray(this.loadedGHGData, ludID, getSoilType, _PrecipitationData);
+              const currentData = gasesData[0];
               // we need to always benchmark it to conservation forestry based on the selected soil types
               let baseDData = filteredArray(this.loadedGHGData, '1', getSoilType, _PrecipitationData);
               //console.log(baseData, 'base-data')
@@ -899,10 +893,10 @@ var Economics = function () {
               let soilArea = cellLandArea / 2.471;
 
               // This will need to be converted to carbon dioxide equivalents
-              let soc = parseFloat(gasesData[0]?.to_carb) * soilArea;
+              let soc = parseFloat(currentData?.to_carb) * soilArea;
               //console.log('soil organic carbon', soc)
-              let n20 = parseFloat(gasesData[0]?.TopN2O) * soilArea;
-              let kpi = parseFloat(gasesData[0]?.kpi) * soilArea
+              let n20 = parseFloat(currentData?.TopN2O) * soilArea;
+              let kpi = parseFloat(currentData?.kpi) * soilArea
               let ch4 = parseFloat(gasesData[0]?.ch4_kg_ha_yr) * soilArea;
               let Respiration = parseFloat(gasesData[0]?.Whole_repsiration) * soilArea
               // BASE DATA FOR CALCULATION SCORES IS BASED ON CONSERVATION F0RESTRY CODE 11
