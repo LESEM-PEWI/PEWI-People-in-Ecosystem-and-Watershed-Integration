@@ -32,7 +32,7 @@ landUSes = {'Conservation forest',
             'shortRotationWoodyBioenergy',
             'switchgrass'}
 
-landUseCodes = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15}
+landUseCodes = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 14}
 
 precipitationLevels = {24.58, 28.18, 30.39, 32.16, 34.34, 36.47, 45.1, 37.}
 
@@ -82,7 +82,7 @@ def load_and_clean(view_in_excel=False):
 
     if 'Unnamed: 0' in df.columns:
         df.drop('Unnamed: 0', axis=1, inplace=True)
-    data = df.drop_duplicates(subset=['land_use', 'precipitation_level', 'soil_type'])
+    data = df.drop_duplicates(subset=['land_use_code', 'precipitation_level', 'soil_type'])
     # check precipitation
     _check_values(data.precipitation_level, category='precipitation')
     # check land use codes
