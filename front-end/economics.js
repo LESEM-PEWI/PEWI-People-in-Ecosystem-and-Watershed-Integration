@@ -911,12 +911,16 @@ var Economics = function () {
               kpi = parseFloat(kpi.toFixed(0));
               Respiration = parseFloat(Respiration.toFixed(0));
               bRespiration = parseFloat(bRespiration.toFixed(0));
+              let carbonDioxide = 0
               numLandUseCode = Number(ludID);
               if (soc < 0) {
+                carbonDioxide = soc
                 co2_emission = Math.abs(soc); // we dont want negative values
                 soc = 0;
               }
+              let bCarbonDioxide = 0
               if (bSOC < 0) {
+                bCarbonDioxide = bSOC;
                 bSOC_emissions = Math.abs(bSOC);// we don't want to display negative values
                 bSOC = 0;
               }
@@ -924,11 +928,11 @@ var Economics = function () {
               this.GHGs[i][0]['N2O'] += n20;
               this.GHGs[i][0]['C02_e'] += kpi;
               this.GHGs[i][0]['CH4'] += ch4;
-              this.GHGs[i][0]['CO2_emissions'] += Respiration;
+              this.GHGs[i][0]['CO2_emissions'] += carbonDioxide;
               this.ghgBenchmark[i][0]['C02_e'] += bGHG;
               this.ghgBenchmark[i][0]['N2O'] += bN2O;
               this.ghgBenchmark[i][0]['CH4'] += bCH4;
-              this.ghgBenchmark[i][0]['CO2_emissions'] += bRespiration;
+              this.ghgBenchmark[i][0]['CO2_emissions'] += bCarbonDioxide;
               this.ghgBenchmark[i][0]['SOC'] += bSOC;
 
 
@@ -973,7 +977,7 @@ var Economics = function () {
             break;
 
           case 'CO2_emissions':
-            let co2Value = calculateGHGScores(element[0][key], benchmarkValue, 11);
+            let co2Value = calculateGHGScores(element[0][key], benchmarkValue, 200);
             this.GHGsScore[index][0][key] = parseFloat(co2Value.toFixed(1));
             break;
 

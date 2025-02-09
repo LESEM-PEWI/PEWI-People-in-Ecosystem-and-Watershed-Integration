@@ -97,4 +97,4 @@ def load_and_clean(view_in_excel=False):
 
 
 if __name__ == '__main__':
-    da = load_and_clean(view_in_excel=False)
+    da = load_and_clean(view_in_excel=True)
