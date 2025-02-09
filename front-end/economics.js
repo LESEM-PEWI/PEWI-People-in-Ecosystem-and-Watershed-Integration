@@ -884,9 +884,9 @@ var Economics = function () {
                   // let gasesData = filterByLandUseAndSoilType(this.loadedGHGData, ludID, getSoilType, _PrecipitationData);
               let gasesData = filteredArray(this.loadedGHGData, ludID, getSoilType, _PrecipitationData);
               const currentData = gasesData[0];
-              // we need to always benchmark it to conservation forestry based on the selected soil types
+              // we need to always benchmark it to conventional corn forestry based on the selected soil types
               let baseDData = filteredArray(this.loadedGHGData, '1', getSoilType, _PrecipitationData);
-              const  refenceData = baseDData[0]
+              const  referenceData = baseDData[0]
               //console.log(baseData, 'base-data')
               // let kpiSum = baseData.reduce((sum, item) => sum + (item.kpi || 0), 0);
 
@@ -894,18 +894,18 @@ var Economics = function () {
               let soilArea = cellLandArea / 2.471;
 
               // This will need to be converted to carbon dioxide equivalents
-              let soc = parseFloat(currentData?.to_carb) * soilArea;
+              let soc = currentData?.to_carb * soilArea;
               //console.log('soil organic carbon', soc)
-              let n20 = parseFloat(currentData?.TopN2O) * soilArea;
-              let kpi = parseFloat(currentData?.kpi) * soilArea
+              let n20 = currentData?.TopN2O * soilArea;
+              let kpi = currentData?.kpi * soilArea
               let ch4 = parseFloat(currentData?.ch4_kg_ha_yr) * soilArea;
               let Respiration = parseFloat(currentData?.Whole_repsiration) * soilArea
               // BASE DATA FOR CALCULATION SCORES IS BASED ON CONSERVATION F0RESTRY CODE 11
-              let bGHG = parseFloat(refenceData?.kpi) * soilArea;
-              let bN2O = parseFloat(refenceData?.TopN2O) * soilArea;
-              let bCH4 = parseFloat(refenceData?.ch4_kg_ha_yr) * soilArea;
-              let bSOC = parseFloat(refenceData?.to_carb) * soilArea;
-              let bRespiration = parseFloat(refenceData?.Whole_repsiration) * soilArea
+              let bGHG = parseFloat(referenceData?.kpi) * soilArea;
+              let bN2O = parseFloat(referenceData?.TopN2O) * soilArea;
+              let bCH4 = parseFloat(referenceData?.ch4_kg_ha_yr) * soilArea;
+              let bSOC = parseFloat(referenceData?.to_carb) * soilArea;
+              let bRespiration = parseFloat(referenceData?.Whole_repsiration) * soilArea
 
               soc = parseFloat(soc.toFixed(0));
               n20 = parseFloat(n20.toFixed(4));
@@ -1150,6 +1150,7 @@ var Economics = function () {
 }
 
 var economics = new Economics();
+// prepare the garbage collector to clear memory of some big data
 economics.loadedGHGData = null;
 
 //kind of a precalc? Not really but its calculated before its needed.
