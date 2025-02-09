@@ -19,6 +19,7 @@ fileName = join(baseDir, 'ghgData.csv')
 ExpectedColumns = {'to_carb', 'soil_type', 'ch4_kg_ha_yr', 'TopN2O', 'kpi',
                    'Whole_repsiration', 'precipitation_level', 'land_use',
                    'land_use_code'}
+
 landUSes = {'Conservation forest',
             'Conventional forest',
             'Mixed fruits and vegetables',
