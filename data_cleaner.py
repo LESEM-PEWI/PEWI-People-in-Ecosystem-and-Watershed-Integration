@@ -1,10 +1,11 @@
 """
 This script checks the PEWI GHG simulated data before it is sent to the server.
 After checking the data, it is saved in the same directory as the index.html as ghgData.csv.
-created on: 02/07/2025
-author: <NAME> richard magala
+Created on: 02/07/2025
+author: <NAME> Richard Magala
 email; magalarich20@gmail.com
 """
+from typing import Union
 
 import pandas as pd
 from numpy import ndarray
@@ -39,7 +40,7 @@ precipitationLevels = {24.58, 28.18, 30.39, 32.16, 34.34, 36.47, 45.1, 37.}
 soil = {'M', 'Q', 'A', 'O', 'C', 'N', 'B', 'L', 'K', 'D', 'G', 'Y', 'T'}
 
 
-def _check_values(values, category):
+def _check_values(values: Union[ndarray, list, tuple], category: str) -> None:
     assert isinstance(category, str), "category must be a string"
     categories = ['soil', 'precipitation', 'land_use']
     categories = [i.lower() for i in categories]
@@ -50,7 +51,7 @@ def _check_values(values, category):
 
     assert isinstance(values,
                       (list, ndarray, pd.Series, tuple)), (f"Values must be a list, np.ndarray, pd.Series, "
-                                                              f"or tuple. not: {type(values)}")
+                                                           f"or tuple. not: {type(values)}")
     uniq_vals = set(values)
 
     intersect = uniq_vals.intersection(pick_category)
@@ -66,7 +67,7 @@ def view(dat_v):
     view(dat_v, table=False)
 
 
-def load_and_clean(view_in_excel=False):
+def load_and_clean(view_in_excel: bool = False) -> pd.DataFrame:
     """"checks for duplicates in the data to send to the serve"""
 
     df = pd.read_csv('kpi.csv')
