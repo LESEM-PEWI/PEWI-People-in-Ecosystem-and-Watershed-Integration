@@ -948,8 +948,6 @@ var Economics = function () {
 
 
   let GHGScores = () => {
-
-    console.log(this.GHGs.length, 'lengths', this.GHGs)
   this.GHGs.forEach((element, index) => {
     // Ensure `this.GHGsScore[index][0]` exists before assigning values
     if (!this.GHGsScore[index]) {
@@ -1150,7 +1148,7 @@ var Economics = function () {
 
 var economics = new Economics();
 // prepare the garbage collector to clear memory of some big data
-economics.loadedGHGData = null;
+//economics.loadedGHGData = null;
 
 //kind of a precalc? Not really but its calculated before its needed.
 // I still think this has cost to incur but time and debugging will tell
