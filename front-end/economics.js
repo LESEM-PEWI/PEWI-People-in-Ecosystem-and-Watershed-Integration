@@ -27,6 +27,7 @@ var Economics = function () {
   this.getRent = [];
   this.totalWatershedCost=[];
   this.totalWatershedRevenue=[];
+  this.ghgBenchmark = [];
 
 
 //the number of years in the cycle so that we can divide to get the yearly cost; The -1 accounts for the 'none' land use.
@@ -843,8 +844,6 @@ var Economics = function () {
 
 
   collectTotalWatershedGHGData = () => {
-
-    // TODO this function should be investigated thoroughly for performance
     const CurrentBoard = boardData[currentBoard]
 
 
@@ -857,7 +856,7 @@ var Economics = function () {
 
         _PrecipitationData = _PrecipitationData.toString();
         // This is to display greenhouse gases by land use types
-        this.ghgBenchmark = [];
+
         this.GHGsScore[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2_emissions': 0}];
 
         this.GHGs[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2_emissions': 0}]
