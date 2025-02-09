@@ -45,18 +45,18 @@ def _check_values(values: Union[ndarray, list, tuple], category: str) -> None:
     Validates that the provided values match the expected categories and their associated treatment levels.
 
     :param values: A collection of values to be checked. Must be a list, numpy array (ndarray), pandas Series, or tuple.
-    :param category: The category of the values, which must be one of ['soil', 'precipitation', 'land_use'].
+    :param category: The category of the values, which must be one of ['soil', 'precipitation', 'land_use', 'land use].
     :raises AssertionError: If `category` is not a string, or if `values` is not a valid collection type.
     :raises ValueError: If `category` is not among the expected categories or if any expected values are missing.
     :return: None
     """
     assert isinstance(category, str), "category must be a string"
-    categories = ['soil', 'precipitation', 'land_use']
+    categories = ['soil', 'precipitation', 'land_use', 'land use']
     categories = [i.lower() for i in categories]
     if category.lower() not in categories:
         raise ValueError(f'category should be any of of: {categories}')
 
-    pick_category = dict(zip(categories, [soil, precipitationLevels, landUseCodes]))[category.lower()]
+    pick_category = dict(zip(categories, [soil, precipitationLevels, landUseCodes, landUseCodes]))[category.lower()]
 
     assert isinstance(values,
                       (list, ndarray, pd.Series, tuple)), (f"Values must be a list, np.ndarray, pd.Series, "
