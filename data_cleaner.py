@@ -1,12 +1,14 @@
 """
 This script checks the PEWI GHG simulated data before it is sent to the server.
-created on 02/07/2025
+After checking the data, it is saved in the same directory as the index.html as ghgData.csv.
+created on: 02/07/2025
 author: <NAME> richard magala
 email; magalarich20@gmail.com
 """
-import numpy as np
+
 import pandas as pd
-from os.path import isfile, join, dirname, realpath
+from numpy import ndarray
+from os.path import (join, dirname, realpath)
 
 baseDir = dirname(realpath(__file__))
 
@@ -47,13 +49,13 @@ def _check_values(values, category):
     pick_category = dict(zip(categories, [soil, precipitationLevels, landUseCodes]))[category.lower()]
 
     assert isinstance(values,
-                      (list, np.ndarray, pd.Series, tuple)), (f"Values must be a list, np.ndarray, pd.Series, "
+                      (list, ndarray, pd.Series, tuple)), (f"Values must be a list, np.ndarray, pd.Series, "
                                                               f"or tuple. not: {type(values)}")
     uniq_vals = set(values)
 
     intersect = uniq_vals.intersection(pick_category)
 
-    dif = soil.difference(pick_category)
+    dif = pick_category.difference(uniq_vals)
 
     if len(intersect) != len(pick_category):
         raise ValueError(f"{category} is missing some treatments levels {dif}")
