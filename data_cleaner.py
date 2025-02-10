@@ -75,7 +75,7 @@ def _check_values(values: Union[ndarray, list, tuple], category: str) -> None:
 
 
 def load_and_clean(data=None, view_in_excel: bool = False, **kwargs) -> pd.DataFrame:
-    """"checks for duplicates in the data to send to the serve"""
+    """"checks for duplicates in the data to send to the server"""
     file_name = kwargs.get('file_name', fileName)
     path = kwargs.get('path', 'kpi.csv')
     if data is not None:
@@ -101,7 +101,7 @@ def load_and_clean(data=None, view_in_excel: bool = False, **kwargs) -> pd.DataF
     def query_data(code):
         return data[data['land_use_code'] == code].copy()
 
-    # each land use should have all the treatment
+    # each land use should have all the factor levels
     for code_ in land_use_codes:
         logging.info(f"checking {code_}")
         cdata = query_data(code_)
@@ -111,7 +111,7 @@ def load_and_clean(data=None, view_in_excel: bool = False, **kwargs) -> pd.DataF
 
         # check SOIL types
         _check_values(cdata.soil_type, category='SOIL')
-        logging.info(f"checking factor levels completed")
+        logging.info(f"checking factor levels completed successfully")
     data.reset_index(drop=True, inplace=True)
     data.to_csv(file_name, index=False)
     logging.info(f"data successfully saved to {file_name}")
