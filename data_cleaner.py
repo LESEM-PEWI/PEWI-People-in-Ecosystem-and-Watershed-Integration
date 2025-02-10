@@ -10,7 +10,9 @@ from xlwings import view
 import pandas as pd
 from numpy import ndarray
 from os.path import (join, dirname, realpath)
+import logging
 
+logging.basicConfig(level=logging.INFO)
 baseDir = dirname(realpath(__file__))
 
 # insert file where the index.html is located
@@ -56,7 +58,8 @@ def _check_values(values: Union[ndarray, list, tuple], category: str) -> None:
     if category.lower() not in categories:
         raise ValueError(f'category should be any of of: {categories}')
 
-    pick_category = dict(zip(categories, [SOIL, PRECIPITATION_LEVELS, LAND_USE_CODES, LAND_USE_CODES]))[category.lower()]
+    pick_category = dict(zip(categories, [SOIL, PRECIPITATION_LEVELS, LAND_USE_CODES, LAND_USE_CODES]))[
+        category.lower()]
 
     assert isinstance(values,
                       (list, ndarray, pd.Series, tuple)), (f"Values must be a list, np.ndarray, pd.Series, "
@@ -71,7 +74,7 @@ def _check_values(values: Union[ndarray, list, tuple], category: str) -> None:
         raise ValueError(f"{category} is missing some treatments levels {dif}")
 
 
-def load_and_clean(data =None, view_in_excel: bool = False, **kwargs) -> pd.DataFrame:
+def load_and_clean(data=None, view_in_excel: bool = False, **kwargs) -> pd.DataFrame:
     """"checks for duplicates in the data to send to the serve"""
     file_name = kwargs.get('file_name', fileName)
     path = kwargs.get('path', 'kpi.csv')
@@ -81,8 +84,7 @@ def load_and_clean(data =None, view_in_excel: bool = False, **kwargs) -> pd.Data
         df = pd.read_csv(path)
     # check if all columns are in the data frame
     interSec = df.columns.intersection(ExpectedColumns)
-    Tru = [x == y for x, y in zip(interSec, ExpectedColumns)]
-    print(Tru)
+
     if len(interSec) != len(ExpectedColumns):
         seTeXP = set(ExpectedColumns)
         dif = seTeXP.difference(df.columns)
@@ -101,7 +103,7 @@ def load_and_clean(data =None, view_in_excel: bool = False, **kwargs) -> pd.Data
 
     # each land use should have all the treatment
     for code_ in land_use_codes:
-        print(code_)
+        logging.info(f"checking {code_}")
         cdata = query_data(code_)
         # check precipitation
         _check_values(cdata.precipitation_level, category='precipitation')
@@ -109,8 +111,10 @@ def load_and_clean(data =None, view_in_excel: bool = False, **kwargs) -> pd.Data
 
         # check SOIL types
         _check_values(cdata.soil_type, category='SOIL')
+        logging.info(f"checking factor levels completed")
     data.reset_index(drop=True, inplace=True)
-    data.to_csv( file_name, index=False)
+    data.to_csv(file_name, index=False)
+    logging.info(f"data successfully saved to {file_name}")
     if view_in_excel:
         view(data, table=kwargs.get('table', True))
     return data
