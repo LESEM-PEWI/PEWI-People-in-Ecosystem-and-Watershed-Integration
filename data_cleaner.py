@@ -71,7 +71,7 @@ def _check_values(values: Union[ndarray, list, tuple], category: str) -> None:
     dif = pick_category.difference(uniq_vals)
 
     if len(intersect) != len(pick_category):
-        raise ValueError(f"{category} is missing some treatments levels {dif}")
+        raise ValueError(f"{category} is missing some factor levels `{dif}`")
 
 
 def load_and_clean(data=None, view_in_excel: bool = False, **kwargs) -> pd.DataFrame:
