@@ -891,7 +891,7 @@ var Economics = function () {
 
               // Convert to hectares
               let soilArea = cellLandArea / 2.471;
-
+              console.log(soilArea)
               // This will need to be converted to carbon dioxide equivalents
               let soc = currentData?.to_carb * soilArea;
               //console.log('soil organic carbon', soc)
