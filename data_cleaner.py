@@ -1,15 +1,18 @@
 """
 This script checks the PEWI GHG simulated data before it is sent to the server.
 After checking the data, it is saved in the same directory as the index.html as ghgData.csv.
-created on: 02/07/2025
-author: <NAME> richard magala
+Created on: 02/07/2025
+author: <NAME> Richard Magala
 email; magalarich20@gmail.com
 """
-
+from typing import Union
+from xlwings import view
 import pandas as pd
 from numpy import ndarray
 from os.path import (join, dirname, realpath)
+import logging
 
+logging.basicConfig(level=logging.INFO)
 baseDir = dirname(realpath(__file__))
 
 # insert file where the index.html is located
@@ -32,25 +35,35 @@ landUSes = {'Conservation forest',
             'shortRotationWoodyBioenergy',
             'switchgrass'}
 
-landUseCodes = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15}
+LAND_USE_CODES = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 14}
 
-precipitationLevels = {24.58, 28.18, 30.39, 32.16, 34.34, 36.47, 45.1, 37.}
+PRECIPITATION_LEVELS = {24.58, 28.18, 30.39, 32.16, 34.34, 36.47, 45.1, 37.}
 
-soil = {'M', 'Q', 'A', 'O', 'C', 'N', 'B', 'L', 'K', 'D', 'G', 'Y', 'T'}
+SOIL = {'M', 'Q', 'A', 'O', 'C', 'N', 'B', 'L', 'K', 'D', 'G', 'Y', 'T'}
 
 
-def _check_values(values, category):
+def _check_values(values: Union[ndarray, list, tuple], category: str) -> None:
+    """
+    Validates that the provided values match the expected categories and their associated treatment/factor levels.
+
+    :param values: A collection of values to be checked. Must be a list, numpy array (ndarray), pandas Series, or tuple.
+    :param category: The category of the values, which must be one of ['soil', 'precipitation', 'land_use', 'land use].
+    :raises AssertionError: If `category` is not a string, or if `values` is not a valid collection type.
+    :raises ValueError: If `category` is not among the expected categories or if any expected values are missing.
+    :return: None
+    """
     assert isinstance(category, str), "category must be a string"
-    categories = ['soil', 'precipitation', 'land_use']
+    categories = ['soil', 'precipitation', 'land_use', 'land use']
     categories = [i.lower() for i in categories]
     if category.lower() not in categories:
         raise ValueError(f'category should be any of of: {categories}')
 
-    pick_category = dict(zip(categories, [soil, precipitationLevels, landUseCodes]))[category.lower()]
+    pick_category = dict(zip(categories, [SOIL, PRECIPITATION_LEVELS, LAND_USE_CODES, LAND_USE_CODES]))[
+        category.lower()]
 
     assert isinstance(values,
                       (list, ndarray, pd.Series, tuple)), (f"Values must be a list, np.ndarray, pd.Series, "
-                                                              f"or tuple. not: {type(values)}")
+                                                           f"or tuple. not: {type(values)}")
     uniq_vals = set(values)
 
     intersect = uniq_vals.intersection(pick_category)
@@ -58,22 +71,20 @@ def _check_values(values, category):
     dif = pick_category.difference(uniq_vals)
 
     if len(intersect) != len(pick_category):
-        raise ValueError(f"{category} is missing some treatments levels {dif}")
+        raise ValueError(f"{category} is missing some factor levels `{dif}`")
 
 
-def view(dat_v):
-    from xlwings import view
-    view(dat_v, table=False)
-
-
-def load_and_clean(view_in_excel=False):
-    """"checks for duplicates in the data to send to the serve"""
-
-    df = pd.read_csv('kpi.csv')
+def load_and_clean(data=None, view_in_excel: bool = False, **kwargs) -> pd.DataFrame:
+    """"checks for duplicates in the data to send to the server"""
+    file_name = kwargs.get('file_name', fileName)
+    path = kwargs.get('path', 'kpi.csv')
+    if data is not None:
+        df = data.copy()
+    else:
+        df = pd.read_csv(path)
     # check if all columns are in the data frame
     interSec = df.columns.intersection(ExpectedColumns)
-    Tru = [x == y for x, y in zip(interSec, ExpectedColumns)]
-    print(Tru)
+
     if len(interSec) != len(ExpectedColumns):
         seTeXP = set(ExpectedColumns)
         dif = seTeXP.difference(df.columns)
@@ -82,17 +93,30 @@ def load_and_clean(view_in_excel=False):
 
     if 'Unnamed: 0' in df.columns:
         df.drop('Unnamed: 0', axis=1, inplace=True)
-    data = df.drop_duplicates(subset=['land_use', 'precipitation_level', 'soil_type'])
-    # check precipitation
-    _check_values(data.precipitation_level, category='precipitation')
-    # check land use codes
+    data = df.drop_duplicates(subset=['land_use_code', 'precipitation_level', 'soil_type'])
+
     _check_values(data.land_use_code, category='land_use')
-    # check soil types
-    _check_values(data.soil_type, category='soil')
+    land_use_codes = data.land_use_code.unique()
+
+    def query_data(code):
+        return data[data['land_use_code'] == code].copy()
+
+    # each land use should have all the factor levels
+    for code_ in land_use_codes:
+        logging.info(f"checking {code_}")
+        cdata = query_data(code_)
+        # check precipitation
+        _check_values(cdata.precipitation_level, category='precipitation')
+        # check land use codes
+
+        # check SOIL types
+        _check_values(cdata.soil_type, category='SOIL')
+        logging.info(f"checking factor levels completed successfully")
     data.reset_index(drop=True, inplace=True)
-    data.to_csv(fileName, index=False)
+    data.to_csv(file_name, index=False)
+    logging.info(f"data successfully saved to {file_name}")
     if view_in_excel:
-        view(data)
+        view(data, table=kwargs.get('table', True))
     return data
 
 

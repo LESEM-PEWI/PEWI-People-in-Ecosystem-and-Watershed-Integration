@@ -891,7 +891,7 @@ var Economics = function () {
 
               // Convert to hectares
               let soilArea = cellLandArea / 2.471;
-
+              console.log(soilArea)
               // This will need to be converted to carbon dioxide equivalents
               let soc = currentData?.to_carb * soilArea;
               //console.log('soil organic carbon', soc)
@@ -987,8 +987,9 @@ var Economics = function () {
             break;
 
           default:
-            let others = calculateGHGScores(element[0][key], benchmarkValue, 100);
-            this.GHGsScore[index][0][key] = parseFloat(others.toFixed(1));
+            let others = calculateGHGScores(element[0][key], benchmarkValue, 39495.4);
+            let other_score = Math.abs(100-parseFloat(others.toFixed(1)))
+            this.GHGsScore[index][0][key] = other_score.toFixed(1);
             break;
         }
       }
