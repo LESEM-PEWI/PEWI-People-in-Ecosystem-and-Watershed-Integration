@@ -3370,16 +3370,16 @@ function generateResultsTable() {
         htmlTableString += "<td class='centerText'>pts</td>";
       }
       else if (backendDataIdentifiers[l] === "aquaticHealth") {
-        htmlTableString += "<td class='centerText'>mg/L</td>";
+        htmlTableString += "<td class='centerText'>Mg/L</td>";
       }
       else if (backendDataIdentifiers[l] === "carbonSequestration") {
         htmlTableString += "<td class='centerText'>Mg</td>";
       }
       else if (backendDataIdentifiers[l] === "nitrateConcentration") {
-        htmlTableString += "<td class='centerText'>mg/L</td>";
+        htmlTableString += "<td class='centerText'>Mg/L</td>";
       }
       else if (backendDataIdentifiers[l] === "phosphorusLoad") {
-        htmlTableString += "<td class='centerText'>mg/L</td>";
+        htmlTableString += "<td class='centerText'>Mg/L</td>";
       }
       else if (backendDataIdentifiers[l] === "gameWildlifePoints") {
         htmlTableString += "<td class='centerText'>pts</td>";
