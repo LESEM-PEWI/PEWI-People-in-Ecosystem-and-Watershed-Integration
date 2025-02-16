@@ -1090,8 +1090,6 @@ function drawD3EconPieChart(year, isTheChartInCategoryMode) {
     return "none";
   }
 
-//  console.log(dataset[0].count);
-
   multiplayerResults();
 } //end drawD3EconPieChart()
 
