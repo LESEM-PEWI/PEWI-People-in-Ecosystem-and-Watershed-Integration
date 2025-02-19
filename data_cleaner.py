@@ -173,7 +173,7 @@ def add_columns(data, values: dict = None) -> pd.DataFrame:
     _columns = list(values.keys())
     _values = list(values.values())
     if len(_values) != len(_columns):
-        raise ValueError(f"values{_values} not equal to columns: {_olumns}")
+        raise ValueError(f"values{_values} not equal to columns: {_columns}")
     data[_columns] = _values
     return data
 
