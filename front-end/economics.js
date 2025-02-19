@@ -547,7 +547,7 @@ var Economics = function () {
 
 
   //this is unoptimized for finding the amount of corn after corn and corn after soybeans
-  //If any sort of progress bar requires the economics module it is recomended to alter the method in which data is updated
+  //If any sort of progress bar requires the economics module it is recommended to alter the method in which data is updated
   /**
    * This function breaks down Conv and Cons Corn into Corn after Corn and Corn after Soybean and calculates the yield for each.
    * NOTE: CONSERVATION CORN values are retrieved from BMP budgets function below.

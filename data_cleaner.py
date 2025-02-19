@@ -120,5 +120,66 @@ def load_and_clean(data=None, view_in_excel: bool = False, **kwargs) -> pd.DataF
     return data
 
 
+def unpack_dicts(_dicts):
+    if len(_dicts) == 1:
+        return _dicts[0]
+    em = {}
+
+    for d in _dicts:
+        em |= d
+
+    return em
+
+
+# Load an Excel file into a pandas DataFrame
+df = pd.read_excel('PEWI Budgets 2024$ - 2025$ (021425).xlsx', sheet_name='C following SB')
+
+Columns = ['LU_ID', 'Land-Use', 'Sub Crop']
+
+Example_values = {'LU_ID': 1, 'Land-Use': 'Conservation Soybean', 'Sub Crop': 'corn aftersoy'}
+
+import xlwings as xw
+import pandas as pd
+
+
+def update_excel_book(_data, _book_name='PEWI Budgets 2024$ - 2025$ (021425).xlsx', sheet_name='C following SB'):
+    """add an Excel sheet to an existing one just to keep all the data in one place"""
+    # Load the workbook
+    app = xw.App(visible=False)  # Set visible to False to not show the Excel application
+    book = app.books.open(_book_name)
+
+    # Check if the sheet exists, and if not, add it
+    if sheet_name in [sheet.name for sheet in book.sheets]:
+        sheet = book.sheets[sheet_name]
+    else:
+        sheet = book.sheets.add(sheet_name)
+
+    # Clear any existing content if you want to overwrite completely
+    sheet.clear_contents()
+
+    # Write DataFrame to the sheet
+    sheet.range('A1').options(index=False).value = _data
+
+    # Save and close
+    book.save()
+    book.close()
+    app.quit()
+
+
+def add_columns(data, values: dict = None) -> pd.DataFrame:
+    assert isinstance(values, dict), f"Expected dict but got {type(values)}"
+    data = data.copy()
+    print(id(data))
+    _columns = list(values.keys())
+    _values = list(values.values())
+    if len(_values) != len(_columns):
+        raise ValueError(f"values{_values} not equal to columns: {_olumns}")
+    data[_columns] = _values
+    return data
+
+
+# Display the DataFrame
+print(df)
+
 if __name__ == '__main__':
-    da = load_and_clean(view_in_excel=True)
+    da = load_and_clean(view_in_excel=False)
