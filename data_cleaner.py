@@ -6,13 +6,15 @@ author: <NAME> Richard Magala
 email; magalarich20@gmail.com
 """
 import os
+import shutil
 from typing import Union
 from xlwings import view
 import pandas as pd
 from numpy import ndarray
 from os.path import (join, dirname, realpath)
 import logging
-
+import xlwings as xw
+from wrangler_helper import sheet_names_values as sheet_data, copy_xlsx_book
 logging.basicConfig(level=logging.INFO)
 baseDir = dirname(realpath(__file__))
 
@@ -139,33 +141,6 @@ Columns = ['LU_ID', 'Land-Use', 'Sub Crop']
 
 Example_values = {'LU_ID': 1, 'Land-Use': 'Conservation Soybean', 'Sub Crop': 'corn aftersoy'}
 
-import xlwings as xw
-import pandas as pd
-
-some_sheet_names = ['C following SB',
-                    'C following C',
-                    'Conservation C',
-                    'SB following C',
-                    'Conservation SB',
-                    'Alfalfa Hay',
-                    'Grass Hay',
-                    'Switchgrass',
-                    'SRWC ',
-                    'Perm Pasture',
-                    'Rotational Grazing']
-
-
-
-def get_all_book_sheet_names(book_path):
-    assert os.path.exists(book_path), f"No such file or directory: {book_path}"""
-    wb = xw.Book(book_path)
-    try:
-        # Get all sheet names
-        sheet_names = [sheet.name for sheet in wb.sheets]
-        return sheet_names
-    finally:
-        wb.close()
-
 
 def update_excel_book(_data, _book_name='PEWI Budgets 2024$ - 2025$ (021425).xlsx', sheet_name='C following SB'):
     """add an Excel sheet to an existing one just to keep all the data in one place"""
@@ -194,7 +169,6 @@ def update_excel_book(_data, _book_name='PEWI Budgets 2024$ - 2025$ (021425).xls
 def add_columns(data, values: dict = None) -> pd.DataFrame:
     assert isinstance(values, dict), f"Expected dict but got {type(values)}"
     data = data.copy()
-    print(id(data))
     _columns = list(values.keys())
     _values = list(values.values())
     if len(_values) != len(_columns):
@@ -203,8 +177,31 @@ def add_columns(data, values: dict = None) -> pd.DataFrame:
     return data
 
 
+def update_edits(book_path):
+
+    for sheet_name in sheet_data:
+        logging.info(f"Processing sheet '{sheet_name}'......")
+        data = pd.read_excel(book_path, sheet_name=sheet_name)
+        data = add_columns(data, values=sheet_data[sheet_name])
+        if 'Time - Cost Type' in data.columns: # for now let's leave out incompleted dataset
+          data = data.dropna(subset='Time - Cost Type')
+        update_excel_book(data, _book_name=book_path, sheet_name=sheet_name)
+
+    logging.info(f"updates completed successfully")
+
+
+def main(book_path):
+    # replicate the sheet
+    copy_path = 'copy_' + book_path
+    new_book = shutil.copy(book_path, copy_path)
+    print(new_book)
+    update_edits(new_book)
+
+
 # Display the DataFrame
 print(df)
 
 if __name__ == '__main__':
     da = load_and_clean(view_in_excel=False)
+    dc = df.dropna(subset='Time - Cost Type')
+    main(book_path='edited_budgets.xlsx')
