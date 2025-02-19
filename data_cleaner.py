@@ -5,6 +5,7 @@ Created on: 02/07/2025
 author: <NAME> Richard Magala
 email; magalarich20@gmail.com
 """
+import os
 from typing import Union
 from xlwings import view
 import pandas as pd
@@ -132,7 +133,7 @@ def unpack_dicts(_dicts):
 
 
 # Load an Excel file into a pandas DataFrame
-df = pd.read_excel('PEWI Budgets 2024$ - 2025$ (021425).xlsx', sheet_name='C following SB')
+df = pd.read_excel('edited_budgets.xlsx', sheet_name='C following SB')
 
 Columns = ['LU_ID', 'Land-Use', 'Sub Crop']
 
@@ -140,6 +141,30 @@ Example_values = {'LU_ID': 1, 'Land-Use': 'Conservation Soybean', 'Sub Crop': 'c
 
 import xlwings as xw
 import pandas as pd
+
+some_sheet_names = ['C following SB',
+                    'C following C',
+                    'Conservation C',
+                    'SB following C',
+                    'Conservation SB',
+                    'Alfalfa Hay',
+                    'Grass Hay',
+                    'Switchgrass',
+                    'SRWC ',
+                    'Perm Pasture',
+                    'Rotational Grazing']
+
+
+
+def get_all_book_sheet_names(book_path):
+    assert os.path.exists(book_path), f"No such file or directory: {book_path}"""
+    wb = xw.Book(book_path)
+    try:
+        # Get all sheet names
+        sheet_names = [sheet.name for sheet in wb.sheets]
+        return sheet_names
+    finally:
+        wb.close()
 
 
 def update_excel_book(_data, _book_name='PEWI Budgets 2024$ - 2025$ (021425).xlsx', sheet_name='C following SB'):
