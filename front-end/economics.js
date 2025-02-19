@@ -32,7 +32,7 @@ var Economics = function () {
 
 //the number of years in the cycle so that we can divide to get the yearly cost; The -1 accounts for the 'none' land use.
   yearCosts = [-1,1,1,1,1,4,1,1,4,50,1,1,11,7,50,{'Grapes (Conventional)': 4 * 25,'Green Beans': 1 * 4,'Winter Squash': 1 * 4,'Strawberries': 4 * 3}];
-  d3.csv('./revenue2020.csv', (data) => {
+  d3.csv('./revenueUpdatesInprogress_feb2025.csv', (data) => {
 
     this.rawRev = data;
   })
@@ -262,6 +262,7 @@ var Economics = function () {
         else if(dataPoint['LU_ID'] === "3"){
           value = parseFloat(revenueData[dataPoint['LU_ID']]) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
         }
+
 
         else{
           value = parseFloat(dataPoint['Revenue/acre/year']) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
