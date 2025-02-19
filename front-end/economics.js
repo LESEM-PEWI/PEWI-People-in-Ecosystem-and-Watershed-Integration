@@ -259,6 +259,9 @@ var Economics = function () {
         else if(dataPoint['LU_ID'] === "1"){
           value = parseFloat(revenueData[dataPoint['LU_ID']]) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
         }
+        else if(dataPoint['LU_ID'] === "13"){
+          value = parseFloat(dataPoint['Revenue/acre/year']) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
+        }
         else if(dataPoint['LU_ID'] === "3"){
           value = parseFloat(revenueData[dataPoint['LU_ID']]) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
         }
