@@ -4,12 +4,8 @@ LU_ID,Land-Use,,Years Applicable,Frequency,SoilType,Revenue/acre/year,Units,Calc
 3,Conventional Soybean,Regular Commodity Soybean,,Annual,,10.37, $/bu ,$10.37/bu,"Accessed on March 20, 2019",Updated on 02/18/2028,Updated on 02/18/2028
 4,Conservation Soybean,Regular Commodity Soybean,,Annual,,10.37, $/bu ,$10.37/bu,"Accessed on March 20, 2020",Updated on 02/18/2029,Updated on 02/18/2029
 5,Alfalfa,,1,,all,253, $/ton ,,,,
-6,Permanent Pasture,Heifer Calves,,Annual,,89.57, $/animal ,$1.75/lbs * 500lbs/head * .26 head/pair    / 2.5 acre/head,,,https://www.extension.iastate.edu/AGDM/livestock/pdf/b1-21.pdf
-6,Permanent Pasture,Steer Calves,,Annual,,185.2, $/animal ,$1.85/lbs * 550lbs/head * .46 head/pair    / 2.5 acre/head,,,https://www.extension.iastate.edu/AGDM/livestock/pdf/b1-21.pdf
-6,Permanent Pasture,Cull Cows,,Annual,,36.94, $/animal ,$0.38/lbs * 500lbs/head * .18 head/pair    / 2.5 acre/head,,,https://www.extension.iastate.edu/AGDM/livestock/pdf/b1-21.pdf
-7,Rotational Grazing,Heifer Calves,,Annual,,140.76, $/animal ,$1.75/lbs * 500lbs/head * .26 head/pair    / 2.5 acre/head * 55/35 (ratio for rotation:permanent grazing systems),"Same as Permanent Pasture, except adjusted for pasture utilization ratio (55/35)",,
-7,Rotational Grazing,Steer Calves,,Annual,,291.02, $/animal ,$1.85/lbs * 550lbs/head * .46 head/pair    / 2.5 acre/head * 55/35 (ratio for rotation:permanent grazing systems),"Same as Permanent Pasture, except adjusted for pasture utilization ratio (55/35)",,
-7,Rotational Grazing,Cull Cows,,Annual,,58.04, $/animal ,$0.38/lbs * 500lbs/head * .18 head/pair    / 2.5 acre/head * 55/35 (ratio for rotation:permanent grazing systems),"Same as Permanent Pasture, except adjusted for pasture utilization ratio (55/35)",,
+6,Permanent Pasture,Heifer Calves,,Annual,,2800, $/animal ,$1.75/lbs * 500lbs/head * .26 head/pair    / 2.5 acre/head,,,https://www.extension.iastate.edu/AGDM/livestock/pdf/b1-21.pdf
+7,Rotational Grazing,Cull Cows,,Annual,,2800, $/animal ,$0.38/lbs * 500lbs/head * .18 head/pair    / 2.5 acre/head * 55/35 (ratio for rotation:permanent grazing systems),"Same as Permanent Pasture, except adjusted for pasture utilization ratio (55/35)",,
 8,Grass Hay,,,,,180,$/ton,"FILLER/FAKE, REDO",,Updated on 02/18/2029,http://markets.businessinsider.com/commodities/corn-price
 9,Prairie,none,,Annual,,0,$/acre,,"Assuming none. Government programs exist, but we are ignoring them for now.",,http://markets.businessinsider.com/commodities/corn-price
 10,Conservation Forest,Wood,1,Annual,A,0.79,$/boardfoot,PER boardfoot; for soil type A,,Updated on 02/18/2029,http://www.macrotrends.net/2531/soybean-prices-historical-chart-data
