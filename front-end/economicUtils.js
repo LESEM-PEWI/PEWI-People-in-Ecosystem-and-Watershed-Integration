@@ -74,7 +74,7 @@ const loadCSVData = function(localDataPath) {
         return []; // Return an empty array on error
     }
 }
-const costAdjuster = function(data, column, factor = 1.23) {
+const costAdjuster = function(data, column, factor = 1) {
     // Ensure data is an array
     if (!Array.isArray(data)) {
         throw new Error("Data must be an array.");
@@ -176,9 +176,6 @@ const soilTypeHolderArray = Array(3).fill().map(() => ({
 const landUseHolderArray = Array(3).fill().map(() =>(
     {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0}
 ));
-// log them and see the length
-console.log(soilTypeHolderArray.length)
-console.log(landUseHolderArray.length)
 
 
 
@@ -187,4 +184,31 @@ const filterArray  = function(arrayData, landUseType, soilType, precipLevel) {
 }
 
 
+const getNetMixedFruitRevenue = (yieldPerAcre) => {
+    if (yieldPerAcre > 6.88) {
+        return 1017.44; // High yields
+    } else if (yieldPerAcre > 4.4 && yieldPerAcre <= 6.88) {
+        return 404.13; // Medium yields
+    } else if (yieldPerAcre <= 4.4) {
+        return 97.07; // Low yield
+    } else {
+        return 0; // You may want to handle edge cases here.
+    }
+};
 
+const dataBushels = [
+  { crop: 'Conventional Corn', rotation: 'corn after soy', LU_ID: 1, cost_per_bushel: 3.53, unit: 'bushels' },
+  { crop: 'Conventional Corn', rotation: 'Corn after Corn', LU_ID: 1, cost_per_bushel: 3.87, unit: 'bushels' },
+  { crop: 'Conservation Corn', rotation: 'Corn after Corn', LU_ID: 2, cost_per_bushel: 3.56, unit: 'bushels' },
+  { crop: 'Conservation Soybean', rotation: 'soy after corn', LU_ID: 3, cost_per_bushel: 8.76, unit: 'bushels' },
+  { crop: 'Conservation Soybean', rotation: 'soy after soy', LU_ID: 4, cost_per_bushel: 8.57, unit: 'bushels' }
+];
+
+console.log(dataBushels);
+
+
+const landIDWithCostPerAcre = {12:137, 14: 312, 9:205.0} // see helper objects for description of each land use ID
+const landIDWithCostPerBushel  = [...new Set(dataBushels.map(item => item.LU_ID))];
+const landIDWithCostPerTon = {13:63.45, 5:84.8, 8:63.45}  // see helper objects for description of each land use ID
+const landIDWithCostPerHead = {6:3496.81, 7:3556}  // see helper objects for description of each land use ID
+console.log(landIDWithCostPerBushel)

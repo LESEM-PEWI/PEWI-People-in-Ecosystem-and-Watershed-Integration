@@ -8,11 +8,8 @@ var Economics = function () {
   this.data = [];
   this.data4 = [];
   this.loadedGHGData = [];
-  this.calculatedGHG =[];
   this.GHGsScore =[]
-  this.landUseArea = []
   this.GHGs = [];
-  this.GHGsBylandUse = []
   this.dataSubcrop = {};
   this.data3 = [];
   this.data3ByLU = [];
@@ -28,6 +25,8 @@ var Economics = function () {
   this.totalWatershedCost=[];
   this.totalWatershedRevenue=[];
   this.ghgBenchmark = [];
+ // this.rawCostPerUnit = []
+  this.costForMapData = {} // for mapping only
 
 
 //the number of years in the cycle so that we can divide to get the yearly cost; The -1 accounts for the 'none' land use.
@@ -118,7 +117,14 @@ var Economics = function () {
     this.rawBMPData=costAdjuster(data, 'EAA',  1);
 
   });
+    // The cost_per_unit will eventually replace BMP budgets
+    // We thought that there is no point to display the whole budgets with cost types and categories because the land use budgets differ from each other
+   d3.csv('./cost_per_unit.csv', (data) => {
+     // TODO replace 1 with inflation adjustment factor
+    this.rawCostPerUnit=costAdjuster(data, 'cost_per_acre',  1); // see TODO above
 
+
+  });
   //graph
   //graphic 4 extract data from raw data
   this.chart4Information = function(lists) {
@@ -221,7 +227,9 @@ var Economics = function () {
       this.totalWatershedCost[i] = [{cost: 0}];  //TESTING
 
       let keys = Object.keys(Totals.landUseResults[0]);
+      console.log(Totals.landUseResults, 'keys')
       for(let j = 0; j < keys.length; j++){
+
         let key = keys[j];
         //this substring is to link different keys from different objects together... again less than ideal
         landUses[i][LandUseType[key.substring(0, key.length - 7)]] = Totals.landUseResults[i][key]
@@ -508,10 +516,11 @@ var Economics = function () {
               copy["# Labor Hours"] *= landUses[i][copy['LU_ID']];
 
           }
-
+        console.log(landUses, 'landuses')
         }
 
         this.mapData[i].push(copy)
+
         this.totalWatershedCost[i][0].cost +=  !isNaN(copy['EAA']) ? copy['EAA'] : 0
       })
 
@@ -750,6 +759,38 @@ var Economics = function () {
       }
 
   };
+let calculateCostRevenue = () => {
+  const keepCellData = {}
+  let calCost;
+  const totalCostsArray =  [{totalCosts:0}]
+  const GetCurrentBoard = boardData[currentBoard];  // Ensure currentBoard is defined correctly.
+
+  // Assuming currentBoard.calculatedToYear is a number
+  for (let i = 1; i <= currentBoard.calculatedToYear; i++) {
+      for (let j = 0; j < boardData[currentBoard].map.length; j++){
+        const getLandUSEID =  GetCurrentBoard.map[j].map[j].landType[i]
+        let lud = getLandUSEID.toString()
+
+        // calculate costs for land uses with cost per acre
+        if (landIDWithCostPerAcre.includes(getLandUSEID)){
+          calCost  = GetCurrentBoard.map[j].area * landIDWithCostPerAcre[lud]
+          totalCostsArray[i][0].totalCosts += calCost  // gets the unit per acre cost
+          keepCellData[j] = calCost
+        }
+
+        // calculate costs for land uses with costs per tonne
+
+
+
+      }
+    // this.rawCostPerUnit.forEach(dataPoint => {
+    //   if (dataPoint['LU_ID'] === '15') {
+    //     // Your logic for LU_ID === '15' goes here
+    //     // Example: Do something with dataPoint or update the cost/revenue
+    //   }
+    // });
+  }
+};
 
   /**
    * This function is used to calculate acreage of each soil type if the land use if Cons Forest (LU_ID = 10) or Conv Forest (LU_ID =11)
