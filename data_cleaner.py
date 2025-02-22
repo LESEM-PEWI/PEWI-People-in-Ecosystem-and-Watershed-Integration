@@ -210,7 +210,7 @@ def update_units(book_path):
             data = pd.read_excel(book_path, sheet_name=sheet_name)
             dataa = add_columns(data, values=sheet_data[sheet_name])
             if 'Action - Cost Type' in data.columns:  # for now, let's leave out uncompleted dataset
-                data = dataa[dataa['Action - Cost Type'].isin(["Per acre"])]
+                data = dataa[dataa['Action - Cost Type'].isin(["Per acre"])].copy()
 
                 bushel = dataa[dataa['Action - Cost Type'].isin(['Per bushel'])]
                 if not bushel.empty:
@@ -228,7 +228,7 @@ def update_units(book_path):
     logging.info(f"updates completed successfully")
 
     # add for switchgrass
-    def add_per_acre(_sheet_name, cost_per_acre, units=None, cost_per_unit=None):
+    def add_per_acre(_sheet_name=None, cost_per_acre = None, units=None, cost_per_unit=None):
         """
         copy some values from the annuals
         :param _sheet_name:
@@ -242,25 +242,44 @@ def update_units(book_path):
         swg['cost_per_unit'] = cost_per_unit
         swg['cost_per_acre'] = cost_per_acre
         swg['units'] = units
-        swg = add_columns(swg, values=sheet_data[_sheet_name])
+        ValueS = sheet_data.get(_sheet_name) or _sheet_name
+        swg = add_columns(swg, values=ValueS)
         swg.dropna(axis=1, inplace=True)
         return swg
+
     # add switch grass
     switch = add_per_acre(_sheet_name='Switchgrass', cost_per_acre=137)
     list_data.append(switch)
     # add short rotation woody bioenergy
-    swb = add_per_acre(_sheet_name='SRWC ', cost_per_acre= 406, cost_per_unit=63.45, units='Ton')
+    swb = add_per_acre(_sheet_name='SRWC ', cost_per_acre=406, cost_per_unit=63.45, units='Ton')
     list_data.append(swb)
     # add permanent pasture
-    ps = add_per_acre(_sheet_name= 'Perm Pasture', cost_per_acre=None, cost_per_unit=3496.81, units='head')
+    ps = add_per_acre(_sheet_name='Perm Pasture', cost_per_acre=None, cost_per_unit=3496.81, units='head')
     list_data.append(ps)
     # add prairie
     pr = add_per_acre(_sheet_name='Prairie', cost_per_acre=205.03, cost_per_unit=None, units='acre')
     list_data.append(pr)
     # add wetlands
-    wet  = add_per_acre(_sheet_name='Prairie', cost_per_acre=312, cost_per_unit=None, units='acre')
+    wet_r = add_per_acre(_sheet_name='Wetland Restoration', cost_per_acre=312, cost_per_unit=None, units='acre')
+    # add Alfalfa hay
+    ah = add_per_acre(_sheet_name='Alfalfa Hay', cost_per_acre=554.75, cost_per_unit=84.8, units='Ton')
+    list_data.append(ah)
+    # add grass hay
+    gh = add_per_acre(_sheet_name='Grass Hay', cost_per_acre=602.73, cost_per_unit=63.45, units='Ton')
+    list_data.append(gh)
+    # add rotational grazing
+    rot = add_per_acre(_sheet_name='Rotational Grazing', cost_per_acre=None, cost_per_unit=3556, units='head')
+    list_data.append(rot)
+    #
+    # # add conservation forestry
+    # c_values = {'LU_ID': 11, 'Land-Use': 'Conservation Forestry', 'Sub Crop': None}
+    # c_for = add_per_acre(_sheet_name=c_values, cost_per_acre=None, cost_per_unit=0.79, units='acre')
+    # list_data.append(c_for)
+    # c_values = {'LU_ID': 12, 'Land-Use': 'Conventional Forestry', 'Sub Crop': None}
+    # coFor = add_per_acre(_sheet_name=c_values, cost_per_acre=0.79, cost_per_unit=None, units='acre')
+    # list_data.append(coFor)
     out = pd.concat(list_data)
-    out.cost_per_acre = out.cost_per_acre.astype(float).round(decimals =1)
+    out.cost_per_acre = out.cost_per_acre.astype(float).round(decimals=1)
     out.to_csv('cost_per_unit.csv', index=False)
     view(out)
 
@@ -271,7 +290,7 @@ def main(book_path):
     new_book = shutil.copy(book_path, copy_path)
     print(new_book)
     update_units(new_book)
-    #return update_edits(new_book)
+    # return update_edits(new_book)
 
 
 # Display the DataFrame

@@ -35,36 +35,7 @@ sheet_names_values = {'C following SB': {'LU_ID': 1, 'Land-Use': 'Conventional C
                       'Switchgrass': {'LU_ID': 12, 'Land-Use': 'Switchgrass', 'Sub Crop': None},
                       'SRWC ': {'LU_ID': 13, 'Land-Use': 'Short rotation woody perennial', 'Sub Crop': None},
                       'Perm Pasture': {'LU_ID': 6, 'Land-Use': 'Permanent pasture', 'Sub Crop': None},
-                      'Rotational Grazing': {'LU_ID': 7, 'Land-Use': 'Rotational Grazing', 'Sub Crop': None}}
-
-
-def copy_xlsx_book(book_path, new_book_path=None):
-    assert book_path.endswith('.xlsx'), f'Invalid book path {book_path}'
-    # Open the original workbook
-    app = xw.App(visible=False)
-    wb_original = app.books.open(book_path)
-    if new_book_path:
-        if not new_book_path.endswith('.xlsx'):
-            new_book_path = new_book_path + '.xlsx'
-    else:
-        new_book_path = 'copy_' + book_path
-    # Create a new workbook
-    wb_copy = app.books.open(new_book_path)
-    try:
-        # Loop through each sheet in the original workbook and copy it to the new one
-        for sheet in wb_original.sheets:
-            sheet.copy(after=wb_copy.sheets[-1])  # Copy sheet after the last sheet
-
-        # Remove the default blank sheet in the new workbook
-        if len(wb_copy.sheets) > 1:
-            wb_copy.sheets[0].delete()
-
-        # Save the copied workbook
-
-        wb_copy.save(new_book_path)
-        return new_book_path
-    finally:
-
-        # Close both workbooks
-        wb_original.close()
-        wb_copy.close()
+                      'Rotational Grazing': {'LU_ID': 7, 'Land-Use': 'Rotational Grazing', 'Sub Crop': None},
+                      'Wetland Restoration': {'LU_ID': 14, 'Land-Use': 'Wetland', 'Sub Crop': None},
+                      'Prairie': {'LU_ID': 9, 'Land-Use': 'Prairie', 'Sub Crop': None}
+                      }
