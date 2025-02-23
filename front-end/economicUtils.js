@@ -203,7 +203,30 @@ const dataBushels = [
   { crop: 'Conservation Soybean', rotation: 'soy after corn', LU_ID: 3, cost_per_bushel: 8.76, unit: 'bushels' },
   { crop: 'Conservation Soybean', rotation: 'soy after soy', LU_ID: 4, cost_per_bushel: 8.57, unit: 'bushels' }
 ];
+// conventional landUses
+// due to lack of data, we repeat some data
+conventionalPerBushel = {
+                // conventional corn
+                  '1-1': 3.87,
+                  '4-1':3.53,
+                  '2-1':3.53,
+                 '3-1': 3.53,
+                // conventional soybean
+                '1-3': 8.76,'3-3': 8.76,
+                '4-3': 8.76, '2-3': 8.76
 
+
+} // - implies transitions from one land use to another
+conservationPerBushel = {
+    // conventional corn
+    '1-2': 3.56,
+    '4-2':3.56,
+    '2-2':3.56,
+    '3-2': 3.56,
+    // conventional soybean
+    '1-4': 8.76,'3-4': 8.57,
+    '4-4': 8.57, '2-4': 8.76
+} // - implies transitions from one land use to another
 
 const landIDWithCostPerAcre = {12:137, 13: 406, 14: 312, 9:205.0} // see helper objects for description of each land use ID
 const landIDWithCostPerBushel  = [...new Set(dataBushels.map(item => item.LU_ID))];

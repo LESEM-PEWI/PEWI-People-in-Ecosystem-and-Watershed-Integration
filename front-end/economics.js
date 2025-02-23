@@ -766,13 +766,32 @@ var Economics = function () {
     const GetCurrentBoard = boardData[currentBoard];  // Ensure currentBoard is defined correctly.
    // console.log(GetCurrentBoard)
     // Assuming currentBoard.calculatedToYear is a number
+    let  trackId = [];
+
+    let tYear = 0
     for (let i = 1; i <= GetCurrentBoard.calculatedToYear; i++) {
+      let landUseInCells = {}
       const keepCellData = {};
+
       let calCost = 0;
       const totalCostsObject = {totalCosts: 0};
       for (let j = 0; j < GetCurrentBoard.map.length; j++) {
         const getLandUSEID = GetCurrentBoard.map[j]['landType'][i];
-        if (getLandUSEID > 0) {
+        landUseInCells[j] = getLandUSEID
+        trackId[i] = landUseInCells
+       if (getLandUSEID > 0) {
+
+        if (i > 1){
+          //console.log(i, 'yar')
+          console.log(i,'y')
+          let previousLandUse = trackId[i-1][j];
+
+          let nextLandUse = trackId[i][j];
+          let formattedString = `${previousLandUse}-${nextLandUse}`;
+          console.log(formattedString, 'format');
+
+        }
+
           let lud = getLandUSEID.toString();
           //console.log(lud, ':|', getLandUSEID)
           let keyObjs = Object.keys(landIDWithCostPerAcre);
@@ -792,14 +811,16 @@ var Economics = function () {
             calCost = GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * boardData[currentBoard].map[j].area * combinedCostsHT[lud];
             totalCostsObject.totalCosts += calCost;  // gets the unit per acre cost
             keepCellData[j] = calCost;
-             console.log(lud, ':|', getLandUSEID, calCost);
+             //console.log(lud, ':|', getLandUSEID, calCost);
           }
 
         }
+
       }
       // this pushes for each year
       this.costForMapData.push(keepCellData)
       //console.log(this.costForMapData, 'mapppppppppppppppppppppppppppppppppppppp')
+
       this.totalWatershedCostArray.push(totalCostsObject)
 
     }
