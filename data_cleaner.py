@@ -228,7 +228,7 @@ def update_units(book_path):
     logging.info(f"updates completed successfully")
 
     # add for switchgrass
-    def add_per_acre(_sheet_name=None, cost_per_acre = None, units=None, cost_per_unit=None):
+    def add_cost_per_unit(_sheet_name=None, cost_per_acre=None, units=None, cost_per_unit=None):
         """
         copy some values from the annuals
         :param _sheet_name:
@@ -248,40 +248,46 @@ def update_units(book_path):
         return swg
 
     # add switch grass
-    switch = add_per_acre(_sheet_name='Switchgrass', cost_per_acre=137)
+    switch = add_cost_per_unit(_sheet_name='Switchgrass', cost_per_acre=137, cost_per_unit=137, units='acre')
     list_data.append(switch)
     # add short rotation woody bioenergy
-    swb = add_per_acre(_sheet_name='SRWC ', cost_per_acre=406, cost_per_unit=63.45, units='Ton')
+    swb = add_cost_per_unit(_sheet_name='SRWC ', cost_per_acre=406, cost_per_unit=63.45, units='Ton')
     list_data.append(swb)
     # add permanent pasture
-    ps = add_per_acre(_sheet_name='Perm Pasture', cost_per_acre=None, cost_per_unit=3496.81, units='head')
+    ps = add_cost_per_unit(_sheet_name='Perm Pasture', cost_per_acre=None, cost_per_unit=3496.81, units='head')
     list_data.append(ps)
     # add prairie
-    pr = add_per_acre(_sheet_name='Prairie', cost_per_acre=205.03, cost_per_unit=None, units='acre')
+    pr = add_cost_per_unit(_sheet_name='Prairie', cost_per_acre=205.03, cost_per_unit=205.03, units='acre')
     list_data.append(pr)
     # add wetlands
-    wet_r = add_per_acre(_sheet_name='Wetland Restoration', cost_per_acre=312, cost_per_unit=None, units='acre')
+    wet_r = add_cost_per_unit(_sheet_name='Wetland Restoration', cost_per_acre=312, cost_per_unit=312, units='acre')
+    list_data.append(wet_r)
     # add Alfalfa hay
-    ah = add_per_acre(_sheet_name='Alfalfa Hay', cost_per_acre=554.75, cost_per_unit=84.8, units='Ton')
+    ah = add_cost_per_unit(_sheet_name='Alfalfa Hay', cost_per_acre=554.75, cost_per_unit=84.8, units='Ton')
     list_data.append(ah)
     # add grass hay
-    gh = add_per_acre(_sheet_name='Grass Hay', cost_per_acre=602.73, cost_per_unit=63.45, units='Ton')
+    gh = add_cost_per_unit(_sheet_name='Grass Hay', cost_per_acre=602.73, cost_per_unit=63.45, units='Ton')
     list_data.append(gh)
     # add rotational grazing
-    rot = add_per_acre(_sheet_name='Rotational Grazing', cost_per_acre=None, cost_per_unit=3556, units='head')
+    rot = add_cost_per_unit(_sheet_name='Rotational Grazing', cost_per_acre=None, cost_per_unit=3556, units='head')
     list_data.append(rot)
     #
     # # add conservation forestry
     # c_values = {'LU_ID': 11, 'Land-Use': 'Conservation Forestry', 'Sub Crop': None}
-    # c_for = add_per_acre(_sheet_name=c_values, cost_per_acre=None, cost_per_unit=0.79, units='acre')
+    # c_for = add_cost_per_unit(_sheet_name=c_values, cost_per_acre=None, cost_per_unit=0.79, units='acre')
     # list_data.append(c_for)
     # c_values = {'LU_ID': 12, 'Land-Use': 'Conventional Forestry', 'Sub Crop': None}
-    # coFor = add_per_acre(_sheet_name=c_values, cost_per_acre=0.79, cost_per_unit=None, units='acre')
+    # coFor = add_cost_per_unit(_sheet_name=c_values, cost_per_acre=0.79, cost_per_unit=None, units='acre')
     # list_data.append(coFor)
     out = pd.concat(list_data)
-    out.cost_per_acre = out.cost_per_acre.astype(float).round(decimals=1)
+    out[['cost_per_acre', 'cost_per_unit']] = out[['cost_per_acre', 'cost_per_unit']].astype(float).round(decimals=2)
+    unwanted_columns = ['cost_per_acre.1', 'total_cost.1', 'total_cost', 'Time - Cost Type',
+                        'hl', 'hol', 'Total units', 'Note 1',
+                        'Action - Cost Type', 'Total units'    'Note 1'
+                        ]
+    [out.drop(c, axis=1, inplace=True) for c in unwanted_columns if c in out.columns]
     out.to_csv('cost_per_unit.csv', index=False)
-    view(out)
+    view(out, table=False)
 
 
 def main(book_path):

@@ -16,3 +16,4 @@ getNetRevenue = getNetMixedFruitRevenue
 // Example usage:
 let yieldValue = 5.0;
 console.log("Net Revenue per ton: $" +  getNetMixedFruitRevenue(yieldValue));
+

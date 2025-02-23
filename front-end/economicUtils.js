@@ -204,11 +204,14 @@ const dataBushels = [
   { crop: 'Conservation Soybean', rotation: 'soy after soy', LU_ID: 4, cost_per_bushel: 8.57, unit: 'bushels' }
 ];
 
-console.log(dataBushels);
 
-
-const landIDWithCostPerAcre = {12:137, 14: 312, 9:205.0} // see helper objects for description of each land use ID
+const landIDWithCostPerAcre = {12:137, 13: 406, 14: 312, 9:205.0} // see helper objects for description of each land use ID
 const landIDWithCostPerBushel  = [...new Set(dataBushels.map(item => item.LU_ID))];
-const landIDWithCostPerTon = {13:63.45, 5:84.8, 8:63.45}  // see helper objects for description of each land use ID
+const landIDWithCostPerTon = { 5:84.8, 8:63.45}  // see helper objects for description of each land use ID
 const landIDWithCostPerHead = {6:3496.81, 7:3556}  // see helper objects for description of each land use ID
-console.log(landIDWithCostPerBushel)
+const combinedCostsHT = { ...landIDWithCostPerHead, ...landIDWithCostPerTon };
+const combinedHTKeys = Object.keys(landIDWithCostPerTon).concat(Object.keys(landIDWithCostPerHead))
+
+ if (combinedHTKeys.includes('8')) {
+ console.log(true)
+ }
