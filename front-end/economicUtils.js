@@ -205,28 +205,29 @@ const dataBushels = [
 ];
 // conventional landUses
 // due to lack of data, we repeat some data
-conventionalPerBushel = {
-                // conventional corn
-                  '1-1': 3.87,
-                  '4-1':3.53,
-                  '2-1':3.53,
-                 '3-1': 3.53,
-                // conventional soybean
-                '1-3': 8.76,'3-3': 8.76,
-                '4-3': 8.76, '2-3': 8.76
-
-
-} // - implies transitions from one land use to another
-conservationPerBushel = {
+annualsPerBushel= {
     // conventional corn
-    '1-2': 3.56,
-    '4-2':3.56,
-    '2-2':3.56,
-    '3-2': 3.56,
+    '1-1': 3.87,
+    '4-1': 3.53,
+    '2-1': 3.53,
+    '3-1': 3.53,
+    1: 3.87,
     // conventional soybean
-    '1-4': 8.76,'3-4': 8.57,
-    '4-4': 8.57, '2-4': 8.76
-} // - implies transitions from one land use to another
+    '1-3': 8.76, '3-3': 8.76,
+    '4-3': 8.76, '2-3': 8.76,
+    3: 8.76,
+    // conservation corn
+    '1-2': 3.56,
+    '4-2': 3.56,
+    '2-2': 3.56,
+    '3-2': 3.56,
+    2: 3.56,
+    // conservation soybean
+    '1-4': 8.76, '3-4': 8.57,
+    '4-4': 8.57, '2-4': 8.76,
+    4: 8.57
+}
+
 
 const landIDWithCostPerAcre = {12:137, 13: 406, 14: 312, 9:205.0} // see helper objects for description of each land use ID
 const landIDWithCostPerBushel  = [...new Set(dataBushels.map(item => item.LU_ID))];
@@ -235,6 +236,10 @@ const landIDWithCostPerHead = {6:3496.81, 7:3556}  // see helper objects for des
 const combinedCostsHT = { ...landIDWithCostPerHead, ...landIDWithCostPerTon };
 const combinedHTKeys = Object.keys(landIDWithCostPerTon).concat(Object.keys(landIDWithCostPerHead))
 
- if (combinedHTKeys.includes('8')) {
- console.log(true)
- }
+function getRandomSampleWithReplacement(arr, size) {
+    return Array.from({ length: size }, () => arr[Math.floor(Math.random() * arr.length)]);
+}
+
+let sampleWithReplacement = getRandomSampleWithReplacement([1, 2, 3, 4, 5], 1);
+console.log(annualsPerBushel['1']); // Example output: [2, 2, 5]
+console.log(typeof landIDWithCostPerBushel[0])

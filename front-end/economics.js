@@ -780,15 +780,15 @@ var Economics = function () {
         landUseInCells[j] = getLandUSEID
         trackId[i] = landUseInCells
        if (getLandUSEID > 0) {
-
+       var formattedString =null;
         if (i > 1){
           //console.log(i, 'yar')
-          console.log(i,'y')
+         // console.log(i,'y')
           let previousLandUse = trackId[i-1][j];
 
           let nextLandUse = trackId[i][j];
-          let formattedString = `${previousLandUse}-${nextLandUse}`;
-          console.log(formattedString, 'format');
+          formattedString = `${previousLandUse}-${nextLandUse}`;
+         // console.log(formattedString, 'format');
 
         }
 
@@ -796,6 +796,7 @@ var Economics = function () {
           //console.log(lud, ':|', getLandUSEID)
           let keyObjs = Object.keys(landIDWithCostPerAcre);
           // calculate costs for land uses with cost per acre
+
           if (keyObjs.includes(lud)) {
 
             calCost = GetCurrentBoard.map[j].area * landIDWithCostPerAcre[lud];
@@ -813,11 +814,19 @@ var Economics = function () {
             keepCellData[j] = calCost;
              //console.log(lud, ':|', getLandUSEID, calCost);
           }
-          else if (landIDWithCostPerBushel.includes(lud)) {
+          // calculate costs for land uses with costs per tonne and per bushel
+          else if (landIDWithCostPerBushel.includes(getLandUSEID)) {
 
-            let xmm= formattedString;
+
             //need to handle some cases where previous land use is neither corn or soybean in that case there is no data yet
-            let parts =formattedString.split('-');
+            if (formattedString !== null) {
+              let partsStrings =formattedString.split('-');
+              //get the next and use
+              lud = partsStrings[1];
+              calCost = annualsPerBushel[lud] * GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * boardData[currentBoard].map[j].area
+              console.log(calCost, 'lud')
+            }
+
          }
 
 
