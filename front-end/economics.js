@@ -806,13 +806,20 @@ var Economics = function () {
 
           // calculate costs for land uses with costs per tonne and per head
 
-          if (combinedHTKeys.includes(lud)) {
+          else if (combinedHTKeys.includes(lud)) {
 
             calCost = GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * boardData[currentBoard].map[j].area * combinedCostsHT[lud];
             totalCostsObject.totalCosts += calCost;  // gets the unit per acre cost
             keepCellData[j] = calCost;
              //console.log(lud, ':|', getLandUSEID, calCost);
           }
+          else if (landIDWithCostPerBushel.includes(lud)) {
+
+            let xmm= formattedString;
+            //need to handle some cases where previous land use is neither corn or soybean in that case there is no data yet
+            let parts =formattedString.split('-');
+         }
+
 
         }
 
