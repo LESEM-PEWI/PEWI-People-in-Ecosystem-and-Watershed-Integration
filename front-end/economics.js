@@ -780,17 +780,7 @@ var Economics = function () {
         landUseInCells[j] = getLandUSEID
         trackId[i] = landUseInCells
        if (getLandUSEID > 0) {
-       var formattedString =null;
-        if (i > 1){
-          //console.log(i, 'yar')
-         // console.log(i,'y')
-          let previousLandUse = trackId[i-1][j];
 
-          let nextLandUse = trackId[i][j];
-          formattedString = `${previousLandUse}-${nextLandUse}`;
-         // console.log(formattedString, 'format');
-
-        }
 
           let lud = getLandUSEID.toString();
           //console.log(lud, ':|', getLandUSEID)
@@ -816,18 +806,30 @@ var Economics = function () {
           }
           // calculate costs for land uses with costs per tonne and per bushel
           else if (landIDWithCostPerBushel.includes(getLandUSEID)) {
+            let formattedString =null;
+            if (i > 1){ // If year has exceeded one we start tracking land uses in cell to get the rotations of soybean and corn
+              //console.log(i, 'yar')
+              // console.log(i,'y')
+              let previousLandUse = trackId[i-1][j];
 
+              let nextLandUse = trackId[i][j];
+              formattedString = `${previousLandUse}-${nextLandUse}`;
+              if (landIDWithCostPerBushel.includes(previousLandUse) && landIDWithCostPerBushel.includes(nextLandUse)){
+                calCost = annualsPerBushel[formattedString] * GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * boardData[currentBoard].map[j].area
+                //console.log(calCost, 'lud', '||')
+              }else{
+                // use the current land use
+                let curLandId = nextLandUse.toString()
+                calCost = annualsPerBushel[curLandId] * GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * boardData[currentBoard].map[j].area
+               // console.log(calCost, 'lud', 'nope', formattedString)
+              }
 
-            //need to handle some cases where previous land use is neither corn or soybean in that case there is no data yet
-            if (formattedString !== null) {
-              let partsStrings =formattedString.split('-');
-              //get the next and use
-              lud = partsStrings[1];
+            } else{
               calCost = annualsPerBushel[lud] * GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * boardData[currentBoard].map[j].area
-              console.log(calCost, 'lud')
+              //console.log(calCost, 'lud')
             }
+          }
 
-         }
 
 
         }
