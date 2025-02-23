@@ -238,7 +238,7 @@ annualsPerBushel= {
 
 landIDWithCostPerAcre = {12:137, 13: 406, 14: 312, 9:205.0, 10:43.63904617, 11:43.63904617
 } // see helper objects for description of each land use ID
-landIDWithCostPerBushel  = [...new Set(dataBushels.map(item => item.LU_ID))];
+landIDWithCostPerBushel  = [1,2,3,4];
 landIDWithCostPerTon = { 5:84.8, 8:63.45}  // see helper objects for description of each land use ID
 landIDWithCostPerHead = {6:3496.81, 7:3556}  // see helper objects for description of each land use ID
 combinedCostsHT = { ...landIDWithCostPerHead, ...landIDWithCostPerTon };
