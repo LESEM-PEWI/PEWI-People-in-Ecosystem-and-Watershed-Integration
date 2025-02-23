@@ -3525,6 +3525,8 @@ this.tileNitrate = Array(4);
 
   }; //end calculations of biodiversity points
 
+
+
   /**
    * sum yield helper function to calculate the total yield in the type
    * @param  {[array]} results array of results
@@ -3750,7 +3752,7 @@ this.tileNitrate = Array(4);
    * @param  {[type]} y       [year]
    * @param  {[type]} score   [area of tile]
    */
-  function sumLandUseHelperSubstraction(results,type,y,score){
+  function sumLandUseHelperSubstraction(results, type, y, score){
     switch (type) {
       case "none":
         //Do Nothing
