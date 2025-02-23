@@ -568,6 +568,7 @@ var Economics = function () {
    * NOTE: CONSERVATION CORN values are retrieved from BMP budgets function below.
    */
   calculateCornAfters = () =>{
+    // TODO this code is not intuitive to me, there is no indication that yield will be different for each rotation
     for(let i = 1; i <= boardData[currentBoard].calculatedToYear; i++){
       this.cornAfters[i] = [,
         { ConvCornAfterSoybean:0, ConvCornAfterCorn:0,
@@ -579,10 +580,12 @@ var Economics = function () {
           if(boardData[currentBoard].map[j].landType[i-1] === 3 || boardData[currentBoard].map[j].landType[i-1] === 4){ //if the corn is after soybean
             this.cornAfters[i][1].ConvCornAfterSoybean += boardData[currentBoard].map[j].area;
             this.cornAfters[i][1].ConvCornAfterSoybeanYield += boardData[currentBoard].map[j].results[i]['calculatedYieldTile'] * boardData[currentBoard].map[j].area
+          console.log(results[i], 'ii')
           }
           else {
             this.cornAfters[i][1].ConvCornAfterCorn += boardData[currentBoard].map[j].area
             this.cornAfters[i][1].ConvCornAfterCornYield += boardData[currentBoard].map[j].results[i]['calculatedYieldTile'] * boardData[currentBoard].map[j].area
+            //console.log(results[i], 'ii')
           }
         }
 
@@ -767,8 +770,6 @@ var Economics = function () {
    // console.log(GetCurrentBoard)
     // Assuming currentBoard.calculatedToYear is a number
     let  trackId = [];
-
-    let tYear = 0
     for (let i = 1; i <= GetCurrentBoard.calculatedToYear; i++) {
       let landUseInCells = {}
       const keepCellData = {};
@@ -790,7 +791,7 @@ var Economics = function () {
           if (keyObjs.includes(lud)) {
 
             calCost = GetCurrentBoard.map[j].area * landIDWithCostPerAcre[lud];
-            console.log(calCost);
+
             totalCostsObject.totalCosts += calCost;  // gets the unit per acre cost
             keepCellData[j] = calCost;
           }
@@ -816,16 +817,19 @@ var Economics = function () {
               formattedString = `${previousLandUse}-${nextLandUse}`;
               if (landIDWithCostPerBushel.includes(previousLandUse) && landIDWithCostPerBushel.includes(nextLandUse)){
                 calCost = annualsPerBushel[formattedString] * GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * boardData[currentBoard].map[j].area
+                totalCostsObject.totalCosts += calCost;
                 //console.log(calCost, 'lud', '||')
               }else{
                 // use the current land use
                 let curLandId = nextLandUse.toString()
                 calCost = annualsPerBushel[curLandId] * GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * boardData[currentBoard].map[j].area
-               // console.log(calCost, 'lud', 'nope', formattedString)
+                totalCostsObject.totalCosts += calCost;
+                // console.log(calCost, 'lud', 'nope', formattedString)
               }
 
             } else{
               calCost = annualsPerBushel[lud] * GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * boardData[currentBoard].map[j].area
+              totalCostsObject.totalCosts += calCost;
               //console.log(calCost, 'lud')
             }
           }
@@ -839,7 +843,8 @@ var Economics = function () {
       this.costForMapData.push(keepCellData)
       //console.log(this.costForMapData, 'mapppppppppppppppppppppppppppppppppppppp')
 
-      this.totalWatershedCostArray.push(totalCostsObject)
+      this.totalWatershedCostArray.push(totalCostsObject);
+     // console.log(this.totalWatershedCostArray, 'total cost');
 
     }
   };

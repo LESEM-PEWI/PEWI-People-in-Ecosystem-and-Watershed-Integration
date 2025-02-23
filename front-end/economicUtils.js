@@ -195,8 +195,15 @@ const getNetMixedFruitRevenue = (yieldPerAcre) => {
         return 0; // You may want to handle edge cases here.
     }
 };
-
-const dataBushels = [
+let dataBushels = [];
+let annualsPerBushel = {};
+let landIDWithCostPerAcre = {};
+let landIDWithCostPerBushel =[];
+let landIDWithCostPerTon = null;
+let landIDWithCostPerHead = {};
+let combinedCostsHT = {};
+let combinedHTKeys = [];
+dataBushels = [
   { crop: 'Conventional Corn', rotation: 'corn after soy', LU_ID: 1, cost_per_bushel: 3.53, unit: 'bushels' },
   { crop: 'Conventional Corn', rotation: 'Corn after Corn', LU_ID: 1, cost_per_bushel: 3.87, unit: 'bushels' },
   { crop: 'Conservation Corn', rotation: 'Corn after Corn', LU_ID: 2, cost_per_bushel: 3.56, unit: 'bushels' },
@@ -204,37 +211,38 @@ const dataBushels = [
   { crop: 'Conservation Soybean', rotation: 'soy after soy', LU_ID: 4, cost_per_bushel: 8.57, unit: 'bushels' }
 ];
 // conventional landUses
-// due to lack of data, we repeat some data
+// due to lack of data, we repeat some data, eventually they will be replaced
 annualsPerBushel= {
     // conventional corn
     '1-1': 3.87,
     '4-1': 3.53,
     '2-1': 3.53,
     '3-1': 3.53,
-    1: 3.87,
+    1: 3.87,// no transition
     // conventional soybean
     '1-3': 8.76, '3-3': 8.76,
     '4-3': 8.76, '2-3': 8.76,
-    3: 8.76,
+    3: 8.76, // no transition
     // conservation corn
     '1-2': 3.56,
     '4-2': 3.56,
     '2-2': 3.56,
     '3-2': 3.56,
-    2: 3.56,
+    2: 3.56, // no transition
     // conservation soybean
     '1-4': 8.76, '3-4': 8.57,
     '4-4': 8.57, '2-4': 8.76,
-    4: 8.57
+    4: 8.57 // no transition
 }
 
 
-const landIDWithCostPerAcre = {12:137, 13: 406, 14: 312, 9:205.0} // see helper objects for description of each land use ID
-const landIDWithCostPerBushel  = [...new Set(dataBushels.map(item => item.LU_ID))];
-const landIDWithCostPerTon = { 5:84.8, 8:63.45}  // see helper objects for description of each land use ID
-const landIDWithCostPerHead = {6:3496.81, 7:3556}  // see helper objects for description of each land use ID
-const combinedCostsHT = { ...landIDWithCostPerHead, ...landIDWithCostPerTon };
-const combinedHTKeys = Object.keys(landIDWithCostPerTon).concat(Object.keys(landIDWithCostPerHead))
+landIDWithCostPerAcre = {12:137, 13: 406, 14: 312, 9:205.0, 10:43.63904617, 11:43.63904617
+} // see helper objects for description of each land use ID
+landIDWithCostPerBushel  = [...new Set(dataBushels.map(item => item.LU_ID))];
+landIDWithCostPerTon = { 5:84.8, 8:63.45}  // see helper objects for description of each land use ID
+landIDWithCostPerHead = {6:3496.81, 7:3556}  // see helper objects for description of each land use ID
+combinedCostsHT = { ...landIDWithCostPerHead, ...landIDWithCostPerTon };
+combinedHTKeys = Object.keys(landIDWithCostPerTon).concat(Object.keys(landIDWithCostPerHead))
 
 function getRandomSampleWithReplacement(arr, size) {
     return Array.from({ length: size }, () => arr[Math.floor(Math.random() * arr.length)]);
