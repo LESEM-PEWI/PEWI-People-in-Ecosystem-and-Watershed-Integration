@@ -781,6 +781,7 @@ var Economics = function () {
       for (let j = 0; j < GetCurrentBoard.map.length; j++) {
         const getLandUSEID = GetCurrentBoard.map[j]['landType'][i];
         landUseInCells[j] = getLandUSEID
+        let selectedTotalTileArea = GetCurrentBoard.map[j].area;
         trackId[i] = landUseInCells
        if (getLandUSEID > 0) {
 
@@ -802,10 +803,12 @@ var Economics = function () {
           // calculate costs for land uses with costs per tonne and per head
 
           else if (combinedHTKeys.includes(lud)) {
-
-            calCost = GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * boardData[currentBoard].map[j].area * combinedCostsHT[lud];
+            //console.log(Totals.yieldByLandUse[i]['6'], 'pasture anmal yield')
+           // let animals = GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * selectedTotalTileArea;
+            console.log(GetCurrentBoard.map[j].results[i]['calculatedYieldTile'], 'from tile')
+            calCost = GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * selectedTotalTileArea * combinedCostsHT[lud];
             totalCostsObject.totalCosts += calCost;  // gets the unit per acre cost
-            this.totalWatershedCost[i][0].cost +=calCost
+            this.totalWatershedCost[i][0].cost += calCost
             keepCellData[j] = calCost;
              //console.log(lud, ':|', getLandUSEID, calCost);
           }
@@ -820,24 +823,24 @@ var Economics = function () {
               let nextLandUse = trackId[i][j];
               formattedString = `${previousLandUse}-${nextLandUse}`;
               if (landIDWithCostPerBushel.includes(previousLandUse) && landIDWithCostPerBushel.includes(nextLandUse)){
-                calCost = annualsPerBushel[formattedString] * GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * boardData[currentBoard].map[j].area
+                calCost = annualsPerBushel[formattedString] * GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * selectedTotalTileArea
                 totalCostsObject.totalCosts += calCost;
                 this.totalWatershedCost[i][0].cost +=calCost
-                console.log(calCost, this.totalWatershedCost[i][0].cost, '||')
+                //console.log(calCost, this.totalWatershedCost[i][0].cost, '||')
               }else{
                 // use the current land use
                 let curLandId = nextLandUse.toString()
-                calCost = annualsPerBushel[curLandId] * GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * boardData[currentBoard].map[j].area
+                calCost = annualsPerBushel[curLandId] * GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * selectedTotalTileArea
                 totalCostsObject.totalCosts += calCost;
                 this.totalWatershedCost[i][0].cost +=calCost
-                console.log(calCost, this.totalWatershedCost[i][0].cost, 'nope', formattedString)
+               // console.log(calCost, this.totalWatershedCost[i][0].cost, 'nope', formattedString)
               }
 
             } else{
-              calCost = annualsPerBushel[lud] * GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * boardData[currentBoard].map[j].area
+              calCost = annualsPerBushel[lud] * GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * selectedTotalTileArea
               totalCostsObject.totalCosts += calCost;
               this.totalWatershedCost[i][0].cost +=calCost
-              console.log(calCost, this.totalWatershedCost[i][0].cost, 'lud')
+            //  console.log(calCost, this.totalWatershedCost[i][0].cost, 'lud')
             }
           }
 
