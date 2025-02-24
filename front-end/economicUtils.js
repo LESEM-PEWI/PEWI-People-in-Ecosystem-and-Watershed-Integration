@@ -203,6 +203,9 @@ let landIDWithCostPerTon = null;
 let landIDWithCostPerHead = {};
 let combinedCostsHT = {};
 let combinedHTKeys = [];
+let sellingPricesHead = {};
+let grazingRatio = {}
+grazingRatio = {6:550, 7: 55/35 * 550} // more explanation needed, got from pewi 4.0
 dataBushels = [
   { crop: 'Conventional Corn', rotation: 'corn after soy', LU_ID: 1, cost_per_bushel: 3.53, unit: 'bushels' },
   { crop: 'Conventional Corn', rotation: 'Corn after Corn', LU_ID: 1, cost_per_bushel: 3.87, unit: 'bushels' },
@@ -236,18 +239,20 @@ annualsPerBushel= {
 }
 
 
-landIDWithCostPerAcre = {12:137, 13: 406, 14: 312, 9:205.0, 10:43.63904617, 11:43.63904617
+landIDWithCostPerAcre = {12:137, 13: 406, 14: 312, 9:205.0,
+    15: 42622.47461,
+    10:43.63904617, 11:43.63904617
 } // see helper objects for description of each land use ID
 landIDWithCostPerBushel  = [1,2,3,4];
 landIDWithCostPerTon = { 5:84.8, 8:63.45}  // see helper objects for description of each land use ID
 landIDWithCostPerHead = {6:3496.81, 7:3556}  // see helper objects for description of each land use ID
 combinedCostsHT = { ...landIDWithCostPerHead, ...landIDWithCostPerTon };
 combinedHTKeys = Object.keys(landIDWithCostPerTon).concat(Object.keys(landIDWithCostPerHead))
-
+sellingPricesHead = {6:5.6, 7:5.6}
 function getRandomSampleWithReplacement(arr, size) {
     return Array.from({ length: size }, () => arr[Math.floor(Math.random() * arr.length)]);
 }
 
 let sampleWithReplacement = getRandomSampleWithReplacement([1, 2, 3, 4, 5], 1);
-console.log(annualsPerBushel['1']); // Example output: [2, 2, 5]
-console.log(typeof landIDWithCostPerBushel[0])
+
+

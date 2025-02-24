@@ -226,7 +226,7 @@ var Economics = function () {
       landUses[i] = [];
       this.mapData[i] = [];
       this.scaledRev[i] = [];
-      this.totalWatershedCost[i] = [{cost: 0}];  //TESTING
+      //this.totalWatershedCost[i] = [{cost: 0}];  //TESTING
 
       let keys = Object.keys(Totals.landUseResults[0]);
 
@@ -275,9 +275,11 @@ var Economics = function () {
         else if(dataPoint['LU_ID'] === "3"){
           value = parseFloat(revenueData[dataPoint['LU_ID']]) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
         }
+       //let grazingLUs = Object.keys(sellingPricesHead);
+       else if(['6', '7'].includes(dataPoint['LU_ID'])){
 
-
-        else{
+        value = sellingPricesHead[dataPoint['LU_ID']] * Totals.yieldByLandUse[i][dataPoint['LU_ID']] * grazingRatio[dataPoint['LU_ID']]// replacing the prvious
+        }else{
           value = parseFloat(dataPoint['Revenue/acre/year']) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
         }
         this.scaledRev[i][dataPoint['LU_ID']] = this.scaledRev[i][dataPoint['LU_ID']] || 0;
