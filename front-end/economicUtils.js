@@ -249,6 +249,7 @@ landIDWithCostPerHead = {6:3496.81, 7:3556}  // see helper objects for descripti
 combinedCostsHT = { ...landIDWithCostPerHead, ...landIDWithCostPerTon };
 combinedHTKeys = Object.keys(landIDWithCostPerTon).concat(Object.keys(landIDWithCostPerHead))
 sellingPricesHead = {6:5.6, 7:5.6}
+let sellingPricesTon = {13: 60}
 function getRandomSampleWithReplacement(arr, size) {
     return Array.from({ length: size }, () => arr[Math.floor(Math.random() * arr.length)]);
 }
