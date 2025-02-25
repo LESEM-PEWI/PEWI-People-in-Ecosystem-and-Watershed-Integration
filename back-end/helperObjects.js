@@ -16,7 +16,7 @@ N. Hagen
 //Creation of LandUseType Object
 //This object serves to translate the values stored as land types into readable code
 //Use this for comparisons and assignments
-
+// updated by Richard Magala on 02/25/2025
 var LandUseType = {
 
   none: 0,
@@ -2809,122 +2809,156 @@ this.tileNitrate = Array(4);
    [],
    []
  ];
+// Most of these can be achieved in a few lines of code
+  //  e.g,
+  this.landUseResults = Array(4).fill().map(() =>(
+      { conventionalCornLandUse: 0,
+      conservationCornLandUse: 0,
+      conventionalSoybeanLandUse: 0,
+      conservationSoybeanLandUse: 0,
+      mixedFruitsVegetablesLandUse: 0,
+      permanentPastureLandUse: 0,
+      rotationalGrazingLandUse: 0,
+      grassHayLandUse: 0,
+      switchgrassLandUse: 0,
+      prairieLandUse: 0,
+      wetlandLandUse: 0,
+      alfalfaLandUse: 0,
+      conservationForestLandUse: 0,
+      conventionalForestLandUse: 0,
+      shortRotationWoodyBioenergyLandUse: 0
+}
+  ));
 
- this.landUseResults[0] = {
-   conventionalCornLandUse: 0,
-   conservationCornLandUse: 0,
-   conventionalSoybeanLandUse: 0,
-   conservationSoybeanLandUse: 0,
-   mixedFruitsVegetablesLandUse: 0,
-   permanentPastureLandUse: 0,
-   rotationalGrazingLandUse: 0,
-   grassHayLandUse: 0,
-   switchgrassLandUse: 0,
-   prairieLandUse: 0,
-   wetlandLandUse: 0,
-   alfalfaLandUse: 0,
-   conservationForestLandUse: 0,
-   conventionalForestLandUse: 0,
-   shortRotationWoodyBioenergyLandUse: 0
- };
- this.landUseResults[1] = {
-   conventionalCornLandUse: 0,
-   conservationCornLandUse: 0,
-   conventionalSoybeanLandUse: 0,
-   conservationSoybeanLandUse: 0,
-   mixedFruitsVegetablesLandUse: 0,
-   permanentPastureLandUse: 0,
-   rotationalGrazingLandUse: 0,
-   grassHayLandUse: 0,
-   switchgrassLandUse: 0,
-   prairieLandUse: 0,
-   wetlandLandUse: 0,
-   alfalfaLandUse: 0,
-   conservationForestLandUse: 0,
-   conventionalForestLandUse: 0,
-   shortRotationWoodyBioenergyLandUse: 0
- };
- this.landUseResults[2] = {
-   conventionalCornLandUse: 0,
-   conservationCornLandUse: 0,
-   conventionalSoybeanLandUse: 0,
-   conservationSoybeanLandUse: 0,
-   mixedFruitsVegetablesLandUse: 0,
-   permanentPastureLandUse: 0,
-   rotationalGrazingLandUse: 0,
-   grassHayLandUse: 0,
-   switchgrassLandUse: 0,
-   prairieLandUse: 0,
-   wetlandLandUse: 0,
-   alfalfaLandUse: 0,
-   conservationForestLandUse: 0,
-   conventionalForestLandUse: 0,
-   shortRotationWoodyBioenergyLandUse: 0
- };
- this.landUseResults[3] = {
-   conventionalCornLandUse: 0,
-   conservationCornLandUse: 0,
-   conventionalSoybeanLandUse: 0,
-   conservationSoybeanLandUse: 0,
-   mixedFruitsVegetablesLandUse: 0,
-   permanentPastureLandUse: 0,
-   rotationalGrazingLandUse: 0,
-   grassHayLandUse: 0,
-   switchgrassLandUse: 0,
-   prairieLandUse: 0,
-   wetlandLandUse: 0,
-   alfalfaLandUse: 0,
-   conservationForestLandUse: 0,
-   conventionalForestLandUse: 0,
-   shortRotationWoodyBioenergyLandUse: 0
- };
+ // this.landUseResults[0] = {
+ //   conventionalCornLandUse: 0,
+ //   conservationCornLandUse: 0,
+ //   conventionalSoybeanLandUse: 0,
+ //   conservationSoybeanLandUse: 0,
+ //   mixedFruitsVegetablesLandUse: 0,
+ //   permanentPastureLandUse: 0,
+ //   rotationalGrazingLandUse: 0,
+ //   grassHayLandUse: 0,
+ //   switchgrassLandUse: 0,
+ //   prairieLandUse: 0,
+ //   wetlandLandUse: 0,
+ //   alfalfaLandUse: 0,
+ //   conservationForestLandUse: 0,
+ //   conventionalForestLandUse: 0,
+ //   shortRotationWoodyBioenergyLandUse: 0
+ // };
+ // this.landUseResults[1] = {
+ //   conventionalCornLandUse: 0,
+ //   conservationCornLandUse: 0,
+ //   conventionalSoybeanLandUse: 0,
+ //   conservationSoybeanLandUse: 0,
+ //   mixedFruitsVegetablesLandUse: 0,
+ //   permanentPastureLandUse: 0,
+ //   rotationalGrazingLandUse: 0,
+ //   grassHayLandUse: 0,
+ //   switchgrassLandUse: 0,
+ //   prairieLandUse: 0,
+ //   wetlandLandUse: 0,
+ //   alfalfaLandUse: 0,
+ //   conservationForestLandUse: 0,
+ //   conventionalForestLandUse: 0,
+ //   shortRotationWoodyBioenergyLandUse: 0
+ // };
+ // this.landUseResults[2] = {
+ //   conventionalCornLandUse: 0,
+ //   conservationCornLandUse: 0,
+ //   conventionalSoybeanLandUse: 0,
+ //   conservationSoybeanLandUse: 0,
+ //   mixedFruitsVegetablesLandUse: 0,
+ //   permanentPastureLandUse: 0,
+ //   rotationalGrazingLandUse: 0,
+ //   grassHayLandUse: 0,
+ //   switchgrassLandUse: 0,
+ //   prairieLandUse: 0,
+ //   wetlandLandUse: 0,
+ //   alfalfaLandUse: 0,
+ //   conservationForestLandUse: 0,
+ //   conventionalForestLandUse: 0,
+ //   shortRotationWoodyBioenergyLandUse: 0
+ // };
+ // this.landUseResults[3] = {
+ //   conventionalCornLandUse: 0,
+ //   conservationCornLandUse: 0,
+ //   conventionalSoybeanLandUse: 0,
+ //   conservationSoybeanLandUse: 0,
+ //   mixedFruitsVegetablesLandUse: 0,
+ //   permanentPastureLandUse: 0,
+ //   rotationalGrazingLandUse: 0,
+ //   grassHayLandUse: 0,
+ //   switchgrassLandUse: 0,
+ //   prairieLandUse: 0,
+ //   wetlandLandUse: 0,
+ //   alfalfaLandUse: 0,
+ //   conservationForestLandUse: 0,
+ //   conventionalForestLandUse: 0,
+ //   shortRotationWoodyBioenergyLandUse: 0
+ // };
 
- this.yieldResults = Array(4);
- this.yieldResults[0] = {
-   cornGrainYield: 0,
-   soybeanYield: 0,
-   alfalfaHayYield: 0,
-   grassHayYield: 0,
-   woodYield: 0,
-   cattleYield: 0,
-   switchgrassYield: 0,
-   shortRotationWoodyBiomassYield: 0,
-   mixedFruitsAndVegetablesYield: 0,
- };
- this.yieldResults[1] = {
-   cornGrainYield: 0,
-   soybeanYield: 0,
-   alfalfaHayYield: 0,
-   grassHayYield: 0,
-   woodYield: 0,
-   cattleYield: 0,
-   switchgrassYield: 0,
-   shortRotationWoodyBiomassYield: 0,
-   mixedFruitsAndVegetablesYield: 0,
-   cornGrainYieldScore: 0
- };
- this.yieldResults[2] = {
-   cornGrainYield: 0,
-   soybeanYield: 0,
-   alfalfaHayYield: 0,
-   grassHayYield: 0,
-   woodYield: 0,
-   cattleYield: 0,
-   switchgrassYield: 0,
-   shortRotationWoodyBiomassYield: 0,
-   mixedFruitsAndVegetablesYield: 0
- };
- this.yieldResults[3] = {
-   cornGrainYield: 0,
-   soybeanYield: 0,
-   alfalfaHayYield: 0,
-   grassHayYield: 0,
-   woodYield: 0,
-   cattleYield: 0,
-   switchgrassYield: 0,
-   shortRotationWoodyBiomassYield: 0,
-   mixedFruitsAndVegetablesYield: 0
- };
+ //this.yieldResults = Array(4);
+ this.yieldResults = Array(4).fill().map(() =>(
+     {
+       cornGrainYield: 0,
+       soybeanYield: 0,
+       alfalfaHayYield: 0,
+       grassHayYield: 0,
+       woodYield: 0,
+       cattleYield: 0,
+       switchgrassYield: 0,
+       shortRotationWoodyBiomassYield: 0,
+       mixedFruitsAndVegetablesYield: 0,
+     }
+  ));
+ // Replaced by very few line of code above
+ // this.yieldResults[0] = {
+ //   cornGrainYield: 0,
+ //   soybeanYield: 0,
+ //   alfalfaHayYield: 0,
+ //   grassHayYield: 0,
+ //   woodYield: 0,
+ //   cattleYield: 0,
+ //   switchgrassYield: 0,
+ //   shortRotationWoodyBiomassYield: 0,
+ //   mixedFruitsAndVegetablesYield: 0,
+ // };
+ // this.yieldResults[1] = {
+ //   cornGrainYield: 0,
+ //   soybeanYield: 0,
+ //   alfalfaHayYield: 0,
+ //   grassHayYield: 0,
+ //   woodYield: 0,
+ //   cattleYield: 0,
+ //   switchgrassYield: 0,
+ //   shortRotationWoodyBiomassYield: 0,
+ //   mixedFruitsAndVegetablesYield: 0,
+ //   cornGrainYieldScore: 0
+ // };
+ // this.yieldResults[2] = {
+ //   cornGrainYield: 0,
+ //   soybeanYield: 0,
+ //   alfalfaHayYield: 0,
+ //   grassHayYield: 0,
+ //   woodYield: 0,
+ //   cattleYield: 0,
+ //   switchgrassYield: 0,
+ //   shortRotationWoodyBiomassYield: 0,
+ //   mixedFruitsAndVegetablesYield: 0
+ // };
+ // this.yieldResults[3] = {
+ //   cornGrainYield: 0,
+ //   soybeanYield: 0,
+ //   alfalfaHayYield: 0,
+ //   grassHayYield: 0,
+ //   woodYield: 0,
+ //   cattleYield: 0,
+ //   switchgrassYield: 0,
+ //   shortRotationWoodyBiomassYield: 0,
+ //   mixedFruitsAndVegetablesYield: 0
+ // };
  this.yieldByLandUse = [];
  this.tileYieldResults = Array(4);
  this.tileLandType = Array(4);
