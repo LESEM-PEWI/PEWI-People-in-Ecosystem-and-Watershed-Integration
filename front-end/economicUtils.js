@@ -176,6 +176,9 @@ const soilTypeHolderArray = Array(3).fill().map(() => ({
 const landUseHolderArray = Array(3).fill().map(() =>(
     {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0}
 ));
+let econCostByLandUse = Array(4).fill().map(() =>(
+    {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0}
+));
 
 
 
@@ -256,4 +259,62 @@ function getRandomSampleWithReplacement(arr, size) {
 
 let sampleWithReplacement = getRandomSampleWithReplacement([1, 2, 3, 4, 5], 1);
 landUseHolderArray[0]['1'] = 500
-console.log(landUseHolderArray['0'])
+console.log(econCostByLandUse[0]['1'])
+
+let landUseHumanIDs = {
+    '0': 'none',
+    '1': 'Conventional Corn',
+    '2': 'Conservation Corn',
+    '3': 'Conventional Soybean',
+    '4': 'Conservation Soybean',
+    '5': "Alfalfa",
+    '6': 'Permanent Pasture',
+    '7': 'Rotational Grazing',
+    '8': 'Grass Hay',
+    '9': 'Prairie',
+    '10': 'Conservation Forest',
+    '11': 'Conventional Forest',
+    '12': 'Switch grass',
+    '13': 'ShortRotation Woody Bioenergy',
+    '14': 'Wetland',
+    '15': 'Mixed Fruits Vegetables'
+}
+
+let reversedLandUseHumanIDs = {};
+for (let key in landUseHumanIDs) {
+    reversedLandUseHumanIDs[landUseHumanIDs[key]] = 0;
+}
+console.log(reversedLandUseHumanIDs)
+
+let convertLandUseIDsToTexts = (listOfObjectKeys) => {
+    // Create an array to hold the converted objects
+    let convertedObjects = [];
+
+    // Iterate over each object in the input array
+    listOfObjectKeys.forEach(obj => {
+        // Create a new object to hold the converted key-value pairs
+        let newObj = {};
+
+        // Iterate over each key in the object
+        Object.keys(obj).forEach(key => {
+            // Replace the numeric key with its corresponding text from landUseHumanIDs
+            let textKey = landUseHumanIDs[key]; // Convert key to integer if necessary using Number(key)
+            if (textKey) {
+                newObj[textKey] = obj[key];
+            } else {
+                // Handle cases where the key is not found in the landUseHumanIDs
+                console.error(`Key ${key} not found in landUseHumanIDs`);
+            }
+        });
+
+        // Add the newly created object to the convertedObjects array
+        convertedObjects.push(newObj);
+    });
+
+    // Return the array of converted objects
+    return convertedObjects;
+};
+
+
+let converted = convertLandUseIDsToTexts(econCostByLandUse);
+console.log(converted);
