@@ -74,7 +74,7 @@ const loadCSVData = function(localDataPath) {
         return []; // Return an empty array on error
     }
 }
-const costAdjuster = function(data, column, factor = 1.23) {
+const costAdjuster = function(data, column, factor = 1) {
     // Ensure data is an array
     if (!Array.isArray(data)) {
         throw new Error("Data must be an array.");
@@ -176,9 +176,9 @@ const soilTypeHolderArray = Array(3).fill().map(() => ({
 const landUseHolderArray = Array(3).fill().map(() =>(
     {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0}
 ));
-// log them and see the length
-console.log(soilTypeHolderArray.length)
-console.log(landUseHolderArray.length)
+let econCostByLandUse = Array(4).fill().map(() =>(
+    {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0}
+));
 
 
 
@@ -187,4 +187,134 @@ const filterArray  = function(arrayData, landUseType, soilType, precipLevel) {
 }
 
 
+const getNetMixedFruitRevenue = (yieldPerAcre) => {
+    if (yieldPerAcre > 6.88) {
+        return 1017.44; // High yields
+    } else if (yieldPerAcre > 4.4 && yieldPerAcre <= 6.88) {
+        return 404.13; // Medium yields
+    } else if (yieldPerAcre <= 4.4) {
+        return 97.07; // Low yield
+    } else {
+        return 0; // You may want to handle edge cases here.
+    }
+};
+let dataBushels = [];
+let annualsPerBushel = {};
+let landIDWithCostPerAcre = {};
+let landIDWithCostPerBushel =[];
+let landIDWithCostPerTon = null;
+let landIDWithCostPerHead = {};
+let combinedCostsHT = {};
+let combinedHTKeys = [];
+let sellingPricesHead = {};
+let grazingRatio = {}
+grazingRatio = {6:550, 7: 55/35 * 550} // more explanation needed, got from pewi 4.0
+dataBushels = [
+  { crop: 'Conventional Corn', rotation: 'corn after soy', LU_ID: 1, cost_per_bushel: 3.53, unit: 'bushels' },
+  { crop: 'Conventional Corn', rotation: 'Corn after Corn', LU_ID: 1, cost_per_bushel: 3.87, unit: 'bushels' },
+  { crop: 'Conservation Corn', rotation: 'Corn after Corn', LU_ID: 2, cost_per_bushel: 3.56, unit: 'bushels' },
+  { crop: 'Conservation Soybean', rotation: 'soy after corn', LU_ID: 3, cost_per_bushel: 8.76, unit: 'bushels' },
+  { crop: 'Conservation Soybean', rotation: 'soy after soy', LU_ID: 4, cost_per_bushel: 8.57, unit: 'bushels' }
+];
+// conventional landUses
+// due to lack of data, we repeat some data, eventually they will be replaced
+annualsPerBushel= {
+    // conventional corn
+    '1-1': 3.87,
+    '4-1': 3.53,
+    '2-1': 3.53,
+    '3-1': 3.53,
+    1: 3.87,// no transition
+    // conventional soybean
+    '1-3': 8.76, '3-3': 8.76,
+    '4-3': 8.76, '2-3': 8.76,
+    3: 8.76, // no transition
+    // conservation corn
+    '1-2': 3.56,
+    '4-2': 3.56,
+    '2-2': 3.56,
+    '3-2': 3.56,
+    2: 3.56, // no transition
+    // conservation soybean
+    '1-4': 8.76, '3-4': 8.57,
+    '4-4': 8.57, '2-4': 8.76,
+    4: 8.57 // no transition
+}
 
+
+landIDWithCostPerAcre = {12:137, 13: 406, 14: 312, 9:205.0,
+    15: 42622.47461,
+    10:43.63904617, 11:43.63904617
+} // see helper objects for description of each land use ID
+landIDWithCostPerBushel  = [1,2,3,4];
+landIDWithCostPerTon = { 5:84.8, 8:63.45}  // see helper objects for description of each land use ID
+landIDWithCostPerHead = {6:3496.81, 7:3556}  // see helper objects for description of each land use ID
+combinedCostsHT = { ...landIDWithCostPerHead, ...landIDWithCostPerTon };
+combinedHTKeys = Object.keys(landIDWithCostPerTon).concat(Object.keys(landIDWithCostPerHead))
+sellingPricesHead = {6:5.6, 7:5.6}
+let sellingPricesTon = {13: 60}
+function getRandomSampleWithReplacement(arr, size) {
+    return Array.from({ length: size }, () => arr[Math.floor(Math.random() * arr.length)]);
+}
+
+let sampleWithReplacement = getRandomSampleWithReplacement([1, 2, 3, 4, 5], 1);
+landUseHolderArray[0]['1'] = 500
+console.log(econCostByLandUse[0]['1'])
+
+let landUseHumanIDs = {
+    '0': 'none',
+    '1': 'Conventional Corn',
+    '2': 'Conservation Corn',
+    '3': 'Conventional Soybean',
+    '4': 'Conservation Soybean',
+    '5': "Alfalfa",
+    '6': 'Permanent Pasture',
+    '7': 'Rotational Grazing',
+    '8': 'Grass Hay',
+    '9': 'Prairie',
+    '10': 'Conservation Forest',
+    '11': 'Conventional Forest',
+    '12': 'Switch grass',
+    '13': 'ShortRotation Woody Bioenergy',
+    '14': 'Wetland',
+    '15': 'Mixed Fruits Vegetables'
+}
+
+let reversedLandUseHumanIDs = {};
+for (let key in landUseHumanIDs) {
+    reversedLandUseHumanIDs[landUseHumanIDs[key]] = 0;
+}
+console.log(reversedLandUseHumanIDs)
+
+let convertLandUseIDsToTexts = (listOfObjectKeys) => {
+    // Create an array to hold the converted objects
+    let convertedObjects = [];
+
+    // Iterate over each object in the input array
+    listOfObjectKeys.forEach(obj => {
+        // Create a new object to hold the converted key-value pairs
+        let newObj = {};
+
+        // Iterate over each key in the object
+        Object.keys(obj).forEach(key => {
+            // Replace the numeric key with its corresponding text from landUseHumanIDs
+            let textKey = landUseHumanIDs[key]; // Convert key to integer if necessary using Number(key)
+            if (textKey) {
+                newObj[textKey] = obj[key];
+            } else {
+                // Handle cases where the key is not found in the landUseHumanIDs
+                console.error(`Key ${key} not found in landUseHumanIDs`);
+            }
+        });
+
+        // Add the newly created object to the convertedObjects array
+        convertedObjects.push(newObj);
+    });
+
+    // Return the array of converted objects
+    return convertedObjects;
+};
+
+
+let converted = convertLandUseIDsToTexts(econCostByLandUse);
+console.log(converted);

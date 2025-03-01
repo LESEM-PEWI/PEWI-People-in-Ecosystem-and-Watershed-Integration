@@ -8,11 +8,8 @@ var Economics = function () {
   this.data = [];
   this.data4 = [];
   this.loadedGHGData = [];
-  this.calculatedGHG =[];
   this.GHGsScore =[]
-  this.landUseArea = []
   this.GHGs = [];
-  this.GHGsBylandUse = []
   this.dataSubcrop = {};
   this.data3 = [];
   this.data3ByLU = [];
@@ -28,11 +25,16 @@ var Economics = function () {
   this.totalWatershedCost=[];
   this.totalWatershedRevenue=[];
   this.ghgBenchmark = [];
+ // this.rawCostPerUnit = []
+  this.costForMapData = []; // for mapping only
+  this.totalWatershedCostArray =[];
+  this.econCostByLandUse = [];
+  this.econRevenueByLandUse = [];
 
 
 //the number of years in the cycle so that we can divide to get the yearly cost; The -1 accounts for the 'none' land use.
   yearCosts = [-1,1,1,1,1,4,1,1,4,50,1,1,11,7,50,{'Grapes (Conventional)': 4 * 25,'Green Beans': 1 * 4,'Winter Squash': 1 * 4,'Strawberries': 4 * 3}];
-  d3.csv('./revenue2020.csv', (data) => {
+  d3.csv('./revenueUpdatesInprogress_feb2025.csv', (data) => {
 
     this.rawRev = data;
   })
@@ -118,7 +120,14 @@ var Economics = function () {
     this.rawBMPData=costAdjuster(data, 'EAA',  1);
 
   });
+    // The cost_per_unit will eventually replace BMP budgets
+    // We thought that there is no point to display the whole budgets with cost types and categories because the land use budgets differ from each other
+   d3.csv('./cost_per_unit.csv', (data) => {
+     // TODO replace 1 with inflation adjustment factor
+    this.rawCostPerUnit=costAdjuster(data, 'cost_per_acre',  1); // see TODO above
 
+
+  });
   //graph
   //graphic 4 extract data from raw data
   this.chart4Information = function(lists) {
@@ -197,6 +206,7 @@ var Economics = function () {
     calulateBMPBudgets();
     calculateForestAreaBySoil();
     collectTotalWatershedGHGData();
+    calculateCostRevenue();
     GHGScores();
     calculateRent();
 
@@ -214,18 +224,43 @@ var Economics = function () {
     };
     //Less than ideal coding, but given how Totals is structured the easiest way
     //I found to map Land Use IDS to total LandUse without recalculation
+    this.econRevenueByLandUse =   Array(4).fill().map(() =>(
+
+            {
+              none: 0,
+              'Conventional Corn': 0,
+              'Conservation Corn': 0,
+              'Conventional Soybean': 0,
+              'Conservation Soybean': 0,
+              'Alfalfa': 0,
+              'Permanent Pasture': 0,
+              'Rotational Grazing': 0,
+              'Grass Hay': 0,
+              'Prairie': 0,
+              'Conservation Forest': 0,
+              'Conventional Forest': 0,
+              'Switch grass': 0,
+              'ShortRotation Woody Bioenergy': 0,
+              'Wetland': 0,
+              'Mixed Fruits Vegetables': 0
+            }
+
+    ));
     for(let i = 1; i <= boardData[currentBoard].calculatedToYear; i++){
       landUses[i] = [];
       this.mapData[i] = [];
       this.scaledRev[i] = [];
-      this.totalWatershedCost[i] = [{cost: 0}];  //TESTING
+      //this.totalWatershedCost[i] = [{cost: 0}];  //TESTING
 
       let keys = Object.keys(Totals.landUseResults[0]);
+
       for(let j = 0; j < keys.length; j++){
+
         let key = keys[j];
         //this substring is to link different keys from different objects together... again less than ideal
         landUses[i][LandUseType[key.substring(0, key.length - 7)]] = Totals.landUseResults[i][key]
       }
+      let outValue = 0
       this.rawRev.forEach(dataPoint => {
 
         if(dataPoint['LU_ID'] === 15){
@@ -259,19 +294,27 @@ var Economics = function () {
         else if(dataPoint['LU_ID'] === "1"){
           value = parseFloat(revenueData[dataPoint['LU_ID']]) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
         }
+        else if(dataPoint['LU_ID'] === "13"){
+          value = parseFloat(dataPoint['Revenue/acre/year']) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
+        }
         else if(dataPoint['LU_ID'] === "3"){
           value = parseFloat(revenueData[dataPoint['LU_ID']]) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
         }
+       //let grazingLUs = Object.keys(sellingPricesHead);
+       else if(['6', '7'].includes(dataPoint['LU_ID'])){
 
-        else{
+        value = sellingPricesHead[dataPoint['LU_ID']] * Totals.yieldByLandUse[i][dataPoint['LU_ID']] * grazingRatio[dataPoint['LU_ID']]// replacing the prvious
+        }else{
           value = parseFloat(dataPoint['Revenue/acre/year']) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
         }
         this.scaledRev[i][dataPoint['LU_ID']] = this.scaledRev[i][dataPoint['LU_ID']] || 0;
         this.scaledRev[i][dataPoint['LU_ID']] += value;
 
+
         // this.totalWatershedRevenue[i][0].revenue += !isNaN(this.scaledRev[i][dataPoint['LU_ID']]) ? this.scaledRev[i][dataPoint['LU_ID']] : 0
       });
-
+      this.econRevenueByLandUse = convertLandUseIDsToTexts(this.scaledRev)
+      console.log(this.econRevenueByLandUse, 'revenue')
       /**
        * 2020 Budget File separates out each land yield.
        * Conventional and Conservation Corn are broken up by yield and also based on if it is Corn after Soybean or Corn after Corn. Look at @calculateCornAfters function.
@@ -508,7 +551,8 @@ var Economics = function () {
         }
 
         this.mapData[i].push(copy)
-        this.totalWatershedCost[i][0].cost +=  !isNaN(copy['EAA']) ? copy['EAA'] : 0
+
+        //this.totalWatershedCost[i][0].cost +=  !isNaN(copy['EAA']) ? copy['EAA'] : 0 // being replaced in cost revenue
       })
 
     }
@@ -547,12 +591,13 @@ var Economics = function () {
 
 
   //this is unoptimized for finding the amount of corn after corn and corn after soybeans
-  //If any sort of progress bar requires the economics module it is recomended to alter the method in which data is updated
+  //If any sort of progress bar requires the economics module it is recommended to alter the method in which data is updated
   /**
    * This function breaks down Conv and Cons Corn into Corn after Corn and Corn after Soybean and calculates the yield for each.
    * NOTE: CONSERVATION CORN values are retrieved from BMP budgets function below.
    */
   calculateCornAfters = () =>{
+    // TODO this code is not intuitive to me, there is no indication that yield will be different for each rotation
     for(let i = 1; i <= boardData[currentBoard].calculatedToYear; i++){
       this.cornAfters[i] = [,
         { ConvCornAfterSoybean:0, ConvCornAfterCorn:0,
@@ -564,10 +609,12 @@ var Economics = function () {
           if(boardData[currentBoard].map[j].landType[i-1] === 3 || boardData[currentBoard].map[j].landType[i-1] === 4){ //if the corn is after soybean
             this.cornAfters[i][1].ConvCornAfterSoybean += boardData[currentBoard].map[j].area;
             this.cornAfters[i][1].ConvCornAfterSoybeanYield += boardData[currentBoard].map[j].results[i]['calculatedYieldTile'] * boardData[currentBoard].map[j].area
+          console.log(results[i], 'ii')
           }
           else {
             this.cornAfters[i][1].ConvCornAfterCorn += boardData[currentBoard].map[j].area
             this.cornAfters[i][1].ConvCornAfterCornYield += boardData[currentBoard].map[j].results[i]['calculatedYieldTile'] * boardData[currentBoard].map[j].area
+            //console.log(results[i], 'ii')
           }
         }
 
@@ -746,6 +793,107 @@ var Economics = function () {
       }
 
   };
+  let calculateCostRevenue = () => {
+
+    const GetCurrentBoard = boardData[currentBoard];  // Ensure currentBoard is defined correctly.
+   // console.log(GetCurrentBoard)
+    // Assuming currentBoard.calculatedToYear is a number
+    let  trackId = [];
+    this.econCostByLandUse = Array(4).fill().map(() =>(
+        {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0}
+    ));
+    for (let i = 1; i <= GetCurrentBoard.calculatedToYear; i++) {
+      let landUseInCells = {}
+      const keepCellData = {};
+      this.totalWatershedCost[i] = [{cost: 0}];
+      let calCost = 0;
+      const totalCostsObject = {totalCosts: 0};
+      for (let j = 0; j < GetCurrentBoard.map.length; j++) {
+        const getLandUSEID = GetCurrentBoard.map[j]['landType'][i];
+        landUseInCells[j] = getLandUSEID
+        let selectedTotalTileArea = GetCurrentBoard.map[j].area;
+        trackId[i] = landUseInCells
+       if (getLandUSEID > 0) {
+
+
+          let lud = getLandUSEID.toString();
+          //console.log(lud, ':|', getLandUSEID)
+          let keyObjs = Object.keys(landIDWithCostPerAcre);
+          // calculate costs for land uses with cost per acre
+
+          if (keyObjs.includes(lud)) {
+
+            calCost = GetCurrentBoard.map[j].area * landIDWithCostPerAcre[lud];
+
+            totalCostsObject.totalCosts += calCost;  // gets the unit per acre cost
+            keepCellData[j] = calCost;
+            this.totalWatershedCost[i][0].cost  += calCost
+            this.econCostByLandUse[i][lud] += calCost
+          }
+
+          // calculate costs for land uses with costs per tonne and per head
+
+          else if (combinedHTKeys.includes(lud)) {
+            //console.log(Totals.yieldByLandUse[i]['6'], 'pasture anmal yield')
+           // let animals = GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * selectedTotalTileArea;
+            console.log(GetCurrentBoard.map[j].results[i]['calculatedYieldTile'], 'from tile')
+            calCost = GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * selectedTotalTileArea * combinedCostsHT[lud];
+            totalCostsObject.totalCosts += calCost;  // gets the unit per acre cost
+            this.totalWatershedCost[i][0].cost += calCost
+            keepCellData[j] = calCost;
+             //console.log(lud, ':|', getLandUSEID, calCost);
+            this.econCostByLandUse[i][lud] += calCost
+          }
+          // calculate costs for land uses with costs per tonne and per bushel
+          else if (landIDWithCostPerBushel.includes(getLandUSEID)) {
+            let formattedString =null;
+            if (i > 1){ // If year has exceeded one we start tracking land uses in cell to get the rotations of soybean and corn
+              //console.log(i, 'yar')
+              // console.log(i,'y')
+              let previousLandUse = trackId[i-1][j];
+
+              let nextLandUse = trackId[i][j];
+              formattedString = `${previousLandUse}-${nextLandUse}`;
+              if (landIDWithCostPerBushel.includes(previousLandUse) && landIDWithCostPerBushel.includes(nextLandUse)){
+                calCost = annualsPerBushel[formattedString] * GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * selectedTotalTileArea
+                totalCostsObject.totalCosts += calCost;
+                this.totalWatershedCost[i][0].cost +=calCost
+                this.econCostByLandUse[i][lud] += calCost
+                //console.log(calCost, this.totalWatershedCost[i][0].cost, '||')
+              }else{
+                // use the current land use
+                let curLandId = nextLandUse.toString()
+                calCost = annualsPerBushel[curLandId] * GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * selectedTotalTileArea
+                totalCostsObject.totalCosts += calCost;
+                this.totalWatershedCost[i][0].cost +=calCost
+                this.econCostByLandUse[i][lud] += calCost
+               // console.log(calCost, this.totalWatershedCost[i][0].cost, 'nope', formattedString)
+              }
+
+            } else{
+              calCost = annualsPerBushel[lud] * GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * selectedTotalTileArea
+              totalCostsObject.totalCosts += calCost;
+              this.totalWatershedCost[i][0].cost +=calCost
+              this.econCostByLandUse[i][lud] += calCost
+            //  console.log(calCost, this.totalWatershedCost[i][0].cost, 'lud')
+            }
+          }
+
+
+
+        }
+
+      }
+      // this pushes for each year
+      this.costForMapData.push(keepCellData)
+      //console.log(this.costForMapData, 'mapppppppppppppppppppppppppppppppppppppp')
+      this.econCostByLandUse = convertLandUseIDsToTexts(this.econCostByLandUse);
+      //console.log(this.econCostByLandUse, 'costs===s');
+      this.totalWatershedCostArray.push(totalCostsObject);
+     // console.log(this.totalWatershedCostArray, 'total cost');
+
+    }
+  };
 
   /**
    * This function is used to calculate acreage of each soil type if the land use if Cons Forest (LU_ID = 10) or Conv Forest (LU_ID =11)
@@ -891,7 +1039,7 @@ var Economics = function () {
 
               // Convert to hectares
               let soilArea = cellLandArea / 2.471;
-              console.log(soilArea)
+
               // This will need to be converted to carbon dioxide equivalents
               let soc = currentData?.to_carb * soilArea;
               //console.log('soil organic carbon', soc)
