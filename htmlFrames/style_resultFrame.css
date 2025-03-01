@@ -333,7 +333,7 @@ tr:hover {
 
 
 #graphContainer {
-  padding-bottom: 50px;
+  /*padding-bottom: 50px;*/
   left: 25%;
   padding-left: 25%;
 }
@@ -342,6 +342,7 @@ tr:hover {
   padding-bottom: 5%;
   left: 25%;
   padding-left: 25%;
+  margin-top: 40px;
 }
 
 #contentsG {
@@ -605,6 +606,7 @@ text {
   font-size: 30px;
   font-weight: bold;
   position: relative;
+  width: fit-content;
 }
 
 #landUseTitleEconCost{
@@ -617,6 +619,7 @@ text {
   font-size: 30px;
   font-weight: bold;
   position: relative;
+  width: fit-content;
 }
 #landUseTitleEconRev{
   /*
@@ -628,6 +631,7 @@ text {
   font-size: 30px;
   font-weight: bold;
   position: relative;
+  width: fit-content;
 }
 
 #landUseTitleMulti{
