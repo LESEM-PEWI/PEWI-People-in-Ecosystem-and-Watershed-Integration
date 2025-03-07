@@ -30,6 +30,7 @@ var Economics = function () {
   this.totalWatershedCostArray =[];
   this.econCostByLandUse = [];
   this.econRevenueByLandUse = [];
+  this.econValuesByCells = [];
 
 
 //the number of years in the cycle so that we can divide to get the yearly cost; The -1 accounts for the 'none' land use.
@@ -99,7 +100,6 @@ var Economics = function () {
     }
     }
     d3.csv('./Budget2020.csv', (data) => {
-      // ToDO pass 1.23, the default to the functions above
       // keep the default to 1
 
       this.rawData=costAdjuster(data, "EAA", 1);
@@ -794,7 +794,7 @@ var Economics = function () {
 
   };
   let calculateCostRevenue = () => {
-
+    let cellValues = null;
     const GetCurrentBoard = boardData[currentBoard];  // Ensure currentBoard is defined correctly.
    // console.log(GetCurrentBoard)
     // Assuming currentBoard.calculatedToYear is a number
@@ -809,6 +809,7 @@ var Economics = function () {
       let calCost = 0;
       const totalCostsObject = {totalCosts: 0};
       for (let j = 0; j < GetCurrentBoard.map.length; j++) {
+        let kk = j.toString();
         const getLandUSEID = GetCurrentBoard.map[j]['landType'][i];
         landUseInCells[j] = getLandUSEID
         let selectedTotalTileArea = GetCurrentBoard.map[j].area;
@@ -826,7 +827,10 @@ var Economics = function () {
             calCost = GetCurrentBoard.map[j].area * landIDWithCostPerAcre[lud];
 
             totalCostsObject.totalCosts += calCost;  // gets the unit per acre cost
-            keepCellData[j] = calCost;
+
+            keepCellData[kk] = calCost;
+            console.log(keepCellData, '||||||||||||||||||||||')
+
             this.totalWatershedCost[i][0].cost  += calCost
             this.econCostByLandUse[i][lud] += calCost
           }
@@ -840,7 +844,8 @@ var Economics = function () {
             calCost = GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * selectedTotalTileArea * combinedCostsHT[lud];
             totalCostsObject.totalCosts += calCost;  // gets the unit per acre cost
             this.totalWatershedCost[i][0].cost += calCost
-            keepCellData[j] = calCost;
+            keepCellData[kk] = calCost;
+
              //console.log(lud, ':|', getLandUSEID, calCost);
             this.econCostByLandUse[i][lud] += calCost
           }
@@ -857,6 +862,7 @@ var Economics = function () {
               if (landIDWithCostPerBushel.includes(previousLandUse) && landIDWithCostPerBushel.includes(nextLandUse)){
                 calCost = annualsPerBushel[formattedString] * GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * selectedTotalTileArea
                 totalCostsObject.totalCosts += calCost;
+                keepCellData[kk] = calCost;
                 this.totalWatershedCost[i][0].cost +=calCost
                 this.econCostByLandUse[i][lud] += calCost
                 //console.log(calCost, this.totalWatershedCost[i][0].cost, '||')
@@ -865,16 +871,18 @@ var Economics = function () {
                 let curLandId = nextLandUse.toString()
                 calCost = annualsPerBushel[curLandId] * GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * selectedTotalTileArea
                 totalCostsObject.totalCosts += calCost;
+                keepCellData[kk] = calCost;
                 this.totalWatershedCost[i][0].cost +=calCost
-                this.econCostByLandUse[i][lud] += calCost
+                this.econCostByLandUse[i][lud] += calCost;
+                this.econValuesByCells[i][j] = calCost
                // console.log(calCost, this.totalWatershedCost[i][0].cost, 'nope', formattedString)
               }
 
             } else{
               calCost = annualsPerBushel[lud] * GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * selectedTotalTileArea
               totalCostsObject.totalCosts += calCost;
-              this.totalWatershedCost[i][0].cost +=calCost
-              this.econCostByLandUse[i][lud] += calCost
+              this.totalWatershedCost[i][0].cost +=calCost;
+              //console.log(keepCellData, '||||||||||||||||||||||')
             //  console.log(calCost, this.totalWatershedCost[i][0].cost, 'lud')
             }
           }
@@ -1300,6 +1308,7 @@ var Economics = function () {
 }
 
 var economics = new Economics();
+console.log(economics.costForMapData, 'map_data');
 // prepare the garbage collector to clear memory of some big data
 //economics.loadedGHGData = null;
 
