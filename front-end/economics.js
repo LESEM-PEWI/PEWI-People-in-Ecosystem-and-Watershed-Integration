@@ -881,6 +881,7 @@ var Economics = function () {
             } else{
               calCost = annualsPerBushel[lud] * GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * selectedTotalTileArea
               totalCostsObject.totalCosts += calCost;
+              keepCellData[kk] = calCost;
               this.totalWatershedCost[i][0].cost +=calCost;
               //console.log(keepCellData, '||||||||||||||||||||||')
             //  console.log(calCost, this.totalWatershedCost[i][0].cost, 'lud')
