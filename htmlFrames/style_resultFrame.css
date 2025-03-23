@@ -615,7 +615,6 @@ text {
   * For more information refer to Issue 386.
   * changed left value from 35 to 29 , font-size from 20 to 30 10:35 am 5/22 Issue 474
   */
-  left: 23%;
   font-size: 30px;
   font-weight: bold;
   position: relative;
@@ -627,7 +626,6 @@ text {
   * For more information refer to Issue 386.
   * changed left value from 35 to 29 , font-size from 20 to 30 10:35 am 5/22 Issue 474
   */
-  left: 22%;
   font-size: 30px;
   font-weight: bold;
   position: relative;
@@ -894,10 +892,12 @@ ul table{
 }
 
  .rightE {
-  height: 400px;
   width: 445px;
   display: inline-block;
   vertical-align: top;
+  position: relative;
+  left: 5%;
+  top: 10px;
 }
 
 
