@@ -26,11 +26,12 @@ var Economics = function () {
   this.totalWatershedRevenue=[];
   this.ghgBenchmark = [];
  // this.rawCostPerUnit = []
-  this.costForMapData = []; // for mapping only
+  this.NetRevenueForMapData = []; // for mapping only
   this.totalWatershedCostArray =[];
   this.econCostByLandUse = [];
   this.econRevenueByLandUse = [];
   this.econValuesByCells = [];
+  this.ghgMapData;
 
 
 //the number of years in the cycle so that we can divide to get the yearly cost; The -1 accounts for the 'none' land use.
@@ -829,7 +830,7 @@ var Economics = function () {
             totalCostsObject.totalCosts += calCost;  // gets the unit per acre cost
 
             keepCellData[kk] = calCost;
-            console.log(keepCellData, '||||||||||||||||||||||')
+
 
             this.totalWatershedCost[i][0].cost  += calCost
             this.econCostByLandUse[i][lud] += calCost
@@ -874,7 +875,7 @@ var Economics = function () {
                 keepCellData[kk] = calCost;
                 this.totalWatershedCost[i][0].cost +=calCost
                 this.econCostByLandUse[i][lud] += calCost;
-                this.econValuesByCells[i][j] = calCost
+                this.econValuesByCells[i][j] = calCost;
                // console.log(calCost, this.totalWatershedCost[i][0].cost, 'nope', formattedString)
               }
 
@@ -894,8 +895,8 @@ var Economics = function () {
 
       }
       // this pushes for each year
-      this.costForMapData.push(keepCellData)
-      //console.log(this.costForMapData, 'mapppppppppppppppppppppppppppppppppppppp')
+      this.NetRevenueForMapData[i] =keepCellData
+      console.log(this.NetRevenueForMapData, 'mapppppppppppppppppppppppppppppppppppppp')
       this.econCostByLandUse = convertLandUseIDsToTexts(this.econCostByLandUse);
       //console.log(this.econCostByLandUse, 'costs===s');
       this.totalWatershedCostArray.push(totalCostsObject);
@@ -1004,6 +1005,12 @@ var Economics = function () {
     const CurrentBoard = boardData[currentBoard]
 
 
+    let gDD = fillCells()
+    this.ghgMapData  =  Array(3).fill().map(() => ({
+      gDD
+    }));
+
+
     let co2_emission = 0; // Zero for non emiting land uses with a positive carbon balance
     let bSOC_emissions;
     for (let i = 1; i <= CurrentBoard.calculatedToYear; i++) {
@@ -1084,6 +1091,7 @@ var Economics = function () {
               this.GHGs[i][0]['SOC'] += soc;
               this.GHGs[i][0]['N2O'] += n20;
               this.GHGs[i][0]['C02_e'] += kpi;
+              this.ghgMapData[i][j] += kpi
               this.GHGs[i][0]['CH4'] += ch4;
               this.GHGs[i][0]['CO2_emissions'] += carbonDioxide;
               this.ghgBenchmark[i][0]['C02_e'] += bGHG;
@@ -1309,7 +1317,9 @@ var Economics = function () {
 }
 
 var economics = new Economics();
-console.log(economics.costForMapData, 'map_data');
+console.log(economics.NetRevenueForMapData, 'map_data');
+
+
 // prepare the garbage collector to clear memory of some big data
 //economics.loadedGHGData = null;
 

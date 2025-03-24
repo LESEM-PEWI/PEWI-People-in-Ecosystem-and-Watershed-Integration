@@ -311,10 +311,23 @@ let convertLandUseIDsToTexts = (listOfObjectKeys) => {
         convertedObjects.push(newObj);
     });
 
-    // Return the array of converted objects
+    // Return the array of conerted objects
     return convertedObjects;
 };
 
 
 let converted = convertLandUseIDsToTexts(econCostByLandUse);
 console.log(converted);
+
+
+
+const fillCells = () => {
+    /// to be used for creating mapping data
+    /// fills each cell with zero
+    let holderObject = {};
+    for (let j = 0; j < boardData[currentBoard].map.length; j++) {
+        holderObject[j] = 0;
+
+    }
+    return holderObject
+};

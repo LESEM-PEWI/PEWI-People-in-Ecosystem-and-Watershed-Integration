@@ -44,6 +44,7 @@ function init() {
 
 } //end init
 
+
 // get ecosystem scores and load them to the corresponding progress bars based on which year user want to load.
 function refreshProgressBar(yearToLoad) {
   economics.mapChange(); // Load Map change to update values for BMP Budgets - is this good to do here? May need performance optimization.
