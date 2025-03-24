@@ -1005,9 +1005,9 @@ var Economics = function () {
     const CurrentBoard = boardData[currentBoard]
 
 
-    let gDD = fillCells()
+    let ghg_zeroes = fillCells()
     this.ghgMapData  =  Array(3).fill().map(() => ({
-      gDD
+      ghg_zeroes
     }));
 
 
