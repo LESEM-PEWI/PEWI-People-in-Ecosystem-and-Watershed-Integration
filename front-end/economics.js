@@ -795,6 +795,10 @@ var Economics = function () {
 
   };
   let calculateCostRevenue = () => {
+    let costRevenueZeroes = fillCells()
+    let costMap=  Array(3).fill().map(() => ({
+      costRevenueZeroes
+    }));
     let cellValues = null;
     const GetCurrentBoard = boardData[currentBoard];  // Ensure currentBoard is defined correctly.
    // console.log(GetCurrentBoard)
@@ -1005,11 +1009,7 @@ var Economics = function () {
     const CurrentBoard = boardData[currentBoard]
 
 
-    let ghg_zeroes = fillCells()
-    this.ghgMapData  =  Array(3).fill().map(() => ({
-      ghg_zeroes
-    }));
-
+    this.ghgMapData = Array(3).fill().map(() => fillCells())
 
     let co2_emission = 0; // Zero for non emiting land uses with a positive carbon balance
     let bSOC_emissions;
