@@ -321,13 +321,14 @@ function displayResults() {
   economics.mapChange();
 
   economicsGraphic1 = new EconomicsGraphic1();
-  economicsGraphic1.render();
+  // economicsGraphic1.render();
+  horizontalBarGraph();
   economicsGraphic3 = new EconomicsGraphic3();
-  economicsGraphic3.render();
-  econGraphic4 = EconomicsGraphic4().getInstance().render();
-  econGraphic5 = EconomicsGraphic5().getInstance().render();
+  // economicsGraphic3.render();
+  // econGraphic4 = EconomicsGraphic4().getInstance().render();
+  // econGraphic5 = EconomicsGraphic5().getInstance().render();
   econGraphic2 = new EconomicsGraphic2();
-  econGraphic2.render();
+  // econGraphic2.render();
 
   //DEPRECATED, (create ecosystem indicators aster plot
   //drawEcosystemIndicatorsDisplay(currentYear);
@@ -791,67 +792,16 @@ function drawD3EconPieChart(year, isTheChartInCategoryMode) {
   var multiplayerColorPack = ["#87ceee","#e6bb00","#cc6578","#127731","#c97b08","#302485"];
   let data = economics.data;
   var totalCost = getTotalCost(economics.mapData, year);
-  var dataset = [{
-    label: 'Conventional Corn',
-    count: data[year][1]["Fixed/Variable"].total,
-    number: data[year][1]["Fixed/Variable"].total/totalCost
-  }, {
-    label: 'Conservation Corn',
-    count: data[year][2]["Fixed/Variable"].total,
-    number: data[year][2]["Fixed/Variable"].total/totalCost
-  }, {
-    label: 'Conventional Soybean',
-    count: data[year][3]["Fixed/Variable"].total,
-    number: data[year][3]["Fixed/Variable"].total/totalCost
-  }, {
-    label: 'Conservation Soybean',
-    count: data[year][4]["Fixed/Variable"].total,
-    number: data[year][4]["Fixed/Variable"].total/totalCost
-  }, {
-    label: 'Mixed Fruits/Vegetables',
-    count: data[year][15]["Fixed/Variable"].total,
-    number: data[year][15]["Fixed/Variable"].total/totalCost
-  }, {
-    label: 'Permanent Pasture',
-    count: data[year][6]["Fixed/Variable"].total,
-    number: data[year][6]["Fixed/Variable"].total/totalCost
-  }, {
-    label: 'Rotational Grazing',
-    count: data[year][7]["Fixed/Variable"].total,
-    number: data[year][7]["Fixed/Variable"].total/totalCost
-  }, {
-    label: 'Grass Hay',
-    count: data[year][8]["Fixed/Variable"].total,
-    number: data[year][8]["Fixed/Variable"].total/totalCost
-  }, {
-    label: 'Switchgrass',
-    count: data[year][12]["Fixed/Variable"].total,
-    number: data[year][12]["Fixed/Variable"].total/totalCost
-  }, {
-    label: 'Prairie',
-    count: data[year][9]["Fixed/Variable"].total,
-    number: data[year][9]["Fixed/Variable"].total/totalCost
-  }, {
-    label: 'Wetland',
-    count: data[year][14]["Fixed/Variable"].total,
-    number: data[year][14]["Fixed/Variable"].total/totalCost
-  }, {
-    label: 'Alfalfa',
-    count: data[year][5]["Fixed/Variable"].total,
-    number: data[year][5]["Fixed/Variable"].total/totalCost
-  }, {
-    label: 'Conventional Forest',
-    count: data[year][11]["Fixed/Variable"].total,
-    number: data[year][11]["Fixed/Variable"].total/totalCost
-  }, {
-    label: 'Conservation Forest',
-    count: data[year][10]["Fixed/Variable"].total,
-    number: data[year][10]["Fixed/Variable"].total/totalCost
-  }, {
-    label: 'Short Rotation Woody Bioenergy',
-    count: data[year][13]["Fixed/Variable"].total,
-    number: data[year][13]["Fixed/Variable"].total/totalCost
-  }];
+  var dataset = []
+  Object.keys(economics.econCostByLandUse[1]).forEach((keys)=>{
+    if (keys != "none") {
+      d = {}
+      d.label = keys
+      d.count = economics.econCostByLandUse[1][keys].toFixed(2);
+      d.number = (economics.econCostByLandUse[1][keys].toFixed(2))/totalCost;
+      dataset.push(d);
+    }
+  })
   //variables for the display of the chart on the page
   // be careful about changing these values since they are tied closely to
   // css styling on results page
@@ -1114,68 +1064,16 @@ function drawD3EconRevPieChart(year, isTheChartInCategoryMode) {
   economics.scaledRev[year].forEach(value => {
     totalRev += value;
   })
-
-  var dataset = [{
-    label: 'Conventional Corn',
-    count: (economics.scaledRev[year][1].toFixed(2)),
-    number: ((economics.scaledRev[year][1].toFixed(2))/totalRev)
-  }, {
-    label: 'Conservation Corn',
-    count: (economics.scaledRev[year][2].toFixed(2)),
-    number: ((economics.scaledRev[year][2].toFixed(2))/totalRev)
-  }, {
-    label: 'Conventional Soybean',
-    count: (economics.scaledRev[year][3].toFixed(2)),
-    number: ((economics.scaledRev[year][3].toFixed(2))/totalRev)
-  }, {
-    label: 'Conservation Soybean',
-    count: (economics.scaledRev[year][4].toFixed(2)),
-    number: ((economics.scaledRev[year][4].toFixed(2))/totalRev)
-  }, {
-    label: 'Mixed Fruits/Vegetables',
-    count: (economics.scaledRev[year][15].toFixed(2)),
-    number: ((economics.scaledRev[year][15].toFixed(2))/totalRev)
-  }, {
-    label: 'Permanent Pasture',
-    count: (economics.scaledRev[year][6].toFixed(2)),
-    number: ((economics.scaledRev[year][6].toFixed(2))/totalRev)
-  }, {
-    label: 'Rotational Grazing',
-    count: (economics.scaledRev[year][7].toFixed(2)),
-    number: ((economics.scaledRev[year][7].toFixed(2))/totalRev)
-  }, {
-    label: 'Grass Hay',
-    count: (economics.scaledRev[year][8].toFixed(2)),
-    number: ((economics.scaledRev[year][8].toFixed(2))/totalRev)
-  }, {
-    label: 'Switchgrass',
-    count: (economics.scaledRev[year][12].toFixed(2)),
-    number: ((economics.scaledRev[year][12].toFixed(2))/totalRev)
-  }, {
-    label: 'Prairie',
-    count: (economics.scaledRev[year][9].toFixed(2)),
-    number: ((economics.scaledRev[year][9].toFixed(2))/totalRev)
-  }, {
-    label: 'Wetland',
-    count: (economics.scaledRev[year][14].toFixed(2)),
-    number: ((economics.scaledRev[year][14].toFixed(2))/totalRev)
-  }, {
-    label: 'Alfalfa',
-    count: (economics.scaledRev[year][5].toFixed(2)),
-    number: ((economics.scaledRev[year][5].toFixed(2))/totalRev)
-  }, {
-    label: 'Conventional Forest',
-    count: (economics.scaledRev[year][11].toFixed(2)),
-    number: ((economics.scaledRev[year][11].toFixed(2))/totalRev)
-  }, {
-    label: 'Conservation Forest',
-    count: (economics.scaledRev[year][10].toFixed(2)),
-    number: ((economics.scaledRev[year][10].toFixed(2))/totalRev)
-  }, {
-    label: 'Short Rotation Woody Bioenergy',
-    count: (economics.scaledRev[year][13].toFixed(2)),
-    number: ((economics.scaledRev[year][13].toFixed(2))/totalRev)
-  }];
+  var dataset = []
+  Object.keys(economics.econRevenueByLandUse[0]).forEach((keys)=>{
+    if (keys != "none") {
+      d = {}
+      d.label = keys
+      d.count = economics.econRevenueByLandUse[0][keys].toFixed(2);
+      d.number = (economics.econRevenueByLandUse[0][keys].toFixed(2))/totalRev;
+      dataset.push(d);
+    }
+  })
   //variables for the display of the chart on the page
   // be careful about changing these values since they are tied closely to
   // css styling on results page
@@ -5600,8 +5498,8 @@ function EconomicsGraphic1() {
     let layers = d3.stack().keys(stackTypes) //formats data into groups, in this case we want to stack base off of cost/revenue etc...
         .offset(d3.stackOffsetDiverging)
         (data);
-
-    var layer = svg.selectAll(".layer") //draw 1 layer at a time, we want loss and profit to drawn last so they arent covered.
+    
+        var layer = svg.selectAll(".layer") //draw 1 layer at a time, we want loss and profit to drawn last so they arent covered.
         .data(layers)
         .enter().append("g")
         .attr("class", "layer")
@@ -6010,6 +5908,111 @@ function EconomicsGraphic1() {
     drawBars();
     drawLegend();
   }
+}
+
+function horizontalBarGraph(){
+  const Cost = economics.econCostByLandUse[1];
+  const Revenue = economics.econRevenueByLandUse[0];
+  var horizontalBarGraphSvg = document.getElementById('resultsFrame').contentWindow.document.getElementById('horizontalBarGraphsvg');
+  horizontalBarGraphSvg.innerHTML = "";
+
+  var margin = { top: 40, right: 20, bottom: 50, left: 120 };
+  var screenWidth = window.innerWidth;
+  var width = screenWidth * 0.8 - margin.left - margin.right;
+  var height = screenWidth * 0.4 - margin.top - margin.bottom;
+
+  var svg = d3.select(horizontalBarGraphSvg)
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
+
+  var categories = Object.keys(Cost).filter(d => Cost[d] > 0 || Revenue[d] > 0);
+  var data = categories.map(category => ({
+      category,
+      cost: Cost[category] || 0,
+      revenue: Revenue[category] || 0
+  }));
+
+  // Updated Scales
+  var yScale = d3.scaleBand()
+      .domain(categories)
+      .range([0, height])
+      .padding(0.3);
+
+  var xScale = d3.scaleLinear()
+      .domain([0, d3.max(data, d => Math.max(d.cost, d.revenue))])
+      .range([0, width]);
+
+  // Axes
+  svg.append("g")
+      .attr("transform", `translate(0,${height})`)
+      .call(d3.axisBottom(xScale).tickFormat(d3.format(",")).ticks(width / 100));
+
+  svg.append("g").call(d3.axisLeft(yScale));
+
+  // Bar Groups
+  var barGroups = svg.selectAll(".bar-group")
+      .data(data)
+      .enter()
+      .append("g")
+      .attr("transform", d => `translate(1,${yScale(d.category)})`);
+
+  // Cost Bars
+  barGroups.append("rect")
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr("width", d => xScale(d.cost))
+      .attr("height", yScale.bandwidth() / 2)
+      .attr("fill", "#ff0000");
+
+  // Revenue Bars
+  barGroups.append("rect")
+      .attr("x", 0)
+      .attr("y", yScale.bandwidth() / 2)
+      .attr("width", d => xScale(d.revenue))
+      .attr("height", yScale.bandwidth() / 2)
+      .attr("fill", "#4848f3");
+
+   // Select the tooltip div
+   var horizontalBarGraphTooltip = document.getElementById('resultsFrame').contentWindow.document.getElementById('horizontalBarGraphTooltip');
+   const tooltip = d3.select(horizontalBarGraphTooltip);
+ 
+   
+
+  // Legend Positioning
+  var colors = ["#ff0000", "#4848f3"]; // Cost (Yellow), Revenue (Blue)
+  var keys = ["Cost", "Revenue"];
+
+  legend = svg.append("g")
+        .attr("transform", "translate(900,-40)")
+        .attr("text-anchor", "end")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", 15)
+        .selectAll("g")
+        .data(colors)
+        .enter().append("g")
+        .attr("transform", function(d, i) {return "translate(0," + (20 * i) + ")";});
+
+    legend.append("rect")
+        .attr("x", -19)
+        .attr("width", 19)
+        .attr("height", 19)
+        .attr("fill", (d, i) => colors[i]);
+
+    legend.append("text")
+        .attr("x", -24)
+        .attr("y", 9.5)
+        .attr("dy", "0.35em")
+        .text((d,i) => keys[i]);
+
+  svg.append("text")
+      .attr("x", (width / 2))
+      .attr("y", 0 - (margin.top / 2))
+      .attr("text-anchor", "middle")
+      .style("font-size", "1.5vmax")
+      .style("font-weight", "bold")
+      .text("Economic Data by Land Use");
 }
 
 function stackMin(layers) {

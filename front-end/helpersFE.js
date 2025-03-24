@@ -199,6 +199,9 @@ function toggleTabTitle(value, dir) {
       case 'yieldTabTitle':
         document.getElementById(value).innerHTML = 'yield&nbsp;base&nbsp;rates';
         break;
+      case 'inflationTabTitle':
+        document.getElementById(value).innerHTML = 'inflation&nbsp;rates';
+        break;
     }
     document.getElementById(value).style.display = 'inline-block';
   } else {

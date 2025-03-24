@@ -100,7 +100,7 @@
     document.getElementById('tab1').className = "tab";
     document.getElementById('tab2').className = "tab";
     document.getElementById('tab3').className = "tab";
-    document.getElementById('tab4').className = "tab";
+    // document.getElementById('tab4').className = "tab";
     //then update the selected tab appropriately
     if (tabNumber == 1) {
       document.getElementById('graphics').style.display = "block";
