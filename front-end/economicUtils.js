@@ -320,7 +320,7 @@ let converted = convertLandUseIDsToTexts(econCostByLandUse);
 console.log(converted);
 
 
-
+// start of fillCells
 const fillCells = () => {
     /// to be used for creating mapping data
     /// fills each cell with zero
@@ -331,3 +331,4 @@ const fillCells = () => {
     }
     return holderObject
 };
+// end of fillCells

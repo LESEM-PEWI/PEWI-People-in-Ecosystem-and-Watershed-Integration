@@ -3463,8 +3463,8 @@ function getTileID(x, y) {
 
   //x and y in terms of three.js 3d coordinates, not screen coordinates
 
-  var tilesWide = boardData[currentBoard].width;
-  var tilesHigh = boardData[currentBoard].height;
+  var tilesWide = boardData[currentBoard].width; // TODO seem they are not being used
+  var tilesHigh = boardData[currentBoard].height; // TODO seem they are not being used
 
   //calculate which column the tile is in
   var col = 0;

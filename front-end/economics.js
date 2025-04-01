@@ -794,19 +794,26 @@ var Economics = function () {
       }
 
   };
+  // start calculateCostRevenue
   let calculateCostRevenue = () => {
-    let costRevenueZeroes = fillCells()
-    let costMap=  Array(3).fill().map(() => ({
-      costRevenueZeroes
-    }));
+    /**
+     * Calculate costs for each land use. The unit costs are defined in economicUtils.js
+     * Creates mapping data for profitability
+     * The values are calculated based on years and stored in arrays
+     */
+
+    this.NetRevenueForMapData = Array(4).fill().map(() => fillCells())
     let cellValues = null;
     const GetCurrentBoard = boardData[currentBoard];  // Ensure currentBoard is defined correctly.
    // console.log(GetCurrentBoard)
     // Assuming currentBoard.calculatedToYear is a number
     let  trackId = [];
-    this.econCostByLandUse = Array(4).fill().map(() =>(
-        {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0}
-    ));
+    this.econCostByLandUse = [
+        {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
+      {0:0, '1':0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
+      {0:0, '1':0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
+      {0:0, '1':0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0}
+    ]
     for (let i = 1; i <= GetCurrentBoard.calculatedToYear; i++) {
       let landUseInCells = {}
       const keepCellData = {};
@@ -821,7 +828,6 @@ var Economics = function () {
         trackId[i] = landUseInCells
        if (getLandUSEID > 0) {
 
-
           let lud = getLandUSEID.toString();
           //console.log(lud, ':|', getLandUSEID)
           let keyObjs = Object.keys(landIDWithCostPerAcre);
@@ -833,11 +839,12 @@ var Economics = function () {
 
             totalCostsObject.totalCosts += calCost;  // gets the unit per acre cost
 
-            keepCellData[kk] = calCost;
+            this.NetRevenueForMapData[i][j] = calCost;
 
 
             this.totalWatershedCost[i][0].cost  += calCost
             this.econCostByLandUse[i][lud] += calCost
+
           }
 
           // calculate costs for land uses with costs per tonne and per head
@@ -849,13 +856,16 @@ var Economics = function () {
             calCost = GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * selectedTotalTileArea * combinedCostsHT[lud];
             totalCostsObject.totalCosts += calCost;  // gets the unit per acre cost
             this.totalWatershedCost[i][0].cost += calCost
-            keepCellData[kk] = calCost;
+            this.NetRevenueForMapData[i][j] = calCost;
 
              //console.log(lud, ':|', getLandUSEID, calCost);
             this.econCostByLandUse[i][lud] += calCost
+
           }
           // calculate costs for land uses with costs per tonne and per bushel
+
           else if (landIDWithCostPerBushel.includes(getLandUSEID)) {
+
             let formattedString =null;
             if (i > 1){ // If year has exceeded one we start tracking land uses in cell to get the rotations of soybean and corn
               //console.log(i, 'yar')
@@ -863,31 +873,37 @@ var Economics = function () {
               let previousLandUse = trackId[i-1][j];
 
               let nextLandUse = trackId[i][j];
+              console.log(nextLandUse, 'next')
               formattedString = `${previousLandUse}-${nextLandUse}`;
               if (landIDWithCostPerBushel.includes(previousLandUse) && landIDWithCostPerBushel.includes(nextLandUse)){
+
                 calCost = annualsPerBushel[formattedString] * GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * selectedTotalTileArea
                 totalCostsObject.totalCosts += calCost;
-                keepCellData[kk] = calCost;
+                this.NetRevenueForMapData[i][j] = calCost;
                 this.totalWatershedCost[i][0].cost +=calCost
                 this.econCostByLandUse[i][lud] += calCost
+                console.log(this.econCostByLandUse)
                 //console.log(calCost, this.totalWatershedCost[i][0].cost, '||')
               }else{
                 // use the current land use
                 let curLandId = nextLandUse.toString()
                 calCost = annualsPerBushel[curLandId] * GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * selectedTotalTileArea
                 totalCostsObject.totalCosts += calCost;
-                keepCellData[kk] = calCost;
+                this.econRevenueByLandUse[i][lud] += calCost;
                 this.totalWatershedCost[i][0].cost +=calCost
                 this.econCostByLandUse[i][lud] += calCost;
-                this.econValuesByCells[i][j] = calCost;
+                this.NetRevenueForMapData[i][j] = calCost;
                // console.log(calCost, this.totalWatershedCost[i][0].cost, 'nope', formattedString)
               }
 
             } else{
               calCost = annualsPerBushel[lud] * GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * selectedTotalTileArea
               totalCostsObject.totalCosts += calCost;
-              keepCellData[kk] = calCost;
+              this.NetRevenueForMapData[i][j] = calCost;
               this.totalWatershedCost[i][0].cost +=calCost;
+              this.econCostByLandUse[i][lud] += calCost;
+              // this.totalWatershedCost[i][0].cost +=calCost;
+              //this.econRevenueByLandUse[i][lud] = calCost;
               //console.log(keepCellData, '||||||||||||||||||||||')
             //  console.log(calCost, this.totalWatershedCost[i][0].cost, 'lud')
             }
@@ -899,15 +915,15 @@ var Economics = function () {
 
       }
       // this pushes for each year
-      this.NetRevenueForMapData[i] =keepCellData
-      console.log(this.NetRevenueForMapData, 'mapppppppppppppppppppppppppppppppppppppp')
       this.econCostByLandUse = convertLandUseIDsToTexts(this.econCostByLandUse);
+      console.log(this.econCostByLandUse, 'econ costs check')
       //console.log(this.econCostByLandUse, 'costs===s');
       this.totalWatershedCostArray.push(totalCostsObject);
      // console.log(this.totalWatershedCostArray, 'total cost');
 
     }
   };
+  // end calculateCostRevenue
 
   /**
    * This function is used to calculate acreage of each soil type if the land use if Cons Forest (LU_ID = 10) or Conv Forest (LU_ID =11)
@@ -1317,6 +1333,8 @@ var Economics = function () {
 }
 
 var economics = new Economics();
+//economics.econCostByLandUse = convertLandUseIDsToTexts(economics.econCostByLandUse);
+console.log(economics.econCostByLandUse)
 console.log(economics.NetRevenueForMapData, 'map_data');
 
 
