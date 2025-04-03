@@ -31,7 +31,7 @@ var Economics = function () {
   this.econCostByLandUse = [];
   this.econRevenueByLandUse = [];
   this.econValuesByCells = [];
-  this.ghgMapData;
+  this.ghgMapData = [];
 
 
 //the number of years in the cycle so that we can divide to get the yearly cost; The -1 accounts for the 'none' land use.
@@ -810,9 +810,9 @@ var Economics = function () {
     let  trackId = [];
     this.econCostByLandUse = [
         {0:0, '1':0, '2':0, '3':0, '4':0, '5':0, '6':0, '7':0, '8':0, '9':0, '10':0, '11':0, '12':0, '13':0, '14':0, '15':0},
-      {0:0, '1':0, '2':0, '3':0, '4':0, '5':0, '6':0, '7':0, '8':0, '9':0, '10':0, '11':0, '12':0, '13':0, '14':0, '15':0},
-      {0:0, '1':0, '2':0, '3':0, '4':0, '5':0, '6':0, '7':0, '8':0, '9':0, '10':0, '11':0, '12':0, '13':0, '14':0, '15':0},
-      {0:0, '1':0, '2':0, '3':0, '4':0, '5':0, '6':0, '7':0, '8':0, '9':0, '10':0, '11':0, '12':0, '13':0, '14':0, '15':0},
+        {0:0, '1':0, '2':0, '3':0, '4':0, '5':0, '6':0, '7':0, '8':0, '9':0, '10':0, '11':0, '12':0, '13':0, '14':0, '15':0},
+        {0:0, '1':0, '2':0, '3':0, '4':0, '5':0, '6':0, '7':0, '8':0, '9':0, '10':0, '11':0, '12':0, '13':0, '14':0, '15':0},
+        {0:0, '1':0, '2':0, '3':0, '4':0, '5':0, '6':0, '7':0, '8':0, '9':0, '10':0, '11':0, '12':0, '13':0, '14':0, '15':0},
     ]
     for (let i = 1; i <= GetCurrentBoard.calculatedToYear; i++) {
       let landUseInCells = {}
@@ -1025,7 +1025,7 @@ var Economics = function () {
     const CurrentBoard = boardData[currentBoard]
 
 
-    this.ghgMapData = Array(3).fill().map(() => fillCells())
+    this.ghgMapData = Array(4).fill().map(() => fillCells())
 
     let co2_emission = 0; // Zero for non emiting land uses with a positive carbon balance
     let bSOC_emissions;
@@ -1077,6 +1077,8 @@ var Economics = function () {
               //console.log('soil organic carbon', soc)
               let n20 = currentData?.TopN2O * soilArea;
               let kpi = currentData?.kpi * soilArea
+
+
               let ch4 = parseFloat(currentData?.ch4_kg_ha_yr) * soilArea;
               let Respiration = parseFloat(currentData?.Whole_repsiration) * soilArea
               // BASE DATA FOR CALCULATION SCORES IS BASED ON CONSERVATION F0RESTRY CODE 11
