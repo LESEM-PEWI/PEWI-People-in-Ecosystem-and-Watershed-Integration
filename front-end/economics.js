@@ -809,10 +809,10 @@ var Economics = function () {
     // Assuming currentBoard.calculatedToYear is a number
     let  trackId = [];
     this.econCostByLandUse = [
-        {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
-      {0:0, '1':0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
-      {0:0, '1':0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
-      {0:0, '1':0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0}
+        {0:0, '1':0, '2':0, '3':0, '4':0, '5':0, '6':0, '7':0, '8':0, '9':0, '10':0, '11':0, '12':0, '13':0, '14':0, '15':0},
+      {0:0, '1':0, '2':0, '3':0, '4':0, '5':0, '6':0, '7':0, '8':0, '9':0, '10':0, '11':0, '12':0, '13':0, '14':0, '15':0},
+      {0:0, '1':0, '2':0, '3':0, '4':0, '5':0, '6':0, '7':0, '8':0, '9':0, '10':0, '11':0, '12':0, '13':0, '14':0, '15':0},
+      {0:0, '1':0, '2':0, '3':0, '4':0, '5':0, '6':0, '7':0, '8':0, '9':0, '10':0, '11':0, '12':0, '13':0, '14':0, '15':0},
     ]
     for (let i = 1; i <= GetCurrentBoard.calculatedToYear; i++) {
       let landUseInCells = {}
@@ -882,7 +882,7 @@ var Economics = function () {
                 this.NetRevenueForMapData[i][j] = calCost;
                 this.totalWatershedCost[i][0].cost +=calCost
                 this.econCostByLandUse[i][lud] += calCost
-                console.log(this.econCostByLandUse)
+                console.log(this.econCostByLandUse, "----------------------------")
                 //console.log(calCost, this.totalWatershedCost[i][0].cost, '||')
               }else{
                 // use the current land use
@@ -1334,7 +1334,7 @@ var Economics = function () {
 
 var economics = new Economics();
 //economics.econCostByLandUse = convertLandUseIDsToTexts(economics.econCostByLandUse);
-console.log(economics.econCostByLandUse)
+console.log(economics.econCostByLandUse, 'econ costs by land use')
 console.log(economics.NetRevenueForMapData, 'map_data');
 
 // prepare the garbage collector to clear memory of some big data
