@@ -315,6 +315,7 @@ var Economics = function () {
         // this.totalWatershedRevenue[i][0].revenue += !isNaN(this.scaledRev[i][dataPoint['LU_ID']]) ? this.scaledRev[i][dataPoint['LU_ID']] : 0
       });
       this.econRevenueByLandUse = convertLandUseIDsToTexts(this.scaledRev)
+      console.log(this.scaledRev, 'scaled', this.scaledRev.length)
       console.log(this.econRevenueByLandUse, 'revenue')
       /**
        * 2020 Budget File separates out each land yield.
@@ -867,13 +868,11 @@ var Economics = function () {
           else if (landIDWithCostPerBushel.includes(getLandUSEID)) {
 
             let formattedString =null;
-            if (i > 1){ // If year has exceeded one we start tracking land uses in cell to get the rotations of soybean and corn
-              //console.log(i, 'yar')
-              // console.log(i,'y')
+            if (i > 1){ // If year has exceeded one year we start tracking land uses in cell to get the rotations of soybean and corn
               let previousLandUse = trackId[i-1][j];
 
               let nextLandUse = trackId[i][j];
-              console.log(nextLandUse, 'next')
+
               formattedString = `${previousLandUse}-${nextLandUse}`;
               if (landIDWithCostPerBushel.includes(previousLandUse) && landIDWithCostPerBushel.includes(nextLandUse)){
 
@@ -882,7 +881,7 @@ var Economics = function () {
                 this.NetRevenueForMapData[i][j] = calCost;
                 this.totalWatershedCost[i][0].cost +=calCost
                 this.econCostByLandUse[i][lud] += calCost
-                console.log(this.econCostByLandUse, "----------------------------")
+
                 //console.log(calCost, this.totalWatershedCost[i][0].cost, '||')
               }else{
                 // use the current land use
@@ -909,19 +908,18 @@ var Economics = function () {
             }
           }
 
-
-
         }
 
       }
-      // this pushes for each year
-      this.econCostByLandUse = convertLandUseIDsToTexts(this.econCostByLandUse);
-      console.log(this.econCostByLandUse, 'econ costs check')
-      //console.log(this.econCostByLandUse, 'costs===s');
-      this.totalWatershedCostArray.push(totalCostsObject);
-     // console.log(this.totalWatershedCostArray, 'total cost');
 
+      this.totalWatershedCostArray.push(totalCostsObject);
     }
+    // this pushes for each year
+    this.econCostByLandUse = convertLandUseIDsToTexts(this.econCostByLandUse);
+    console.log(this.econCostByLandUse, 'econ costs check')
+    //console.log(this.econCostByLandUse, 'costs===s');
+
+    // console.log(this.totalWatershedCostArray, 'total cost');
   };
   // end calculateCostRevenue
 

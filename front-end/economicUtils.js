@@ -286,7 +286,8 @@ for (let key in landUseHumanIDs) {
 }
 console.log(reversedLandUseHumanIDs)
 
-let convertLandUseIDsToTexts = (listOfObjectKeys) => {
+let  convertLandUseIDsToTexts = (listOfObjectKeys) => {
+
     // Create an array to hold the converted objects
     let convertedObjects = [];
 
@@ -294,7 +295,6 @@ let convertLandUseIDsToTexts = (listOfObjectKeys) => {
     listOfObjectKeys.forEach(obj => {
         // Create a new object to hold the converted key-value pairs
         let newObj = {};
-
         // Iterate over each key in the object
         Object.keys(obj).forEach(key => {
             // Replace the numeric key with its corresponding text from landUseHumanIDs
