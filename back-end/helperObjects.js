@@ -4013,6 +4013,7 @@ function Tile(tileArray, board) {
   this.nitratesPPM = tileArray[13];
   this.pIndex = tileArray[14];
   this.sediment = tileArray[15];
+
   this.soilType = tileArray[16];
   this.soybeanYield = tileArray[17];
   this.streamNetwork = tileArray[18];
