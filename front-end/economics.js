@@ -1319,7 +1319,6 @@ var Economics = function () {
 var economics = new Economics();
 console.log(economics.NetRevenueForMapData, 'map_data');
 
-
 // prepare the garbage collector to clear memory of some big data
 //economics.loadedGHGData = null;
 

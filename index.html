@@ -411,7 +411,7 @@
     </div>
     <!-- "Holiday, ocean, river, sea, summer, water, wave, ..." by Olya Philipenko (https://www.iconfinder.com/hk12215) with free commercial / Inverted and resized -->
     <div id="featuresButton" class="consoleButton" onclick="switchConsoleTab(4);">
-      <img id="featuresImg" class="imgNotSelected" src="./imgs/featuresIcon.png" width="40px" height="20px" onmouseover="toggleTabTitle('featuresTabTitle', 0);" onmouseout="toggleTabTitle('featuresTabTitle', 1);">
+      <img id="featuresImg" class="imgNotSelected" src="./imgs/featuresIcon.png" onmouseover="toggleTabTitle('featuresTabTitle', 0);" onmouseout="toggleTabTitle('featuresTabTitle', 1);">
       <div id="featuresTabTitle" style="display:none;"></div>
     </div>
 
@@ -649,6 +649,10 @@
           <input type="number" id="carbonPrices" name="carbonPrices" value="40.82">
         </div>
         <div>
+          <label for="nitrogenPrices">Nitrogen Prices:</label>
+          <input type="number" id="nitrogenPrices" name="nitrogenPrices">
+        </div>
+        <div>
           <button id="submitInflationButton" type="button" onclick="refreshEconTotals(currentYear);">Submit</button>
         </div>
       </form>
@@ -853,7 +857,7 @@
 
     <div id="nitratetileDetailsList" class="DetailsListRolled levelDetailsList">
       <center>
-        <h1 class="DetailsList-title">Cell Nitrate Score</h1></center>
+        <h1 class="DetailsList-title">Grid Cell Nitrate Score</h1></center>
       <div class="legendColor" style="background-color: #871c12;">
         <p class="levelsTextDetails">Very High Impact</p>
       </div>
@@ -897,6 +901,11 @@
           <img id="phoshorusIcon" class="levelsSelectorIcon icon" src="./imgs/P.png" onclick="displayLevels('phosphorus');" onmouseover="toggleTabTitleHovers('tooltip-phosphorusIndex');" onmouseout="toggleTabTitleHovers('tooltip-phosphorusIndex');">
           <span id="tooltip-phosphorusIndex" class="tooltiptext tooltipResultsMapTab">Phosphorus Index Risk Assessment</span>
         </div>
+
+        <div class="tooltip">
+          <img id="ghgIcon" class="levelsSelectorIcon icon" src="./imgs/ghg.png" onclick="displayLevels('ghgTile');" onmouseover="toggleTabTitleHovers('tooltip-ghg');" onmouseout="toggleTabTitleHovers('tooltip-ghg');">
+          <span id="tooltip-ghg" class="tooltiptext tooltipResultsMapTab">Green House Gasses</span>
+        </div>
       </div>
 
 
@@ -913,14 +922,17 @@
         </div>
         <div class="tooltip">
           <img id="nitratetileIcon" class="levelsSelectorIcon icon" src="./imgs/N.png" onclick="displayLevels('nitratetile');" onmouseover="toggleTabTitleHovers('tooltip-cellNitrate');" onmouseout="toggleTabTitleHovers('tooltip-cellNitrate');">
-          <span id="tooltip-cellNitrate" class="tooltiptext tooltipResultsMapTab">Cell Nitrate</span>
+          <span id="tooltip-cellNitrate" class="tooltiptext tooltipResultsMapTab">Grid Cell Nitrate</span>
         </div>
         <!--"S.png icon created by Sam Kerr"-->
         <div class="tooltip">
           <img id="sedimentIcon" class="levelsSelectorIcon icon" src="./imgs/S.png" onclick="displayLevels('sediment');" onmouseover="toggleTabTitleHovers('tooltip-sedimentRunoff');" onmouseout="toggleTabTitleHovers('tooltip-sedimentRunoff');">
           <span id="tooltip-sedimentRunoff" class="tooltiptext tooltipResultsMapTab">Sediment Runoff</span>
         </div>
-
+        <div class="tooltip">
+          <img id="revenueIcon" class="levelsSelectorIcon icon" src="./imgs/nr.png" onclick="displayLevels('revenueTile');" onmouseover="toggleTabTitleHovers('tooltip-revenue');" onmouseout="toggleTabTitleHovers('tooltip-revenue');">
+          <span id="tooltip-revenue" class="tooltiptext tooltipResultsMapTab">Net Revenue</span>
+        </div>
       </div>
 
 
