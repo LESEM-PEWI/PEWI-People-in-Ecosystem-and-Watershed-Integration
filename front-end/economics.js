@@ -888,7 +888,7 @@ var Economics = function () {
                 let curLandId = nextLandUse.toString()
                 calCost = annualsPerBushel[curLandId] * GetCurrentBoard.map[j].results[i]['calculatedYieldTile'] * selectedTotalTileArea
                 totalCostsObject.totalCosts += calCost;
-                this.econRevenueByLandUse[i][lud] += calCost;
+                //this.econRevenueByLandUse[i][lud] += calCost;
                 this.totalWatershedCost[i][0].cost +=calCost
                 this.econCostByLandUse[i][lud] += calCost;
                 this.NetRevenueForMapData[i][j] = calCost;
@@ -902,7 +902,7 @@ var Economics = function () {
               this.totalWatershedCost[i][0].cost +=calCost;
               this.econCostByLandUse[i][lud] += calCost;
               // this.totalWatershedCost[i][0].cost +=calCost;
-              //this.econRevenueByLandUse[i][lud] = calCost;
+             // this.econRevenueByLandUse[i][lud] = calCost;
               //console.log(keepCellData, '||||||||||||||||||||||')
             //  console.log(calCost, this.totalWatershedCost[i][0].cost, 'lud')
             }
@@ -917,6 +917,7 @@ var Economics = function () {
     // this pushes for each year
     this.econCostByLandUse = convertLandUseIDsToTexts(this.econCostByLandUse);
     console.log(this.econCostByLandUse, 'econ costs check')
+    console.log(this.econRevenueByLandUse, 'revenue__')
     //console.log(this.econCostByLandUse, 'costs===s');
 
     // console.log(this.totalWatershedCostArray, 'total cost');

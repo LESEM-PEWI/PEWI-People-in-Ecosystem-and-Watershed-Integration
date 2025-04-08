@@ -286,33 +286,21 @@ for (let key in landUseHumanIDs) {
 }
 console.log(reversedLandUseHumanIDs)
 
-let  convertLandUseIDsToTexts = (listOfObjectKeys) => {
+const convertLandUseIDsToTexts = (listOfObjectKeys) => {
+    return listOfObjectKeys.map((obj, index) => {
+        let converted = {};
 
-    // Create an array to hold the converted objects
-    let convertedObjects = [];
-
-    // Iterate over each object in the input array
-    listOfObjectKeys.forEach(obj => {
-        // Create a new object to hold the converted key-value pairs
-        let newObj = {};
-        // Iterate over each key in the object
-        Object.keys(obj).forEach(key => {
-            // Replace the numeric key with its corresponding text from landUseHumanIDs
-            let textKey = landUseHumanIDs[key]; // Convert key to integer if necessary using Number(key)
+        for (const key in obj) {
+            const textKey = landUseHumanIDs[key];
             if (textKey) {
-                newObj[textKey] = obj[key];
+                converted[textKey] = obj[key];
             } else {
-                // Handle cases where the key is not found in the landUseHumanIDs
                 console.error(`Key ${key} not found in landUseHumanIDs`);
             }
-        });
+        }
 
-        // Add the newly created object to the convertedObjects array
-        convertedObjects.push(newObj);
+        return converted; // index is preserved automatically by `map`
     });
-
-    // Return the array of conerted objects
-    return convertedObjects;
 };
 
 
