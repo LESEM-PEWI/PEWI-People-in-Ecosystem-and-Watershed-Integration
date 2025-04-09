@@ -295,7 +295,7 @@ function displayResults() {
   //Create results table and append it to the proper tab of the results frame
   var numericalTableString = generateResultsTable();
 
-  generateEconomicsTables();
+  generateEconomicsTables();//TODO we no longer have econ tables, perhaps modify this function to display what we discussed
 
 
   document.getElementById('resultsFrame').contentWindow.document.getElementById('contentsN').innerHTML = numericalTableString;
@@ -324,7 +324,7 @@ function displayResults() {
 
   // economicsGraphic1 = new EconomicsGraphic1();
   // economicsGraphic1.render();
-  horizontalBarGraph();
+  horizontalBarGraph(); // TODO // This should have currentYear and also connected to the tab selecting the year
   // economicsGraphic3 = new EconomicsGraphic3();
   // economicsGraphic3.render();
   // econGraphic4 = EconomicsGraphic4().getInstance().render();
@@ -776,7 +776,7 @@ function drawD3LandPieChart(year, isTheChartInCategoryMode) {
 } //end drawD3LandPieChart()
 
 function drawD3EconPieChart(year, isTheChartInCategoryMode) {
-
+// TODO remove isTheChartInCategoryMode, if  not so explain why
   // RESETTING THE TEMPORARY COLOR AND LEGEND ELEMENT nameArray
   tempLegendItems = [];
   tempLegendColors = [];
@@ -795,12 +795,12 @@ function drawD3EconPieChart(year, isTheChartInCategoryMode) {
   let data = economics.data;
   var totalCost = getTotalCost(economics.mapData, year);
   var dataset = []
-  Object.keys(economics.econCostByLandUse[1]).forEach((keys)=>{
+  Object.keys(economics.econCostByLandUse[year]).forEach((keys)=>{
     if (keys != "none") {
       d = {}
       d.label = keys
-      d.count = economics.econCostByLandUse[1][keys].toFixed(2);
-      d.number = (economics.econCostByLandUse[1][keys].toFixed(2))/totalCost;
+      d.count = economics.econCostByLandUse[year][keys].toFixed(2);
+      d.number = (economics.econCostByLandUse[year][keys].toFixed(2))/totalCost;
       dataset.push(d);
     }
   })
@@ -1067,12 +1067,12 @@ function drawD3EconRevPieChart(year, isTheChartInCategoryMode) {
     totalRev += value;
   })
   var dataset = []
-  Object.keys(economics.econRevenueByLandUse[0]).forEach((keys)=>{
+  Object.keys(economics.econRevenueByLandUse[year]).forEach((keys)=>{
     if (keys != "none") {
       d = {}
       d.label = keys
-      d.count = economics.econRevenueByLandUse[0][keys].toFixed(2);
-      d.number = (economics.econRevenueByLandUse[0][keys].toFixed(2))/totalRev;
+      d.count = economics.econRevenueByLandUse[year][keys].toFixed(2);
+      d.number = (economics.econRevenueByLandUse[year][keys].toFixed(2))/totalRev;
       dataset.push(d);
     }
   })
@@ -1341,12 +1341,12 @@ function drawD3EconProfitPieChart(year, isTheChartInCategoryMode) {
     totalRev += value;
   })
   var dataset = []
-  Object.keys(economics.econRevenueByLandUse[0]).forEach((keys)=>{
+  Object.keys(economics.econRevenueByLandUse[year]).forEach((keys)=>{
     if (keys != "none") {
       d = {}
       d.label = keys
-      d.count = economics.econRevenueByLandUse[0][keys].toFixed(2);
-      d.number = (economics.econRevenueByLandUse[0][keys].toFixed(2))/totalRev;
+      d.count = economics.econRevenueByLandUse[year][keys].toFixed(2);
+      d.number = (economics.econRevenueByLandUse[year][keys].toFixed(2))/totalRev;
       dataset.push(d);
     }
   })
@@ -6186,8 +6186,9 @@ function EconomicsGraphic1() {
 }
 
 function horizontalBarGraph(){
+  //TODO plot this in per year model. Either pass a year or run it in a loop with iterators as the length of the year
   const Cost = economics.econCostByLandUse[1];
-  const Revenue = economics.econRevenueByLandUse[0];
+  const Revenue = economics.econRevenueByLandUse[1]; // TODO instead of subseting by 1 replace with currentYear and connect it to the year selection tab
   console.log("econRevmeue",economics.econRevenueByLandUse)
   console.log("econcost",economics.econCostByLandUse)
   var horizontalBarGraphSvg = document.getElementById('resultsFrame').contentWindow.document.getElementById('horizontalBarGraphsvg');

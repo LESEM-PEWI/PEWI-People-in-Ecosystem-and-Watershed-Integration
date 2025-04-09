@@ -284,7 +284,7 @@ let reversedLandUseHumanIDs = {};
 for (let key in landUseHumanIDs) {
     reversedLandUseHumanIDs[landUseHumanIDs[key]] = 0;
 }
-console.log(reversedLandUseHumanIDs)
+
 
 const convertLandUseIDsToTexts = (listOfObjectKeys) => {
     return listOfObjectKeys.map((obj, index) => {
@@ -303,9 +303,9 @@ const convertLandUseIDsToTexts = (listOfObjectKeys) => {
     });
 };
 
-
+//
 let converted = convertLandUseIDsToTexts(econCostByLandUse);
-console.log(converted);
+console.log(econCostByLandUse, 'converted');
 
 
 // start of fillCells
