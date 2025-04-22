@@ -308,7 +308,9 @@ function displayResults() {
 
   drawD3EconRevPieChart(currentYear, false);
 
-  drawD3EconProfitPieChart(currentYear, false); 
+  drawD3EconProfitPieChart(currentYear, false);
+
+  generateCostRevProfitTable(currentYear, false);
 
   //create econ Pie Chart
   drawD3EconPieChart(currentYear, false);
@@ -847,10 +849,9 @@ function drawD3EconPieChart(year, isTheChartInCategoryMode) {
       // .attr('width', width + legendW) //leave room for legend so add 280
       // .attr('height', height)
       .attr('width', pieChart_length + legendW) //leave room for legend so add 280
-      .attr('height', pieChart_length)
+      .attr('height', pieChart_length + 100)
       .append('g')
       .attr('transform', 'translate(' + (pieChart_length / 2) + ',' + (pieChart_length / 2) + ')');
-
   var arc = d3.arc()
       .outerRadius(radius)
       .innerRadius(radius * 0.55)
@@ -986,11 +987,9 @@ function drawD3EconPieChart(year, isTheChartInCategoryMode) {
         mouseoverInfo.style('display', 'none');
       })
       .attr('transform', function(d, i) {
-        var height = legendRectSize + legendSpacing;
-        var offset = height * nameArray.length / 2;
-        var horz = pieChart_length / 2 + 20;
-        var vert = i * height - offset;
-        // var horz = width / 2 + 20;
+        var legendItemHeight = legendRectSize + legendSpacing;
+        var horz = 0; // keep horizontally aligned
+        var vert = radius + 30 + i * legendItemHeight;
         return 'translate(' + horz + ',' + vert + ')';
       });
 
@@ -1119,7 +1118,7 @@ function drawD3EconRevPieChart(year, isTheChartInCategoryMode) {
       // .attr('width', width + legendW) //leave room for legend so add 280
       // .attr('height', height)
       .attr('width', pieChart_length + legendW) //leave room for legend so add 280
-      .attr('height', pieChart_length)
+      .attr('height', pieChart_length + 100)
       .append('g')
       .attr('transform', 'translate(' + (pieChart_length / 2) + ',' + (pieChart_length / 2) + ')');
 
@@ -1258,13 +1257,14 @@ function drawD3EconRevPieChart(year, isTheChartInCategoryMode) {
         mouseoverInfo.style('display', 'none');
       })
       .attr('transform', function(d, i) {
-        var height = legendRectSize + legendSpacing;
-        var offset = height * nameArray.length / 2;
-        var horz = pieChart_length / 2 + 20;
-        var vert = i * height - offset;
-        // var horz = width / 2 + 20;
+        var legendItemHeight = legendRectSize + legendSpacing;
+        var horz = 0; // keep horizontally aligned
+        var vert = radius + 30 + i * legendItemHeight;
         return 'translate(' + horz + ',' + vert + ')';
       });
+
+
+
 
   //add legend color squares
   legend.append('rect')
@@ -1345,8 +1345,14 @@ function drawD3EconProfitPieChart(year, isTheChartInCategoryMode) {
     if (keys != "none") {
       d = {}
       d.label = keys
-      d.count = economics.econRevenueByLandUse[0][keys].toFixed(2);
-      d.number = (economics.econRevenueByLandUse[0][keys].toFixed(2))/totalRev;
+      console.log("Label:", keys,
+          "Revenue:", economics.econRevenueByLandUse[0][keys],
+          "Cost:", economics.econCostByLandUse[1][keys]
+      );
+      console.log("econCostByLandUse:", economics.econCostByLandUse);
+
+      d.count = (economics.econRevenueByLandUse[0][keys] - economics.econCostByLandUse[1][keys]).toFixed(2);
+      d.number = (d.count/totalRev);
       dataset.push(d);
     }
   })
@@ -1392,9 +1398,10 @@ function drawD3EconProfitPieChart(year, isTheChartInCategoryMode) {
       // .attr('width', width + legendW) //leave room for legend so add 280
       // .attr('height', height)
       .attr('width', pieChart_length + legendW) //leave room for legend so add 280
-      .attr('height', pieChart_length)
+      .attr('height', pieChart_length + 100)
       .append('g')
       .attr('transform', 'translate(' + (pieChart_length / 2) + ',' + (pieChart_length / 2) + ')');
+
 
   var arc = d3.arc()
       .outerRadius(radius)
@@ -1530,13 +1537,12 @@ function drawD3EconProfitPieChart(year, isTheChartInCategoryMode) {
         mouseoverInfo.style('display', 'none');
       })
       .attr('transform', function(d, i) {
-        var height = legendRectSize + legendSpacing;
-        var offset = height * nameArray.length / 2;
-        var horz = pieChart_length / 2 + 20;
-        var vert = i * height - offset;
-        // var horz = width / 2 + 20;
+        var legendItemHeight = legendRectSize + legendSpacing;
+        var horz = 0; // keep horizontally aligned
+        var vert = radius + 30 + i * legendItemHeight;
         return 'translate(' + horz + ',' + vert + ')';
       });
+
 
   //add legend color squares
   legend.append('rect')
@@ -1587,10 +1593,33 @@ function drawD3EconProfitPieChart(year, isTheChartInCategoryMode) {
   }
 
 //  console.log(dataset[0].count);
-
   multiplayerResults();
 } //end drawD3EconProfitPieChart()
 
+// Function for generating table in Economics Graphics
+function generateCostRevProfitTable(){
+  const tbody = document.getElementById('resultsFrame').contentWindow.document.querySelector("#costRevenueProfitTable tbody");
+  tbody.innerHTML = "";
+
+  const cost = economics.econCostByLandUse[1];
+  const revenue = economics.econRevenueByLandUse[0];
+
+  for (const key in cost) {
+    if (key != "none") {
+      const costValue = cost[key] || 0;
+      const revenueValue = revenue[key] || 0;
+      const profit = revenueValue - costValue;
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${key}</td>
+        <td>${costValue.toFixed(2)}</td>
+        <td>${revenueValue.toFixed(2)}</td>
+        <td>${profit.toFixed(2)}</td>
+      `;
+      tbody.appendChild(row);
+    }
+  }
+}
 
 function getTotalCost(data, givenYear) {
   var cost = 0;
@@ -6193,7 +6222,7 @@ function horizontalBarGraph(){
   var horizontalBarGraphSvg = document.getElementById('resultsFrame').contentWindow.document.getElementById('horizontalBarGraphsvg');
   horizontalBarGraphSvg.innerHTML = "";
 
-  var margin = { top: 40, right: 20, bottom: 50, left: 120 };
+  var margin = { top: 40, right: 100, bottom: 50, left: 180 };
   var screenWidth = window.innerWidth;
   var width = screenWidth * 0.8 - margin.left - margin.right;
   var height = screenWidth * 0.4 - margin.top - margin.bottom;
@@ -6235,7 +6264,12 @@ function horizontalBarGraph(){
       .style("font-weight", "bold")
       .text("Cost and Revenue ($)");
 
-  svg.append("g").call(d3.axisLeft(yScale));
+  svg.append("g")
+      .call(d3.axisLeft(yScale))
+      .selectAll("text")
+      .style("font-size", "13.208px")
+
+
 
   // Bar Groups
   var barGroups = svg.selectAll(".bar-group")
@@ -6267,7 +6301,8 @@ function horizontalBarGraph(){
       .attr("dy", ".35em")
       .attr("fill", "black")
       .style("font-size", "12px")
-      .text(d => d.cost.toFixed(2));
+      .text(d => d3.format(",.2f")(d.cost));
+
 
 // Revenue Value Labels
   barGroups.append("text")
@@ -6276,7 +6311,8 @@ function horizontalBarGraph(){
       .attr("dy", ".35em")
       .attr("fill", "black")
       .style("font-size", "12px")
-      .text(d => d.revenue.toFixed(2));
+      .text(d => d3.format(",.2f")(d.revenue));
+
 
 
   // Select the tooltip div

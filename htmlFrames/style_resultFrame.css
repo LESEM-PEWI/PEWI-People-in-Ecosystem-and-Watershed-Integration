@@ -926,3 +926,28 @@ ul table{
  #accordionContainer2 {
   width: 600px;
 }
+
+#costRevenueProfitTable {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  font-size: 16px;
+  table {
+    width: 90%;
+    margin: auto;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  th, td {
+    padding: 10px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  th {
+    background-color: #4CAF50;
+    color: white;
+  }
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+}
