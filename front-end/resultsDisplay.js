@@ -326,7 +326,7 @@ function displayResults() {
 
   // economicsGraphic1 = new EconomicsGraphic1();
   // economicsGraphic1.render();
-  horizontalBarGraph(); // TODO // This should have currentYear and also connected to the tab selecting the year
+  horizontalBarGraph(currentYear);
   // economicsGraphic3 = new EconomicsGraphic3();
   // economicsGraphic3.render();
   // econGraphic4 = EconomicsGraphic4().getInstance().render();
@@ -777,7 +777,7 @@ function drawD3LandPieChart(year, isTheChartInCategoryMode) {
   multiplayerResults();
 } //end drawD3LandPieChart()
 
-function drawD3EconPieChart(year, isTheChartInCategoryMode) {
+function drawD3EconPieChart(year) {
 // TODO remove isTheChartInCategoryMode, if  not so explain why
   // RESETTING THE TEMPORARY COLOR AND LEGEND ELEMENT nameArray
   tempLegendItems = [];
@@ -988,8 +988,9 @@ function drawD3EconPieChart(year, isTheChartInCategoryMode) {
       })
       .attr('transform', function(d, i) {
         var legendItemHeight = legendRectSize + legendSpacing;
-        var horz = 0; // keep horizontally aligned
-        var vert = radius + 30 + i * legendItemHeight;
+        var horz = radius + 30; // push to right
+        var offset = (legendItemHeight * nameArray.length) / 2;
+        var vert = i * legendItemHeight - offset; // center-align vertically
         return 'translate(' + horz + ',' + vert + ')';
       });
 
@@ -1258,14 +1259,11 @@ function drawD3EconRevPieChart(year, isTheChartInCategoryMode) {
       })
       .attr('transform', function(d, i) {
         var legendItemHeight = legendRectSize + legendSpacing;
-        var horz = 0; // keep horizontally aligned
-        var vert = radius + 30 + i * legendItemHeight;
+        var horz = radius + 30; // push to right
+        var offset = (legendItemHeight * nameArray.length) / 2;
+        var vert = i * legendItemHeight - offset; // center-align vertically
         return 'translate(' + horz + ',' + vert + ')';
       });
-
-
-
-
   //add legend color squares
   legend.append('rect')
       .attr('width', legendRectSize)
@@ -1532,8 +1530,9 @@ function drawD3EconProfitPieChart(year, isTheChartInCategoryMode) {
       })
       .attr('transform', function(d, i) {
         var legendItemHeight = legendRectSize + legendSpacing;
-        var horz = 0; // keep horizontally aligned
-        var vert = radius + 30 + i * legendItemHeight;
+        var horz = radius + 30; // push to right
+        var offset = (legendItemHeight * nameArray.length) / 2;
+        var vert = i * legendItemHeight - offset; // center-align vertically
         return 'translate(' + horz + ',' + vert + ')';
       });
 
@@ -1618,7 +1617,7 @@ function generateCostRevProfitTable(year, isTheChartInCategoryMode){
 function getTotalCost(data, givenYear) {
   var cost = 0;
 
-  for(let i = 0; i < data[givenYear].length; ++i){
+  for(let i = 0; i < data[givenYear]?.length; ++i){
     cost += data[givenYear][i].EAA;
   }
   return cost;
@@ -6208,12 +6207,12 @@ function EconomicsGraphic1() {
   }
 }
 
-function horizontalBarGraph(){
+function horizontalBarGraph(year){
   //TODO plot this in per year model. Either pass a year or run it in a loop with iterators as the length of the year
-  const Cost = economics.econCostByLandUse[1];
-  const Revenue = economics.econRevenueByLandUse[1]; // TODO instead of subseting by 1 replace with currentYear and connect it to the year selection tab
-  console.log("econRevmeue",economics.econRevenueByLandUse)
-  console.log("econcost",economics.econCostByLandUse)
+  const Cost = economics.econCostByLandUse[year];
+  const Revenue = economics.econRevenueByLandUse[year]; // TODO instead of subseting by 1 replace with currentYear and connect it to the year selection tab
+  console.log("econRevenue",economics.econRevenueByLandUse)
+  console.log("econCost",economics.econCostByLandUse)
   var horizontalBarGraphSvg = document.getElementById('resultsFrame').contentWindow.document.getElementById('horizontalBarGraphsvg');
   horizontalBarGraphSvg.innerHTML = "";
 
@@ -6321,7 +6320,7 @@ function horizontalBarGraph(){
   var keys = ["Cost", "Revenue"];
 
   legend = svg.append("g")
-        .attr("transform", "translate(900,-40)")
+        .attr("transform", `translate(${width},-40)`)
         .attr("text-anchor", "end")
         .attr("font-family", "sans-serif")
         .attr("font-size", 15)

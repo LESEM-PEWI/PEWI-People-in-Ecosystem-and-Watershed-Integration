@@ -2168,9 +2168,9 @@ function Printer() {
         // draws only the years selected
         if ((i == 1 && toPrint.year1 == true) || (i == 2 && toPrint.year2 == true) || (i == 3 && toPrint.year3 == true)) {
           drawD3LandPieChart(i, mode); //draw the pie chart
-
-          // get the html content of svg
+          
           var svg = RESULTS_HTML.document.getElementById('pieSVG');
+          // get the html content of svg
           var svgStringData = $(svg).html(); // will convert data of SVGSVGElement Object to string
           svgStringData = "<svg>" + svgStringData + "</svg>";
 
