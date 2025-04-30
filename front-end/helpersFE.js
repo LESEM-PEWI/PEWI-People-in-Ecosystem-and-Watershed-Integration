@@ -1975,6 +1975,7 @@ function displayLevels(overlayHighlightType) {
       if (curTracking) {
         pushClick(0, getStamp(), 46, 0, null);
       }
+      break;
     case 'nitrate':
       selectionHighlightNumber = 1;
       updateGlossaryPopup('To learn more about <span style="color:orange;">Nitrate</span>, go to the <span style="color:yellow;">Glossary</span>, select "Modules" and then <span style="color:yellow;">"Water Quality"</span>.');
@@ -2374,6 +2375,14 @@ function redrawOverlay(highlightType){
         pushClick(0, getStamp(), 82, 0, null);
       }
       break;
+
+    case 'ghg':
+      selectionHighlightNumber = 24;
+      updateGlossaryPopup('This map shows the <span style="color:orange;">greenhouse gas emissions</span> for each grid cell. To learn more, go to the <span style="color:yellow;">Glossary</span> and select <span style="color:yellow;">"Greenhouse Gases"</span>.');
+      if (curTracking) {
+        pushClick(0, getStamp(), 146, 0, null); // Use a unique ID
+      }
+      break;
   }
 
 
@@ -2668,9 +2677,6 @@ function getGridOutline(startTile, endTile) {
 
   return tileArray;
 }
-
-
-
 //getHighlightColor determines the gradient of highlighting color for each tile dependent on type of map selected
 function getHighlightColor(highlightType, tileId) {
 
@@ -2678,6 +2684,21 @@ function getHighlightColor(highlightType, tileId) {
   if (highlightType == "erosion") {
     //subtract 1, as arrays index from 0
     return (Totals.grossErosionSeverity[currentYear][tileId] + 35);
+  }
+  // ghg highlight color indicies
+  else if (highlightType == "ghg") {
+    var ghgEmissions = economics.ghgMapData[yearSelected][tileId];
+    if (typeof ghgEmissions === "undefined" || isNaN(ghgEmissions)) {
+      return 0;  // fallback
+    }
+
+    ghgEmissions = ghgEmissions / 10000; // normalize
+
+    if (ghgEmissions >= 0 && ghgEmissions <= 2) return 135;
+    else if (ghgEmissions > 2 && ghgEmissions <= 4) return 136;
+    else if (ghgEmissions > 4 && ghgEmissions <= 6) return 137;
+    else if (ghgEmissions > 6 && ghgEmissions <= 8) return 138;
+    else if (ghgEmissions > 8) return 139;
   }
   //nitrite highlight color indicies
   else if (highlightType == "nitrate") {
@@ -5550,11 +5571,15 @@ function showLevelDetails(value) {
       document.getElementById('nitratetileIcon').className = "levelsSelectorIcon iconSelected";
       document.getElementById("nitratetileDetailsList").className = "DetailsList levelDetailsList";
       break;
+    case 24:
+      document.getElementById('ghgIcon').className = "levelsSelectorIcon iconSelected";
+      document.getElementById("ghgDetailsList").className = "DetailsList levelDetailsList";
+      break;
   } // END switch
 
 
   //hide ecosystem indicator legends
-  if ((value > -4 && value < 0) || (value<=-19 && value>=-23)) {
+  if ((value > -4 && value < 0) || (value<=-19 && value>=-24)) {
     globalLegend = false;
     var element = document.getElementsByClassName('DetailsList');
     if (element.length > 0) {
