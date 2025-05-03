@@ -347,7 +347,7 @@ tr:hover {
 
 #contentsG {
   height: 100%;
-  left: 25%;
+  left: 20%;
   position: absolute;
   /*width: 800px;*/
   -webkit-touch-callout: none;
@@ -365,6 +365,32 @@ tr:hover {
                               not supported by any browser */
 }
 
+#economics{
+  .container {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px;
+    padding: 20px;
+    align-items: center;
+  }
+  .charts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 80px; /* Adjust space between rows */
+  }
+  .chart-item {
+    display: flex;
+    flex-direction: column;
+  }
+  .rightE {
+    width: 100%;
+    height: 300px; /* Adjust height as needed */
+  }
+  #landUseTitleEconCost, #landUseTitleEconRev, #landUseTitleEconProfit {
+    text-align: center;
+    font-weight: bold;
+  }
+}
 
 #econ {
   height: 100%;
@@ -925,4 +951,30 @@ ul table{
 
  #accordionContainer2 {
   width: 600px;
+}
+
+#costRevenueProfitTable {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  font-size: 16px;
+  margin: 50px 0px;
+  table {
+    width: 90%;
+    margin: auto;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  th, td {
+    padding: 10px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  th {
+    background-color: #4CAF50;
+    color: white;
+  }
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
 }

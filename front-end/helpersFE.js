@@ -1975,6 +1975,7 @@ function displayLevels(overlayHighlightType) {
       if (curTracking) {
         pushClick(0, getStamp(), 46, 0, null);
       }
+      break;
     case 'nitrate':
       selectionHighlightNumber = 1;
       updateGlossaryPopup('To learn more about <span style="color:orange;">Nitrate</span>, go to the <span style="color:yellow;">Glossary</span>, select "Modules" and then <span style="color:yellow;">"Water Quality"</span>.');
@@ -2374,6 +2375,14 @@ function redrawOverlay(highlightType){
         pushClick(0, getStamp(), 82, 0, null);
       }
       break;
+
+    case 'ghg':
+      selectionHighlightNumber = 24;
+      updateGlossaryPopup('This map shows the <span style="color:orange;">greenhouse gas emissions</span> for each grid cell. To learn more, go to the <span style="color:yellow;">Glossary</span> and select <span style="color:yellow;">"Greenhouse Gases"</span>.');
+      if (curTracking) {
+        pushClick(0, getStamp(), 146, 0, null); // Use a unique ID
+      }
+      break;
   }
 
 
@@ -2668,9 +2677,34 @@ function getGridOutline(startTile, endTile) {
 
   return tileArray;
 }
+//function to find the individual ghg data using economics file (directly pulls per-tile GHG data from loadedGHGData)
+function getGHGForTile(year, tileId) {
+  const cell = boardData[currentBoard].map[tileId];
+  if (!cell) return null;
 
+  const landUseCode = cell.landType[year];
+  const soilType = cell.soilType;
+  const precipitation = boardData[currentBoard].precipitation[year].toString();
 
+  // Now find the matching row in loadedGHGData
+  const match = economics.loadedGHGData.find(row =>
+      row.land_use_code === landUseCode.toString() &&
+      row.soil_type === soilType &&
+      row.precipitation_level === precipitation
+  );
 
+  if (!match) {
+    // console.warn(GHG data not found for Tile ${tileId}, LU=${landUseCode}, Soil=${soilType}, Precip=${precipitation});
+    return null;
+  }
+
+  return {
+    ch4: parseFloat(match['ch4_kg_ha_yr']) || 0,
+    n2o: parseFloat(match['TopN2O']) || 0,
+    co2: 0, // Calculated from SOC if negative
+    soc: parseFloat(match['to_carb']) || 0
+  };
+}
 //getHighlightColor determines the gradient of highlighting color for each tile dependent on type of map selected
 function getHighlightColor(highlightType, tileId) {
 
@@ -2678,6 +2712,34 @@ function getHighlightColor(highlightType, tileId) {
   if (highlightType == "erosion") {
     //subtract 1, as arrays index from 0
     return (Totals.grossErosionSeverity[currentYear][tileId] + 35);
+  }
+  // ghg highlight color indicies
+  else if (highlightType == "ghg") {
+    const ghg = getGHGForTile(yearSelected, tileId);
+    if (!ghg) return 0;
+
+    let ch4 = ghg.ch4;
+    let n2o = ghg.n2o;
+    let soc = ghg.soc;
+    let co2 = 0;
+
+    // If SOC is negative, treat it as CO2 emission
+    if (soc < 0) {
+      co2 = Math.abs(soc);
+      soc = 0;
+    }
+
+    let totalGHG = (ch4 * 25) + (n2o * 298) + co2 + soc;
+    totalGHG = totalGHG / 1000;
+
+    // console.log(Tile ${tileId} Total GHG(normalized): ${totalGHG.toFixed(2)});
+
+    if (totalGHG >= 0 && totalGHG <= 0.1) return 135;         // Very Low
+    else if (totalGHG > 0.1 && totalGHG <= 0.2) return 136;   // Low
+    else if (totalGHG > 0.2 && totalGHG <= 0.3) return 137;   // Moderate
+    else if (totalGHG > 0.3 && totalGHG <= 0.4) return 138;   // High
+    else if (totalGHG > 0.4) return 139;                      // Very High
+
   }
   //nitrite highlight color indicies
   else if (highlightType == "nitrate") {
@@ -5555,11 +5617,15 @@ function showLevelDetails(value) {
       document.getElementById('nitratetileIcon').className = "levelsSelectorIcon iconSelected";
       document.getElementById("nitratetileDetailsList").className = "DetailsList levelDetailsList";
       break;
+    case 24:
+      document.getElementById('ghgIcon').className = "levelsSelectorIcon iconSelected";
+      document.getElementById("ghgDetailsList").className = "DetailsList levelDetailsList";
+      break;
   } // END switch
 
 
   //hide ecosystem indicator legends
-  if ((value > -4 && value < 0) || (value<=-19 && value>=-23)) {
+  if ((value > -4 && value < 0) || (value<=-19 && value>=-24)) {
     globalLegend = false;
     var element = document.getElementsByClassName('DetailsList');
     if (element.length > 0) {

@@ -628,41 +628,45 @@ Cleaned and Prepared - August 2016
     </div>
 
     <div style="display:none;" id="economics">
-      <div style="display: flex;justify-content: space-between;margin: 30px 0px;padding: 20px;align-items: center;">
-        <div>
+      <div class="container">
+        <div class="year-section">
           <div id="yearTextEcon">Year</div>
           <div id="yearArrowsEcon">
             <div id="yearUpEcon" onclick="changeEconPieBy(1);" class="upArrowEcon"></div>
             <div id="yearDownEcon" onclick="changeEconPieBy(-1);" class="downArrowEcon"></div>
           </div>
         </div>
-        <div>
-          <div id="landUseTitleEconRev">Revenue by Land-Use</div>
-          <div class="rightE" id="econRevPieChart"></div>
-        </div>
-        <div>
-          <div id="landUseTitleEconCost">Cost by Land-Use</div>
-          <div class="rightE" id="econPieChart"></div>
-        </div>
-        <div>
-          <div id="landUseTitleEconProfit">Profit by Land-Use</div>
-          <div class="rightE" id="econProfitPieChart"></div>
+        <div class="charts-grid">
+          <div class="chart-item">
+            <div id="landUseTitleEconCost">Cost by Land-Use</div>
+            <div class="rightE" id="econPieChart"></div>
+          </div>
+
+          <div class="chart-item">
+            <div id="landUseTitleEconRev">Revenue by Land-Use</div>
+            <div class="rightE" id="econRevPieChart"></div>
+          </div>
+
+          <div class="chart-item" style="position: relative;left: 55%;">
+            <div id="landUseTitleEconProfit">Profit by Land-Use</div>
+            <div class="rightE" id="econProfitPieChart"></div>
+          </div>
         </div>
       </div>
 
-      <div>
-        <div id="totalCostContainer">
-          <div class="progressBarWatershedTotals" > TOTAL COST: </div>
-          <div class="progressBarWatershedTotals" id="totalCost" > 0</div>
-        </div>
-        <div id="totalRevContainer">
-          <div class="progressBarWatershedTotals"> TOTAL REVENUE: </div>
-          <div class="progressBarWatershedTotals" id="totalRevenue"> 0</div>
-        </div>
-        <div id="totalProfitContainer">
-          <div class="progressBarWatershedTotals"> TOTAL PROFIT: </div>
-          <div class="progressBarWatershedTotals" id="totalProfit"> 0</div>
-        </div>
+      <div id="costRevenueProfitTable">
+        <table>
+          <thead>
+          <tr>
+            <th>Land Use Category</th>
+            <th>Cost ($)</th>
+            <th>Revenue ($)</th>
+            <th>Profit ($)</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
       </div>
 
 
