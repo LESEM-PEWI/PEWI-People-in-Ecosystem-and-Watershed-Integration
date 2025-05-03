@@ -4,6 +4,8 @@ After checking the data, it is saved in the same directory as the index.html as 
 Created on: 02/07/2025
 author: <NAME> Richard Magala
 email; magalarich20@gmail.com
+to rerun on adifferent machine use;
+pip install -r requirements.txt
 """
 import os
 import shutil
@@ -25,6 +27,7 @@ fileName = join(baseDir, 'ghgData.csv')
 ExpectedColumns = {'to_carb', 'soil_type', 'ch4_kg_ha_yr', 'TopN2O', 'kpi',
                    'Whole_repsiration', 'precipitation_level', 'land_use',
                    'land_use_code'}
+
 landUSes = {'Conservation forest',
             'Conventional forest',
             'Mixed fruits and vegetables',
