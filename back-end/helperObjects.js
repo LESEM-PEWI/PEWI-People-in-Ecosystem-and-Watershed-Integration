@@ -1527,10 +1527,13 @@ function GameBoard() {
     var sut = this.sumUnderTwo;
     var res = this.subWatershedNitrateNoMin;
     //Determine if there is a strategic wetland in use in this Tile's subWatershed
+    let testC= 0;
     for(var t = 0, tl=this.map.length; t < tl; t++){
+      // console.log(t)
       var subwatershed = this.map[t].subwatershed;
       var crop = this.cropMult[t];
       var area = this.map[t].area;
+      var nitrW = 100 * precip* crop
       var score = 100*precip*crop*area;
       score *= this.wetlandMultiplier[subwatershed];
       //If Tile is in subwatershed with score below 2, do more stuff
@@ -1540,6 +1543,9 @@ function GameBoard() {
         score+=paa*this.map[t].area;
       }
       this.map[t].results[year].calculatedTileNitrate = score;
+     //console.log(score, paa, 'there it is');
+      //testC += nitrW
+     // console.log('total nitrates calculated', testC)
     }
 
   };//end this.tileNitrateCalculation
@@ -3086,6 +3092,7 @@ this.tileNitrate = Array(4);
         //keep a running total of the amount each year by adding together subWatershed values
         //tempNitrateConcentration[y] += subWatershedNitrate[s];
         this.nitrateConcentration[y] += subWatershedNitrate[s];
+        //console.log(this.nitrateConcentration[y], '===nt')
       } //end for all watersheds
       this.subWatershedNitrate[y] = subWatershedNitrate;
     //} //end for
@@ -3173,11 +3180,11 @@ this.tileNitrate = Array(4);
     this.nitrateConcentration[year] += score;
 
   }; //end this.calculateNitrateConcentration()
-
   /**
    * helper methods for assisting in calculateNitrateConcentration
    * @param  {[int]} year [description]
    */
+
   this.precipitationMultiplier = function(year) {
 
     if (board.precipitation[year] == 24.58 || board.precipitation[year] == 28.18) // If it's a dry year
@@ -3451,6 +3458,7 @@ this.tileNitrate = Array(4);
     }; //end calculations of stream biodiversity points
 
 
+
     this.calculateMusselServices = function(y) { //calculates in ppm / mg/L
       if (typeof this.musselNitrateReduction[y] === 'undefined') {
         this.musselNitrateReduction[y] = 0;
@@ -3486,6 +3494,7 @@ this.tileNitrate = Array(4);
       } else {
         // This ensures that mussel nitrate reduction is always positive
         this.musselNitrateReduction[y] = 0;
+
       }
     }
 
@@ -3996,7 +4005,7 @@ this.tileNitrate = Array(4);
 function Tile(tileArray, board) {
 
   //Variable Assignment and definitions
-  //The value tileArray is initially pased from initDat
+  //The value tileArray is initially passed from initDat
   this.id = tileArray[0];
   this.row = tileArray[1];
   this.column = tileArray[2];
@@ -4052,11 +4061,7 @@ function Tile(tileArray, board) {
   this.sumUnderTwo = 0;
 
   //create a blank results holder sized to hold 3 years of results (year 0 = results[0])
-  this.results = Array(4);
-  this.results[0] = {};
-  this.results[1] = {};
-  this.results[2] = {};
-  this.results[3] = {};
+  this.results = [{}, {}, {}, {}] //faster, cleaner, and more readable
 
 // this array will hold the sides that the tile needs to have contour lines placed on
   this.contourLines = Array();
@@ -4369,6 +4374,7 @@ function Tile(tileArray, board) {
 
   //the tile-level method for carbon sequestration calculations
   this.carbonSequestration = function(year) {
+    // TODO if this is being called else where, please replace with new caron values from econ Module
     //Array of possible values of carbon sequestration per unit area sorted by landUseType
     if(this.id==827){
       var debug=true;

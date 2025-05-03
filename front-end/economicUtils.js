@@ -305,7 +305,7 @@ const convertLandUseIDsToTexts = (listOfObjectKeys) => {
 
 //
 let converted = convertLandUseIDsToTexts(econCostByLandUse);
-console.log(econCostByLandUse, 'converted');
+
 
 
 // start of fillCells
@@ -320,3 +320,63 @@ const fillCells = () => {
     return holderObject
 };
 // end of fillCells
+
+// Start of calculateStreamVolume
+let calculateStreamVolume = function(board, y) { //calculates stream volume based on stream flow / ft3/3
+
+    var streamFlowRate = 0; // ft3/s
+    switch (board.precipitation[y]) {
+
+        case 24.58:
+            streamFlowRate = 3.65;
+            break;
+        case 28.18:
+            streamFlowRate = 4.12;
+            break;
+        case 30.39:
+            streamFlowRate= 4.42;
+            break;
+        case 32.16:
+            streamFlowRate = 6.44;
+            break;
+        case 34.34:
+            streamFlowRate = 6.85;
+            break;
+        case 36.47:
+            streamFlowRate = 7.25;
+            break;
+        case 45.10:
+            streamFlowRate = 11.53;
+            break;
+    }
+    const secondsPerYear = 3600 * 24 * 365;
+   return  streamFlowRate * secondsPerYear;
+
+}; //End of calculateStreamVolume
+
+// start of calculateNitrateMass
+function calculateNitrateMass(volumeFt3PerYear, nitratePpm) {
+    const LITERS_PER_FT3 = 28.3168;// source: https://www.metric-conversions.org/volume/cubic-feet-to-liters.htm
+    const MG_TO_KG = 1e-6;
+
+    // Convert volume to liters per year
+    const volumeLiters = volumeFt3PerYear * LITERS_PER_FT3;
+
+    // Calculate mass in mg/year then convert to kg/year, then to pounds
+    return volumeLiters * nitratePpm * MG_TO_KG * 2.20462;
+}
+// end of calculateNitrateMass
+
+console.log(calculateNitrateMass(139389120,10))
+
+// if 90 pounds are applied per acre how many are lost
+const calculatedVolumeFt3perYear =139389120
+const pewiACRE = 6000
+let totalNitrogen  = pewiACRE * 90
+let calculatedLostNitrogenMass = calculateNitrateMass(calculatedVolumeFt3perYear,18)
+console.log('Total nitrogen mass', totalNitrogen)
+console.log('calculated nitrogen mass', calculatedLostNitrogenMass)
+let percentageLost = calculatedLostNitrogenMass/totalNitrogen * 100
+console.log("percentage lost: ", percentageLost)
+console.log("======================================")
+console.log(calculatedLostNitrogenMass * 3)

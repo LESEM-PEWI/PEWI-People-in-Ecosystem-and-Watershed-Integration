@@ -32,6 +32,7 @@ var Economics = function () {
   this.econRevenueByLandUse = [];
   this.econValuesByCells = [];
   this.ghgMapData = [];
+  this.nitrateTotalsByLandUse = []
 
 
 //the number of years in the cycle so that we can divide to get the yearly cost; The -1 accounts for the 'none' land use.
@@ -210,6 +211,7 @@ var Economics = function () {
     calculateCostRevenue();
     GHGScores();
     calculateRent();
+    nitrateEconomics()
 
     let landUses = [];
     this.mapData = [];
@@ -568,6 +570,7 @@ var Economics = function () {
     this.chart4Information(['Action - Cost Type', 'Time - Cost Type']);
     this.calcSubcrops();
 
+
     //TESTING ONLY
     for(let k = 1; k <= boardData[currentBoard].calculatedToYear; k++) {
       //console.log("TOTAL WATERSHED COST FOR YEAR: ",k, "=",this.totalWatershedCost[k][0].cost);
@@ -695,6 +698,59 @@ var Economics = function () {
       }
     }
   };
+
+  nitrateEconomics = () =>{
+    //TODO there is a possibility to implement it in helperOBjects, but i just wanted a quick results
+    this.nitrateTotalsByLandUse = [
+      {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
+      {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
+      {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
+      {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0}
+    ];
+    for(let i = 1; i <= boardData[currentBoard].calculatedToYear; i++) {
+      console.log('nitrate summary year', i)
+      console.log('====================================================', i)
+      this.totalN =0
+      let contNitrate =0
+      let nitrate =0
+      for (let j = 0; j < boardData[currentBoard].map.length; j++) {
+        let landUseNum = boardData[currentBoard].map[j].landType[i]
+        let xp =0
+
+         if (landUseNum > 0) {
+           const subWatershedID = boardData[currentBoard].map[j].subwatershed;
+           let subWatershedNoMin =  boardData[currentBoard].subWatershedNitrateNoMin[subWatershedID]
+           let nitrateTilePPM = (
+               boardData[currentBoard].map[j].results[currentYear].calculatedTileNitrate /
+               calculateSubwatershedTotalNitrateScore(j)
+           ) * boardData[currentBoard].subWatershedNitrateNoMin[subWatershedID];
+           // TODO the challenge is to track nitrate load reduced due to each land use and compare it with the baseline
+           this.nitrateTotalsByLandUse[i][landUseNum] += nitrateTilePPM
+           console.log(nitrateTilePPM, 'ppm', landUseNum)
+           boardData[currentBoard].map[j].results[i].newCalculatedTileNitrate = nitrateTilePPM
+           let calculatedNitrateDiff =subWatershedNoMin - nitrateTilePPM
+           console.log( boardData[currentBoard].map[j].results[i].newCalculatedTileNitrate, 'mapped')
+           console.log( boardData[currentBoard].subWatershedNitrateNoMin[subWatershedID], 'no min')
+           this.totalN += nitrateTilePPM/subWatershedNoMin
+
+         }
+
+      }
+    }
+    console.log(this.nitrateTotalsByLandUse, 'land use nitrates')
+    console.log(this.totalN, 'total difference')
+
+
+    //console.log(boardData[currentBoard].map[0].nitratetile, '==nit tile')
+
+    const volume = 139389120; // ft³/year
+    const nitrateConcentration = 10; // ppm
+    const nitrateMassKg = calculateNitrateMass(volume, nitrateConcentration);
+
+   // console.log(`Nitrate mass: ${nitrateMassKg.toFixed(2)} kg/year`);
+
+
+  }
 
   //Conservation Corn After Soybean set to Land Use 1
   //Conservation Corn After Corn set to Land Use 2
@@ -997,7 +1053,7 @@ var Economics = function () {
   };
    calculateGHGScores = (current, base, maximum_score = 307, element = 'CO2-e') =>{
      // maximum_score is the expected maximum score for each element based on the best performing land use
-     // using switch in case something specific needs to tailored to an element
+     // using switch in case something specific needs to be tailored to each GHG element. the maximum values were selected after running the simulations and testing the maximum
      function getElementCal(element) {
        switch (element) {
          case 'CO2-e':
@@ -1027,9 +1083,9 @@ var Economics = function () {
 
     this.ghgMapData = Array(4).fill().map(() => fillCells())
 
-    let co2_emission = 0; // Zero for non emiting land uses with a positive carbon balance
+    let co2_emission = 0; // Zero for non emitting land uses with a positive carbon balance
     let bSOC_emissions;
-    for (let i = 1; i <= CurrentBoard.calculatedToYear; i++) {
+    for (let i = 1; i <= CurrentBoard.calculatedToYear; i++) { // i represent each year and here we start indexing from 1, meaning year one
 
         // Initialize getSoilArea for year 'i'
         let _PrecipitationData = CurrentBoard.precipitation[i];
@@ -1042,7 +1098,7 @@ var Economics = function () {
         this.GHGs[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2_emissions': 0}]
         this.ghgBenchmark[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2_emissions': 0}]
 
-        for (let j = 0; j < CurrentBoard.map.length; j++) {
+        for (let j = 0; j < CurrentBoard.map.length; j++) { // j is the tile ID
           // Get the soil type and area directly
           let getSoilType = CurrentBoard.map[j]['soilType'];
           let landUseTileID = 0;
@@ -1110,6 +1166,11 @@ var Economics = function () {
               this.GHGs[i][0]['N2O'] += n20;
               this.GHGs[i][0]['C02_e'] += kpi;
               this.ghgMapData[i][j] += kpi
+              // 'calculatedTileGHGs' could be used in mapping GHGs
+              boardData[currentBoard].map[j].results[i].calculatedTileGHGs = kpi * cellLandArea
+              // calculatedTileSOC could be used for mapping soil organic carbon
+              boardData[currentBoard].map[j].results[i].calculatedTileSOC = soc * cellLandArea
+
               this.GHGs[i][0]['CH4'] += ch4;
               this.GHGs[i][0]['CO2_emissions'] += carbonDioxide;
               this.ghgBenchmark[i][0]['C02_e'] += bGHG;

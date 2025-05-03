@@ -2105,7 +2105,7 @@ function displayLevels(overlayHighlightType) {
       selectionHighlightNumber = 20;
       updateGlossaryPopup('To learn more about <span style="color:orange;">Carbon Sequestration</span>, go to the <span style="color:yellow;">Glossary</span>, select "Modules" and then <span style="color:yellow;">"Water Quality"</span>.');
       if (curTracking) {
-        pushClick(0, getStamp(), 119, 0, null);
+        pushClick(0, getStamp(), 119, 5, null);
       }
       break;
 
@@ -2706,7 +2706,7 @@ function getHighlightColor(highlightType, tileId) {
   }
 
   else if (highlightType == "carbon") {
-    var carbonseq = ((Number(boardData[currentBoard].map[tileId].results[yearSelected].calculatedCarbonSequestration/1000)*1.10231));
+    var carbonseq = Number(boardData[currentBoard].map[tileId].results[yearSelected].calculatedTileSOC)
     if(carbonseq>=0 && carbonseq<=4.04) return 130;
     else if(carbonseq>4.04 && carbonseq<8.09) return 131;
     else if(carbonseq>8.09 && carbonseq<=12.13) return 132;
@@ -3069,15 +3069,18 @@ function getHighlightColor(highlightType, tileId) {
 
 //translate raw score to catalog score for result tab in hover information
 function CarbonSequestrationClassification(score){
-  if(score>=0&&score<4.04){
-    return "Very Low";
-  }else if(score>4.04&&score<8.09){
+  if(score<=0) {
+    return "No Sequestration";
+  }
+  else if(score>=0&&score<1.04){
+      return "Very Low";
+  }else if(score>1.04&&score<4.09){
     return "Low";
-  }else if(score>8.09&&score<12.13){
+  }else if(score>4.09&&score<8.09){
     return "Meduim";
-  }else if(score>12.13&&score<16.17){
+  }else if(score>8.09&&score<12.09){
     return "High";
-  }else if(score>16.17){
+  }else if(score>12.09){
     return "Very High";
   }
 }
@@ -3160,13 +3163,13 @@ function phoshorusIndexRiskAssessmentClassification(pindex) {
  * @return {int}        total point
  */
 function calculateSubwatershedTotalNitrateScore(tileId){
-  var result=boardData[currentBoard].map.filter(
+  const result=boardData[currentBoard].map.filter(
       function(item){
         return item.subwatershed==boardData[currentBoard].map[tileId].subwatershed;
       }
   );
-  var total=0;
-  for (var i = 0; i < result.length; i++) {
+  let total=0;
+  for (let i = 0; i < result.length; i++) {
     total+=result[i].results[currentYear].calculatedTileNitrate;
   }
   return total;
@@ -3332,8 +3335,10 @@ function getHighlightedInfo(tileId) {
         break;
         //create string for carbon sequestration
       case 20:
-        highlightString = CarbonSequestrationClassification((Number(boardData[currentBoard].map[tileId].results[yearSelected].calculatedCarbonSequestration/1000)*1.10231).toFixed(1))+"<br>"+
-            (Number(boardData[currentBoard].map[tileId].results[yearSelected].calculatedCarbonSequestration/1000)*1.10231).toFixed(1) + " tons" + "<br>";
+        //TODO fix the carbon classification scores and check the correlation of soil type with carbon values in the ghg csv file
+          // calculatedTileSOC was recalculated from the Econ module
+        highlightString = CarbonSequestrationClassification((Number(boardData[currentBoard].map[tileId].results[yearSelected].calculatedTileSOC)).toFixed(1))+"<br>"+
+            (Number(boardData[currentBoard].map[tileId].results[yearSelected].calculatedTileSOC)).toFixed(1) + " tons" + "<br>";
         break;
         //create string for Game Wildlife score
       case 21:
@@ -7415,6 +7420,7 @@ function getTilePrecipitationMultiplier(year){
 
 
 
+
 //This function is called in the getHighlightColor function for the subwatershed Nitrate layout
 //The function takes in the tileId and color necessary for the current cell
 //and determines which side of the cell should be bolded to show distinctions between
@@ -7434,7 +7440,7 @@ function getBoldedCells(tileId, color){
   var didright = false;
 
 //The next 4 if statements check if the cell is on an edge of the map,
-//if so, set its empty neighbor subwatershed type to 0
+//if so, set its empty neighbor sub-watershed type to 0
   if(row==1){
     subwatershedtop = 0;
     didtop = true;
