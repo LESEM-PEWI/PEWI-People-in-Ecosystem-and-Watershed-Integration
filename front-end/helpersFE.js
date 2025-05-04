@@ -3131,18 +3131,16 @@ function getHighlightColor(highlightType, tileId) {
 
 //translate raw score to catalog score for result tab in hover information
 function CarbonSequestrationClassification(score){
-  if(score<=0) {
-    return "No Sequestration";
-  }
-  else if(score>=0&&score<1.04){
-      return "Very Low";
-  }else if(score>1.04&&score<4.09){
+
+   if(score<=0){
+      return "No Sequestration";
+  }else if(score>0&&score<=0.3){
     return "Low";
-  }else if(score>4.09&&score<8.09){
-    return "Meduim";
-  }else if(score>8.09&&score<12.09){
+  }else if(score>0.3&&score<=0.5){
+    return "Medium";
+  }else if(score>0.5&&score<=1){
     return "High";
-  }else if(score>12.09){
+  }else if(score>1){
     return "Very High";
   }
 }
@@ -3399,8 +3397,8 @@ function getHighlightedInfo(tileId) {
       case 20:
         //TODO fix the carbon classification scores and check the correlation of soil type with carbon values in the ghg csv file
           // calculatedTileSOC was recalculated from the Econ module
-        highlightString = CarbonSequestrationClassification((Number(boardData[currentBoard].map[tileId].results[yearSelected].calculatedTileSOC)).toFixed(1))+"<br>"+
-            (Number(boardData[currentBoard].map[tileId].results[yearSelected].calculatedTileSOC)).toFixed(1) + " tons" + "<br>";
+        highlightString = CarbonSequestrationClassification((Number(boardData[currentBoard].map[tileId].results[yearSelected].calculatedTileSOC)).toFixed(3))+"<br>"+
+            (Number(boardData[currentBoard].map[tileId].results[yearSelected].calculatedTileSOC)).toFixed(3) + " Mg" + "<br>";
         break;
         //create string for Game Wildlife score
       case 21:

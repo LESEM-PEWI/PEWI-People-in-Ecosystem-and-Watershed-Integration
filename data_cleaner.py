@@ -4,7 +4,7 @@ After checking the data, it is saved in the same directory as the index.html as 
 Created on: 02/07/2025
 author: <NAME> Richard Magala
 email; magalarich20@gmail.com
-to rerun on adifferent machine use;
+to rerun on a different machine use;
 pip install -r requirements.txt
 """
 import os
