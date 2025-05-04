@@ -26,7 +26,7 @@ var Economics = function () {
   this.totalWatershedRevenue=[];
   this.ghgBenchmark = [];
  // this.rawCostPerUnit = []
-  this.NetRevenueForMapData = []; // for mapping only
+ // this.NetRevenueForMapData = []; // for mapping only
   this.totalWatershedCostArray =[];
   this.econCostByLandUse = [];
   this.econRevenueByLandUse = [];
@@ -43,11 +43,12 @@ var Economics = function () {
 
   })
   d3.csv('./revenuePerUnit.csv', (data) => {
-
+    // TODO not implemented yet
     this.rawRevUnit = data;
 
   })
   d3.csv('./ghgData.csv', (data) => {
+    // This avoids asynchronous data loading problems by the time it is accessed
     this.loadedGHGData = data;
   })
   this.divideByCategory = function (listofCats){
@@ -622,7 +623,7 @@ var Economics = function () {
           if(boardData[currentBoard].map[j].landType[i-1] === 3 || boardData[currentBoard].map[j].landType[i-1] === 4){ //if the corn is after soybean
             this.cornAfters[i][1].ConvCornAfterSoybean += boardData[currentBoard].map[j].area;
             this.cornAfters[i][1].ConvCornAfterSoybeanYield += boardData[currentBoard].map[j].results[i]['calculatedYieldTile'] * boardData[currentBoard].map[j].area
-          console.log(results[i], 'ii')
+
           }
           else {
             this.cornAfters[i][1].ConvCornAfterCorn += boardData[currentBoard].map[j].area
@@ -874,7 +875,7 @@ var Economics = function () {
     const CostInflationFactorAdjustment = parseFloat(document.getElementById("inflationFactor" ).value);
 
 
-    this.NetRevenueForMapData = Array(4).fill().map(() => fillCells());
+    //this.NetRevenueForMapData = Array(4).fill().map(() => fillCells());
     const GetCurrentBoard = boardData[currentBoard];
     const years = GetCurrentBoard.calculatedToYear;
 
@@ -883,11 +884,13 @@ var Economics = function () {
         Array.from({ length: 16 }, (_, i) => [i.toString(), 0])
     ));
    // Start of loop calculating values for each year
+    //====================================================================
     for (let year = 1; year <= years; year++) {
       let currentLandUseMap = {};
       this.totalWatershedCost[year] = [{ cost: 0 }];
       let totalYearCost = { totalCosts: 0 };
       // start of loop calculating values for each cell
+      //======================================================================
       for (let cellIndex = 0; cellIndex < GetCurrentBoard.map.length; cellIndex++) {
         // Needed for calculating cell or tile revenue and profitability
         const landUseID = GetCurrentBoard.map[cellIndex]['landType'][year];
@@ -906,6 +909,7 @@ var Economics = function () {
           tileCropYield = tileData.results[year]['calculatedYieldTile'] * tileData.area;
         } else if ([6,7].includes(landUseID)){
           tileCropYield = sellingPricesHead[landUseID]
+          console.log(tileCropYield, 'livestock yield')
         }
 
 
@@ -930,8 +934,9 @@ var Economics = function () {
           }
           cost = yieldTile * tileArea * annualsPerBushel[rotationKey];
         }
+        // adjust for inflation here
         cost = cost * CostInflationFactorAdjustment;
-        this.NetRevenueForMapData[year][cellIndex] = cost;
+
         this.totalWatershedCost[year][0].cost += cost;
         boardData[currentBoard].map[cellIndex].results[year].calculatedTileNetRevenue = cost;
         this.econCostByLandUse[year][landUseKey] += cost;
@@ -1095,8 +1100,7 @@ var Economics = function () {
               // we need to always benchmark it to conventional corn forestry based on the selected soil types
               let baseDData = filteredArray(this.loadedGHGData, '1', getSoilType, _PrecipitationData);
               const  referenceData = baseDData[0]
-              //console.log(baseData, 'base-data')
-              // let kpiSum = baseData.reduce((sum, item) => sum + (item.kpi || 0), 0);
+
 
               // Convert to hectares
 
@@ -1141,7 +1145,7 @@ var Economics = function () {
               this.GHGs[i][0]['C02_e'] += kpi;
               this.ghgMapData[i][j] += kpi
               // 'calculatedTileGHGs' could be used in mapping GHGs
-              boardData[currentBoard].map[j].results[i].calculatedTileGHGs = kpi * cellLandArea
+              boardData[currentBoard].map[j].results[i].calculatedTileGHGs = kpi
               // calculatedTileSOC could be used for mapping soil organic carbon
               boardData[currentBoard].map[j].results[i].calculatedTileSOC = soc * cellLandArea //already multiplied by area
 
@@ -1293,7 +1297,7 @@ var Economics = function () {
           else {
             rent = acreRate;
           }
-          // console.log("CELL: ", j, "YIELD RATE: ", calculateCornYieldRate(boardData[currentBoard].map[j].soilType))
+
           switch(landUse){
 
             case 1:
@@ -1370,9 +1374,6 @@ var Economics = function () {
 }
 
 var economics = new Economics();
-//economics.econCostByLandUse = convertLandUseIDsToTexts(economics.econCostByLandUse);
-//console.log(economics.econCostByLandUse, 'econ costs by land use')
-//console.log(economics.NetRevenueForMapData, 'map_data');
 
 
 
