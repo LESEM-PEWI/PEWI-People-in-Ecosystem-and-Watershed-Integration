@@ -8,6 +8,9 @@
 //const THREE = require('d3');
 //const scene = new THREE.Scene();
 
+const INFLATION_FACTOR = 1 // default for inflation
+const NITRATE_CREDIT = 3.2 // default for nitrate credit reduction price
+const CARBON_CREDIT = 40.82 // default for carbon offset price
 var globalLegend = false;
 var addingYearFromFile = false; //Boolean used to keep a track of whether or not you're adding a year from file
 var click;

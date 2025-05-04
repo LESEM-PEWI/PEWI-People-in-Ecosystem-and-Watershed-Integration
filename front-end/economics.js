@@ -872,7 +872,11 @@ var Economics = function () {
    */
   let calculateCostRevenue = () => {
     // this inflation adjustment factor is supposed to change costs only refreshEconTotals method
-    const CostInflationFactorAdjustment = parseFloat(document.getElementById("inflationFactor" ).value);
+    //const CostInflationFactorAdjustment = parseFloat(document.getElementById("inflationFactor" ).value);
+    const inputValue = parseFloat(document.getElementById("inflationFactor").value);
+    const costInflationFactorAdjustment = isNaN(inputValue) ? INFLATION_FACTOR : inputValue;
+    const inputValueNitratePrice =  parseFloat(document.getElementById("nitrogenPrices" ).value);
+    const nitratePrice =  isNaN(inputValueNitratePrice) ? INFLATION_FACTOR : inputValueNitratePrice;
 
 
     //this.NetRevenueForMapData = Array(4).fill().map(() => fillCells());
@@ -935,7 +939,7 @@ var Economics = function () {
           cost = yieldTile * tileArea * annualsPerBushel[rotationKey];
         }
         // adjust for inflation here
-        cost = cost * CostInflationFactorAdjustment;
+        cost = cost * costInflationFactorAdjustment;
 
         this.totalWatershedCost[year][0].cost += cost;
         boardData[currentBoard].map[cellIndex].results[year].calculatedTileNetRevenue = cost;
@@ -952,7 +956,7 @@ var Economics = function () {
   // end calculateCostRevenue
 
   /**
-   * This function is used to calculate acreage of each soil type if the land use if Cons Forest (LU_ID = 10) or Conv Forest (LU_ID =11)
+   * This function is used to calculate acreage of each soil type if the land use of Cons Forest (LU_ID = 10) or Conv Forest (LU_ID =11)
    * this.getSoilArea object array has 4 objects. The first one is a dummy object to avoid undefined errors. (Not the best approach but we needed to store
    * values for cells that are not conservation forest or conventional forest)
    */
