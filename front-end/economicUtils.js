@@ -207,8 +207,8 @@ let landIDWithCostPerHead = {};
 let combinedCostsHT = {};
 let combinedHTKeys = [];
 let sellingPricesHead = {};
-let grazingRatio = {}
-grazingRatio = {6:550, 7: 55/35 * 550} // more explanation needed, got from pewi 4.0
+
+const grazingRatio = {6:550, 7: 55/35 * 550} // more explanation needed, got from pewi 4.0
 dataBushels = [
   { crop: 'Conventional Corn', rotation: 'corn after soy', LU_ID: 1, cost_per_bushel: 3.53, unit: 'bushels' },
   { crop: 'Conventional Corn', rotation: 'Corn after Corn', LU_ID: 1, cost_per_bushel: 3.87, unit: 'bushels' },

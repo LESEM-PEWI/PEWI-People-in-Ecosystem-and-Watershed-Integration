@@ -572,6 +572,7 @@ var Economics = function () {
 
 
     this.watershedTotals();
+    //TODO remove the charts that have been deprecated in version 4.1
     this.chart3Data();
     this.chart3DataByLU();
     this.graphic5information();
@@ -912,7 +913,7 @@ var Economics = function () {
           const tileData = boardData[currentBoard].map[cellIndex];
           tileCropYield = tileData.results[year]['calculatedYieldTile'] * tileData.area;
         } else if ([6,7].includes(landUseID)){
-          tileCropYield = sellingPricesHead[landUseID]
+          tileCropYield = sellingPricesHead[landUseID]  * grazingRatio[landUseID]
           console.log(tileCropYield, 'livestock yield')
         }
 
