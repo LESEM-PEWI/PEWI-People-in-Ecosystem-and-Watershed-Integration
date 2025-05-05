@@ -367,6 +367,78 @@ function calculateNitrateMass(volumeFt3PerYear, nitratePpm) {
 
 console.log(calculateNitrateMass(139389120,10))
 
+getCostPerLandUse = (landUseID) => {
+    // source '../PEWI Budgets 2024$ - 2025$ (021425).xlsx'
+    switch (landUseID) {
+        // transitions involving corn
+        // no transition
+        case 1:
+        case '1-1':
+
+            return 3.87
+        case '4-1':
+        case '2-1':
+        case '3-1':
+            return 3.53
+        // Conventional soybean
+        case '1-3':
+        case '3-3':
+        case '4-3':
+        case '2-3':
+        case 3:
+        case '3':
+            return 8.76;
+
+        // Conservation corn
+        case '1-2':
+        case '4-2':
+        case '2-2':
+        case '3-2':
+        case 2: // no transitions
+            return 3.56;
+
+        // Conservation soybean
+        case '1-4':
+        case '2-4':
+            return 8.76;
+
+        case '3-4':
+        case '4-4':
+        case 4:
+        case '4':
+            return 8.57;
+
+        case 5:
+            return 84.8 // per tonne
+        case 6:
+            return 3496.81 // per head
+        case 7:
+            return 3556
+
+        case 8:
+            return 602.73 //acre // or 63.45 per tonne;
+        case 9:
+            return 205.0; // per acre
+        case 10:
+        case 11:
+            return 43.63904617; // per acre
+
+        case 12:
+            return 137; // per acre
+        case 13:
+            return 406; // per acre
+        case 14:
+            return 312; // per acre
+        case 15:
+            return 42622.47461; // per acre
+        case 'NA':
+        case 0:
+        case '0':
+            return 0;
+        default:
+            return null; // or throw an error if unexpected value
+    }
+};
 // if 90 pounds are applied per acre how many are lost
 const calculatedVolumeFt3perYear =139389120
 const pewiACRE = 6000
@@ -378,6 +450,6 @@ let percentageLost = calculatedLostNitrogenMass/totalNitrogen * 100
 console.log("percentage lost: ", percentageLost)
 console.log("======================================")
 console.log(calculatedLostNitrogenMass * 3)
-
+console.log(getCostPerLandUse('3-1'))
 
 

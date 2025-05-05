@@ -74,6 +74,7 @@ var Economics = function () {
     }
   };
 
+
 //the number of years in the cycle so that we can divide to get the yearly cost; The -1 accounts for the 'none' land use.
   yearCosts = [-1,1,1,1,1,4,1,1,4,50,1,1,11,7,50,{'Grapes (Conventional)': 4 * 25,'Green Beans': 1 * 4,'Winter Squash': 1 * 4,'Strawberries': 4 * 3}];
   d3.csv('./revenueUpdatesInprogress_feb2025.csv', (data) => {
@@ -912,91 +913,82 @@ var Economics = function () {
    * Results are stored in the component's instance for downstream use.
    */
   let calculateCostRevenue = () => {
-    // this inflation adjustment factor is supposed to change costs only refreshEconTotals method
-    //const CostInflationFactorAdjustment = parseFloat(document.getElementById("inflationFactor" ).value);
     const inputValue = parseFloat(document.getElementById("inflationFactor").value);
     const costInflationFactorAdjustment = isNaN(inputValue) ? INFLATION_FACTOR : inputValue;
-    const inputValueNitratePrice =  parseFloat(document.getElementById("nitrogenPrices" ).value);
-    const nitratePrice =  isNaN(inputValueNitratePrice) ? INFLATION_FACTOR : inputValueNitratePrice;
 
+    const inputValueNitratePrice = parseFloat(document.getElementById("nitrogenPrices").value);
+    const nitratePrice = isNaN(inputValueNitratePrice) ? NITRATE_CREDIT : inputValueNitratePrice;
 
-    //this.NetRevenueForMapData = Array(4).fill().map(() => fillCells());
-    const GetCurrentBoard = boardData[currentBoard];
-    const years = GetCurrentBoard.calculatedToYear;
+    const current_Board = boardData[currentBoard];
+    const years = current_Board.calculatedToYear;
 
     let landUseTrack = [];
-    this.econCostByLandUse = Array(4).fill().map(() => Object.fromEntries(
-        Array.from({ length: 16 }, (_, i) => [i.toString(), 0])
-    ));
-   // Start of loop calculating values for each year
-    //====================================================================
+    this.econCostByLandUse = Array(4).fill().map(() =>
+        Object.fromEntries(Array.from({ length: 16 }, (_, i) => [i.toString(), 0]))
+    );
+
     for (let year = 1; year <= years; year++) {
       let currentLandUseMap = {};
       this.totalWatershedCost[year] = [{ cost: 0 }];
       let totalYearCost = { totalCosts: 0 };
-      // start of loop calculating values for each cell
-      //======================================================================
-      for (let cellIndex = 0; cellIndex < GetCurrentBoard.map.length; cellIndex++) {
-        // Needed for calculating cell or tile revenue and profitability
-        const landUseID = GetCurrentBoard.map[cellIndex]['landType'][year];
-        const tileArea = GetCurrentBoard.map[cellIndex].area;
+
+      for (let cellIndex = 0; cellIndex < current_Board.map.length; cellIndex++) {
+        const cell = current_Board.map[cellIndex];
+        const landUseID = cell.landType[year];
+        const tileArea = cell.area;
         const landUseKey = landUseID.toString();
+
         currentLandUseMap[cellIndex] = landUseID;
         landUseTrack[year] = currentLandUseMap;
 
         if (landUseID <= 0) continue;
-         let  revenueValue =0;
-        let unitPrice =this.getPrice(landUseID)
-        console.log(unitPrice, 'Unit price')
-        // see helperObjects.js for definition on land use codes
-        if ([1,2].includes(landUseID)) {
-          // investigate calculateCornYieldRate units of corn returned
-          // add from carbon and nitrate credit for all the land uses
-          revenueValue = unitPrice * calculateCornYieldRate(boardData[currentBoard].map[cellIndex].soilType) * 1.16 * tileArea;
-         console.log(revenueValue, 'cornYield rate')
-        } else if ([3,4,8,9,12,15].includes(landUseID)) {
-          // see helperObjects.js for definition on land use codes
-          const tileData = boardData[currentBoard].map[cellIndex];
-          revenueValue = unitPrice * tileData.results[year]['calculatedYieldTile'] * tileData.area;
-          console.log(revenueValue, 'Soybean yield rate')
-        } else if ([6,7].includes(landUseID)){
-          //boardData[currentBoard].map[tileId].getCattleSupported(-1)
-          revenueValue = unitPrice * landIDWithCostPerHead[landUseID] * boardData[currentBoard].map[cellIndex].getCattleSupported(year) //  animals/acre/yr
-          console.log(revenueValue, 'Livestock yield')
-        }
-        else {
-          revenueValue = unitPrice // apparently it is a zero
-        }
 
-
+        let yieldTile = 0;
+        let unitPrice = this.getPrice(landUseID);
+        let revenueValue = 0;
         let cost = 0;
-        const yieldTile = GetCurrentBoard.map[cellIndex].results[year]['calculatedYieldTile'];
+        let costMultiplier =0
 
-        if (landIDWithCostPerAcre.hasOwnProperty(landUseKey)) {
-          cost = tileArea * landIDWithCostPerAcre[landUseKey];
+        if ([1, 2].includes(landUseID)) {
+          yieldTile = cell.getCornGrainYield() / 15.92857142857 * 14.8697 * tileArea;
+        } else if ([3, 4, 5, 8, 12, 13, 15].includes(landUseID)) {
+          yieldTile = cell.results[year].calculatedYieldTile * tileArea;
+        } else if ([6, 7].includes(landUseID)) {
+          yieldTile = cell.getCattleSupported(year);
+        } else if ([10, 11].includes(landUseID)) {
+          yieldTile = cell.getWoodYield() / 171.875 * 423.766 * tileArea;
         }
-        else if (combinedHTKeys.includes(landUseKey)) {
-          cost = yieldTile * tileArea * combinedCostsHT[landUseKey];
-        }
-        else if (landIDWithCostPerBushel.includes(landUseID)) {
-          let rotationKey = landUseKey;
-          if (year > 1) {
+
+        costMultiplier = [13, 10, 11, 12, 14, 8, 9].includes(landUseID) ? tileArea : yieldTile;
+
+        revenueValue = yieldTile * unitPrice;
+
+
+        let rotationKey = landUseKey;
+       // cost = getCostPerLandUse(landUseID) * costMultiplier;
+        if (year <= 1) {
+          cost = getCostPerLandUse(landUseID);
+        } else {
+          if ([1, 2, 3, 4].includes(landUseID)) {
             const prevLandUse = landUseTrack[year - 1][cellIndex];
-            const prevKey = prevLandUse.toString();
-            const rotationCombo = `${prevKey}-${landUseKey}`;
-            if (landIDWithCostPerBushel.includes(prevLandUse) && landIDWithCostPerBushel.includes(landUseID)) {
-              rotationKey = rotationCombo;
-            }
+            const rotationCombo = `${prevLandUse}-${landUseKey}`;
+            rotationKey = rotationCombo;
+            cost = getCostPerLandUse(rotationCombo)
+            if (cost == null || isNaN(cost || cost===0)) {
+              cost = getCostPerLandUse(landUseID);
+            } // some transition other than from corn or soybean are not supported so we circle back to no transition
+          console.log(cost, year, 'costs whenyear is greater than 1')
+          } else {
+            cost = getCostPerLandUse(landUseID)
           }
-          cost = yieldTile * tileArea * annualsPerBushel[rotationKey];
         }
-        // adjust for inflation here
-        cost = cost * costInflationFactorAdjustment;
-        let netRevenue =revenueValue - cost
-        console.log(netRevenue, 'net revenue')
-        console.log(cost, 'cost')
+        // MULTIPLY BY THE COST MULTIPLIER HERE
+        cost  *= costMultiplier
+        cost *= costInflationFactorAdjustment;
+        let netRevenue = revenueValue - cost;
+
         this.totalWatershedCost[year][0].cost += cost;
-        boardData[currentBoard].map[cellIndex].results[year].calculatedTileNetRevenue += netRevenue;
+        cell.results[year].calculatedTileNetRevenue = (cell.results[year].calculatedTileNetRevenue || 0) + netRevenue;
         this.econCostByLandUse[year][landUseKey] += cost;
         totalYearCost.totalCosts += cost;
       }
@@ -1006,8 +998,6 @@ var Economics = function () {
 
     this.econCostByLandUse = convertLandUseIDsToTexts(this.econCostByLandUse);
   };
-
-  // end calculateCostRevenue
 
   /**
    * This function is used to calculate acreage of each soil type if the land use of Cons Forest (LU_ID = 10) or Conv Forest (LU_ID =11)
