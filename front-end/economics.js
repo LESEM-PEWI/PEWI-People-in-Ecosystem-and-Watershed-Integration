@@ -31,7 +31,7 @@ var Economics = function () {
   this.econCostByLandUse = [];
   this.econRevenueByLandUse = [];
   this.econValuesByCells = [];
-  this.ghgMapData = [];
+
   this.nitrateTotalsByLandUse = []
 
 
@@ -275,11 +275,12 @@ var Economics = function () {
       this.rawRev.forEach(dataPoint => {
 
         if(dataPoint['LU_ID'] === 15){
-            let fruitsPrecipMultiplier = 1; //since the csv now accounts for acres instead of the actual yield for revenue purposes we have to use the yield precip multiplier
+            let fruitsPrecipMultiplier = 1; //since the csv now accounts for acres instead of the
+             // actual yield for revenue purposes we have to use the yield precip multiplier
             if(boardData[currentBoard].precipitation[i] === 45.1) fruitsPrecipMultiplier = .75;
             if(boardData[currentBoard].precipitation[i] === 36.5) fruitsPrecipMultiplier = .9;
             // value = parseFloat(dataPoint['Revenue/acre/year']) * landUses[i][dataPoint['LU_ID']] * fruitsPrecipMultiplier / 4;
-            value = parseFloat(dataPoint['Revenue/acre/year']) * this.getCropYields[i][1].mixedFVYield;
+            value = parseFloat(dataPoint['Revenue/acre/year']) * this.getCropYields[i][1].mixedFVYield * fruitsPrecipMultiplier;
         }
 
         else if (dataPoint['LU_ID'] === "2"){
@@ -905,16 +906,21 @@ var Economics = function () {
         landUseTrack[year] = currentLandUseMap;
 
         if (landUseID <= 0) continue;
-         let  tileCropYield =0;
+         let  revenueValue =0;
 
         if ([1,2].includes(landUseID)) {
-         tileCropYield = calculateCornYieldRate(boardData[currentBoard].map[cellIndex].soilType) * 1.16;
-        } else if ([3, 4].includes(landUseID)) {
+          //TODO investigate calculateCornYieldRate units of corn returned
+          // add from carbon and nitrate credit for all the land uses
+          revenueValue = calculateCornYieldRate(boardData[currentBoard].map[cellIndex].soilType) * 1.16;
+         console.log(revenueValue, 'cornYieldrate')
+        } else if ([3,4,8,9,12,15].includes(landUseID)) {
           const tileData = boardData[currentBoard].map[cellIndex];
-          tileCropYield = tileData.results[year]['calculatedYieldTile'] * tileData.area;
+          revenueValue = tileData.results[year]['calculatedYieldTile'] * tileData.area;
+          console.log(revenueValue, 'Soybean yield rate')
         } else if ([6,7].includes(landUseID)){
-          tileCropYield = sellingPricesHead[landUseID]  * grazingRatio[landUseID]
-          console.log(tileCropYield, 'livestock yield')
+          //boardData[currentBoard].map[tileId].getCattleSupported(-1)
+          revenueValue =  landIDWithCostPerHead[landUseID] * boardData[currentBoard].map[cellIndex].getCattleSupported(year) //  animals/acre/yr
+          console.log(revenueValue, 'livestock yield')
         }
 
 
@@ -941,7 +947,7 @@ var Economics = function () {
         }
         // adjust for inflation here
         cost = cost * costInflationFactorAdjustment;
-
+        let netRevenue =revenueValue =cost
         this.totalWatershedCost[year][0].cost += cost;
         boardData[currentBoard].map[cellIndex].results[year].calculatedTileNetRevenue = cost;
         this.econCostByLandUse[year][landUseKey] += cost;
@@ -1059,7 +1065,7 @@ var Economics = function () {
     const CurrentBoard = boardData[currentBoard]
 
     // create arrays to hold annual data
-    this.ghgMapData = Array(4).fill().map(() => fillCells())
+    //this.ghgMapData = Array(4).fill().map(() => fillCells())
 
     let co2_emission = 0; // Zero for non emitting land uses with a positive carbon balance
     let bSOC_emissions;
@@ -1148,13 +1154,17 @@ var Economics = function () {
               this.GHGs[i][0]['SOC'] += soc;
               this.GHGs[i][0]['N2O'] += n20;
               this.GHGs[i][0]['C02_e'] += kpi;
-              this.ghgMapData[i][j] += kpi
+
+              this.GHGs[i][0]['CH4'] += ch4;
               // 'calculatedTileGHGs' could be used in mapping GHGs
+              // these will be useful in calculating the scores by getting the maximum and the minimum values for each along the soil types or cells
               boardData[currentBoard].map[j].results[i].calculatedTileGHGs = kpi
               // calculatedTileSOC could be used for mapping soil organic carbon
               boardData[currentBoard].map[j].results[i].calculatedTileSOC = soc * cellLandArea //already multiplied by area
+              boardData[currentBoard].map[j].results[i].calculatedTileN20 = n20
+              boardData[currentBoard].map[j].results[i].calculatedTileNH4 = ch4
 
-              this.GHGs[i][0]['CH4'] += ch4;
+
               this.GHGs[i][0]['CO2_emissions'] += carbonDioxide;
               this.ghgBenchmark[i][0]['C02_e'] += bGHG;
               this.ghgBenchmark[i][0]['N2O'] += bN2O;

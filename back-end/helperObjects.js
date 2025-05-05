@@ -3105,6 +3105,7 @@ this.tileNitrate = Array(4);
    * @param  {[type]} year
    */
   this.sumCarbon = function(tileId, year) {
+    // Deprecated
     var subCarbonSum = this.sumCarbonSequestration[year] - this.tileCarbonSequestration[year][tileId];
     this.tileCarbonSequestration[year][tileId] = board.map[tileId].results[year].calculatedCarbonSequestration;
     this.sumCarbonSequestration[year] = subCarbonSum + this.tileCarbonSequestration[year][tileId];

@@ -380,3 +380,4 @@ let percentageLost = calculatedLostNitrogenMass/totalNitrogen * 100
 console.log("percentage lost: ", percentageLost)
 console.log("======================================")
 console.log(calculatedLostNitrogenMass * 3)
+
