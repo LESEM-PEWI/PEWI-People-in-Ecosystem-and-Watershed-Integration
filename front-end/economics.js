@@ -65,6 +65,8 @@ var Economics = function () {
         return 60; // per tonne
       case 14:
         return 0; // no yield
+      case 15:
+        return 5.6 // per pound
       case 'NA':
       case 0:
       case '0':
@@ -613,12 +615,12 @@ var Economics = function () {
 
 
     this.watershedTotals();
-    //TODO remove the charts that have been deprecated in version 4.1
-    this.chart3Data();
-    this.chart3DataByLU();
-    this.graphic5information();
-    this.divideByCategory(['Action - Cost Type', 'Time - Cost Type', 'Fixed/Variable']);
-    this.chart4Information(['Action - Cost Type', 'Time - Cost Type']);
+    //All those commented out are deprecated in version 4.1
+   this.chart3Data(); // Deprecated in version 4.1
+  this.chart3DataByLU();  // Deprecated in version 4.1
+    this.graphic5information();  // Deprecated in version 4.1
+   this.divideByCategory(['Action - Cost Type', 'Time - Cost Type', 'Fixed/Variable']);  // Deprecated in version 4.1
+  this.chart4Information(['Action - Cost Type', 'Time - Cost Type']);  // Deprecated in version 4.1
     this.calcSubcrops();
 
 
@@ -958,9 +960,9 @@ var Economics = function () {
         } else if ([10, 11].includes(landUseID)) {
           yieldTile = cell.getWoodYield() / 171.875 * 423.766 * tileArea;
         }
-
-        costMultiplier = [13, 10, 11, 12, 14, 8, 9].includes(landUseID) ? tileArea : yieldTile;
-
+        let cattleWeight = yieldTile * 5600
+        costMultiplier = [13, 10, 11, 12, 15, 14, 8, 9].includes(landUseID) ? tileArea : yieldTile;
+        yieldTile  = [6,7].includes(landUseID) ? cattleWeight : yieldTile
         revenueValue = yieldTile * unitPrice;
 
 
