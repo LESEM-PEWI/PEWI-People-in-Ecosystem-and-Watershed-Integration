@@ -413,7 +413,7 @@ getCostPerLandUse = (landUseID) => {
         case 6:
             return 3496.81 // per head
         case 7:
-            return 3556
+            return 3556 // per head
 
         case 8:
             return 602.73 //acre // or 63.45 per tonne;
