@@ -1,11 +1,6 @@
 /* This module provide support tools to the economic module, adjusting the cost to the inflation rate
 
-Constructed in June 2016 as an object focused approach to calculation methods based on
-  code from pewi v2.0.
 
-C. Labuzzetta
-N. Hagen
-const d3 = require('d3');
 
  */
 
@@ -206,7 +201,7 @@ let landIDWithCostPerTon = null;
 let landIDWithCostPerHead = {};
 let combinedCostsHT = {};
 let combinedHTKeys = [];
-let sellingPricesHead = {};
+
 
 const grazingRatio = {6:550, 7: 55/35 * 550} // more explanation needed, got from pewi 4.0
 dataBushels = [
@@ -251,7 +246,7 @@ landIDWithCostPerTon = { 5:84.8, 8:63.45}  // see helper objects for description
 landIDWithCostPerHead = {6:3496.81, 7:3556}  // see helper objects for description of each land use ID
 combinedCostsHT = { ...landIDWithCostPerHead, ...landIDWithCostPerTon };
 combinedHTKeys = Object.keys(landIDWithCostPerTon).concat(Object.keys(landIDWithCostPerHead))
-sellingPricesHead = {6:5.6, 7:5.6}
+const sellingPricesHead = {6:5.6, 7:5.6}
 let sellingPricesTon = {13: 60}
 function getRandomSampleWithReplacement(arr, size) {
     return Array.from({ length: size }, () => arr[Math.floor(Math.random() * arr.length)]);
@@ -367,6 +362,9 @@ function calculateNitrateMass(volumeFt3PerYear, nitratePpm) {
 }
 // end of calculateNitrateMass
 
+// switch function for corn prices
+
+
 console.log(calculateNitrateMass(139389120,10))
 
 // if 90 pounds are applied per acre how many are lost
@@ -380,4 +378,6 @@ let percentageLost = calculatedLostNitrogenMass/totalNitrogen * 100
 console.log("percentage lost: ", percentageLost)
 console.log("======================================")
 console.log(calculatedLostNitrogenMass * 3)
+
+
 
