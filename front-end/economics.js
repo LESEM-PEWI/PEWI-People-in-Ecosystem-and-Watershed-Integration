@@ -948,12 +948,14 @@ var Economics = function () {
          let  revenueValue =0;
         let unitPrice =this.getPrice(landUseID)
         console.log(unitPrice, 'Unit price')
+        // see helperObjects.js for definition on land use codes
         if ([1,2].includes(landUseID)) {
           // investigate calculateCornYieldRate units of corn returned
           // add from carbon and nitrate credit for all the land uses
           revenueValue = unitPrice * calculateCornYieldRate(boardData[currentBoard].map[cellIndex].soilType) * 1.16 * tileArea;
          console.log(revenueValue, 'cornYield rate')
         } else if ([3,4,8,9,12,15].includes(landUseID)) {
+          // see helperObjects.js for definition on land use codes
           const tileData = boardData[currentBoard].map[cellIndex];
           revenueValue = unitPrice * tileData.results[year]['calculatedYieldTile'] * tileData.area;
           console.log(revenueValue, 'Soybean yield rate')
@@ -992,6 +994,7 @@ var Economics = function () {
         cost = cost * costInflationFactorAdjustment;
         let netRevenue =revenueValue - cost
         console.log(netRevenue, 'net revenue')
+        console.log(cost, 'cost')
         this.totalWatershedCost[year][0].cost += cost;
         boardData[currentBoard].map[cellIndex].results[year].calculatedTileNetRevenue += netRevenue;
         this.econCostByLandUse[year][landUseKey] += cost;
