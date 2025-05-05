@@ -373,6 +373,7 @@ getCostPerLandUse = (landUseID) => {
         // transitions involving corn
         // no transition
         case 1:
+        case '1':
         case '1-1':
 
             return 3.87
@@ -395,6 +396,7 @@ getCostPerLandUse = (landUseID) => {
         case '2-2':
         case '3-2':
         case 2: // no transitions
+        case '2':
             return 3.56;
 
         // Conservation soybean
@@ -409,27 +411,38 @@ getCostPerLandUse = (landUseID) => {
             return 8.57;
 
         case 5:
-            return 84.8 // per tonne
+        case '5':
+            return  554.75//84.8 // per tonne
         case 6:
+        case '6':
             return 3496.81 // per head
         case 7:
+        case '7':
             return 3556 // per head
 
         case 8:
+        case '8':
             return 602.73 //acre // or 63.45 per tonne;
         case 9:
+        case '9':
             return 205.0; // per acre
         case 10:
+        case '10':
         case 11:
+        case '11':
             return 43.63904617; // per acre
 
         case 12:
+        case '12':
             return 137; // per acre
         case 13:
+        case '13':
             return 406; // per acre
         case 14:
+        case '14':
             return 312; // per acre
         case 15:
+        case '15':
             return 42622.47461; // per acre
         case 'NA':
         case 0:
@@ -452,4 +465,30 @@ console.log("======================================")
 console.log(calculatedLostNitrogenMass * 3)
 console.log(getCostPerLandUse('3-1'))
 
+
+function nc(N) {
+    const NITRATE_MAX_CONCENTRATION = 29.54
+    N = Math.min(Math.max(N, 2), 29.54); // Clamp N between 2 and 29.54
+    let fixedMaximum = calculateNitrateMass(calculatedVolumeFt3perYear, NITRATE_MAX_CONCENTRATION)
+
+    return  (1 - ((N - 2) / (29.54 - 2))) * fixedMaximum;
+}
+
+const calculateNitrateLoad = function(nConC, streamDischarge) {
+    const NITRATE_MAX_CONCENTRATION = 29.54
+    let N = Math.min(Math.max(nConC, 2), NITRATE_MAX_CONCENTRATION); // Clamp N between 2 and 29.54
+    console.log(N, 'N')
+    // calculate the fixed maximum load
+    const fixedMaximumLoad = calculateNitrateMass(streamDischarge, NITRATE_MAX_CONCENTRATION)
+    //calculate nitrate load reduced
+    return  (1 - ((N - 2) / (NITRATE_MAX_CONCENTRATION - 2))) * fixedMaximumLoad;
+};
+
+const dir = function(obj) {
+    // Examines object properties or attributes
+    const ownProps = Object.getOwnPropertyNames(obj);
+    const protoProps = Object.getOwnPropertyNames(Object.getPrototypeOf(obj));
+    return [...new Set([...ownProps, ...protoProps])];
+}
+console.log(calculateNitrateLoad(0, calculatedVolumeFt3perYear), 'reduced load')
 

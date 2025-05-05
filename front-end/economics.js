@@ -46,6 +46,7 @@ var Economics = function () {
       case 4:
         return parseFloat(document.getElementById('soybeanPrices').value); // per bushel
       case 5:
+      case '5':
         return 253 // per tonne
       case 6:
       case'6':
@@ -302,6 +303,7 @@ var Economics = function () {
             }
 
     ));
+    // TODO the code below needs clean up it is too repetitive and needs a better craft for readability
     for(let i = 1; i <= boardData[currentBoard].calculatedToYear; i++){
       landUses[i] = [];
       this.mapData[i] = [];
@@ -353,9 +355,12 @@ var Economics = function () {
         //let grazingLUs = Object.keys(sellingPricesHead);
         else if (['6', '7'].includes(dataPoint['LU_ID'])) {
           const cattleYield = Totals.yieldByLandUse[i][dataPoint['LU_ID']]
-          value = this.getPrice(dataPoint['LU_ID']) * cattleYield // * 5600// Totals.yieldByLandUse[i][dataPoint['LU_ID']] * grazingRatio[dataPoint['LU_ID']]// replacing the previous
+          value = this.getPrice(dataPoint['LU_ID']) * cattleYield //
           console.log('Yield by land use', Totals.yieldResults[i].cattleYield, value, cattleYield, dataPoint['LU_ID'])
-        } else {
+        } else if(dataPoint['LU_ID']){
+          value  = this.getPrice(dataPoint['LU_ID']) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
+        }
+        else {
           value = parseFloat(dataPoint['Revenue/acre/year']) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
         }
         this.scaledRev[i][dataPoint['LU_ID']] = this.scaledRev[i][dataPoint['LU_ID']] || 0;
@@ -503,7 +508,7 @@ var Economics = function () {
           //Conservation Soybean values are calculated separately due to BMP budgets.
           //Specially made verbose to reduce confusion.
           //Check calculateBMPBugets function.
-          //Conservation Soybean is numLandUse 1. DO NOT CONFUSE THIS WITH LU_ID.
+          //Conservation Soybean is numLandUse 1. DO NOT CONFUSE THIS WITH LU_ID. // insistence is unforgiving in coding
           //numLandUse values are only used for calculateBMPBudgets function.
           else if (copy['LU_ID'] === "4") {
             if (copy['PerAcreORPerYield'] === "" && copy['BMP'] !== 'GrassedWaterways' && copy['BMP'] !== 'Terraces' && copy['BMP'] !== 'Buffers') {
@@ -766,14 +771,14 @@ var Economics = function () {
       for (let j = 0; j < boardData[currentBoard].map.length; j++) {
         let landUseNum = boardData[currentBoard].map[j].landType[i]
         let xp =0
+        let tiledArea =boardData[currentBoard].map[j].area
 
          if (landUseNum > 0) {
            const subWatershedID = boardData[currentBoard].map[j].subwatershed;
            let subWatershedNoMin =  boardData[currentBoard].subWatershedNitrateNoMin[subWatershedID]
-           let nitrateTilePPM = (
-               boardData[currentBoard].map[j].results[currentYear].calculatedTileNitrate /
-               calculateSubwatershedTotalNitrateScore(j)
-           ) * boardData[currentBoard].subWatershedNitrateNoMin[subWatershedID];
+           let nitrateTilePPM =  boardData[currentBoard].map[j].results[currentYear].calculatedTileNitrate * 0.14 * tiledArea/6000
+
+           console.log(nitrateTilePPM, 'pppm')
            // TODO the challenge is to track nitrate load reduced due to each land use and compare it with the baseline
            this.nitrateTotalsByLandUse[i][landUseNum] += nitrateTilePPM
            //console.log(nitrateTilePPM, 'ppm', landUseNum)
@@ -789,6 +794,9 @@ var Economics = function () {
     }
     console.log(this.nitrateTotalsByLandUse, 'land use nitrates')
     console.log(this.totalN, 'total difference')
+
+
+    console.log(dir(boardData[currentBoard].map[1].results[currentYear]))
 
 
     //console.log(boardData[currentBoard].map[0].nitratetile, '==nit tile')
@@ -957,8 +965,8 @@ var Economics = function () {
         } else if ([10, 11].includes(landUseID)) {
           yieldTile = cell.getWoodYield() / 171.875 * 423.766 * tileArea;
         }
-        let cattleWeight = yieldTile * 5600
-        costMultiplier = [13, 10, 11, 12, 15, 14, 8, 9].includes(landUseID) ? tileArea : yieldTile;
+
+        costMultiplier = [13, 10, 11, 12, 15, 14, 8, 9, 5].includes(landUseID) ? tileArea : yieldTile;
 
         grossRevenue = yieldTile * unitPrice;
 
