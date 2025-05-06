@@ -46,10 +46,14 @@ var Economics = function () {
       case 4:
         return parseFloat(document.getElementById('soybeanPrices').value); // per bushel
       case 5:
+      case '5':
         return 253 // per tonne
       case 6:
+      case'6':
+        return 3729.00 // per head of cattle
       case 7:
-        return 5.6 // per head of cattle
+      case '7':
+        return 3729.00 // per head of cattle
 
       case 8:
         return 180 // per tonne;
@@ -65,6 +69,8 @@ var Economics = function () {
         return 60; // per tonne
       case 14:
         return 0; // no yield
+      case 15:
+        return 5.6 // per pound
       case 'NA':
       case 0:
       case '0':
@@ -297,6 +303,7 @@ var Economics = function () {
             }
 
     ));
+    // TODO the code below needs clean up it is too repetitive and needs a better craft for readability
     for(let i = 1; i <= boardData[currentBoard].calculatedToYear; i++){
       landUses[i] = [];
       this.mapData[i] = [];
@@ -314,49 +321,46 @@ var Economics = function () {
       let outValue = 0
       this.rawRev.forEach(dataPoint => {
 
-        if(dataPoint['LU_ID'] === 15){
-            let fruitsPrecipMultiplier = 1; //since the csv now accounts for acres instead of the
-             // actual yield for revenue purposes we have to use the yield precip multiplier
-            if(boardData[currentBoard].precipitation[i] === 45.1) fruitsPrecipMultiplier = .75;
-            if(boardData[currentBoard].precipitation[i] === 36.5) fruitsPrecipMultiplier = .9;
-            // value = parseFloat(dataPoint['Revenue/acre/year']) * landUses[i][dataPoint['LU_ID']] * fruitsPrecipMultiplier / 4;
-            value = parseFloat(dataPoint['Revenue/acre/year']) * this.getCropYields[i][1].mixedFVYield * fruitsPrecipMultiplier;
-        }
-
-        else if (dataPoint['LU_ID'] === "2"){
-          if(dataPoint['Sub Crop'] === 'Corn after Soybean'){
+        let value;
+        if (dataPoint['LU_ID'] === 15) {
+          let fruitsPrecipMultiplier = 1; //since the csv now accounts for acres instead of the
+          // actual yield for revenue purposes we have to use the yield precip multiplier
+          if (boardData[currentBoard].precipitation[i] === 45.1) fruitsPrecipMultiplier = .75;
+          if (boardData[currentBoard].precipitation[i] === 36.5) fruitsPrecipMultiplier = .9;
+          // value = parseFloat(dataPoint['Revenue/acre/year']) * landUses[i][dataPoint['LU_ID']] * fruitsPrecipMultiplier / 4;
+          value = parseFloat(dataPoint['Revenue/acre/year']) * this.getCropYields[i][1].mixedFVYield // * fruitsPrecipMultiplier;
+        } else if (dataPoint['LU_ID'] === "2") {
+          if (dataPoint['Sub Crop'] === 'Corn after Soybean') {
             value = parseFloat(revenueData[dataPoint['LU_ID']]) * this.getBMPAreas[i][2].landUseYield || 0;  //2 = Cons Corn after Soybean
-          }
-          else {
+          } else {
             value = parseFloat(dataPoint['Revenue/acre/year']) * this.getBMPAreas[i][3].landUseYield || 0; //3 = Cons Corn after Corn
           }
+        } else if (dataPoint['LU_ID'] === "4") {
+          // value = parseFloat(dataPoint['Revenue/acre/year']) *  this.getBMPAreas[i][1].landUseYield; //1 = Cons Soybean
+          value = parseFloat(revenueData[dataPoint['LU_ID']]) * this.getBMPAreas[i][1].landUseYield;
         }
-        else if (dataPoint['LU_ID'] === "4"){
-         // value = parseFloat(dataPoint['Revenue/acre/year']) *  this.getBMPAreas[i][1].landUseYield; //1 = Cons Soybean
-          value = parseFloat(revenueData[dataPoint['LU_ID']]) *  this.getBMPAreas[i][1].landUseYield;
-        }
-        //woodlands can't be treated the same since they are the only land use where the soil type changes the value of the wood not just the amount of wood.
+            //woodlands can't be treated the same since they are the only land use where the soil type changes the value of the wood not just the amount of wood.
         //Where the rest of the revenue above can multiply the output by a certain price: we need to actually find the soil that all the woodlands are on.
-        else if(dataPoint['LU_ID'] === "10"){
-          value = parseFloat(dataPoint['Revenue/acre/year']) * this.getSoilArea[i][1][dataPoint['SoilType']]  || 0; //1=Cons Forest
-        }
-        else if(dataPoint['LU_ID'] === "11"){
-          value = parseFloat(dataPoint['Revenue/acre/year']) * this.getSoilArea[i][2][dataPoint['SoilType']]  || 0; //2=Conv Forrest
-        }
-        else if(dataPoint['LU_ID'] === "1"){
+        else if (dataPoint['LU_ID'] === "10") {
+          value = parseFloat(dataPoint['Revenue/acre/year']) * this.getSoilArea[i][1][dataPoint['SoilType']] || 0; //1=Cons Forest
+        } else if (dataPoint['LU_ID'] === "11") {
+          value = parseFloat(dataPoint['Revenue/acre/year']) * this.getSoilArea[i][2][dataPoint['SoilType']] || 0; //2=Conv Forrest
+        } else if (dataPoint['LU_ID'] === "1") {
           value = parseFloat(revenueData[dataPoint['LU_ID']]) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
-        }
-        else if(dataPoint['LU_ID'] === "13"){
+        } else if (dataPoint['LU_ID'] === "13") {
           value = parseFloat(dataPoint['Revenue/acre/year']) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
-        }
-        else if(dataPoint['LU_ID'] === "3"){
+        } else if (dataPoint['LU_ID'] === "3") {
           value = parseFloat(revenueData[dataPoint['LU_ID']]) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
         }
-       //let grazingLUs = Object.keys(sellingPricesHead);
-       else if(['6', '7'].includes(dataPoint['LU_ID'])){
-
-        value = sellingPricesHead[dataPoint['LU_ID']] * Totals.yieldByLandUse[i][dataPoint['LU_ID']] * grazingRatio[dataPoint['LU_ID']]// replacing the previous
-        }else{
+        //let grazingLUs = Object.keys(sellingPricesHead);
+        else if (['6', '7'].includes(dataPoint['LU_ID'])) {
+          const cattleYield = Totals.yieldByLandUse[i][dataPoint['LU_ID']]
+          value = this.getPrice(dataPoint['LU_ID']) * cattleYield //
+          console.log('Yield by land use', Totals.yieldResults[i].cattleYield, value, cattleYield, dataPoint['LU_ID'])
+        } else if(dataPoint['LU_ID']){
+          value  = this.getPrice(dataPoint['LU_ID']) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
+        }
+        else {
           value = parseFloat(dataPoint['Revenue/acre/year']) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
         }
         this.scaledRev[i][dataPoint['LU_ID']] = this.scaledRev[i][dataPoint['LU_ID']] || 0;
@@ -504,7 +508,7 @@ var Economics = function () {
           //Conservation Soybean values are calculated separately due to BMP budgets.
           //Specially made verbose to reduce confusion.
           //Check calculateBMPBugets function.
-          //Conservation Soybean is numLandUse 1. DO NOT CONFUSE THIS WITH LU_ID.
+          //Conservation Soybean is numLandUse 1. DO NOT CONFUSE THIS WITH LU_ID. // insistence is unforgiving in coding
           //numLandUse values are only used for calculateBMPBudgets function.
           else if (copy['LU_ID'] === "4") {
             if (copy['PerAcreORPerYield'] === "" && copy['BMP'] !== 'GrassedWaterways' && copy['BMP'] !== 'Terraces' && copy['BMP'] !== 'Buffers') {
@@ -613,12 +617,12 @@ var Economics = function () {
 
 
     this.watershedTotals();
-    //TODO remove the charts that have been deprecated in version 4.1
-    this.chart3Data();
-    this.chart3DataByLU();
-    this.graphic5information();
-    this.divideByCategory(['Action - Cost Type', 'Time - Cost Type', 'Fixed/Variable']);
-    this.chart4Information(['Action - Cost Type', 'Time - Cost Type']);
+    //All those commented out are deprecated in version 4.1
+   this.chart3Data(); // Deprecated in version 4.1
+  this.chart3DataByLU();  // Deprecated in version 4.1
+    this.graphic5information();  // Deprecated in version 4.1
+   this.divideByCategory(['Action - Cost Type', 'Time - Cost Type', 'Fixed/Variable']);  // Deprecated in version 4.1
+  this.chart4Information(['Action - Cost Type', 'Time - Cost Type']);  // Deprecated in version 4.1
     this.calcSubcrops();
 
 
@@ -751,7 +755,7 @@ var Economics = function () {
   };
 
   nitrateEconomics = () =>{
-    //TODO there is a possibility to implement it in helperOBjects, but i just wanted a quick results
+
     this.nitrateTotalsByLandUse = [
       {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
       {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
@@ -767,14 +771,14 @@ var Economics = function () {
       for (let j = 0; j < boardData[currentBoard].map.length; j++) {
         let landUseNum = boardData[currentBoard].map[j].landType[i]
         let xp =0
+        let tiledArea =boardData[currentBoard].map[j].area
 
          if (landUseNum > 0) {
            const subWatershedID = boardData[currentBoard].map[j].subwatershed;
            let subWatershedNoMin =  boardData[currentBoard].subWatershedNitrateNoMin[subWatershedID]
-           let nitrateTilePPM = (
-               boardData[currentBoard].map[j].results[currentYear].calculatedTileNitrate /
-               calculateSubwatershedTotalNitrateScore(j)
-           ) * boardData[currentBoard].subWatershedNitrateNoMin[subWatershedID];
+           let nitrateTilePPM =  boardData[currentBoard].map[j].results[currentYear].calculatedTileNitrate * 0.14 * tiledArea/6000
+
+           console.log(nitrateTilePPM, 'pppm')
            // TODO the challenge is to track nitrate load reduced due to each land use and compare it with the baseline
            this.nitrateTotalsByLandUse[i][landUseNum] += nitrateTilePPM
            //console.log(nitrateTilePPM, 'ppm', landUseNum)
@@ -790,6 +794,9 @@ var Economics = function () {
     }
     console.log(this.nitrateTotalsByLandUse, 'land use nitrates')
     console.log(this.totalN, 'total difference')
+
+
+    console.log(dir(boardData[currentBoard].map[1].results[currentYear]))
 
 
     //console.log(boardData[currentBoard].map[0].nitratetile, '==nit tile')
@@ -945,7 +952,7 @@ var Economics = function () {
 
         let yieldTile = 0;
         let unitPrice = this.getPrice(landUseID);
-        let revenueValue = 0;
+        let grossRevenue = 0;
         let cost = 0;
         let costMultiplier =0
 
@@ -954,14 +961,14 @@ var Economics = function () {
         } else if ([3, 4, 5, 8, 12, 13, 15].includes(landUseID)) {
           yieldTile = cell.results[year].calculatedYieldTile * tileArea;
         } else if ([6, 7].includes(landUseID)) {
-          yieldTile = cell.getCattleSupported(year);
+          yieldTile = cell.getCattleSupported(year) * tileArea;
         } else if ([10, 11].includes(landUseID)) {
           yieldTile = cell.getWoodYield() / 171.875 * 423.766 * tileArea;
         }
 
-        costMultiplier = [13, 10, 11, 12, 14, 8, 9].includes(landUseID) ? tileArea : yieldTile;
+        costMultiplier = [13, 10, 11, 12, 15, 14, 8, 9, 5].includes(landUseID) ? tileArea : yieldTile;
 
-        revenueValue = yieldTile * unitPrice;
+        grossRevenue = yieldTile * unitPrice;
 
 
         let rotationKey = landUseKey;
@@ -985,7 +992,7 @@ var Economics = function () {
         // MULTIPLY BY THE COST MULTIPLIER HERE
         cost  *= costMultiplier
         cost *= costInflationFactorAdjustment;
-        let netRevenue = revenueValue - cost;
+        let netRevenue = grossRevenue - cost;
 
         this.totalWatershedCost[year][0].cost += cost;
         cell.results[year].calculatedTileNetRevenue = (cell.results[year].calculatedTileNetRevenue || 0) + netRevenue;
