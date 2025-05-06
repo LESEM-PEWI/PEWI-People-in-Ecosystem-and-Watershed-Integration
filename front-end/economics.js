@@ -39,7 +39,7 @@ var Economics = function () {
       case 1:
       case 2:
         // per bushel
-      return parseFloat(document.getElementById('cornPrices').value);
+      return parseFloat(document.getElementById('cornPrices').value); //per bushel
 
         //return cornPriceInput;
       case 3:
@@ -70,7 +70,7 @@ var Economics = function () {
       case 14:
         return 0; // no yield
       case 15:
-        return 5.6 // per pound
+        return 49900.0 // per acre
       case 'NA':
       case 0:
       case '0':
@@ -267,6 +267,22 @@ var Economics = function () {
     GHGScores();
     nitrateEconomics()
 
+    // get the land use area
+    this.areaByLandUse = [
+      {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
+      {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
+      {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
+      {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0}
+    ];
+    for(let i = 1; i <= boardData[currentBoard].calculatedToYear; i++) {
+
+      for (let j = 0; j < boardData[currentBoard].map.length; j++) {
+        let landUseNum = boardData[currentBoard].map[j].landType[i]
+        let xp = 0
+        let tiledArea = boardData[currentBoard].map[j].area
+        this.areaByLandUse[i][landUseNum] += tiledArea
+      }
+    }
     let landUses = [];
     this.mapData = [];
     /* this revenueData object was created to allow the user to make changes to the prices of corn and soybean
@@ -303,7 +319,7 @@ var Economics = function () {
             }
 
     ));
-    // TODO the code below needs clean up it is too repetitive and needs a better craft for readability
+    // I am cleaning up the code below
     for(let i = 1; i <= boardData[currentBoard].calculatedToYear; i++){
       landUses[i] = [];
       this.mapData[i] = [];
@@ -318,11 +334,44 @@ var Economics = function () {
         //this substring is to link different keys from different objects together... again less than ideal
         landUses[i][LandUseType[key.substring(0, key.length - 7)]] = Totals.landUseResults[i][key]
       }
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15].forEach(LUD=>{
+        let outRevenue;
+        let strLUD = LUD.toString();
+        let selectedLandUseArea = this.areaByLandUse[i][LUD]
+        let commodityPrice = this.getPrice(LUD);
+        let outCropYield = 0;
+
+        if (LUD ===2) {
+          outCropYield = Totals.yieldByLandUse[i][strLUD] - (this.getBMPAreas[i][strLUD].bmpArea * Totals.yieldByLandUse[i][strLUD])  || 0;  //2 = Cons Corn after Soybean
+        }else if (LUD ===4){
+          outCropYield = this.getBMPAreas[i][1].landUseYield;
+        }else if ([6, 7].includes(LUD)) {
+           outCropYield = Totals.yieldByLandUse[i][strLUD]
+
+        } else if(LUD ===15){
+          let fruitsPrecipMultiplier = 1;
+          if (boardData[currentBoard].precipitation[i] === 45.1) fruitsPrecipMultiplier = .75;
+          if (boardData[currentBoard].precipitation[i] === 36.5) fruitsPrecipMultiplier = .9;
+          outCropYield= this.getCropYields[i][1].mixedFVYield
+        }
+        else{
+          outCropYield =  Totals.yieldByLandUse[i][strLUD];
+        }
+        let revenueMultiplier = [15].includes(LUD) ? selectedLandUseArea : outCropYield;
+        outRevenue = revenueMultiplier * commodityPrice;
+        this.scaledRev[i][strLUD] = this.scaledRev[i][strLUD] || 0;
+        this.scaledRev[i][strLUD] += outRevenue;
+
+      });
+
+
       let outValue = 0
       this.rawRev.forEach(dataPoint => {
+        let LU_ID = Number(dataPoint['LU_ID']);
 
         let value;
         if (dataPoint['LU_ID'] === 15) {
+
           let fruitsPrecipMultiplier = 1; //since the csv now accounts for acres instead of the
           // actual yield for revenue purposes we have to use the yield precip multiplier
           if (boardData[currentBoard].precipitation[i] === 45.1) fruitsPrecipMultiplier = .75;
@@ -360,11 +409,12 @@ var Economics = function () {
         } else if(dataPoint['LU_ID']){
           value  = this.getPrice(dataPoint['LU_ID']) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
         }
+
         else {
           value = parseFloat(dataPoint['Revenue/acre/year']) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
         }
         this.scaledRev[i][dataPoint['LU_ID']] = this.scaledRev[i][dataPoint['LU_ID']] || 0;
-        this.scaledRev[i][dataPoint['LU_ID']] += value;
+       // this.scaledRev[i][dataPoint['LU_ID']] += value;
        // boardData[currentBoard].map[j].results[i].calculatedTileGrossRevenue += value
 
 
@@ -762,12 +812,7 @@ var Economics = function () {
       {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
       {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0}
     ];
-    this.areaByLandUse = [
-      {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
-      {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
-      {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
-      {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0}
-    ];
+
     for(let i = 1; i <= boardData[currentBoard].calculatedToYear; i++) {
       let nc = (Totals.nitrateConcentration[currentYear]* 10)/10 // ppm
       let collectPrecipitation = boardData[currentBoard].precipitation[i];
@@ -781,7 +826,7 @@ var Economics = function () {
         let landUseNum = boardData[currentBoard].map[j].landType[i]
         let xp =0
         let tiledArea =boardData[currentBoard].map[j].area
-        this.areaByLandUse[i][landUseNum] += tiledArea
+
 
          if (landUseNum > 0) {
            const subWatershedID = boardData[currentBoard].map[j].subwatershed;
@@ -817,7 +862,7 @@ var Economics = function () {
     const nitrateConcentration = 10; // ppm
     const nitrateMassKg = calculateNitrateMass(volume, nitrateConcentration);
 
-   // console.log(`Nitrate mass: ${nitrateMassKg.toFixed(2)} kg/year`);
+
 
 
   }
