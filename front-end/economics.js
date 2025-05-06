@@ -762,9 +762,18 @@ var Economics = function () {
       {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
       {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0}
     ];
+    this.areaByLandUse = [
+      {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
+      {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
+      {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
+      {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0}
+    ];
     for(let i = 1; i <= boardData[currentBoard].calculatedToYear; i++) {
-      console.log('nitrate summary year', i)
-      console.log('====================================================', i)
+      let nc = (Totals.nitrateConcentration[currentYear]* 10)/10 // ppm
+      let collectPrecipitation = boardData[currentBoard].precipitation[i];
+      let streamDischarge  = calculateStreamVolume( boardData[currentBoard], i)
+      console.log('Stream discharge', streamDischarge)
+
       this.totalN =0
       let contNitrate =0
       let nitrate =0
@@ -772,13 +781,15 @@ var Economics = function () {
         let landUseNum = boardData[currentBoard].map[j].landType[i]
         let xp =0
         let tiledArea =boardData[currentBoard].map[j].area
+        this.areaByLandUse[i][landUseNum] += tiledArea
 
          if (landUseNum > 0) {
            const subWatershedID = boardData[currentBoard].map[j].subwatershed;
            let subWatershedNoMin =  boardData[currentBoard].subWatershedNitrateNoMin[subWatershedID]
-           let nitrateTilePPM =  boardData[currentBoard].map[j].results[currentYear].calculatedTileNitrate * 0.14 * tiledArea/6000
+           let nitrateTilePPM =  boardData[currentBoard].map[j].results[currentYear].calculatedTileNitrate * tiledArea/6000
 
-           console.log(nitrateTilePPM, 'pppm')
+
+          // console.log(nitrateTilePPM, 'pppm', nc)
            // TODO the challenge is to track nitrate load reduced due to each land use and compare it with the baseline
            this.nitrateTotalsByLandUse[i][landUseNum] += nitrateTilePPM
            //console.log(nitrateTilePPM, 'ppm', landUseNum)
@@ -793,6 +804,7 @@ var Economics = function () {
       }
     }
     console.log(this.nitrateTotalsByLandUse, 'land use nitrates')
+    console.log(this.areaByLandUse, 'area ')
     console.log(this.totalN, 'total difference')
 
 
