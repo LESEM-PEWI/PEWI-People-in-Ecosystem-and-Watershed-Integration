@@ -365,61 +365,61 @@ var Economics = function () {
       });
 
 
-      let outValue = 0
-      this.rawRev.forEach(dataPoint => {
-        let LU_ID = Number(dataPoint['LU_ID']);
-
-        let value;
-        if (dataPoint['LU_ID'] === 15) {
-
-          let fruitsPrecipMultiplier = 1; //since the csv now accounts for acres instead of the
-          // actual yield for revenue purposes we have to use the yield precip multiplier
-          if (boardData[currentBoard].precipitation[i] === 45.1) fruitsPrecipMultiplier = .75;
-          if (boardData[currentBoard].precipitation[i] === 36.5) fruitsPrecipMultiplier = .9;
-          // value = parseFloat(dataPoint['Revenue/acre/year']) * landUses[i][dataPoint['LU_ID']] * fruitsPrecipMultiplier / 4;
-          value = parseFloat(dataPoint['Revenue/acre/year']) * this.getCropYields[i][1].mixedFVYield // * fruitsPrecipMultiplier;
-        } else if (dataPoint['LU_ID'] === "2") {
-          if (dataPoint['Sub Crop'] === 'Corn after Soybean') {
-            value = parseFloat(revenueData[dataPoint['LU_ID']]) * this.getBMPAreas[i][2].landUseYield || 0;  //2 = Cons Corn after Soybean
-          } else {
-            value = parseFloat(dataPoint['Revenue/acre/year']) * this.getBMPAreas[i][3].landUseYield || 0; //3 = Cons Corn after Corn
-          }
-        } else if (dataPoint['LU_ID'] === "4") {
-          // value = parseFloat(dataPoint['Revenue/acre/year']) *  this.getBMPAreas[i][1].landUseYield; //1 = Cons Soybean
-          value = parseFloat(revenueData[dataPoint['LU_ID']]) * this.getBMPAreas[i][1].landUseYield;
-        }
-            //woodlands can't be treated the same since they are the only land use where the soil type changes the value of the wood not just the amount of wood.
-        //Where the rest of the revenue above can multiply the output by a certain price: we need to actually find the soil that all the woodlands are on.
-        else if (dataPoint['LU_ID'] === "10") {
-          value = parseFloat(dataPoint['Revenue/acre/year']) * this.getSoilArea[i][1][dataPoint['SoilType']] || 0; //1=Cons Forest
-        } else if (dataPoint['LU_ID'] === "11") {
-          value = parseFloat(dataPoint['Revenue/acre/year']) * this.getSoilArea[i][2][dataPoint['SoilType']] || 0; //2=Conv Forrest
-        } else if (dataPoint['LU_ID'] === "1") {
-          value = parseFloat(revenueData[dataPoint['LU_ID']]) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
-        } else if (dataPoint['LU_ID'] === "13") {
-          value = parseFloat(dataPoint['Revenue/acre/year']) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
-        } else if (dataPoint['LU_ID'] === "3") {
-          value = parseFloat(revenueData[dataPoint['LU_ID']]) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
-        }
-        //let grazingLUs = Object.keys(sellingPricesHead);
-        else if (['6', '7'].includes(dataPoint['LU_ID'])) {
-          const cattleYield = Totals.yieldByLandUse[i][dataPoint['LU_ID']]
-          value = this.getPrice(dataPoint['LU_ID']) * cattleYield //
-          console.log('Yield by land use', Totals.yieldResults[i].cattleYield, value, cattleYield, dataPoint['LU_ID'])
-        } else if(dataPoint['LU_ID']){
-          value  = this.getPrice(dataPoint['LU_ID']) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
-        }
-
-        else {
-          value = parseFloat(dataPoint['Revenue/acre/year']) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
-        }
-        this.scaledRev[i][dataPoint['LU_ID']] = this.scaledRev[i][dataPoint['LU_ID']] || 0;
-       // this.scaledRev[i][dataPoint['LU_ID']] += value;
-       // boardData[currentBoard].map[j].results[i].calculatedTileGrossRevenue += value
-
-
-        // this.totalWatershedRevenue[i][0].revenue += !isNaN(this.scaledRev[i][dataPoint['LU_ID']]) ? this.scaledRev[i][dataPoint['LU_ID']] : 0
-      });
+      // let outValue = 0
+      // this.rawRev.forEach(dataPoint => {
+      //   let LU_ID = Number(dataPoint['LU_ID']);
+      //
+      //   let value;
+      //   if (dataPoint['LU_ID'] === 15) {
+      //
+      //     let fruitsPrecipMultiplier = 1; //since the csv now accounts for acres instead of the
+      //     // actual yield for revenue purposes we have to use the yield precip multiplier
+      //     if (boardData[currentBoard].precipitation[i] === 45.1) fruitsPrecipMultiplier = .75;
+      //     if (boardData[currentBoard].precipitation[i] === 36.5) fruitsPrecipMultiplier = .9;
+      //     // value = parseFloat(dataPoint['Revenue/acre/year']) * landUses[i][dataPoint['LU_ID']] * fruitsPrecipMultiplier / 4;
+      //     value = parseFloat(dataPoint['Revenue/acre/year']) * this.getCropYields[i][1].mixedFVYield // * fruitsPrecipMultiplier;
+      //   } else if (dataPoint['LU_ID'] === "2") {
+      //     if (dataPoint['Sub Crop'] === 'Corn after Soybean') {
+      //       value = parseFloat(revenueData[dataPoint['LU_ID']]) * this.getBMPAreas[i][2].landUseYield || 0;  //2 = Cons Corn after Soybean
+      //     } else {
+      //       value = parseFloat(dataPoint['Revenue/acre/year']) * this.getBMPAreas[i][3].landUseYield || 0; //3 = Cons Corn after Corn
+      //     }
+      //   } else if (dataPoint['LU_ID'] === "4") {
+      //     // value = parseFloat(dataPoint['Revenue/acre/year']) *  this.getBMPAreas[i][1].landUseYield; //1 = Cons Soybean
+      //     value = parseFloat(revenueData[dataPoint['LU_ID']]) * this.getBMPAreas[i][1].landUseYield;
+      //   }
+      //       //woodlands can't be treated the same since they are the only land use where the soil type changes the value of the wood not just the amount of wood.
+      //   //Where the rest of the revenue above can multiply the output by a certain price: we need to actually find the soil that all the woodlands are on.
+      //   else if (dataPoint['LU_ID'] === "10") {
+      //     value = parseFloat(dataPoint['Revenue/acre/year']) * this.getSoilArea[i][1][dataPoint['SoilType']] || 0; //1=Cons Forest
+      //   } else if (dataPoint['LU_ID'] === "11") {
+      //     value = parseFloat(dataPoint['Revenue/acre/year']) * this.getSoilArea[i][2][dataPoint['SoilType']] || 0; //2=Conv Forrest
+      //   } else if (dataPoint['LU_ID'] === "1") {
+      //     value = parseFloat(revenueData[dataPoint['LU_ID']]) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
+      //   } else if (dataPoint['LU_ID'] === "13") {
+      //     value = parseFloat(dataPoint['Revenue/acre/year']) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
+      //   } else if (dataPoint['LU_ID'] === "3") {
+      //     value = parseFloat(revenueData[dataPoint['LU_ID']]) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
+      //   }
+      //   //let grazingLUs = Object.keys(sellingPricesHead);
+      //   else if (['6', '7'].includes(dataPoint['LU_ID'])) {
+      //     const cattleYield = Totals.yieldByLandUse[i][dataPoint['LU_ID']]
+      //     value = this.getPrice(dataPoint['LU_ID']) * cattleYield //
+      //     console.log('Yield by land use', Totals.yieldResults[i].cattleYield, value, cattleYield, dataPoint['LU_ID'])
+      //   } else if(dataPoint['LU_ID']){
+      //     value  = this.getPrice(dataPoint['LU_ID']) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
+      //   }
+      //
+      //   else {
+      //     value = parseFloat(dataPoint['Revenue/acre/year']) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
+      //   }
+      //   this.scaledRev[i][dataPoint['LU_ID']] = this.scaledRev[i][dataPoint['LU_ID']] || 0;
+      //  // this.scaledRev[i][dataPoint['LU_ID']] += value;
+      //  // boardData[currentBoard].map[j].results[i].calculatedTileGrossRevenue += value
+      //
+      //
+      //   // this.totalWatershedRevenue[i][0].revenue += !isNaN(this.scaledRev[i][dataPoint['LU_ID']]) ? this.scaledRev[i][dataPoint['LU_ID']] : 0
+      // });
       this.econRevenueByLandUse = convertLandUseIDsToTexts(this.scaledRev)
       console.log(this.scaledRev, 'scaled', this.scaledRev.length)
 
