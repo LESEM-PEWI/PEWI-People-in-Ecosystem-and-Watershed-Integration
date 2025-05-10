@@ -1979,6 +1979,14 @@ function displayLevels(overlayHighlightType) {
         pushClick(0, getStamp(), 46, 0, null);
       }
       break;
+
+    case 'netrevenue':
+      selectionHighlightNumber = 25;
+      updateGlossaryPopup('This map shows the <span style="color:orange;">Net Revenue</span> per tile, computed using yield and cost values. To learn more, go to the <span style="color:yellow;">Glossary</span> and select <span style="color:yellow;">"Economics"</span>.');
+      if (curTracking) {
+        pushClick(0, getStamp(), 148, 0, null); // Use a unique tracking ID
+      }
+      break;
     case 'nitrate':
       selectionHighlightNumber = 1;
       updateGlossaryPopup('To learn more about <span style="color:orange;">Nitrate</span>, go to the <span style="color:yellow;">Glossary</span>, select "Modules" and then <span style="color:yellow;">"Water Quality"</span>.');
@@ -2386,8 +2394,16 @@ function redrawOverlay(highlightType){
         pushClick(0, getStamp(), 146, 0, null); // Use a unique ID
       }
       break;
-  }
 
+
+    case 'netrevenue':
+      selectionHighlightNumber = 25;
+      updateGlossaryPopup('This map shows the <span style="color:orange;">net revenue (profit)</span> for each tile. It is calculated as revenue minus cost per year. For details, go to the <span style="color:yellow;">Glossary</span> and select <span style="color:yellow;">"Economics"</span>.');
+      if (curTracking) {
+        pushClick(0, getStamp(), 147, 0, null); // Use a unique ID
+      }
+      break;
+  }
 
   if(highlightType != null){
     drawOverlayOntoBoard(selectionHighlightNumber, highlightType);
@@ -2708,6 +2724,26 @@ function getGHGForTile(year, tileId) {
     soc: parseFloat(match['to_carb']) || 0
   };
 }
+
+function getTileNetRevenue(tileId) {
+  try {
+    const result = boardData[currentBoard].map[tileId].results[currentYear];
+    if (!result || typeof result.calculatedTileNetRevenue === 'undefined') {
+      return "Net Revenue: Data not available";
+    }
+
+    const netRevenue = parseFloat(result.calculatedTileNetRevenue);
+    if (isNaN(netRevenue)) {
+      return "Net Revenue: Invalid data";
+    }
+
+    return "Net Revenue: $" + netRevenue.toFixed(2);
+  } catch (err) {
+    console.error("Error retrieving net revenue for tile " + tileId, err);
+    return "Net Revenue: Error";
+  }
+}
+
 //getHighlightColor determines the gradient of highlighting color for each tile dependent on type of map selected
 function getHighlightColor(highlightType, tileId) {
 
@@ -2716,6 +2752,59 @@ function getHighlightColor(highlightType, tileId) {
     //subtract 1, as arrays index from 0
     return (Totals.grossErosionSeverity[currentYear][tileId] + 35);
   }
+
+  else if (highlightType === "netrevenue") {
+    const revenueTexts = getTileNetRevenue(tileId);
+    const match = revenueTexts.match(/\$([\d,.]+)/);
+    const revenueText = match ? parseFloat(match[1].replace(/,/g, '')) : null;
+
+    console.log(`🎯 Highlighting tile ${tileId} → Parsed Revenue: ${revenueText}`);
+
+    if (revenueText == null) {
+      // console.log(` Tile ${tileId} → Revenue is null`);
+      return 0;
+    } else if (revenueText <= 0) {
+      //console.log(`Tile ${tileId} → Loss`);
+      return 36;
+    } else if (revenueText <= 10000) {
+      //console.log(` Tile ${tileId} → Very Low`);
+      return 39;
+    } else if (revenueText <= 13000) {
+      //console.log(`Tile ${tileId} → Low`);
+      return 40;
+    } else if (revenueText <= 19000) {
+      //console.log(` Tile ${tileId} → Moderate`);
+      return 42;
+    } else if (revenueText <= 24000) {
+      //console.log(`Tile ${tileId} → High`);
+      return 44;
+    } else if (revenueText <= 26000) {
+      //console.log(`Tile ${tileId} → Very High`);
+      return 46;
+    } else if (revenueText <= 29000) {
+      //console.log(` Tile ${tileId} → Excellent`);
+      return 8;
+    }
+
+    else if (revenueText <= 31000) {
+      //console.log(` Tile ${tileId} → Excellent`);
+      return 9;
+    }
+    else if (revenueText <= 33000) {
+      //console.log(` Tile ${tileId} → Excellent`);
+      return 10;
+
+    }
+    else if (revenueText <= 35000) {
+      //console.log(` Tile ${tileId} → Excellent`);
+      return 11;
+
+    }
+    else{
+      return 128;
+    }
+  }
+
   // ghg highlight color indicies
   else if (highlightType == "ghg") {
     const ghg = getGHGForTile(yearSelected, tileId);
@@ -5619,14 +5708,20 @@ function showLevelDetails(value) {
       document.getElementById("nitratetileDetailsList").className = "DetailsList levelDetailsList";
       break;
     case 24:
+      // show ghg legend
       document.getElementById('ghgIcon').className = "levelsSelectorIcon iconSelected";
       document.getElementById("ghgDetailsList").className = "DetailsList levelDetailsList";
+      break;
+    case 25:
+      // show net revenue legend
+      document.getElementById('netRevenueIcon').className = "levelsSelectorIcon iconSelected";
+      document.getElementById("netRevenueDetailsList").className = "DetailsList levelDetailsList";
       break;
   } // END switch
 
 
   //hide ecosystem indicator legends
-  if ((value > -4 && value < 0) || (value<=-19 && value>=-24)) {
+  if ((value > -4 && value < 0) || (value<=-19 && value>=-25)) {
     globalLegend = false;
     var element = document.getElementsByClassName('DetailsList');
     if (element.length > 0) {
