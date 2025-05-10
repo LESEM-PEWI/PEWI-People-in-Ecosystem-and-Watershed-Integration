@@ -39,7 +39,7 @@ var Economics = function () {
       case 1:
       case 2:
         // per bushel
-      return parseFloat(document.getElementById('cornPrices').value);
+      return parseFloat(document.getElementById('cornPrices').value); //per bushel
 
         //return cornPriceInput;
       case 3:
@@ -70,13 +70,13 @@ var Economics = function () {
       case 14:
         return 0; // no yield
       case 15:
-        return 5.6 // per pound
+        return 49900.0 // per acre
       case 'NA':
       case 0:
       case '0':
         return 0;
       default:
-        return null; // or throw an error if unexpected value
+        return 0; // or throw an error if unexpected value
     }
   };
 
@@ -179,7 +179,7 @@ var Economics = function () {
     // We thought that there is no point to display the whole budgets with cost types and categories because the land use budgets differ from each other
    d3.csv('./cost_per_unit.csv', (data) => {
      // TODO replace 1 with inflation adjustment factor
-    this.rawCostPerUnit=costAdjuster(data, 'cost_per_acre',  1); // see TODO above
+    this.rawCostPerUnit = data
 
 
   });
@@ -267,6 +267,22 @@ var Economics = function () {
     GHGScores();
     nitrateEconomics()
 
+    // get the land use area
+    this.areaByLandUse = [
+      {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
+      {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
+      {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
+      {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0}
+    ];
+    for(let i = 1; i <= boardData[currentBoard].calculatedToYear; i++) {
+
+      for (let j = 0; j < boardData[currentBoard].map.length; j++) {
+        let landUseNum = boardData[currentBoard].map[j].landType[i]
+        let xp = 0
+        let tiledArea = boardData[currentBoard].map[j].area
+        this.areaByLandUse[i][landUseNum] += tiledArea
+      }
+    }
     let landUses = [];
     this.mapData = [];
     /* this revenueData object was created to allow the user to make changes to the prices of corn and soybean
@@ -303,11 +319,12 @@ var Economics = function () {
             }
 
     ));
-    // TODO the code below needs clean up it is too repetitive and needs a better craft for readability
+    // I am cleaning up the code below
     for(let i = 1; i <= boardData[currentBoard].calculatedToYear; i++){
       landUses[i] = [];
       this.mapData[i] = [];
-      this.scaledRev[i] = [];
+      this.scaledRev[i] =[]
+      ;
       //this.totalWatershedCost[i] = [{cost: 0}];  //TESTING
 
       let keys = Object.keys(Totals.landUseResults[0]);
@@ -318,11 +335,58 @@ var Economics = function () {
         //this substring is to link different keys from different objects together... again less than ideal
         landUses[i][LandUseType[key.substring(0, key.length - 7)]] = Totals.landUseResults[i][key]
       }
+      [0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15].forEach(LUD=>{
+        const carbonPrice = parseFloat(document.getElementById("carbonPrices").value)
+        const nitratePrice =  parseFloat(document.getElementById("nitrogenPrices").value)
+        let outRevenue;
+        let strLUD = LUD.toString();
+        let selectedLandUseArea = this.areaByLandUse[i][LUD]
+        let commodityPrice = this.getPrice(LUD);
+        let socRev = this.landUseSOC[i][LUD]
+        socRev = Math.max(0, socRev) * carbonPrice;
+
+
+        let outCropYield = 0;
+
+        if (LUD ===2) {
+          outCropYield = Totals.yieldByLandUse[i][LUD] - (this.getBMPAreas[i][strLUD].bmpArea * Totals.yieldByLandUse[i][strLUD])  || 0;  //2 = Cons Corn after Soybean
+        }else if (LUD ===4){
+          outCropYield = this.getBMPAreas[i][1].landUseYield || 0;
+        }else if ([6, 7].includes(LUD)) {
+           outCropYield = Totals.yieldByLandUse[i][LUD] || 0
+
+        } else if(LUD ===15){
+          let fruitsPrecipMultiplier = 1;
+          if (boardData[currentBoard].precipitation[i] === 45.1) fruitsPrecipMultiplier = .75;
+          if (boardData[currentBoard].precipitation[i] === 36.5) fruitsPrecipMultiplier = .9;
+          outCropYield= this.getCropYields[i][1].mixedFVYield
+        }else if(LUD ===10){
+          outCropYield = 0
+        }
+        else{
+          outCropYield =  Totals.yieldByLandUse[i][LUD] || 0;
+        }
+
+        let revenueMultiplier = [15].includes(LUD) ? selectedLandUseArea :  outCropYield;
+        outRevenue = revenueMultiplier * commodityPrice + socRev;
+        //console.log(outRevenue, 'out rev')
+       // this.scaledRev[i][LUD] = this.scaledRev[i][LUD] || 0;
+       // this.scaledRev[i][LUD] += outRevenue;
+        console.log(this.scaledRev, 'scaled revenue')
+
+      });
+
+
       let outValue = 0
       this.rawRev.forEach(dataPoint => {
+        let LU_ID = Number(dataPoint['LU_ID']);
+        let socRev = this.landUseSOC[i][LU_ID]
+        const carbonPrice = parseFloat(document.getElementById("carbonPrices").value)
+        socRev = Math.max(0, socRev) * carbonPrice;
 
         let value;
         if (dataPoint['LU_ID'] === 15) {
+
           let fruitsPrecipMultiplier = 1; //since the csv now accounts for acres instead of the
           // actual yield for revenue purposes we have to use the yield precip multiplier
           if (boardData[currentBoard].precipitation[i] === 45.1) fruitsPrecipMultiplier = .75;
@@ -357,14 +421,15 @@ var Economics = function () {
           const cattleYield = Totals.yieldByLandUse[i][dataPoint['LU_ID']]
           value = this.getPrice(dataPoint['LU_ID']) * cattleYield //
           console.log('Yield by land use', Totals.yieldResults[i].cattleYield, value, cattleYield, dataPoint['LU_ID'])
-        } else if(dataPoint['LU_ID']){
+        } else if(dataPoint['LU_ID'] ===8){
           value  = this.getPrice(dataPoint['LU_ID']) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
         }
+
         else {
-          value = parseFloat(dataPoint['Revenue/acre/year']) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
+          value = this.getPrice(LU_ID) * Totals.yieldByLandUse[i][dataPoint['LU_ID']];
         }
         this.scaledRev[i][dataPoint['LU_ID']] = this.scaledRev[i][dataPoint['LU_ID']] || 0;
-        this.scaledRev[i][dataPoint['LU_ID']] += value;
+         this.scaledRev[i][dataPoint['LU_ID']] += value + socRev;
        // boardData[currentBoard].map[j].results[i].calculatedTileGrossRevenue += value
 
 
@@ -762,9 +827,13 @@ var Economics = function () {
       {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
       {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0}
     ];
+
     for(let i = 1; i <= boardData[currentBoard].calculatedToYear; i++) {
-      console.log('nitrate summary year', i)
-      console.log('====================================================', i)
+      let nc = (Totals.nitrateConcentration[currentYear]* 10)/10 // ppm
+      let collectPrecipitation = boardData[currentBoard].precipitation[i];
+      let streamDischarge  = calculateStreamVolume( boardData[currentBoard], i)
+      console.log('Stream discharge', streamDischarge)
+
       this.totalN =0
       let contNitrate =0
       let nitrate =0
@@ -773,12 +842,14 @@ var Economics = function () {
         let xp =0
         let tiledArea =boardData[currentBoard].map[j].area
 
+
          if (landUseNum > 0) {
            const subWatershedID = boardData[currentBoard].map[j].subwatershed;
            let subWatershedNoMin =  boardData[currentBoard].subWatershedNitrateNoMin[subWatershedID]
-           let nitrateTilePPM =  boardData[currentBoard].map[j].results[currentYear].calculatedTileNitrate * 0.14 * tiledArea/6000
+           let nitrateTilePPM =  boardData[currentBoard].map[j].results[currentYear].calculatedTileNitrate * tiledArea/6000
 
-           console.log(nitrateTilePPM, 'pppm')
+
+          // console.log(nitrateTilePPM, 'pppm', nc)
            // TODO the challenge is to track nitrate load reduced due to each land use and compare it with the baseline
            this.nitrateTotalsByLandUse[i][landUseNum] += nitrateTilePPM
            //console.log(nitrateTilePPM, 'ppm', landUseNum)
@@ -793,6 +864,7 @@ var Economics = function () {
       }
     }
     console.log(this.nitrateTotalsByLandUse, 'land use nitrates')
+    console.log(this.areaByLandUse, 'area ')
     console.log(this.totalN, 'total difference')
 
 
@@ -805,7 +877,7 @@ var Economics = function () {
     const nitrateConcentration = 10; // ppm
     const nitrateMassKg = calculateNitrateMass(volume, nitrateConcentration);
 
-   // console.log(`Nitrate mass: ${nitrateMassKg.toFixed(2)} kg/year`);
+
 
 
   }
@@ -1116,115 +1188,121 @@ var Economics = function () {
 
     // start of the loop for calculating annual/yearly values
     // =========================================================================
+    let numLandUseCode;
+    this.landUseSOC = [{1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
+      {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
+      {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
+      {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0}]
     for (let i = 1; i <= CurrentBoard.calculatedToYear; i++) { // i represent each year and here we start indexing from 1, meaning year one
 
-        // Initialize getSoilArea for year 'i'
-        let _PrecipitationData = CurrentBoard.precipitation[i];
+      // Initialize getSoilArea for year 'i'
+      let _PrecipitationData = CurrentBoard.precipitation[i];
 
-        _PrecipitationData = _PrecipitationData.toString();
-        // This is to display greenhouse gases by land use types
+      _PrecipitationData = _PrecipitationData.toString();
+      // This is to display greenhouse gases by land use types
 
-        this.GHGsScore[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2_emissions': 0}];
+      this.GHGsScore[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2_emissions': 0}];
 
-        this.GHGs[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2_emissions': 0}]
-        this.ghgBenchmark[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2_emissions': 0}]
+      this.GHGs[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2_emissions': 0}]
+      this.ghgBenchmark[i] = [{'CH4': 0, 'C02_e': 0, 'N2O': 0, 'SOC': 0, 'CO2_emissions': 0}]
 
-        // Start of the loop for collecting cell based values
+      // Start of the loop for collecting cell based values
       //====================================================================================
-        for (let j = 0; j < CurrentBoard.map.length; j++) { // j is the tile ID
-          // Get the soil type and area directly
-          let getSoilType = CurrentBoard.map[j]['soilType'];
-          let landUseTileID = 0;
-          landUseTileID = CurrentBoard.map[j]['landType'][i];
-          // console.log(boardData[currentBoard].map[j]['landType'],  'Board land use data, *** ', i)
-          let cellLandArea = CurrentBoard.map[j].area;
+      for (let j = 0; j < CurrentBoard.map.length; j++) { // j is the tile ID
+        // Get the soil type and area directly
+        let getSoilType = CurrentBoard.map[j]['soilType'];
+        let landUseTileID = 0;
+        landUseTileID = CurrentBoard.map[j]['landType'][i];
+        // console.log(boardData[currentBoard].map[j]['landType'],  'Board land use data, *** ', i)
+        let cellLandArea = CurrentBoard.map[j].area;
 
-            if (landUseTileID > 0) {
-              let ludID = landUseTileID.toString();
-              /**
-               * Apparently, the column for  soilType, methane, nitrous oxide kpi, precipitations and land use landUseType, soilType,
-               * in the ghgData.csv data are named as follows:
-               * [soil_type, land_use_code precipitation_level, 'soil_type', 'ch4_kg_ha_yr', 'TopN2O', 'kpi',
-               *  'precipitation_level', 'land_use']  if these columns are changed in that file, this method won't work
-               *  if not updated from the source file ./pewi3.0/ghgData.csv
-              for more info see data_cleaner.py in the base/root dir
-               */
+        if (landUseTileID > 0) {
+          let ludID = landUseTileID.toString();
+          /**
+           * Apparently, the column for  soilType, methane, nitrous oxide kpi, precipitations and land use landUseType, soilType,
+           * in the ghgData.csv data are named as follows:
+           * [soil_type, land_use_code precipitation_level, 'soil_type', 'ch4_kg_ha_yr', 'TopN2O', 'kpi',
+           *  'precipitation_level', 'land_use']  if these columns are changed in that file, this method won't work
+           *  if not updated from the source file ./pewi3.0/ghgData.csv
+           for more info see data_cleaner.py in the base/root dir
+           */
               // let gasesData = filterByLandUseAndSoilType(this.loadedGHGData, ludID, getSoilType, _PrecipitationData);
-              let gasesData = filteredArray(this.loadedGHGData, ludID, getSoilType, _PrecipitationData);
-              const currentData = gasesData[0];
-              // we need to always benchmark it to conventional corn forestry based on the selected soil types
-              let baseDData = filteredArray(this.loadedGHGData, '1', getSoilType, _PrecipitationData);
-              const  referenceData = baseDData[0]
+          let gasesData = filteredArray(this.loadedGHGData, ludID, getSoilType, _PrecipitationData);
+          const currentData = gasesData[0];
+          // we need to always benchmark it to conventional corn forestry based on the selected soil types
+          let baseDData = filteredArray(this.loadedGHGData, '1', getSoilType, _PrecipitationData);
+          const referenceData = baseDData[0]
 
 
-              // Convert to hectares
+          // Convert to hectares
 
-              let soilArea = cellLandArea / 2.471;
+          let soilArea = cellLandArea / 2.471;
 
-              // This will need to be converted to carbon dioxide equivalents
-              let soc = currentData?.to_carb * soilArea;
-              //console.log('soil organic carbon', soc)
-              let n20 = currentData?.TopN2O * soilArea;
-              let kpi = currentData?.kpi * soilArea
-
-
-              let ch4 = parseFloat(currentData?.ch4_kg_ha_yr) * soilArea;
-              let Respiration = parseFloat(currentData?.Whole_repsiration) * soilArea
-              // BASE DATA FOR CALCULATION SCORES IS BASED ON CONSERVATION F0RETRY CODE 11
-              let bGHG = parseFloat(referenceData?.kpi) * soilArea;
-              let bN2O = parseFloat(referenceData?.TopN2O) * soilArea;
-              let bCH4 = parseFloat(referenceData?.ch4_kg_ha_yr) * soilArea;
-              let bSOC = parseFloat(referenceData?.to_carb) * soilArea;
-              let bRespiration = parseFloat(referenceData?.Whole_repsiration) * soilArea
-
-              soc = parseFloat(soc.toFixed(0));
-              n20 = parseFloat(n20.toFixed(4));
-              kpi = parseFloat(kpi.toFixed(0));
-              Respiration = parseFloat(Respiration.toFixed(0));
-              bRespiration = parseFloat(bRespiration.toFixed(0));
-              let carbonDioxide = 0
-              numLandUseCode = Number(ludID);
-              if (soc < 0) {
-                carbonDioxide = soc
-                co2_emission = Math.abs(soc); // we dont want negative values
-               // soc = 0; TODO need another way to handle this perhaps discuss in the meeting
-              }
-              let bCarbonDioxide = 0
-              if (bSOC < 0) {
-                bCarbonDioxide = bSOC;
-                bSOC_emissions = Math.abs(bSOC);// we don't want to display negative values
-                bSOC = 0;
-              }
-              this.GHGs[i][0]['SOC'] += soc;
-              this.GHGs[i][0]['N2O'] += n20;
-              this.GHGs[i][0]['C02_e'] += kpi;
-
-              this.GHGs[i][0]['CH4'] += ch4;
-              // 'calculatedTileGHGs' could be used in mapping GHGs
-              // these will be useful in calculating the scores by getting the maximum and the minimum values for each along the soil types or cells
-              boardData[currentBoard].map[j].results[i].calculatedTileGHGs = kpi
-              // calculatedTileSOC could be used for mapping soil organic carbon
-              boardData[currentBoard].map[j].results[i].calculatedTileSOC = soc * cellLandArea //already multiplied by area
-              boardData[currentBoard].map[j].results[i].calculatedTileN20 = n20
-              boardData[currentBoard].map[j].results[i].calculatedTileNH4 = ch4
+          // This will need to be converted to carbon dioxide equivalents
+          let soc = currentData?.to_carb * soilArea;
+          //console.log('soil organic carbon', soc)
+          let n20 = currentData?.TopN2O * soilArea;
+          let kpi = currentData?.kpi * soilArea
 
 
-              this.GHGs[i][0]['CO2_emissions'] += carbonDioxide;
-              this.ghgBenchmark[i][0]['C02_e'] += bGHG;
-              this.ghgBenchmark[i][0]['N2O'] += bN2O;
-              this.ghgBenchmark[i][0]['CH4'] += bCH4;
-              this.ghgBenchmark[i][0]['CO2_emissions'] += bCarbonDioxide;
-              this.ghgBenchmark[i][0]['SOC'] += bSOC;
+          let ch4 = parseFloat(currentData?.ch4_kg_ha_yr) * soilArea;
+          let Respiration = parseFloat(currentData?.Whole_repsiration) * soilArea
+          // BASE DATA FOR CALCULATION SCORES IS BASED ON CONSERVATION F0RETRY CODE 11
+          let bGHG = parseFloat(referenceData?.kpi) * soilArea;
+          let bN2O = parseFloat(referenceData?.TopN2O) * soilArea;
+          let bCH4 = parseFloat(referenceData?.ch4_kg_ha_yr) * soilArea;
+          let bSOC = parseFloat(referenceData?.to_carb) * soilArea;
+          let bRespiration = parseFloat(referenceData?.Whole_repsiration) * soilArea
+
+          soc = parseFloat(soc.toFixed(0));
+          n20 = parseFloat(n20.toFixed(4));
+          kpi = parseFloat(kpi.toFixed(0));
+          Respiration = parseFloat(Respiration.toFixed(0));
+          bRespiration = parseFloat(bRespiration.toFixed(0));
+          let carbonDioxide = 0
+          numLandUseCode = Number(ludID);
+          if (soc < 0) {
+            carbonDioxide = soc
+            co2_emission = Math.abs(soc); // we dont want negative values
+            // soc = 0; TODO need another way to handle this perhaps discuss in the meeting
+          }
+          let bCarbonDioxide = 0
+          if (bSOC < 0) {
+            bCarbonDioxide = bSOC;
+            bSOC_emissions = Math.abs(bSOC);// we don't want to display negative values
+            bSOC = 0;
+          }
+          this.GHGs[i][0]['SOC'] += soc;
+          this.GHGs[i][0]['N2O'] += n20;
+          this.GHGs[i][0]['C02_e'] += kpi;
+
+          this.GHGs[i][0]['CH4'] += ch4;
+          // 'calculatedTileGHGs' could be used in mapping GHGs
+          // these will be useful in calculating the scores by getting the maximum and the minimum values for each along the soil types or cells
+          boardData[currentBoard].map[j].results[i].calculatedTileGHGs = kpi
+          // calculatedTileSOC could be used for mapping soil organic carbon
+          boardData[currentBoard].map[j].results[i].calculatedTileSOC = soc * cellLandArea //already multiplied by area
+          boardData[currentBoard].map[j].results[i].calculatedTileN20 = n20
+          boardData[currentBoard].map[j].results[i].calculatedTileNH4 = ch4
+          this.landUseSOC[i][numLandUseCode] += soc
 
 
-            }
+          this.GHGs[i][0]['CO2_emissions'] += carbonDioxide;
+          this.ghgBenchmark[i][0]['C02_e'] += bGHG;
+          this.ghgBenchmark[i][0]['N2O'] += bN2O;
+          this.ghgBenchmark[i][0]['CH4'] += bCH4;
+          this.ghgBenchmark[i][0]['CO2_emissions'] += bCarbonDioxide;
+          this.ghgBenchmark[i][0]['SOC'] += bSOC;
 
 
         }
-        // End of the loop for collecting tile values
-         //============================================================
+
 
       }
+      // End of the loop for collecting tile values
+      //============================================================
+
+    }
     // end of the loop for calculating annual/yearly values
 
   }; //End of collectTotalWatershedGHGData
