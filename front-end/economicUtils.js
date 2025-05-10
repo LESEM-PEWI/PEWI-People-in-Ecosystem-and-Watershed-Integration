@@ -317,7 +317,7 @@ const fillCells = () => {
 // end of fillCells
 
 // Start of calculateStreamVolume
-let calculateStreamVolume = function(board, y) { //calculates stream volume based on stream flow / ft3/3
+let calculateStreamDischarge = function(board, y) { //calculates stream volume based on stream flow / ft3/3
 
     var streamFlowRate = 0; // ft3/s
     switch (board.precipitation[y]) {
@@ -452,6 +452,54 @@ getCostPerLandUse = (landUseID) => {
             return null; // or throw an error if unexpected value
     }
 };
+
+getPrice = (ID) => {
+    switch (ID) {
+        case 1:
+        case 2:
+            // per bushel
+            return parseFloat(document.getElementById('cornPrices').value); //per bushel
+
+        //return cornPriceInput;
+        case 3:
+        case 4:
+            return parseFloat(document.getElementById('soybeanPrices').value); // per bushel
+        case 5:
+        case '5':
+            return 253 // per tonne
+        case 6:
+        case'6':
+            return 3729.00 // per head of cattle
+        case 7:
+        case '7':
+            return 3729.00 // per head of cattle
+
+        case 8:
+            return 180 // per tonne;
+        case 9:
+            return 0; // no yield
+        case 10:
+        case 11:
+            return 0.79// per board foot;
+
+        case 12:
+            return 60; // per tonne
+        case 13:
+            return 60; // per tonne
+        case 14:
+            return 0; // no yield
+        case 15:
+            return 49900.0 // per acre
+        case 'NA':
+        case 0:
+        case '0':
+            return 0;
+        default:
+            return 0; // or throw an error if unexpected value
+    }
+};
+
+
 // if 90 pounds are applied per acre how many are lost
 const calculatedVolumeFt3perYear =139389120
 const pewiACRE = 6000
@@ -474,15 +522,26 @@ function nc(N) {
     return  (1 - ((N - 2) / (29.54 - 2))) * fixedMaximum;
 }
 
-const calculateNitrateLoad = function(nConC, streamDischarge) {
+function landUseNitrateCreditContribution(land_use_ID, crop_area, nitrate_reduced_kg, total_area) {
+    const rowCropFactor = (1 - 0.14);// inverse row crop multiplier for nitrate calculation
+    let reductionCropFactor = [1, 2, 3, 4, 15].includes(land_use_ID) ? rowCropFactor : 1;// implying other land uses like prairie carries 100% reduction
+    let coverArea = reductionCropFactor * crop_area
+    return (coverArea / total_area) * nitrate_reduced_kg;
+}
+
+const calculateNitrateLoadReduced = function(nConC, streamDischarge) {
+    /*
+   * nConC is the nitrate concentration of a tile or a whole watershed
+   *  */
     const NITRATE_MAX_CONCENTRATION = 29.54
     let N = Math.min(Math.max(nConC, 2), NITRATE_MAX_CONCENTRATION); // Clamp N between 2 and 29.54
-    console.log(N, 'N')
+
     // calculate the fixed maximum load
     const fixedMaximumLoad = calculateNitrateMass(streamDischarge, NITRATE_MAX_CONCENTRATION)
     //calculate nitrate load reduced
     return  (1 - ((N - 2) / (NITRATE_MAX_CONCENTRATION - 2))) * fixedMaximumLoad;
 };
+
 
 const dir = function(obj) {
     // Examines object properties or attributes
@@ -490,5 +549,8 @@ const dir = function(obj) {
     const protoProps = Object.getOwnPropertyNames(Object.getPrototypeOf(obj));
     return [...new Set([...ownProps, ...protoProps])];
 }
-console.log(calculateNitrateLoad(0, calculatedVolumeFt3perYear), 'reduced load')
+console.log(calculateNitrateLoadReduced(10, calculatedVolumeFt3perYear), '10')
+console.log(calculateNitrateLoadReduced(2, calculatedVolumeFt3perYear), '2')
 
+console.log(nc(2))
+console.log(getPrice(2))

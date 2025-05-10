@@ -1543,7 +1543,7 @@ function GameBoard() {
         score+=paa*this.map[t].area;
       }
       this.map[t].results[year].calculatedTileNitrate = score;
-     //console.log(score, paa, 'there it is');
+     console.log(score/100, paa, 'there it is');
       //testC += nitrW
      // console.log('total nitrates calculated', testC)
     }
