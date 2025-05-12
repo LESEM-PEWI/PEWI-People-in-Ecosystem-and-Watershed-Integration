@@ -528,7 +528,7 @@ function landUseNitrateCreditContribution(land_use_ID, crop_area, nitrate_reduce
     let rowCropFactor = (1 - 0.14);// inverse row crop multiplier for nitrate calculation
     // in fact these should be zero because no one is going to give you money in nitrate reduction for planting conventional corn
     rowCropFactor = 0;
-    let reductionCropFactor = [1, 2, 3, 4, 15].includes(land_use_ID) ? rowCropFactor : 1;// implying other land uses like prairie carries 100% reduction
+    let reductionCropFactor = [1,3, 15].includes(land_use_ID) ? rowCropFactor : 1;// implying other land uses like prairie carries 100% reduction
     let coverArea = reductionCropFactor * crop_area
     return (coverArea / total_area) * nitrate_reduced_kg;
 }
@@ -538,7 +538,7 @@ const calculateNitrateLoadReduced = function(nConC, streamDischarge) {
    * nConC is the nitrate concentration of a tile or a whole watershed
    *  */
     const NITRATE_MAX_CONCENTRATION = 29.54
-    let N = Math.min(Math.max(nConC, 2), NITRATE_MAX_CONCENTRATION); // Clamp N between 2 and 29.54
+    let N = Math.min(Math.max(nConC, 2), NITRATE_MAX_CONCENTRATION) + 2; // Clamp N between 2 and 29.54
 
     // calculate the fixed maximum load
     const fixedMaximumLoad = calculateNitrateMass(streamDischarge, NITRATE_MAX_CONCENTRATION)
@@ -553,8 +553,8 @@ const dir = function(obj) {
     const protoProps = Object.getOwnPropertyNames(Object.getPrototypeOf(obj));
     return [...new Set([...ownProps, ...protoProps])];
 }
-console.log(calculateNitrateLoadReduced(10, calculatedVolumeFt3perYear), '10')
-console.log(calculateNitrateLoadReduced(2, calculatedVolumeFt3perYear), '2')
-
-console.log(nc(2))
-console.log(getPrice(2))
+// console.log(calculateNitrateLoadReduced(10, calculatedVolumeFt3perYear), '10')
+// console.log(calculateNitrateLoadReduced(2, calculatedVolumeFt3perYear), '2')
+//
+// console.log(nc(2))
+// console.log(getPrice(2))

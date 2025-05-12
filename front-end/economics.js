@@ -266,7 +266,12 @@ var Economics = function () {
     calculateCostRevenue();
     GHGScores();
     nitrateEconomics()
-
+    this.baseLineLoad = [];
+    for(let year = 1; year <= boardData[currentBoard].calculatedToYear; year++) {
+      const _streamDischarge = calculateStreamDischarge(boardData[currentBoard], year)
+      this.baseLineLoad[year] = calculateNitrateLoadReduced(21.5, _streamDischarge);
+      console.log(this.baseLineLoad);
+    }
     // get the land use area
     this.areaByLandUse = [
       {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0},
@@ -338,11 +343,11 @@ var Economics = function () {
 
       const selectedLandUse15Area = this.areaByLandUse[i][15]
 
-      let xm = 0
+
       this.rawRev.forEach(dataPoint => {
         // this is not an ideal way to do this but I just built on the previous one
         let LU_ID = Number(dataPoint['LU_ID']);
-
+        const baselineC = this.baseLineLoad[i] || 0
         let commodityPrice = this.getPrice(LU_ID);
         let socRev = this.landUseSOC[i][LU_ID]
         let nitrateLoad = this.nitrateTotalsByLandUse[i][LU_ID]
@@ -391,19 +396,18 @@ var Economics = function () {
           YieldValue = Totals.yieldByLandUse[i][dataPoint['LU_ID']];
         }
 
-        xm += 1;
         const carbonPrice = parseFloat(document.getElementById("carbonPrices").value)
         const nitrateCreditPrice =  parseFloat(document.getElementById("nitrogenPrices").value)
-        const  nitrateRev =  nitrateLoad * nitrateCreditPrice;
+        let  nitrateRev =  nitrateLoad * nitrateCreditPrice;
         socRev = Math.max(0, socRev) * carbonPrice;
         // end of yield value allocations
         let revenueMultiplier = [15].includes(LU_ID) ? selectedLandUse15Area :  YieldValue;
 
-
         const grossRev = revenueMultiplier * commodityPrice || 0;
 
+
         this.scaledRev[i][dataPoint['LU_ID']] = this.scaledRev[i][dataPoint['LU_ID']] || 0;
-         this.scaledRev[i][dataPoint['LU_ID']] = grossRev + socRev + nitrateRev; // all results are already totaled up plus soil carbon value
+         this.scaledRev[i][dataPoint['LU_ID']] =  grossRev + socRev + (nitrateRev)* 0.5 // all results are already totaled up plus soil carbon value  grossRev + socRev +
 
 
       });
