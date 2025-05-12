@@ -365,7 +365,7 @@ var Economics = function () {
         } else if (dataPoint['LU_ID'] === "4") {
 
           YieldValue=  this.getBMPAreas[i][1].landUseYield;
-        }
+         }
         //woodlands can't be treated the same since they are the only land use where the soil type changes the value of the wood not just the amount of wood.
         //Where the rest of the revenue above can multiply the output by a certain price: we need to actually find the soil that all the woodlands are on.
          else if (dataPoint['LU_ID'] === "1") {
