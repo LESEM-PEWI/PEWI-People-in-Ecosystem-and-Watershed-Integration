@@ -2756,56 +2756,35 @@ function getHighlightColor(highlightType, tileId) {
   else if (highlightType === "netrevenue") {
     const revenueTexts = getTileNetRevenue(tileId);
     const match = revenueTexts.match(/\$([\d,.]+)/);
-    const revenueText = match ? parseFloat(match[1].replace(/,/g, '')) : null;
-
-    console.log(`🎯 Highlighting tile ${tileId} → Parsed Revenue: ${revenueText}`);
+    let revenueText = match ? parseFloat(match[1].replace(/,/g, '')) : null;
 
     if (revenueText == null) {
-      // console.log(` Tile ${tileId} → Revenue is null`);
       return 0;
-    } else if (revenueText <= 0) {
-      //console.log(`Tile ${tileId} → Loss`);
-      return 36;
+    }
+    if (revenueText > 10000) {
+      // Scale proportionally to fit 1000 to 10000
+      revenueText = (revenueText / 10000) * 1000;
+      console.log(` Scaled Revenue for Tile ${tileId}: ${revenueText}`);
+    }
+
+    console.log(` Highlighting tile ${tileId} → Used Revenue: ${revenueText}`);
+    if (revenueText <= 0) {
+      return 36;  // Cream (Loss)
+    } else if (revenueText <= 1000) {
+      return 39;  // Saddle Brown (Very Low)
+    } else if (revenueText <= 3000) {
+      return 52;  // Really Light Brown (Low)
+    } else if (revenueText <= 4300) {
+      return 46;  // Medium Green (Moderate)
     } else if (revenueText <= 10000) {
-      //console.log(` Tile ${tileId} → Very Low`);
-      return 39;
-    } else if (revenueText <= 13000) {
-      //console.log(`Tile ${tileId} → Low`);
-      return 40;
-    } else if (revenueText <= 19000) {
-      //console.log(` Tile ${tileId} → Moderate`);
-      return 42;
-    } else if (revenueText <= 24000) {
-      //console.log(`Tile ${tileId} → High`);
-      return 44;
-    } else if (revenueText <= 26000) {
-      //console.log(`Tile ${tileId} → Very High`);
-      return 46;
-    } else if (revenueText <= 29000) {
-      //console.log(` Tile ${tileId} → Excellent`);
-      return 8;
-    }
-
-    else if (revenueText <= 31000) {
-      //console.log(` Tile ${tileId} → Excellent`);
-      return 9;
-    }
-    else if (revenueText <= 33000) {
-      //console.log(` Tile ${tileId} → Excellent`);
-      return 10;
-
-    }
-    else if (revenueText <= 35000) {
-      //console.log(` Tile ${tileId} → Excellent`);
-      return 11;
-
-    }
-    else{
-      return 128;
+      return 9;   // Blue (High)
+    } else {
+      return 128; // Cobalt (Outstanding)
     }
   }
 
-  // ghg highlight color indicies
+
+    // ghg highlight color indicies
   else if (highlightType == "ghg") {
     const ghg = getGHGForTile(yearSelected, tileId);
     if (!ghg) return 0;
