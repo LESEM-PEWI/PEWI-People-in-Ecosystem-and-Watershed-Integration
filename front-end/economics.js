@@ -155,7 +155,6 @@ var Economics = function () {
         if(!this.data3ByLU[i][dataPoint['Land-Use']]){
           this.data3ByLU[i][dataPoint['Land-Use']] = {time: {}, action: {}}
         }
-
         if(!this.data3ByLU[i][dataPoint['Land-Use']].time[dataPoint['Time - Cost Type']]){
           this.data3ByLU[i][dataPoint['Land-Use']].time[dataPoint['Time - Cost Type']] = 0;
         }
