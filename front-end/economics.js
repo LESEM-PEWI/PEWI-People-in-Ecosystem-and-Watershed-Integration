@@ -407,7 +407,7 @@ var Economics = function () {
 
 
         this.scaledRev[i][dataPoint['LU_ID']] = this.scaledRev[i][dataPoint['LU_ID']] || 0;
-         this.scaledRev[i][dataPoint['LU_ID']] =  grossRev + socRev + (nitrateRev)* 0.5 // all results are already totaled up plus soil carbon value  grossRev + socRev +
+         this.scaledRev[i][dataPoint['LU_ID']] =  grossRev + socRev + nitrateRev // all results are already totaled up plus soil carbon value  grossRev + socRev +
 
 
       });
