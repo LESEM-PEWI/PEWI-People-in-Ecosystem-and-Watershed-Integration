@@ -1,0 +1,37 @@
+LU_ID,Land-Use,,Years Applicable,Frequency,SoilType,Revenue/acre/year,Units,Calculations,Notes,Date updated,
+5,Alfalfa,,1,,all,253, $/ton ,,,,
+2,Conservation Corn,Regular Commodity Corn,,Annual,,4.35, $/bu ,$4.35/bu,"Accessed on March 20, 2018",Updated on 02/18/2025,Updated on 02/18/2027
+10,Conservation Forest,Wood,1,Annual,A,0.79,$/boardfoot,PER boardfoot; for soil type A,,Updated on 02/18/2025,http://www.macrotrends.net/2531/soybean-prices-historical-chart-data
+4,Conservation Soybean,Regular Commodity Soybean,,Annual,,10.37, $/bu ,$10.37/bu,"Accessed on March 20, 2020",Updated on 02/18/2025,Updated on 02/18/2029
+1,Conventional Corn,Regular Commodity Corn,,Annual,,4.35, $/bu ,$4.35/bu,"Accessed on March 20, 2018",Updated on 02/18/2025,Updated on 02/18/2026
+11,Conventional Forest,Wood,1,Annual,A,0.79,$/boardfoot,PER boardfoot; for soil type A,,Updated on 02/18/2025,"Multiple source, refer to Forest_Comp_Research Excel file"
+3,Conventional Soybean,Regular Commodity Soybean,,Annual,,10.37, $/bu ,$10.37/bu,"Accessed on March 20, 2019",Updated on 02/18/2025,Updated on 02/18/2028
+8,Grass Hay,,,,,180,$/ton,"FILLER/FAKE, REDO",,Updated on 02/18/2025,http://markets.businessinsider.com/commodities/corn-price
+15,Mixed Fruits & Vegetables,Green Beans,1,,all,25200,$/acre,,,,"Multiple source, refer to Forest_Comp_Research Excel file"
+15,Mixed Fruits & Vegetables,Strawberry,,Average Annual,,7300,$/acre,4000 qts/acre * $2.25/qt,Why does $/qt change year to year?,,"Multiple source, refer to Forest_Comp_Research Excel file"
+15,Mixed Fruits & Vegetables,Winter Squash,,Annual,,5400,$/acre,450 boxes/acre * $12/box,,,
+15,Mixed Fruits & Vegetables,Grapes,,,,12000,$/acre,"FILLER/FAKE, REDO",,,
+6,Permanent Pasture,Heifer Calves,,Annual,,2800, $/animal ,$1.75/lbs * 500lbs/head * .26 head/pair    / 2.5 acre/head,,,https://www.extension.iastate.edu/AGDM/livestock/pdf/b1-21.pdf
+9,Prairie,none,,Annual,,0,$/acre,,"Assuming none. Government programs exist, but we are ignoring them for now.",,http://markets.businessinsider.com/commodities/corn-price
+7,Rotational Grazing,Cull Cows,,Annual,,2800, $/animal ,$0.38/lbs * 500lbs/head * .18 head/pair    / 2.5 acre/head * 55/35 (ratio for rotation:permanent grazing systems),"Same as Permanent Pasture, except adjusted for pasture utilization ratio (55/35)",,
+13,Short-rotation Woody Bioenergy,Triticale Biomass,,Average Annual,,60,$/ton,1.66 dry US ton/acre @ $72.60/dry US ton,Tie this to an adjustable variable. Use $72.60/dry US ton as default,Updated on 02/18/2029,"Multiple source, refer to Forest_Comp_Research Excel file"
+12,Switchgrass,,,,,60,$/ton,,updated on 12/18/2025 by richard magala,,"Multiple source, refer to Forest_Comp_Research Excel file"
+14,Wetland,none,,Annual,,0,$/acre,,"Assuming none. Government programs exist, but we are ignoring them for now.",,"Multiple source, refer to Forest_Comp_Research Excel file"
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,878268,,,
