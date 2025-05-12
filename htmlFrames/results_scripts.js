@@ -60,7 +60,7 @@
   //change main pie chart from landList to Categories List
   function toggleCategoriesPie(toggleSelectionValue) {
     //toggle necessary main page items
-    if (toggleSelectionValue == 1) {
+    if (toggleSelectionValue === 1) {
 
       // currently at category
       document.getElementById('toggleYearPie').innerHTML = "To List";
