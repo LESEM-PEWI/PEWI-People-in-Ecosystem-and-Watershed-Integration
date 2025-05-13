@@ -307,8 +307,8 @@ function displayResults() {
   drawD3LandPieChart(currentYear, false);
 
   drawD3EconRevPieChart(currentYear, false);
-
-  drawD3EconProfitPieChart(currentYear, false);
+// switched off because of the confusion on how to handle negative profits
+  //drawD3EconProfitPieChart(currentYear, false);
 
   generateCostRevProfitTable(currentYear, false);
 
