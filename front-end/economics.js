@@ -846,6 +846,8 @@ var Economics = function () {
 
       for (let j = 0; j < boardData[currentBoard].map.length; j++) {
         let cellArea = boardData[currentBoard].map[j].area;
+        let terraceArea = 0;
+        let grassedWaterwaysArea = 0
 
         if(boardData[currentBoard].map[j].landType[i] === 4) {
             numLandUse = 1; //SOYBEAN
@@ -865,14 +867,15 @@ var Economics = function () {
         if (boardData[currentBoard].map[j].streamNetwork === "1") {
           cellArea = (cellArea - fixedBufferArea) * 0.90;
           this.getBMPAreas[i][numLandUse].bufferAreaTotal += fixedBufferArea;
+          boardData[currentBoard].map[j].results[i].fixedBufferArea = fixedBufferArea;
         }
+
         else {
           cellArea = 0.90 * cellArea;
         }
 
         //Implement Terraces
-        let terraceArea = 0;
-        let grassedWaterwaysArea = 0
+
         if(boardData[currentBoard].map[j].topography >= 2){
 
           if(boardData[currentBoard].map[j].topography === 2){
@@ -929,7 +932,8 @@ var Economics = function () {
         }
         // update grassedWaterwaysArea
         boardData[currentBoard].map[j].results[i].grassedWaterwaysArea = grassedWaterwaysArea;
-            this.getBMPAreas[i][numLandUse].bmpArea += cellArea;
+        this.getBMPAreas[i][numLandUse].bmpArea += cellArea;
+        boardData[currentBoard].map[j].results[i].cellAreaAfterBuffer = cellArea;
 
         this.getBMPAreas[i][numLandUse].landUseYield += boardData[currentBoard].map[j].results[i]['calculatedYieldTile'] * cellArea;
         }
@@ -947,6 +951,9 @@ var Economics = function () {
    * Results are stored in the component's instance for downstream use.
    */
   let calculateCostRevenue = () => {
+    const costBuffer = 1462/2.471;
+    const costTerrace = 1462/2.471;
+    let  conservationCost =0;
     const inputValue = parseFloat(document.getElementById("inflationFactor").value);
     const costInflationFactorAdjustment = isNaN(inputValue) ? INFLATION_FACTOR : inputValue;
 
@@ -971,6 +978,15 @@ var Economics = function () {
         const landUseID = cell.landType[year];
         const tileArea = cell.area;
         const landUseKey = landUseID.toString();
+        if ([2,4].includes(landUseID)){
+          let bufferCostPerCell = costBuffer * boardData[currentBoard].map[cellIndex].results[year].fixedBufferArea || 0
+          let grassTerracePerCell =  costTerrace * boardData[currentBoard].map[cellIndex].results[year].grassedWaterwaysArea || 0
+          console.log(grassTerracePerCell, 'grass')
+          conservationCost = bufferCostPerCell + grassTerracePerCell
+        }else
+        {
+          conservationCost =0
+        }
 
         currentLandUseMap[cellIndex] = landUseID;
         landUseTrack[year] = currentLandUseMap;
@@ -1019,12 +1035,13 @@ var Economics = function () {
         // MULTIPLY BY THE COST MULTIPLIER HERE
         cost  *= costMultiplier
         cost *= costInflationFactorAdjustment;
-        let netRevenue = grossRevenue - cost;
+        let totalCellCost  = conservationCost + cost
+        let netRevenue = grossRevenue - totalCellCost;
 
-        this.totalWatershedCost[year][0].cost += cost;
+        this.totalWatershedCost[year][0].cost += totalCellCost;
         cell.results[year].calculatedTileNetRevenue = (cell.results[year].calculatedTileNetRevenue || 0) + netRevenue;
-        this.econCostByLandUse[year][landUseKey] += cost;
-        totalYearCost.totalCosts += cost;
+        this.econCostByLandUse[year][landUseKey] += totalCellCost;
+        totalYearCost.totalCosts += totalCellCost;
       }
 
       this.totalWatershedCostArray.push(totalYearCost);
