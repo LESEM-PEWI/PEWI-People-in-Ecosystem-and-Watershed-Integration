@@ -1199,9 +1199,9 @@ var Economics = function () {
           let soc = currentData?.to_carb * soilArea;
           //console.log('soil organic carbon', soc)
           let n20 = currentData?.TopN2O * soilArea;
-          let kpi = currentData?.kpi * soilArea
+          let kpi = currentData?.kpi * soilArea;
 
-
+          soc = Math.max(0, soc);
           let ch4 = parseFloat(currentData?.ch4_kg_ha_yr) * soilArea;
           let Respiration = parseFloat(currentData?.Whole_repsiration) * soilArea
           // BASE DATA FOR CALCULATION SCORES IS BASED ON CONSERVATION F0RETRY CODE 11
@@ -1218,12 +1218,10 @@ var Economics = function () {
           bRespiration = parseFloat(bRespiration.toFixed(0));
           let carbonDioxide = 0
           numLandUseCode = Number(ludID);
-          if (soc < 0) {
-            carbonDioxide = soc
-            co2_emission = Math.abs(soc); // we dont want negative values
-            // soc = 0; TODO need another way to handle this perhaps discuss in the meeting
-          }
-          let bCarbonDioxide = 0
+
+          let bCarbonDioxide = 0;
+          bSOC_emissions = Math.min(0, bSOC)
+          bSOC = Math.max(0, bSOC);
           if (bSOC < 0) {
             bCarbonDioxide = bSOC;
             bSOC_emissions = Math.abs(bSOC);// we don't want to display negative values
