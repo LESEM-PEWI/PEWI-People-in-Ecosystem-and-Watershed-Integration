@@ -341,7 +341,7 @@ var Economics = function () {
 
 
       this.rawRev.forEach(dataPoint => {
-        // this is not an ideal way to do this but I just built on the previous one
+        // this is not an ideal way to do this, but I just built on the previous one
         let LU_ID = Number(dataPoint['LU_ID']);
         const baselineC = this.baseLineLoad[i] || 0
         let commodityPrice = this.getPrice(LU_ID);
@@ -362,17 +362,15 @@ var Economics = function () {
 
           YieldValue=  this.getBMPAreas[i][1].landUseYield;
         }
-        //woodlands can't be treated the same since they are the only land use where the soil type changes the value of the wood not just the amount of wood.
-        //Where the rest of the revenue above can multiply the output by a certain price: we need to actually find the soil that all the woodlands are on.
          else if (dataPoint['LU_ID'] === "1") {
           YieldValue =  Totals.yieldByLandUse[i][dataPoint['LU_ID']];
         } else if (dataPoint['LU_ID'] === "13") {
           YieldValue =  Totals.yieldByLandUse[i][dataPoint['LU_ID']];
         } else if (dataPoint['LU_ID'] === "3") {
           YieldValue =  Totals.yieldByLandUse[i][dataPoint['LU_ID']];
-        }else if (dataPoint["LU_ID"]==='10' && this.areaByLandUse[i][10] > 0){
+        }else if (dataPoint["LU_ID"]==='10' && this.areaByLandUse[i][10] > 0 && this.landUseSummaryByYear[i].has(LU_ID)){
            YieldValue  = (Totals.yieldResults[i].woodYield * 10)/10
-         }else if (dataPoint["LU_ID"]==='11' && this.areaByLandUse[i][11] > 0) {
+         }else if (dataPoint["LU_ID"]==='11' && this.areaByLandUse[i][11] > 0  && this.landUseSummaryByYear[i].has(LU_ID)) {
            YieldValue = (Totals.yieldResults[i].woodYield * 10)/10
          }
 
