@@ -25,6 +25,7 @@ var Economics = function () {
   this.totalWatershedCost=[];
   this.totalWatershedRevenue=[];
   this.ghgBenchmark = [];
+  this.landUseSummaryByYear;
  // this.rawCostPerUnit = []
  // this.NetRevenueForMapData = []; // for mapping only
   this.totalWatershedCostArray =[];
@@ -254,7 +255,7 @@ var Economics = function () {
   }
 
   this.mapChange = function (){ //called when the map changes in order to edit the intermediate step.
-
+    landUseSummary()
     calculateCornAfters();
     calculatePerYieldCrops();
     calculateForrestYields();
@@ -294,12 +295,7 @@ var Economics = function () {
       Only four big land use categories are adjusted, i.e., cons conv corn and soybeans
 
     */
-    const revenueData = {
-      '1': parseFloat(document.getElementById('cornPrices').value),
-      '2': parseFloat(document.getElementById('cornPrices').value),
-     '3': parseFloat(document.getElementById('soybeanPrices').value),
-      '4': parseFloat(document.getElementById('soybeanPrices').value),
-    };
+
     //Less than ideal coding, but given how Totals is structured the easiest way
     //I found to map Land Use IDS to total LandUse without recalculation
     this.econRevenueByLandUse =   Array(4).fill().map(() =>(
@@ -1143,6 +1139,28 @@ var Economics = function () {
 
      return getElementCal(element);
   };
+  const landUseSummary = () => {
+    const yearCount = boardData[currentBoard].calculatedToYear;
+    const mapData = boardData[currentBoard].map;
+
+    // Initialize an array of Sets, one for each year
+    this.landUseSummaryByYear = Array.from({ length: yearCount + 1 }, () => new Set());
+
+    for (let year = 1; year <= yearCount; year++) {
+      for (let j = 0; j < mapData.length; j++) {
+        const landType = mapData[j]['landType'];
+
+        if (Array.isArray(landType)) {
+          this.landUseSummaryByYear[year].add(landType[year]);
+        } else {
+         this.landUseSummaryByYear[year].add(landType); // fallback if it's a single value
+        }
+      }
+    }
+
+
+  };
+
 
   // Start collectTotalWatershedGHGData method
   //=======================================================
