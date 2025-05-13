@@ -401,7 +401,7 @@ var Economics = function () {
 
 
         this.scaledRev[i][dataPoint['LU_ID']] = this.scaledRev[i][dataPoint['LU_ID']] || 0;
-         this.scaledRev[i][dataPoint['LU_ID']] =  grossRev + socRev + (nitrateRev)* 0.5 // all results are already totaled up plus soil carbon value  grossRev + socRev +
+         this.scaledRev[i][dataPoint['LU_ID']] =  grossRev + socRev + (nitrateRev) // all results are already totaled up plus soil carbon value  grossRev + socRev +
 
 
       });
@@ -829,10 +829,12 @@ var Economics = function () {
    * numLandUse values are hard coded to 1 = Cons Soybean; 2 = Cons Corn after Soybean; 3 = Cons Corn after Corn. DO NOT CONFUSE THIS WITH LU_ID.
    */
   calulateBMPBudgets = () => {
-    // TODO pass an inflation factor here
+
     let fixedBufferArea = 0.52486;
     let numLandUse = 0;
-
+    // I have added a conservation cost here
+    let totalConservationCost = [];
+    let csCost = 0
     for(let i = 1; i <= boardData[currentBoard].calculatedToYear; i++) {
       this.getBMPAreas[i] = [
         {bmpArea: 0, bufferAreaTotal: 0, grassedWaterwaysAreaTotal: 0, terraceAreaTotal: 0, landUseYield: 0},
@@ -897,6 +899,7 @@ var Economics = function () {
 
         else {
           if(boardData[currentBoard].map[j].topography === 2){
+            const grass =0;
             this.getBMPAreas[i][numLandUse].grassedWaterwaysAreaTotal += boardData[currentBoard].map[j].area * 0.0454;
           }
           else if(boardData[currentBoard].map[j].topography === 3){
