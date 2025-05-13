@@ -871,48 +871,65 @@ var Economics = function () {
         }
 
         //Implement Terraces
+        let terraceArea = 0;
+        let grassedWaterwaysArea = 0
         if(boardData[currentBoard].map[j].topography >= 2){
 
           if(boardData[currentBoard].map[j].topography === 2){
-            this.getBMPAreas[i][numLandUse].terraceAreaTotal += boardData[currentBoard].map[j].area * 0.0546;
+             terraceArea = boardData[currentBoard].map[j].area * 0.0546
+
+            this.getBMPAreas[i][numLandUse].terraceAreaTotal += terraceArea;
           }
           else if(boardData[currentBoard].map[j].topography === 3){
-            this.getBMPAreas[i][numLandUse].terraceAreaTotal +=  boardData[currentBoard].map[j].area * 0.0658;
+            terraceArea = boardData[currentBoard].map[j].area * 0.0658;
+            this.getBMPAreas[i][numLandUse].terraceAreaTotal +=  terraceArea;
           }
           else if(boardData[currentBoard].map[j].topography === 4){
-            this.getBMPAreas[i][numLandUse].terraceAreaTotal +=  boardData[currentBoard].map[j].area * 0.0820;
+            terraceArea = boardData[currentBoard].map[j].area * 0.0820;
+            this.getBMPAreas[i][numLandUse].terraceAreaTotal +=  terraceArea
           }
+
           else if(boardData[currentBoard].map[j].topography === 5){
-            this.getBMPAreas[i][numLandUse].terraceAreaTotal +=  boardData[currentBoard].map[j].area * 0.0938;
+            terraceArea =  boardData[currentBoard].map[j].area * 0.0938;
+            this.getBMPAreas[i][numLandUse].terraceAreaTotal += terraceArea
           }
 
         }
+       // update terrace area
+        boardData[currentBoard].map[j].results[i].terraceArea = terraceArea;
 
         //Implement Grasses Waterways
         if(boardData[currentBoard].map[j].streamNetwork !== "1" && boardData[currentBoard].map[j].topography < 2){
-          this.getBMPAreas[i][numLandUse].grassedWaterwaysAreaTotal += 0.10 * boardData[currentBoard].map[j].area;
+          grassedWaterwaysArea = 0.10 * boardData[currentBoard].map[j].area;
+          this.getBMPAreas[i][numLandUse].grassedWaterwaysAreaTotal += grassedWaterwaysArea;
         }
 
         else if (boardData[currentBoard].map[j].streamNetwork === "1" && boardData[currentBoard].map[j].topography < 2){
-          this.getBMPAreas[i][numLandUse].grassedWaterwaysAreaTotal += 0.10 * (boardData[currentBoard].map[j].area - fixedBufferArea);
+          grassedWaterwaysArea = 0.10 * (boardData[currentBoard].map[j].area - fixedBufferArea)
+          this.getBMPAreas[i][numLandUse].grassedWaterwaysAreaTotal += grassedWaterwaysArea;
         }
 
         else {
           if(boardData[currentBoard].map[j].topography === 2){
-            const grass =0;
-            this.getBMPAreas[i][numLandUse].grassedWaterwaysAreaTotal += boardData[currentBoard].map[j].area * 0.0454;
+            grassedWaterwaysArea = boardData[currentBoard].map[j].area * 0.0454;
+            this.getBMPAreas[i][numLandUse].grassedWaterwaysAreaTotal += grassedWaterwaysArea;
           }
           else if(boardData[currentBoard].map[j].topography === 3){
-            this.getBMPAreas[i][numLandUse].grassedWaterwaysAreaTotal += boardData[currentBoard].map[j].area * 0.0342;
+           grassedWaterwaysArea =  boardData[currentBoard].map[j].area * 0.0342;
+            this.getBMPAreas[i][numLandUse].grassedWaterwaysAreaTotal += grassedWaterwaysArea;
           }
           else if(boardData[currentBoard].map[j].topography === 4){
-            this.getBMPAreas[i][numLandUse].grassedWaterwaysAreaTotal += boardData[currentBoard].map[j].area * 0.0180;
+            grassedWaterwaysArea = boardData[currentBoard].map[j].area * 0.0342;
+            this.getBMPAreas[i][numLandUse].grassedWaterwaysAreaTotal += grassedWaterwaysArea;
           }
           else if(boardData[currentBoard].map[j].topography === 5){
-            this.getBMPAreas[i][numLandUse].grassedWaterwaysAreaTotal += boardData[currentBoard].map[j].area * 0.0062;
+            grassedWaterwaysArea = boardData[currentBoard].map[j].area * 0.0062;
+            this.getBMPAreas[i][numLandUse].grassedWaterwaysAreaTotal += grassedWaterwaysArea;
           }
         }
-        this.getBMPAreas[i][numLandUse].bmpArea += cellArea;
+        // update grassedWaterwaysArea
+        boardData[currentBoard].map[j].results[i].grassedWaterwaysArea = grassedWaterwaysArea;
+            this.getBMPAreas[i][numLandUse].bmpArea += cellArea;
 
         this.getBMPAreas[i][numLandUse].landUseYield += boardData[currentBoard].map[j].results[i]['calculatedYieldTile'] * cellArea;
         }
