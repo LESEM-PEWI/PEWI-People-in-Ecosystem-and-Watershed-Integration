@@ -1220,8 +1220,7 @@ var Economics = function () {
           numLandUseCode = Number(ludID);
 
           let bCarbonDioxide = 0;
-          bSOC_emissions = Math.min(0, bSOC)
-          bSOC = Math.max(0, bSOC);
+
           if (bSOC < 0) {
             bCarbonDioxide = bSOC;
             bSOC_emissions = Math.abs(bSOC);// we don't want to display negative values
