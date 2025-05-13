@@ -951,7 +951,7 @@ var Economics = function () {
    * Results are stored in the component's instance for downstream use.
    */
   let calculateCostRevenue = () => {
-    const costBuffer = 1462/2.471;
+    const costBuffer = 1462;
     const costTerrace = 1462/2.471;
     let  conservationCost =0;
     const inputValue = parseFloat(document.getElementById("inflationFactor").value);
