@@ -638,19 +638,19 @@
         </div>
         <div>
           <label for="cornPrices">Corn Prices:</label>
-          <input type="number" id="cornPrices" name="cornPrices" value="4.35" >
+          <input type="number" id="cornPrices" name="cornPrices" value="4.35" step="0.1" >
         </div>
         <div>
           <label for="soybeanPrices">Soybean Prices:</label>
-          <input type="number" id="soybeanPrices" name="soybeanPrices" value="10.37">
+          <input type="number" id="soybeanPrices" name="soybeanPrices" value="10.37" step="0.1">
         </div>
         <div>
           <label for="carbonPrices">Carbon Prices:</label>
-          <input type="number" id="carbonPrices" name="carbonPrices" value="40.82">
+          <input type="number" id="carbonPrices" name="carbonPrices" value="40.82" step="1.1">
         </div>
         <div>
           <label for="nitrogenPrices">Nitrogen Prices:</label>
-          <input type="number" id="nitrogenPrices" name="nitrogenPrices" value="3.2">
+          <input type="number" id="nitrogenPrices" name="nitrogenPrices" value="2.1" step="0.1">
         </div>
         <div>
           <button id="submitInflationButton" type="button" onclick="refreshEconTotals(currentYear);">Submit</button>
@@ -663,13 +663,22 @@
     </div>
 
     <script>
-      /// here we're adding an event listener to update values in real time and alo to add keyboard controls
+      /// here we're adding an event listener to update values in real time and also to add keyboard controls
       /// we will use an arrow function since we need to pass current year to econ-refresh totals function. this function is defined in the levelLoader
       // updated by richard magala
       const inflationInput = document.getElementById("inflationFactor")
       const cornPriceInput = document.getElementById("cornPrices" );
       const soybeanPriceInput = document.getElementById('soybeanPrices');
+      const nitrateCreditCost = document.getElementById("nitrogenPrices");
+      const carbonCreditPrice = document.getElementById("carbonPrices")
 
+      carbonCreditPrice.addEventListener('change', ()=>{
+      refreshEconTotals(currentYear)})
+
+      nitrateCreditCost.addEventListener('change', () =>{
+        // Call refreshEconTotals with the input value
+        refreshEconTotals(currentYear);
+      });
       inflationInput.addEventListener('change', () => {
         // Call refreshEconTotals with the input value
         refreshEconTotals(currentYear);
@@ -820,22 +829,22 @@
       </center>
 
       <div class="legendColor" style="background-color: #ffffc9;">
-        <p class="levelsTextDetails"></p>
+        <p class="levelsTextDetails">Loss </p>
       </div>
       <div class="legendColor" style="background-color: #8b4513;">
-        <p class="levelsTextDetails"></p>
+        <p class="levelsTextDetails">Very Low</p>
       </div>
       <div class="legendColor" style="background-color: #f2e6d9;">
-        <p class="levelsTextDetails"></p>
+        <p class="levelsTextDetails">Low </p>
       </div>
       <div class="legendColor" style="background-color: #00ff00;">
-        <p class="levelsTextDetails"></p>
+        <p class="levelsTextDetails">Moderate </p>
       </div>
       <div class="legendColor" style="background-color: #2f7eb7;">
-        <p class="levelsTextDetails"></p>
+        <p class="levelsTextDetails">High </p>
       </div>
       <div class="legendColor" style="background-color: #0053b3;">
-        <p class="levelsTextDetails"></p>
+        <p class="levelsTextDetails">Outstanding </p>
       </div>
 
 
