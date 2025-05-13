@@ -951,8 +951,10 @@ var Economics = function () {
    * Results are stored in the component's instance for downstream use.
    */
   let calculateCostRevenue = () => {
-    const costBuffer = 1462;
-    const costTerrace = 1462/2.471;
+    // cost of buffer and grassed terraces is assumed to be the same
+    const costBuffer = 1462/2.471; // per acre
+    const costTerrace = 1462/2.471; // per acre
+    const coverCrop = 143/2.471; // per acre
     let  conservationCost =0;
     const inputValue = parseFloat(document.getElementById("inflationFactor").value);
     const costInflationFactorAdjustment = isNaN(inputValue) ? INFLATION_FACTOR : inputValue;
@@ -981,8 +983,9 @@ var Economics = function () {
         if ([2,4].includes(landUseID)){
           let bufferCostPerCell = costBuffer * boardData[currentBoard].map[cellIndex].results[year].fixedBufferArea || 0
           let grassTerracePerCell =  costTerrace * boardData[currentBoard].map[cellIndex].results[year].grassedWaterwaysArea || 0
-          console.log(grassTerracePerCell, 'grass')
-          conservationCost = bufferCostPerCell + grassTerracePerCell
+          let coverCropCostPerCell = coverCrop * boardData[currentBoard].map[cellIndex].results[year].cellAreaAfterBuffer
+
+          conservationCost = bufferCostPerCell + grassTerracePerCell + coverCropCostPerCell;
         }else
         {
           conservationCost =0
