@@ -795,17 +795,26 @@ function drawD3EconPieChart(year) {
   */
   var multiplayerColorPack = ["#87ceee","#e6bb00","#cc6578","#127731","#c97b08","#302485"];
   let data = economics.data;
-  var totalCost = getTotalCost(economics.mapData, year);
+  let totalCost = 0;
+
+  Object.values(economics.econCostByLandUse[year]).forEach(value => {
+    totalCost += value;
+  });
+
   var dataset = []
-  Object.keys(economics.econCostByLandUse[year]).forEach((keys)=>{
-    if (keys != "none") {
-      d = {}
-      d.label = keys
-      d.count = economics.econCostByLandUse[year][keys].toFixed(2);
-      d.number = (economics.econCostByLandUse[year][keys].toFixed(2))/totalCost;
-      dataset.push(d);
-    }
-  })
+  Object.keys(economics.econCostByLandUse[year]).forEach((key) => {
+    if (key === "none") return;
+
+    const cost = economics.econCostByLandUse[year][key];
+    const d = {
+      label: key,
+      count: cost.toFixed(2),
+      number: cost / totalCost
+    };
+
+    dataset.push(d);
+  });
+
   //variables for the display of the chart on the page
   // be careful about changing these values since they are tied closely to
   // css styling on results page
@@ -1066,6 +1075,7 @@ function drawD3EconRevPieChart(year, isTheChartInCategoryMode) {
   economics.scaledRev[year].forEach(value => {
     totalRev += value;
   })
+  //TODO this is very dangerous to user var with the variable dataset, which you have already defined above
   var dataset = []
   Object.keys(economics.econRevenueByLandUse[year]).forEach((keys)=>{
     if (keys != "none") {
