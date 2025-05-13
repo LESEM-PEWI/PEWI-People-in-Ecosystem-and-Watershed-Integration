@@ -2812,7 +2812,7 @@ function getHighlightColor(highlightType, tileId) {
     else if (totalGHG > 0.4) return 139;                      // Very High
 
   }
-  //nitrite highlight color indicies
+  //nitrite highlight color indices
   else if (highlightType == "nitrate") {
     var nitrateConcentration = Totals.nitrateContribution[currentYear][tileId];
     if (nitrateConcentration >= 0 && nitrateConcentration <= 0.05) return getBoldedCells(tileId, 125);
@@ -3204,7 +3204,7 @@ function getHighlightColor(highlightType, tileId) {
 function CarbonSequestrationClassification(score){
 
    if(score<=0){
-      return "No Sequestration";
+      return "Very low";
   }else if(score>0&&score<=0.3){
     return "Low";
   }else if(score>0.3&&score<=0.5){
