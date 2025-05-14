@@ -2127,6 +2127,20 @@
 
   <!-- Create results button -->
   <div id="resultsButton" class="resultsButtonRolled" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();" onclick="resultsStart(); multiplayerResults();"><img src="./imgs/resultsIcon.png"></div>
+  <script>
+    // Added a keyboard short-cut for accessing the results by pressing ctr + shift + R
+    const resultB= document.getElementById("resultsButton")
+    document.addEventListener("keydown", function(event) {
+      // Check if Ctrl and Shift are pressed along with the 'R' key
+      // event.shiftKey &&
+      if (event.ctrlKey &&  (event.key === "r" || event.key === "R")) {
+        event.preventDefault();
+        // Trigger the button's click event
+        resultB.click();
+      }
+    });
+    //resultB.addEventListener()
+  </script>
   <!--img src="./imgs/backgroundinfo.png"></div>-->
 
   <!-- Create dialogue popup box (message box) -->
