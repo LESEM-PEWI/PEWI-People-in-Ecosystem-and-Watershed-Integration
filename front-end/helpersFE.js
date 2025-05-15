@@ -2747,71 +2747,78 @@ function getTileNetRevenue(tileId) {
 //getHighlightColor determines the gradient of highlighting color for each tile dependent on type of map selected
 function getHighlightColor(highlightType, tileId) {
 
-  //erosion highlight color indicies
-  if (highlightType == "erosion") {
-    //subtract 1, as arrays index from 0
-    return (Totals.grossErosionSeverity[currentYear][tileId] + 35);
-  }
+    //erosion highlight color indicies
+    if (highlightType == "erosion") {
+        //subtract 1, as arrays index from 0
+        return (Totals.grossErosionSeverity[currentYear][tileId] + 35);
+    } else if (highlightType === "netrevenue") {
+        const revenueTexts = getTileNetRevenue(tileId);
+        const match = revenueTexts.match(/\$([\d,.]+)/);
+        let revenueText = match ? parseFloat(match[1].replace(/,/g, '')) : null;
 
-  else if (highlightType === "netrevenue") {
-    const revenueTexts = getTileNetRevenue(tileId);
-    const match = revenueTexts.match(/\$([\d,.]+)/);
-    let revenueText = match ? parseFloat(match[1].replace(/,/g, '')) : null;
+        if (revenueText == null) {
+            return 0;
+        }
+        if (revenueText > 10000) {
+            // Scale proportionally to fit 1000 to 10000
+            revenueText = (revenueText / 10000) * 1000;
+            console.log(` Scaled Revenue for Tile ${tileId}: ${revenueText}`);
+        }
 
-    if (revenueText == null) {
-      return 0;
+        console.log(` Highlighting tile ${tileId} → Used Revenue: ${revenueText}`);
+        if (revenueText < 0) {
+            return 36;  // Loss
+        } else if (revenueText === 0) {
+            return 9;   // Break-even
+        } else if (revenueText <= 3000) {
+            return 46;  // Minor Gain
+        } else if (revenueText <= 7000) {
+            return 53;  // Moderate Gain
+        } else if (revenueText <= 9000) {
+            return 10;  //  Gain
+        } else if (revenueText <= 10000) {
+            return 54;  // High Gain
+        } else {
+            return 128; // Outstanding Gain
+        }
     }
-    if (revenueText > 10000) {
-      // Scale proportionally to fit 1000 to 10000
-      revenueText = (revenueText / 10000) * 1000;
-      console.log(` Scaled Revenue for Tile ${tileId}: ${revenueText}`);
-    }
-
-    console.log(` Highlighting tile ${tileId} → Used Revenue: ${revenueText}`);
-    if (revenueText <= 0) {
-      return 36;  // Cream (Loss)
-    } else if (revenueText <= 1000) {
-      return 39;  // Saddle Brown (Very Low)
-    } else if (revenueText <= 3000) {
-      return 52;  // Really Light Brown (Low)
-    } else if (revenueText <= 4300) {
-      return 46;  // Medium Green (Moderate)
-    } else if (revenueText <= 10000) {
-      return 9;   // Blue (High)
-    } else {
-      return 128; // Cobalt (Outstanding)
-    }
-  }
 
 
     // ghg highlight color indicies
-  else if (highlightType == "ghg") {
-    const ghg = getGHGForTile(yearSelected, tileId);
-    if (!ghg) return 0;
+    else if (highlightType == "ghg") {
+        const ghg = getGHGForTile(yearSelected, tileId);
+        if (!ghg) return 0;
 
-    let ch4 = ghg.ch4;
-    let n2o = ghg.n2o;
-    let soc = ghg.soc;
-    let co2 = 0;
+        let ch4 = ghg.ch4;
+        let n2o = ghg.n2o;
+        let soc = ghg.soc;
+        let co2 = 0;
 
-    // If SOC is negative, treat it as CO2 emission
-    if (soc < 0) {
-      co2 = Math.abs(soc);
-      soc = 0;
+        // If SOC is negative, treat it as CO2 emission
+        if (soc < 0) {
+            co2 = Math.abs(soc);
+            soc = 0;
+        }
+
+        let totalGHG = (ch4 * 25) + (n2o * 298) + co2 + soc;
+        totalGHG = totalGHG / 1000;
+
+        // console.log(Tile ${tileId} Total GHG(normalized): ${totalGHG.toFixed(2)});
+        console.log(`Tile ${tileId} GHG Value: ${totalGHG}`);
+        if (totalGHG < 0) {
+            return 135;  // Loss (All Negative GHG)
+        } else if (totalGHG === 0) {
+            return 136;  // Break-even
+        } else if (totalGHG > 0 && totalGHG <= 0.1) {
+            return 137;  // Minor Gain
+        } else if (totalGHG > 0.1 && totalGHG <= 0.2) {
+            return 138;  // Moderate Gain
+        } else if (totalGHG > 0.2 && totalGHG <= 0.4) {
+            return 139;  // High Gain
+    } else {
+        return 128;  // Outstanding Gain
     }
-
-    let totalGHG = (ch4 * 25) + (n2o * 298) + co2 + soc;
-    totalGHG = totalGHG / 1000;
-
-    // console.log(Tile ${tileId} Total GHG(normalized): ${totalGHG.toFixed(2)});
-
-    if (totalGHG >= 0 && totalGHG <= 0.1) return 135;         // Very Low
-    else if (totalGHG > 0.1 && totalGHG <= 0.2) return 136;   // Low
-    else if (totalGHG > 0.2 && totalGHG <= 0.3) return 137;   // Moderate
-    else if (totalGHG > 0.3 && totalGHG <= 0.4) return 138;   // High
-    else if (totalGHG > 0.4) return 139;                      // Very High
-
-  }
+}
   //nitrite highlight color indices
   else if (highlightType == "nitrate") {
     var nitrateConcentration = Totals.nitrateContribution[currentYear][tileId];
