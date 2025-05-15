@@ -3210,9 +3210,9 @@ function getHighlightColor(highlightType, tileId) {
 //translate raw score to catalog score for result tab in hover information
 function CarbonSequestrationClassification(score){
 
-   if(score<=0){
+   if(score<=0.1){
       return "Very low";
-  }else if(score>0&&score<=0.3){
+  }else if(score>0.1&&score<=0.3){
     return "Low";
   }else if(score>0.3&&score<=0.5){
     return "Medium";

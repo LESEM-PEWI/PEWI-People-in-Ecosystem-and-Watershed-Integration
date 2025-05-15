@@ -41,7 +41,7 @@
     year = toggleYearForEconPlotBy(numberOfYears);
     parent.drawD3EconPieChart(year, isLandPlotOnCategories);
     parent.drawD3EconRevPieChart(year, isLandPlotOnCategories);
-    parent.drawD3EconProfitPieChart(year, isLandPlotOnCategories);
+    //parent.drawD3EconProfitPieChart(year, isLandPlotOnCategories);
     parent.generateCostRevProfitTable(year, isLandPlotOnCategories);
     parent.horizontalBarGraph(year);
   }

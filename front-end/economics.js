@@ -401,7 +401,7 @@ var Economics = function () {
 
 
         this.scaledRev[i][dataPoint['LU_ID']] = this.scaledRev[i][dataPoint['LU_ID']] || 0;
-         this.scaledRev[i][dataPoint['LU_ID']] =  grossRev + socRev + (nitrateRev)* 0.5 // all results are already totaled up plus soil carbon value  grossRev + socRev +
+         this.scaledRev[i][dataPoint['LU_ID']] =  grossRev + socRev + (nitrateRev) // all results are already totaled up plus soil carbon value  grossRev + socRev +
 
 
       });
@@ -829,10 +829,12 @@ var Economics = function () {
    * numLandUse values are hard coded to 1 = Cons Soybean; 2 = Cons Corn after Soybean; 3 = Cons Corn after Corn. DO NOT CONFUSE THIS WITH LU_ID.
    */
   calulateBMPBudgets = () => {
-    // TODO pass an inflation factor here
+
     let fixedBufferArea = 0.52486;
     let numLandUse = 0;
-
+    // I have added a conservation cost here
+    let totalConservationCost = [];
+    let csCost = 0
     for(let i = 1; i <= boardData[currentBoard].calculatedToYear; i++) {
       this.getBMPAreas[i] = [
         {bmpArea: 0, bufferAreaTotal: 0, grassedWaterwaysAreaTotal: 0, terraceAreaTotal: 0, landUseYield: 0},
@@ -844,6 +846,8 @@ var Economics = function () {
 
       for (let j = 0; j < boardData[currentBoard].map.length; j++) {
         let cellArea = boardData[currentBoard].map[j].area;
+        let terraceArea = 0;
+        let grassedWaterwaysArea = 0
 
         if(boardData[currentBoard].map[j].landType[i] === 4) {
             numLandUse = 1; //SOYBEAN
@@ -863,53 +867,73 @@ var Economics = function () {
         if (boardData[currentBoard].map[j].streamNetwork === "1") {
           cellArea = (cellArea - fixedBufferArea) * 0.90;
           this.getBMPAreas[i][numLandUse].bufferAreaTotal += fixedBufferArea;
+          boardData[currentBoard].map[j].results[i].fixedBufferArea = fixedBufferArea;
         }
+
         else {
           cellArea = 0.90 * cellArea;
         }
 
         //Implement Terraces
+
         if(boardData[currentBoard].map[j].topography >= 2){
 
           if(boardData[currentBoard].map[j].topography === 2){
-            this.getBMPAreas[i][numLandUse].terraceAreaTotal += boardData[currentBoard].map[j].area * 0.0546;
+             terraceArea = boardData[currentBoard].map[j].area * 0.0546
+
+            this.getBMPAreas[i][numLandUse].terraceAreaTotal += terraceArea;
           }
           else if(boardData[currentBoard].map[j].topography === 3){
-            this.getBMPAreas[i][numLandUse].terraceAreaTotal +=  boardData[currentBoard].map[j].area * 0.0658;
+            terraceArea = boardData[currentBoard].map[j].area * 0.0658;
+            this.getBMPAreas[i][numLandUse].terraceAreaTotal +=  terraceArea;
           }
           else if(boardData[currentBoard].map[j].topography === 4){
-            this.getBMPAreas[i][numLandUse].terraceAreaTotal +=  boardData[currentBoard].map[j].area * 0.0820;
+            terraceArea = boardData[currentBoard].map[j].area * 0.0820;
+            this.getBMPAreas[i][numLandUse].terraceAreaTotal +=  terraceArea
           }
+
           else if(boardData[currentBoard].map[j].topography === 5){
-            this.getBMPAreas[i][numLandUse].terraceAreaTotal +=  boardData[currentBoard].map[j].area * 0.0938;
+            terraceArea =  boardData[currentBoard].map[j].area * 0.0938;
+            this.getBMPAreas[i][numLandUse].terraceAreaTotal += terraceArea
           }
 
         }
+       // update terrace area
+        boardData[currentBoard].map[j].results[i].terraceArea = terraceArea;
 
         //Implement Grasses Waterways
         if(boardData[currentBoard].map[j].streamNetwork !== "1" && boardData[currentBoard].map[j].topography < 2){
-          this.getBMPAreas[i][numLandUse].grassedWaterwaysAreaTotal += 0.10 * boardData[currentBoard].map[j].area;
+          grassedWaterwaysArea = 0.10 * boardData[currentBoard].map[j].area;
+          this.getBMPAreas[i][numLandUse].grassedWaterwaysAreaTotal += grassedWaterwaysArea;
         }
 
         else if (boardData[currentBoard].map[j].streamNetwork === "1" && boardData[currentBoard].map[j].topography < 2){
-          this.getBMPAreas[i][numLandUse].grassedWaterwaysAreaTotal += 0.10 * (boardData[currentBoard].map[j].area - fixedBufferArea);
+          grassedWaterwaysArea = 0.10 * (boardData[currentBoard].map[j].area - fixedBufferArea)
+          this.getBMPAreas[i][numLandUse].grassedWaterwaysAreaTotal += grassedWaterwaysArea;
         }
 
         else {
           if(boardData[currentBoard].map[j].topography === 2){
-            this.getBMPAreas[i][numLandUse].grassedWaterwaysAreaTotal += boardData[currentBoard].map[j].area * 0.0454;
+            grassedWaterwaysArea = boardData[currentBoard].map[j].area * 0.0454;
+            this.getBMPAreas[i][numLandUse].grassedWaterwaysAreaTotal += grassedWaterwaysArea;
           }
           else if(boardData[currentBoard].map[j].topography === 3){
-            this.getBMPAreas[i][numLandUse].grassedWaterwaysAreaTotal += boardData[currentBoard].map[j].area * 0.0342;
+           grassedWaterwaysArea =  boardData[currentBoard].map[j].area * 0.0342;
+            this.getBMPAreas[i][numLandUse].grassedWaterwaysAreaTotal += grassedWaterwaysArea;
           }
           else if(boardData[currentBoard].map[j].topography === 4){
-            this.getBMPAreas[i][numLandUse].grassedWaterwaysAreaTotal += boardData[currentBoard].map[j].area * 0.0180;
+            grassedWaterwaysArea = boardData[currentBoard].map[j].area * 0.0342;
+            this.getBMPAreas[i][numLandUse].grassedWaterwaysAreaTotal += grassedWaterwaysArea;
           }
           else if(boardData[currentBoard].map[j].topography === 5){
-            this.getBMPAreas[i][numLandUse].grassedWaterwaysAreaTotal += boardData[currentBoard].map[j].area * 0.0062;
+            grassedWaterwaysArea = boardData[currentBoard].map[j].area * 0.0062;
+            this.getBMPAreas[i][numLandUse].grassedWaterwaysAreaTotal += grassedWaterwaysArea;
           }
         }
+        // update grassedWaterwaysArea
+        boardData[currentBoard].map[j].results[i].grassedWaterwaysArea = grassedWaterwaysArea;
         this.getBMPAreas[i][numLandUse].bmpArea += cellArea;
+        boardData[currentBoard].map[j].results[i].cellAreaAfterBuffer = cellArea;
 
         this.getBMPAreas[i][numLandUse].landUseYield += boardData[currentBoard].map[j].results[i]['calculatedYieldTile'] * cellArea;
         }
@@ -927,6 +951,11 @@ var Economics = function () {
    * Results are stored in the component's instance for downstream use.
    */
   let calculateCostRevenue = () => {
+    // cost of buffer and grassed terraces is assumed to be the same
+    const costBuffer = 1462/2.471; // per acre
+    const costTerrace = 1462/2.471; // per acre
+    const coverCrop = 143/2.471; // per acre
+    let  conservationCost =0;
     const inputValue = parseFloat(document.getElementById("inflationFactor").value);
     const costInflationFactorAdjustment = isNaN(inputValue) ? INFLATION_FACTOR : inputValue;
 
@@ -951,6 +980,16 @@ var Economics = function () {
         const landUseID = cell.landType[year];
         const tileArea = cell.area;
         const landUseKey = landUseID.toString();
+        if ([2,4].includes(landUseID)){
+          let bufferCostPerCell = costBuffer * boardData[currentBoard].map[cellIndex].results[year].fixedBufferArea || 0
+          let grassTerracePerCell =  costTerrace * boardData[currentBoard].map[cellIndex].results[year].grassedWaterwaysArea || 0
+          let coverCropCostPerCell = coverCrop * boardData[currentBoard].map[cellIndex].results[year].cellAreaAfterBuffer
+
+          conservationCost = bufferCostPerCell + grassTerracePerCell + coverCropCostPerCell;
+        }else
+        {
+          conservationCost =0
+        }
 
         currentLandUseMap[cellIndex] = landUseID;
         landUseTrack[year] = currentLandUseMap;
@@ -999,12 +1038,13 @@ var Economics = function () {
         // MULTIPLY BY THE COST MULTIPLIER HERE
         cost  *= costMultiplier
         cost *= costInflationFactorAdjustment;
-        let netRevenue = grossRevenue - cost;
+        let totalCellCost  = conservationCost + cost
+        let netRevenue = grossRevenue - totalCellCost;
 
-        this.totalWatershedCost[year][0].cost += cost;
+        this.totalWatershedCost[year][0].cost += totalCellCost;
         cell.results[year].calculatedTileNetRevenue = (cell.results[year].calculatedTileNetRevenue || 0) + netRevenue;
-        this.econCostByLandUse[year][landUseKey] += cost;
-        totalYearCost.totalCosts += cost;
+        this.econCostByLandUse[year][landUseKey] += totalCellCost;
+        totalYearCost.totalCosts += totalCellCost;
       }
 
       this.totalWatershedCostArray.push(totalYearCost);
@@ -1199,9 +1239,9 @@ var Economics = function () {
           let soc = currentData?.to_carb * soilArea;
           //console.log('soil organic carbon', soc)
           let n20 = currentData?.TopN2O * soilArea;
-          let kpi = currentData?.kpi * soilArea
+          let kpi = currentData?.kpi * soilArea;
 
-
+          soc = Math.max(0, soc);
           let ch4 = parseFloat(currentData?.ch4_kg_ha_yr) * soilArea;
           let Respiration = parseFloat(currentData?.Whole_repsiration) * soilArea
           // BASE DATA FOR CALCULATION SCORES IS BASED ON CONSERVATION F0RETRY CODE 11
@@ -1218,12 +1258,9 @@ var Economics = function () {
           bRespiration = parseFloat(bRespiration.toFixed(0));
           let carbonDioxide = 0
           numLandUseCode = Number(ludID);
-          if (soc < 0) {
-            carbonDioxide = soc
-            co2_emission = Math.abs(soc); // we dont want negative values
-            // soc = 0; TODO need another way to handle this perhaps discuss in the meeting
-          }
-          let bCarbonDioxide = 0
+
+          let bCarbonDioxide = 0;
+
           if (bSOC < 0) {
             bCarbonDioxide = bSOC;
             bSOC_emissions = Math.abs(bSOC);// we don't want to display negative values
