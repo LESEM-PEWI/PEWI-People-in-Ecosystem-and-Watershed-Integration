@@ -2746,7 +2746,7 @@ function getTileNetRevenue(tileId) {
 
 //getHighlightColor determines the gradient of highlighting color for each tile dependent on type of map selected
 function getHighlightColor(highlightType, tileId) {
-
+console.log(highlightType,"highlightType");
     //erosion highlight color indicies
     if (highlightType == "erosion") {
         //subtract 1, as arrays index from 0
@@ -2786,40 +2786,60 @@ function getHighlightColor(highlightType, tileId) {
 
     // ghg highlight color indicies
     else if (highlightType == "ghg") {
-        const ghg = getGHGForTile(yearSelected, tileId);
-        if (!ghg) return 0;
+      const ghg = getGHGForTile(yearSelected, tileId);
+      if (!ghg) return 0;
 
-        let ch4 = ghg.ch4;
-        let n2o = ghg.n2o;
-        let soc = ghg.soc;
-        let co2 = 0;
+      let ch4 = ghg.ch4;
+      let n2o = ghg.n2o;
+      let soc = ghg.soc;
+      let co2 = 0;
 
-        // If SOC is negative, treat it as CO2 emission
-        if (soc < 0) {
-            co2 = Math.abs(soc);
-            soc = 0;
+      // If SOC is negative, treat it as CO2 emission
+      if (soc < 0) {
+        co2 = Math.abs(soc);
+        soc = 0;
+      }
+
+      let totalGHG = (ch4 * 25) + (n2o * 298) + co2 + soc;
+      totalGHG = totalGHG / 1000;
+
+      // console.log(Tile ${tileId} Total GHG(normalized): ${totalGHG.toFixed(2)});
+      console.log(`Tile ${tileId} GHG Value: ${totalGHG}`);
+      if (totalGHG >= 0 && totalGHG <= 0.1) return 135;         // Very Low
+      else if (totalGHG > 0.1 && totalGHG <= 0.2) return 136;   // Low
+      else if (totalGHG > 0.2 && totalGHG <= 0.3) return 137;   // Moderate
+      else if (totalGHG > 0.3 && totalGHG <= 0.4) return 138;   // High
+      else if (totalGHG > 0.4) return 139;                      // Very High
+    }
+      else if (highlightType === "netrevenue_prairie") {
+        const revenueTexts = getTileNetRevenue(tileId);
+        const match = revenueTexts.match(/\$([\d,.]+)/);
+        let revenueText = match ? parseFloat(match[1].replace(/,/g, '')) : null;
+        let highlightIndex;
+
+        if (revenueText == null) {
+            highlightIndex = 141;  // No Data / Unknown
+        } else if (revenueText < 0) {
+            highlightIndex = 135;  // Loss
+        } else if (revenueText === 0) {
+            highlightIndex = 136;  // Break-even
+        } else if (revenueText > 0 && revenueText <= 220) {
+            highlightIndex = 137;  // Minor Gain
+        } else if (revenueText > 220 && revenueText <= 400) {
+            highlightIndex = 138;  // Moderate Gain
+        } else if (revenueText > 400 && revenueText <= 800) {
+            highlightIndex = 139;  // High Gain
+        } else {
+            highlightIndex = 140;  // Outstanding Gain
         }
 
-        let totalGHG = (ch4 * 25) + (n2o * 298) + co2 + soc;
-        totalGHG = totalGHG / 1000;
+        console.log(`🌾 Prairie Net Revenue - Tile: ${tileId}, Revenue: ${revenueText}, Assigned Color Index: ${highlightIndex}`);
 
-        // console.log(Tile ${tileId} Total GHG(normalized): ${totalGHG.toFixed(2)});
-        console.log(`Tile ${tileId} GHG Value: ${totalGHG}`);
-        if (totalGHG < 0) {
-            return 135;  // Loss (All Negative GHG)
-        } else if (totalGHG === 0) {
-            return 136;  // Break-even
-        } else if (totalGHG > 0 && totalGHG <= 0.1) {
-            return 137;  // Minor Gain
-        } else if (totalGHG > 0.1 && totalGHG <= 0.2) {
-            return 138;  // Moderate Gain
-        } else if (totalGHG > 0.2 && totalGHG <= 0.4) {
-            return 139;  // High Gain
-    } else {
-        return 128;  // Outstanding Gain
+        return highlightIndex;
     }
-}
-  //nitrite highlight color indices
+
+
+    //nitrite highlight color indices
   else if (highlightType == "nitrate") {
     var nitrateConcentration = Totals.nitrateContribution[currentYear][tileId];
     if (nitrateConcentration >= 0 && nitrateConcentration <= 0.05) return getBoldedCells(tileId, 125);
