@@ -2753,7 +2753,7 @@ console.log(highlightType,"highlightType");
         return (Totals.grossErosionSeverity[currentYear][tileId] + 35);
     } else if (highlightType === "netrevenue") {
         const revenueTexts = getTileNetRevenue(tileId);
-        const match = revenueTexts.match(/\$([\d,.]+)/);
+        const match = revenueTexts.match(/\$(-?[\d,.]+)/);
         let revenueText = match ? parseFloat(match[1].replace(/,/g, '')) : null;
 
         if (revenueText == null) {
