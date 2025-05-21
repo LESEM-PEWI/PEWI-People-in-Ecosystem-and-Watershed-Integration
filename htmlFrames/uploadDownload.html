@@ -91,7 +91,7 @@ Cleaned and Prepared - July 2016
     // pass the file handler
     parent.uploadClicked(fp.files);
     // clean the file
-    fp.files = null;
+    fp.files = '';
   } // end uploadFile()
 
   //this function triggers a download of the current data
@@ -109,6 +109,13 @@ Cleaned and Prepared - July 2016
     // setTimeout(function() {parent.downloadClicked();},1 );
     // XXX SCRIPT438: Object doesn't support property or method 'downloadClicked'
   } // end triggerDownloadSequence()
+  // document.addEventListener("keydown", function(event) {
+  //   if (event.ctrlKey && event.shiftKey && (event.key === "y" || event.key === "Y")) {
+  //     event.preventDefault();
+  //     fp.click(); // open file dialog
+  //   }
+  // });
+  //fp.addEventListener("change", uploadFile);
   </script>
 </body>
 
