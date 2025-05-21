@@ -1608,6 +1608,7 @@ function generateCostRevProfitTable(year, isTheChartInCategoryMode){
   const revenue = economics.econRevenueByLandUse[year];
 
   for (const key in cost) {
+    // second strict evaluation allows us to present only selected land uses
     if (key != "none" && cost[key] || 0 !==0 ) {
       const costValue = cost[key] || 0;
       const revenueValue = revenue[key] || 0;
