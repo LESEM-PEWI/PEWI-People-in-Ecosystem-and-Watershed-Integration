@@ -9,7 +9,7 @@
     the webGL canvas is created, the startup iframe is made not displayed and the content
     portion of this page is displayed.
 
-    It has been a goal of this page to create as much code reusibility as possilbe. Adding new
+    It has been a goal of this page to create as much code reusability as possible. Adding new
     elements should be straightforward.
     -->
 
@@ -829,28 +829,55 @@
       </center>
 
       <div class="legendColor" style="background-color: #ffffc9;">
-        <p class="levelsTextDetails">Loss </p>
-      </div>
-      <div class="legendColor" style="background-color: #8b4513;">
-        <p class="levelsTextDetails">Very Low</p>
-      </div>
-      <div class="legendColor" style="background-color: #f2e6d9;">
-        <p class="levelsTextDetails">Low </p>
-      </div>
-      <div class="legendColor" style="background-color: #00ff00;">
-        <p class="levelsTextDetails">Moderate </p>
+        <p class="levelsTextDetails">Loss</p>
       </div>
       <div class="legendColor" style="background-color: #2f7eb7;">
-        <p class="levelsTextDetails">High </p>
+        <p class="levelsTextDetails">Break-even</p>
+      </div>
+      <div class="legendColor" style="background-color: #00ff00;">
+        <p class="levelsTextDetails">Minor Gain</p>
+      </div>
+      <div class="legendColor" style="background-color: #d9b38c;">
+        <p class="levelsTextDetails">Moderate Gain</p>
+      </div>
+      <div class="legendColor" style="background-color: #94c3b6;">
+        <p class="levelsTextDetails"> Gain</p>
+      </div>
+      <div class="legendColor" style="background-color: #ac7339;">
+        <p class="levelsTextDetails">High Gain</p>
       </div>
       <div class="legendColor" style="background-color: #0053b3;">
-        <p class="levelsTextDetails">Outstanding </p>
+        <p class="levelsTextDetails">Outstanding Gain</p>
+      </div>
+
+
+      <div id="prairieNetRevenueDetailsList" class="DetailsListRolled levelDetailsList">
+        <center>
+          <h1 class="DetailsList-title">Prairie Net Revenue</h1>
+        </center>
+        <div class="legendColor" style="background-color: #a8d5a2;">
+          <p class="levelsTextDetails">Loss</p>
+        </div>
+        <div class="legendColor" style="background-color: #85c285;">
+          <p class="levelsTextDetails">Break-even</p>
+        </div>
+        <div class="legendColor" style="background-color: #5cae5c;">
+          <p class="levelsTextDetails">Minor Gain</p>
+        </div>
+        <div class="legendColor" style="background-color: #399e39;">
+          <p class="levelsTextDetails">Moderate Gain</p>
+        </div>
+        <div class="legendColor" style="background-color: #1d8c1d;">
+          <p class="levelsTextDetails">High Gain</p>
+        </div>
+        <div class="legendColor" style="background-color: #006400;">
+          <p class="levelsTextDetails">Outstanding Gain</p>
+        </div>
       </div>
 
 
     </div>
-
-      <div id="ghgDetailsList" class="DetailsListRolled levelDetailsList">
+    <div id="ghgDetailsList" class="DetailsListRolled levelDetailsList">
       <center>
         <h1 class="DetailsList-title">Greenhouse Gas Emissions</h1></center>
       <div class="legendColor" style="background-color: #e7f2ef;">
@@ -869,6 +896,7 @@
         <p class="levelsTextDetails">Very High</p>
       </div>
     </div>
+
     <div id="gamewildlifeDetailsList" class="DetailsListRolled levelDetailsList">
       <center>
         <h1 class="DetailsList-title">Game Wildlife</h1></center>
@@ -2137,6 +2165,16 @@
         event.preventDefault();
         // Trigger the button's click event
         resultB.click();
+      }
+    });
+
+    document.addEventListener("keydown", function(event) {
+      // Check if Ctrl and Shift are pressed along with the 'R' key
+      // event.shiftKey &&
+      if (event.ctrlKey &&  (event.key === "b" || event.key === "B")) {
+        event.preventDefault();
+        // Trigger the button's click event
+        parent.randomizeBoard();
       }
     });
     //resultB.addEventListener()
