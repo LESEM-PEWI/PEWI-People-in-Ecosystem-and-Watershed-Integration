@@ -2167,6 +2167,16 @@
         resultB.click();
       }
     });
+
+    document.addEventListener("keydown", function(event) {
+      // Check if Ctrl and Shift are pressed along with the 'R' key
+      // event.shiftKey &&
+      if (event.ctrlKey &&  (event.key === "b" || event.key === "B")) {
+        event.preventDefault();
+        // Trigger the button's click event
+        parent.randomizeBoard();
+      }
+    });
     //resultB.addEventListener()
   </script>
   <!--img src="./imgs/backgroundinfo.png"></div>-->
