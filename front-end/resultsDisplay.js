@@ -1608,7 +1608,7 @@ function generateCostRevProfitTable(year, isTheChartInCategoryMode){
   const revenue = economics.econRevenueByLandUse[year];
 
   for (const key in cost) {
-    if (key != "none") {
+    if (key != "none" && cost[key] || 0 !==0 ) {
       const costValue = cost[key] || 0;
       const revenueValue = revenue[key] || 0;
       const profit = revenueValue - costValue;
