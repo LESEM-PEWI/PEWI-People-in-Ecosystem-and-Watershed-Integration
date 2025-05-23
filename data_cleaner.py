@@ -309,3 +309,19 @@ if __name__ == '__main__':
     da = load_and_clean(view_in_excel=False)
     dc = df.dropna(subset='Time - Cost Type')
     dt = main(book_path='edited_budgets.xlsx')
+    import seaborn as sns
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    # Example data
+    data = np.array(pd.read_csv(fileName)['kpi'])
+
+    # Create histogram
+    sns.histplot(data, bins=30, kde=True)
+    plt.title("Distribution of greenhouse gases emissions(Kpi) data")
+    plt.xlabel("Value")
+    plt.ylabel("Frequency")
+    plt.savefig('ghg_distribution.png')
+    os.startfile('ghg_distribution.png')
+    plt.close()
+
