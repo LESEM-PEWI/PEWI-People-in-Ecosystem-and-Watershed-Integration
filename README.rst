@@ -58,11 +58,11 @@ V4.1 Improvements:
 Code structure:
 =================================================
      
-     ``./index.html``
+     >>> ``./index.html``
      draws the pewi workspace div but renders the loadingContainer and 
      startUpFrame over the workspace for navigation
      
-     ./htmlFrames/startup.html
+     >>> ./htmlFrames/startup.html
      onLoad this page plays a loading animation video and simultaneously calls on
      loader.js and mainFE.js to begin loading resources. navigation buttons to
      sandbox mode, play mode page, or utilities page will load further resources
