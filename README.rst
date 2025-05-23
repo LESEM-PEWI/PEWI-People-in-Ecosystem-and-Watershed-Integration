@@ -1,7 +1,6 @@
 ====================================================
 People in Ecosystem and Watershed Integration (PEWI)
 ====================================================
-
 .. image:: https://img.shields.io/badge/License-AGPL--3.0-pantone.svg
    :target: https://www.gnu.org/licenses/agpl-3.0.html
    :alt: License: AGPL-3.0
