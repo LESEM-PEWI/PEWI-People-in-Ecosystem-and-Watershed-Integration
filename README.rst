@@ -25,6 +25,11 @@ People in Ecosystem and Watershed Integration (PEWI)
    :target: https://github.com/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration/members
    :alt: GitHub Forks
 
+About PEWI
+======================
+PEWI is an innovative digital game-based learning (``DGBL``) tool designed and developed at Iowa State University. This platform offers a unique and engaging way to learn about complex ecosystems and watershed management challenges.
+
+The goal of this repository is to supports open-source and collaborative development of the PEWI. Our goal is to build a vibrant coding community that contributes to improving PEWI’s features, usability, and impact. By working together in an open environment, we aim to enhance this platform as a powerful, transparent, and accessible tool for exploring sustainable land-use scenarios.
 
 V4.1 Improvements:
 =====================================================================
