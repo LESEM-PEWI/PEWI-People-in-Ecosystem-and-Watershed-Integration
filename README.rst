@@ -18,8 +18,12 @@ People in Ecosystem and Watershed Integration (PEWI)
    :alt: GitHub Forks
 
 .. image:: https://img.shields.io/badge/Read%20Publications-blue.svg
-   :target: https://www.nrem.iastate.edu/pewi/
+   :target: https://www.nrem.iastate.edu/pewi/publications
    :alt: Read Publications
+
+.. image:: https://img.shields.io/badge/Watch%20Tutorials-orange.svg
+   :target: https://www.youtube.com/watch?v=m3DQwosNRUc
+   :alt: Watch Tutorials
 
 PEWI is an innovative digital game-based learning (``DGBL``) tool designed and developed at Iowa State University. This platform offers a unique and engaging way to learn about complex ecosystems and watershed management challenges.
 
