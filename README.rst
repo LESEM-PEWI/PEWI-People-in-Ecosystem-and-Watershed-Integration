@@ -1,6 +1,5 @@
 People in Ecosystem and Watershed Integration
 ========================================================
-
 Welcome to the development code base for the People in Ecosystem and Watershed Integration (PEWI) project!
 
 PEWI is an innovative digital game-based learning (``DGBL``) tool designed and developed at Iowa State University. This platform offers a unique and engaging way to learn about complex ecosystems and watershed management challenges.
@@ -34,9 +33,11 @@ V4.1 Improvements:
   
   the net revenue map also show the carbon and nitrate credit
 
-  users can turn of carbon or nitrate credit by going to economic input tab, and turning the corresponding market price to zero
+  users can turn off carbon or nitrate credit value by going to economic input tab, and turning the corresponding market price to zero
 
-page design outline:
+  uses can also change the prices of corn and soybean according to the prevailing market prices
+
+Code structure:
 =================================================
      
      ./index.html
@@ -59,6 +60,9 @@ page design outline:
      ./front-end/helpersFE.js
      contains all necessary functions to create/interact with a PEWI workspace 
      for the sandbox, levels, and multiplayer design modes
+
+     ./front-end/economicUtils.js
+     contains utility function for the new economic module updates
      
      ./back-end/helperObjects.js
      object-oriented backend script written for PEWI 2.0 which instantiates the 
@@ -124,7 +128,8 @@ page design outline:
     tileID starts at 1 but boardData[currentBoard].map is an array, so tileID 1
     is stored at index 0 in boardData[currentBoard].map
     
-# add a stage/level to PEWI:
+add a stage/level to PEWI:
+-------------------------------------
 
     Use the level designer in the utilities page to create a new level
     specifications file. Submit the form to download the file. Follow these steps
