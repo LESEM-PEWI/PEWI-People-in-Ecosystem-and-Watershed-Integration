@@ -9,13 +9,6 @@ People in Ecosystem and Watershed Integration (PEWI)
 .. image:: https://img.shields.io/badge/Play%20Now-red.svg
    :target: https://www.nrem.iastate.edu/pewi/
    :alt: Play Now
-.. image:: https://img.shields.io/github/stars/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration?style=social
-   :target: https://github.com/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration/stargazers
-   :alt: GitHub Stars
-
-.. image:: https://img.shields.io/github/forks/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration?style=social
-   :target: https://github.com/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration/members
-   :alt: GitHub Forks
 
 .. image:: https://img.shields.io/badge/Read%20Publications-blue.svg
    :target: https://www.nrem.iastate.edu/pewi/publications
@@ -24,6 +17,15 @@ People in Ecosystem and Watershed Integration (PEWI)
 .. image:: https://img.shields.io/badge/Watch%20Tutorials-orange.svg
    :target: https://www.youtube.com/watch?v=m3DQwosNRUc
    :alt: Watch Tutorials
+
+.. image:: https://img.shields.io/github/stars/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration?style=social
+   :target: https://github.com/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration/stargazers
+   :alt: GitHub Stars
+
+.. image:: https://img.shields.io/github/forks/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration?style=social
+   :target: https://github.com/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration/members
+   :alt: GitHub Forks
+
 
 PEWI is an innovative digital game-based learning (``DGBL``) tool designed and developed at Iowa State University. This platform offers a unique and engaging way to learn about complex ecosystems and watershed management challenges.
 
