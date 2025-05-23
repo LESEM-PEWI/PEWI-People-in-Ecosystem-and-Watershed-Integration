@@ -2,7 +2,7 @@
 People in Ecosystem and Watershed Integration (PEWI)
 ====================================================
 
-.. image:: https://img.shields.io/badge/License-AGPL--3.0-blue.svg
+.. image:: https://img.shields.io/badge/License-AGPL--3.0-pantone.svg
    :target: https://www.gnu.org/licenses/agpl-3.0.html
    :alt: License: AGPL-3.0
 
@@ -27,7 +27,6 @@ For detailed information and publications related to PEWI, please visit the proj
 
 Additionally, you can access the PEWI home page and game interface here: https://www.nrem.iastate.edu/pewi/
 
-Issue adjusting costs and revenue
 
 V4.1 Improvements:
 =====================================================================
