@@ -1,4 +1,31 @@
+===============================================
 People in Ecosystem and Watershed Integration
+================================================
+
+.. image:: https://img.shields.io/badge/License-AGPL--3.0-blue.svg
+   :target: https://www.gnu.org/licenses/agpl-3.0.html
+   :alt: License: AGPL-3.0
+
+.. image:: https://img.shields.io/badge/docs-online-blue.svg
+   :target: https://magala-richard.github.io/apsimNGpy-documentations/index.html
+   :alt: Documentation
+
+.. image:: https://img.shields.io/pypi/v/apsimNGpy?logo=pypi
+   :target: https://pypi.org/project/apsimNGpy/
+   :alt: PyPI version
+
+.. image:: https://img.shields.io/pypi/dm/apsimNGpy?logo=pypi
+   :target: https://pypi.org/project/apsimNGpy/
+   :alt: PyPI downloads
+
+.. image:: https://img.shields.io/github/stars/MAGALA-RICHARD/apsimNGpy?style=social
+   :target: https://github.com/MAGALA-RICHARD/apsimNGpy/stargazers
+   :alt: GitHub Stars
+
+.. image:: https://img.shields.io/github/forks/MAGALA-RICHARD/apsimNGpy?style=social
+   :target: https://github.com/MAGALA-RICHARD/apsimNGpy/network/members
+   :alt: GitHub Forks
+
 ========================================================
 Welcome to the development code base for the People in Ecosystem and Watershed Integration (PEWI) project!
 
