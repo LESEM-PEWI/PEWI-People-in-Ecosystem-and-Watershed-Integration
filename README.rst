@@ -32,29 +32,29 @@ Issue adjusting costs and revenue
 V4.1 Improvements:
 =====================================================================
 
-  Cost adjustment based on the current inflationary rate
+  1. Cost adjustment based on the current inflationary rate
 
-  Changes to corn and soybean
+  2. Changes to corn and soybean
 
-  More object oriented implementation
+  3. More object oriented implementation
   
-  User-determined commodity prices for economic calculation
+  4. User-determined commodity prices for economic calculation
   
-  broadcasting land use using ctr + B
+  5. broadcasting land use using ctr + B
   
-  quickly access the results table while in play mode using Ctr + R 
+  6. quickly access the results table while in play mode using Ctr + R
 
-  V4.1 now features a dedicated Greenhouse mitigation module, that interacts with all other modules
+  7. V4.1 now features a dedicated Greenhouse mitigation module, that interacts with all other modules
   
-  Two maps have been added to the results maps, one of net revenue and greenhouse gas emissions
+  8. Two maps have been added to the results maps, one of net revenue and greenhouse gas emissions
 
-  when the use hoovers through each cell, he be shown the GHG emission status of that cell, i.e., if it is editing or reducing greenhouse gas emissions
+  9. when the use hoovers through each cell, he be shown the GHG emission status of that cell, i.e., if it is editing or reducing greenhouse gas emissions
   
-  the net revenue map also show the carbon and nitrate credit
+      the net revenue map also show the carbon and nitrate credit
 
-  users can turn off carbon or nitrate credit value by going to economic input tab, and turning the corresponding market price to zero
+  10. users can turn off carbon or nitrate credit value by going to economic input tab, and turning the corresponding market price to zero
 
-  uses can also change the prices of corn and soybean according to the prevailing market prices
+  11. uses can also change the prices of corn and soybean according to the prevailing market prices
 
 Code structure:
 =================================================
