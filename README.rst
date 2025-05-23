@@ -14,8 +14,8 @@ People in Ecosystem and Watershed Integration (PEWI)
    :target: https://github.com/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration/stargazers
    :alt: GitHub Stars
 
-.. image:: https://img.shields.io/github/forks/MAGALA-RICHARD/apsimNGpy?style=social
-   :target: https://github.com/MAGALA-RICHARD/apsimNGpy/network/members
+.. image:: https://img.shields.io/github/forks/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration?style=social
+   :target: https://github.com/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration/members
    :alt: GitHub Forks
 
 ========================================================
