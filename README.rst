@@ -2,21 +2,24 @@
 People in Ecosystem and Watershed Integration (PEWI)
 ================================================
 
-.. image:: https://img.shields.io/badge/License-AGPL--3.0-blue.svg
+|license| |play| |stars| |forks|
+
+.. |license| image:: https://img.shields.io/badge/License-AGPL--3.0-blue.svg
    :target: https://www.gnu.org/licenses/agpl-3.0.html
    :alt: License: AGPL-3.0
 
-.. image:: https://img.shields.io/badge/Play%20Now-blue.svg
+.. |play| image:: https://img.shields.io/badge/Play%20Now-blue.svg
    :target: https://www.nrem.iastate.edu/pewi/play
    :alt: Play Now
 
-.. image:: https://img.shields.io/github/stars/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration?style=social
+.. |stars| image:: https://img.shields.io/github/stars/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration?style=social
    :target: https://github.com/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration/stargazers
    :alt: GitHub Stars
 
-.. image:: https://img.shields.io/github/forks/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration?style=social
+.. |forks| image:: https://img.shields.io/github/forks/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration?style=social
    :target: https://github.com/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration/members
    :alt: GitHub Forks
+
 
 ========================================================
 Welcome to the development code base for the People in Ecosystem and Watershed Integration (PEWI) project!
