@@ -58,7 +58,7 @@ V4.1 Improvements:
 Code structure:
 =================================================
      
-     >>> ``./index.html``
+     >>> ./index.html
 
      draws the pewi workspace div but renders the loadingContainer and 
      startUpFrame over the workspace for navigation
@@ -70,16 +70,16 @@ Code structure:
      sandbox mode, play mode page, or utilities page will load further resources
      and the workspace when selected
      
-     >>>./front-end/loader.js
+     >>> ./front-end/loader.js
 
      contains links to all necessary images/textures to load using a THREE.js 
      TextureLoader
      
-     >>>./front-end/mainFE.js
+     >>> ./front-end/mainFE.js
 
      includes all generic functions to render the THREE.js scene in the workspace
   
-     >>>./front-end/helpersFE.js
+     >>> ./front-end/helpersFE.js
 
      contains all necessary functions to create/interact with a PEWI workspace 
      for the sandbox, levels, and multiplayer design modes
