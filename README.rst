@@ -1,25 +1,17 @@
 ===============================================
-People in Ecosystem and Watershed Integration
+People in Ecosystem and Watershed Integration (PEWI)
 ================================================
 
 .. image:: https://img.shields.io/badge/License-AGPL--3.0-blue.svg
    :target: https://www.gnu.org/licenses/agpl-3.0.html
    :alt: License: AGPL-3.0
 
-.. image:: https://img.shields.io/badge/docs-online-blue.svg
-   :target: https://magala-richard.github.io/apsimNGpy-documentations/index.html
-   :alt: Documentation
+.. image:: https://img.shields.io/badge/Play%20Now-blue.svg
+   :target: https://www.nrem.iastate.edu/pewi/play
+   :alt: Play Now
 
-.. image:: https://img.shields.io/pypi/v/apsimNGpy?logo=pypi
-   :target: https://pypi.org/project/apsimNGpy/
-   :alt: PyPI version
-
-.. image:: https://img.shields.io/pypi/dm/apsimNGpy?logo=pypi
-   :target: https://pypi.org/project/apsimNGpy/
-   :alt: PyPI downloads
-
-.. image:: https://img.shields.io/github/stars/MAGALA-RICHARD/apsimNGpy?style=social
-   :target: https://github.com/MAGALA-RICHARD/apsimNGpy/stargazers
+.. image:: https://img.shields.io/github/stars/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration?style=social
+   :target: https://github.com/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration/stargazers
    :alt: GitHub Stars
 
 .. image:: https://img.shields.io/github/forks/MAGALA-RICHARD/apsimNGpy?style=social
