@@ -2,28 +2,17 @@
 People in Ecosystem and Watershed Integration (PEWI)
 ================================================
 
-|license| |play| |stars| |forks|
-
-.. |license| image:: https://img.shields.io/badge/License-AGPL--3.0-blue.svg
-   :target: https://www.gnu.org/licenses/agpl-3.0.html
-   :alt: License: AGPL-3.0
-
-.. |play| image:: https://img.shields.io/badge/Play%20Now-blue.svg
-   :target: https://www.nrem.iastate.edu/pewi/play
-   :alt: Play Now
-
-.. |stars| image:: https://img.shields.io/github/stars/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration?style=social
+.. image:: https://img.shields.io/github/stars/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration?style=social
    :target: https://github.com/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration/stargazers
    :alt: GitHub Stars
 
-.. |forks| image:: https://img.shields.io/github/forks/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration?style=social
+.. image:: https://img.shields.io/github/forks/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration?style=social
    :target: https://github.com/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration/members
    :alt: GitHub Forks
 
 
-========================================================
 Welcome to the development code base for the People in Ecosystem and Watershed Integration (PEWI) project!
-
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 PEWI is an innovative digital game-based learning (``DGBL``) tool designed and developed at Iowa State University. This platform offers a unique and engaging way to learn about complex ecosystems and watershed management challenges.
 
 For detailed information and publications related to PEWI, please visit the project website: https://www.nrem.iastate.edu/pewi/publications
