@@ -43,11 +43,11 @@ V4.1 Improvements:
   
   6. quickly access the results table while in play mode using Ctr + R
 
-  7. V4.1 now features a dedicated Greenhouse mitigation module, that interacts with all other modules
+  7. V4.1 features a dedicated Greenhouse mitigation module, that interacts with all other modules
   
   8. Two maps have been added to the results maps, one of net revenue and greenhouse gas emissions
 
-  9. when the use hoovers through each cell, he be shown the GHG emission status of that cell, i.e., if it is editing or reducing greenhouse gas emissions
+  9. when the use hoovers through each cell, he/she is shown the GHG emission status of that cell, i.e., if it is emitting or reducing greenhouse gas emissions
   
       the net revenue map also show the carbon and nitrate credit
 
@@ -58,7 +58,7 @@ V4.1 Improvements:
 Code structure:
 =================================================
      
-     ./index.html
+     ``./index.html``
      draws the pewi workspace div but renders the loadingContainer and 
      startUpFrame over the workspace for navigation
      
