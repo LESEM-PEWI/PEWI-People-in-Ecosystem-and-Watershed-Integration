@@ -14,7 +14,7 @@ People in Ecosystem and Watershed Integration (PEWI)
    :target: https://www.nrem.iastate.edu/pewi/publications
    :alt: Read Publications
 
-.. image:: https://img.shields.io/badge/Watch%20Tutorials-orange.svg
+.. image:: https://img.shields.io/badge/Watch%20Tutorials-pantone.svg
    :target: https://www.youtube.com/watch?v=m3DQwosNRUc
    :alt: Watch Tutorials
 
