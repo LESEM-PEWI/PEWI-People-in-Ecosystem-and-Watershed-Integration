@@ -7,7 +7,7 @@ People in Ecosystem and Watershed Integration (PEWI)
    :alt: License: AGPL-3.0
 
 .. image:: https://img.shields.io/badge/Play%20Now-blue.svg
-   :target: https://www.nrem.iastate.edu/pewi/play
+   :target: https://www.nrem.iastate.edu/pewi/
    :alt: Play Now
 .. image:: https://img.shields.io/github/stars/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration?style=social
    :target: https://github.com/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration/stargazers
