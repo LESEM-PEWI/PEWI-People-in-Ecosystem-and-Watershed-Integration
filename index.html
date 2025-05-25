@@ -670,9 +670,11 @@
       const cornPriceInput = document.getElementById("cornPrices" );
       const soybeanPriceInput = document.getElementById('soybeanPrices');
       const nitrateCreditCost = document.getElementById("nitrogenPrices");
-      const carbonCreditPrice = document.getElementById("carbonPrices")
+      let carbonCreditPrice = document.getElementById("carbonPrices")
+      carbonCreditPrice = parseFloat(carbonCreditPrice)
 
       carbonCreditPrice.addEventListener('change', ()=>{
+        //validateEconUserInputs() // not required
       refreshEconTotals(currentYear)})
 
       nitrateCreditCost.addEventListener('change', () =>{
@@ -680,6 +682,7 @@
         refreshEconTotals(currentYear);
       });
       inflationInput.addEventListener('change', () => {
+        //validateEconUserInputs()
         // Call refreshEconTotals with the input value
         refreshEconTotals(currentYear);
       });
@@ -825,55 +828,31 @@
     </div>
     <div id="netRevenueDetailsList" class="DetailsListRolled levelDetailsList">
       <center>
-        <h1 class="DetailsList-title">Net Revenue Per Tile</h1>
+        <h1 class="DetailsList-title">Grid Cell Net Revenue</h1>
       </center>
 
-      <div class="legendColor" style="background-color: #ffffc9;">
+<!--      <div class="legendColor" style="background-color: #e7f2ef;">-->
+<!--        <p class="levelsTextDetails">Loss</p>-->
+<!--      </div>-->
+      <div class="legendColor" style="background-color: #e6bb00;">
         <p class="levelsTextDetails">Loss</p>
       </div>
-      <div class="legendColor" style="background-color: #2f7eb7;">
+      <div class="legendColor" style="background-color: #c97b08;">
         <p class="levelsTextDetails">Break-even</p>
       </div>
-      <div class="legendColor" style="background-color: #00ff00;">
-        <p class="levelsTextDetails">Minor Gain</p>
+      <div class="legendColor" style="background-color: #ad490d;">
+        <p class="levelsTextDetails">Low Gain</p>
       </div>
-      <div class="legendColor" style="background-color: #d9b38c;">
-        <p class="levelsTextDetails">Moderate Gain</p>
+      <div class="legendColor" style="background-color: #9a3010;">
+        <p class="levelsTextDetails"> High Gain</p>
       </div>
-      <div class="legendColor" style="background-color: #94c3b6;">
-        <p class="levelsTextDetails"> Gain</p>
+      <div class="legendColor" style="background-color: #871c12;">
+        <p class="levelsTextDetails">Very High Gain</p>
       </div>
-      <div class="legendColor" style="background-color: #ac7339;">
-        <p class="levelsTextDetails">High Gain</p>
-      </div>
-      <div class="legendColor" style="background-color: #0053b3;">
+      <div class="legendColor" style="background-color: #360b07;">
         <p class="levelsTextDetails">Outstanding Gain</p>
       </div>
 
-
-      <div id="prairieNetRevenueDetailsList" class="DetailsListRolled levelDetailsList">
-        <center>
-          <h1 class="DetailsList-title">Prairie Net Revenue</h1>
-        </center>
-        <div class="legendColor" style="background-color: #a8d5a2;">
-          <p class="levelsTextDetails">Loss</p>
-        </div>
-        <div class="legendColor" style="background-color: #85c285;">
-          <p class="levelsTextDetails">Break-even</p>
-        </div>
-        <div class="legendColor" style="background-color: #5cae5c;">
-          <p class="levelsTextDetails">Minor Gain</p>
-        </div>
-        <div class="legendColor" style="background-color: #399e39;">
-          <p class="levelsTextDetails">Moderate Gain</p>
-        </div>
-        <div class="legendColor" style="background-color: #1d8c1d;">
-          <p class="levelsTextDetails">High Gain</p>
-        </div>
-        <div class="legendColor" style="background-color: #006400;">
-          <p class="levelsTextDetails">Outstanding Gain</p>
-        </div>
-      </div>
 
 
     </div>

@@ -243,7 +243,7 @@ function toggleTabTitleHovers(factor) {
     pushClick(0, getStamp(), 125, 0, factor);
   }
 
-  if(document.getElementById(factor).style.visibility == 'visible' && document.getElementById(factor).style.opacity == 1) {
+  if(document.getElementById(factor).style.visibility === 'visible' && document.getElementById(factor).style.opacity == 1) {
     document.getElementById(factor).style.visibility = 'hidden';
     document.getElementById(factor).style.opacity = 0;
   }
@@ -318,7 +318,7 @@ function toggleScoreDetails(factor) {
       else {
         var childNodes = document.getElementsByClassName('carbonScoreDetails')[0].childNodes;
         // 0 - 100 value
-        childNodes[5].innerHTML = 'Current: ' + formatNumber((Math.round(Totals.carbonSequestrationScore[currentYear] * 10) / 10).toFixed(1))  + '/100';
+        childNodes[5].innerHTML = 'Current: ' + formatNumber(Math.round(economics.GHGsScore[y][0]?.SOC, 1))  + '/100';
         // convert English unit to Metric unit
         childNodes[7].innerHTML = formatNumber((Math.round(Totals.carbonSequestration[currentYear] * 10) / 10).toFixed(1)) + ' tons / yr' + '<br>' +
             formatNumber((Math.round(Totals.carbonSequestration[currentYear] * 0.90718474 * 10) / 10).toFixed(1)) + ' Mg / yr';
@@ -342,7 +342,7 @@ function toggleScoreDetails(factor) {
       }
       break;
     case 'stream-biodiversity':
-      if(document.getElementsByClassName('streamBiodiversityScoreDetails')[0].style.display == 'block') {
+      if(document.getElementsByClassName('streamBiodiversityScoreDetails')[0].style.display === 'block') {
         document.getElementsByClassName('streamBiodiversityScoreDetails')[0].style.display = 'none';
 
       }
@@ -358,7 +358,7 @@ function toggleScoreDetails(factor) {
       }
       break;
     case 'erosion':
-      if(document.getElementsByClassName('erosionScoreDetails')[0].style.display == 'block') {
+      if(document.getElementsByClassName('erosionScoreDetails')[0].style.display === 'block') {
         document.getElementsByClassName('erosionScoreDetails')[0].style.display = 'none';
 
       }
@@ -374,7 +374,7 @@ function toggleScoreDetails(factor) {
       }
       break;
     case 'nitrate':
-      if(document.getElementsByClassName('nitrateScoreDetails')[0].style.display == 'block') {
+      if(document.getElementsByClassName('nitrateScoreDetails')[0].style.display === 'block') {
         document.getElementsByClassName('nitrateScoreDetails')[0].style.display = 'none';
 
       }
@@ -392,7 +392,7 @@ function toggleScoreDetails(factor) {
       }
       break;
     case 'phoshorus':
-      if(document.getElementsByClassName('phoshorusScoreDetails')[0].style.display == 'block') {
+      if(document.getElementsByClassName('phoshorusScoreDetails')[0].style.display === 'block') {
         document.getElementsByClassName('phoshorusScoreDetails')[0].style.display = 'none';
 
       }
@@ -408,7 +408,7 @@ function toggleScoreDetails(factor) {
       }
       break;
     case 'sediment':
-      if(document.getElementsByClassName('sedimentScoreDetails')[0].style.display == 'block') {
+      if(document.getElementsByClassName('sedimentScoreDetails')[0].style.display === 'block') {
         document.getElementsByClassName('sedimentScoreDetails')[0].style.display = 'none';
       }
       else{
@@ -422,7 +422,7 @@ function toggleScoreDetails(factor) {
       }
       break;
     case 'aquatic':
-      if(document.getElementsByClassName('aquaticScoreDetails')[0].style.display == 'block') {
+      if(document.getElementsByClassName('aquaticScoreDetails')[0].style.display === 'block') {
         document.getElementsByClassName('aquaticScoreDetails')[0].style.display = 'none';
       }
       else{
@@ -436,7 +436,7 @@ function toggleScoreDetails(factor) {
       }
       break;
     case 'total':
-      if(document.getElementsByClassName('totalScoreDetails')[0].style.display == 'block') {
+      if(document.getElementsByClassName('totalScoreDetails')[0].style.display === 'block') {
         document.getElementsByClassName('totalScoreDetails')[0].style.display = 'none';
       }
       else{
@@ -452,7 +452,7 @@ function toggleScoreDetails(factor) {
       }
       break;
     case 'cornGrain':
-      if(document.getElementsByClassName('cornGrainScoreDetails')[0].style.display == 'block') {
+      if(document.getElementsByClassName('cornGrainScoreDetails')[0].style.display === 'block') {
         document.getElementsByClassName('cornGrainScoreDetails')[0].style.display = 'none';
       }
       else{
@@ -471,7 +471,7 @@ function toggleScoreDetails(factor) {
       }
       break;
     case 'soybeans':
-      if(document.getElementsByClassName('soybeansScoreDetails')[0].style.display == 'block') {
+      if(document.getElementsByClassName('soybeansScoreDetails')[0].style.display === 'block') {
         document.getElementsByClassName('soybeansScoreDetails')[0].style.display = 'none';
       }
       else{
@@ -1982,7 +1982,7 @@ function displayLevels(overlayHighlightType) {
 
     case 'netrevenue':
       selectionHighlightNumber = 25;
-      updateGlossaryPopup('This map shows the <span style="color:orange;">Net Revenue</span> per tile, computed using yield and cost values. To learn more, go to the <span style="color:yellow;">Glossary</span> and select <span style="color:yellow;">"Economics"</span>.');
+      updateGlossaryPopup('This map shows the <span style="color:orange;">Net Revenue</span> per tile, computed using revenue from yield minus cost values. To learn more, go to the <span style="color:yellow;">Glossary</span> and select <span style="color:yellow;">"Economics"</span>.');
       if (curTracking) {
         pushClick(0, getStamp(), 148, 0, null); // Use a unique tracking ID
       }
@@ -2698,149 +2698,93 @@ function getGridOutline(startTile, endTile) {
 }
 //function to find the individual ghg data using economics file (directly pulls per-tile GHG data from loadedGHGData)
 function getGHGForTile(year, tileId) {
-  const cell = boardData[currentBoard].map[tileId];
-  if (!cell) return null;
+  return boardData[currentBoard].map[tileId].results[year].calculatedTileGHGs || 0
 
-  const landUseCode = cell.landType[year];
-  const soilType = cell.soilType;
-  const precipitation = boardData[currentBoard].precipitation[year].toString();
-
-  // Now find the matching row in loadedGHGData
-  const match = economics.loadedGHGData.find(row =>
-      row.land_use_code === landUseCode.toString() &&
-      row.soil_type === soilType &&
-      row.precipitation_level === precipitation
-  );
-
-  if (!match) {
-    // console.warn(GHG data not found for Tile ${tileId}, LU=${landUseCode}, Soil=${soilType}, Precip=${precipitation});
-    return null;
-  }
-
-  return {
-    ch4: parseFloat(match['ch4_kg_ha_yr']) || 0,
-    n2o: parseFloat(match['TopN2O']) || 0,
-    co2: 0, // Calculated from SOC if negative
-    soc: parseFloat(match['to_carb']) || 0
-  };
+}
+function getNitrateRevCredit(year, tileId){
+  return boardData[currentBoard].map[tileId].results[year].nitrateTileRevenue
 }
 
-function getTileNetRevenue(tileId) {
-  try {
-    const result = boardData[currentBoard].map[tileId].results[currentYear];
-    if (!result || typeof result.calculatedTileNetRevenue === 'undefined') {
-      return "Net Revenue: Data not available";
-    }
-
-    const netRevenue = parseFloat(result.calculatedTileNetRevenue);
-    if (isNaN(netRevenue)) {
-      return "Net Revenue: Invalid data";
-    }
-
-    return "Net Revenue: $" + netRevenue.toFixed(2);
-  } catch (err) {
-    console.error("Error retrieving net revenue for tile " + tileId, err);
-    return "Net Revenue: Error";
-  }
-}
 
 //getHighlightColor determines the gradient of highlighting color for each tile dependent on type of map selected
 function getHighlightColor(highlightType, tileId) {
-console.log(highlightType,"highlightType");
+
     //erosion highlight color indicies
     if (highlightType == "erosion") {
         //subtract 1, as arrays index from 0
         return (Totals.grossErosionSeverity[currentYear][tileId] + 35);
     } else if (highlightType === "netrevenue") {
-        const revenueTexts = getTileNetRevenue(tileId);
-        const match = revenueTexts.match(/\$(-?[\d,.]+)/);
-        let revenueText = match ? parseFloat(match[1].replace(/,/g, '')) : null;
+        let revTile =0;
+        //const revenueTexts = getTileNetRevenue(tileId);
+        revTile = getRevenuePerTile(currentYear, tileId);
+        revTile = parseFloat(revTile);
+        console.log(revTile, tileId, 'rev tile title tile tile')
+        // const revenueTexts = revTile.toFixed(2)
+        // const match = revenueTexts.match(/\$(-?[\d,.]+)/);
+        // let revenueText = match ? parseFloat(match[1].replace(/,/g, '')) : null;
 
-        if (revenueText == null) {
-            return 0;
-        }
-        if (revenueText > 10000) {
-            // Scale proportionally to fit 1000 to 10000
-            revenueText = (revenueText / 10000) * 1000;
-            console.log(` Scaled Revenue for Tile ${tileId}: ${revenueText}`);
-        }
+      if (revTile < 0) {
+        return 0  // Loss
+      } else if (revTile === 0) {
+        return 1 // 'Break-even
+      } else if (revTile >= 0 && revTile <=500) {
+        return 2 // Low gain
+      } else if (revTile >= 501 && revTile <=2861) {
+        return 3 // High gain
+      } else if (revTile >= 2862 && revTile <=4000) {
+        return 4  // Very High Gain
+      } else {
+        return 59 // Outstanding Gain
+      }
 
-        console.log(` Highlighting tile ${tileId} → Used Revenue: ${revenueText}`);
-        if (revenueText < 0) {
-            return 36;  // Loss
-        } else if (revenueText === 0) {
-            return 9;   // Break-even
-        } else if (revenueText <= 3000) {
-            return 46;  // Minor Gain
-        } else if (revenueText <= 7000) {
-            return 53;  // Moderate Gain
-        } else if (revenueText <= 9000) {
-            return 10;  //  Gain
-        } else if (revenueText <= 10000) {
-            return 54;  // High Gain
+        if (revTile < 0) {
+            return 135;  // Loss
+        } else if (revTile >= 0 && revTile <=20 ) {
+            return 0;   // Break-even
+        } else if (revTile >= 21 && revTile <=261) {
+            return 1;  // Minor Gain
+        } else if (revTile >= 262 && revTile <=500) {
+            return 2;  // Moderate Gain
+        } else if (revTile >= 501 && revTile <=2861) {
+            return 3;  //  High Gain
+        } else if (revTile >= 2861 && revTile <=4000) {
+            return 4;  // Very High Gain
         } else {
-            return 128; // Outstanding Gain
+            return 59; // Outstanding Gain
         }
     }
 
 
     // ghg highlight color indicies
     else if (highlightType == "ghg") {
-      const ghg = getGHGForTile(yearSelected, tileId);
-      if (!ghg) return 0;
-
-      let ch4 = ghg.ch4;
-      let n2o = ghg.n2o;
-      let soc = ghg.soc;
-      let co2 = 0;
-
-      // If SOC is negative, treat it as CO2 emission
-      if (soc < 0) {
-        co2 = Math.abs(soc);
-        soc = 0;
-      }
-
-      let totalGHG = (ch4 * 25) + (n2o * 298) + co2 + soc;
-      totalGHG = totalGHG / 1000;
+      const  totalGHG = getGHGForTile(yearSelected, tileId);
+      // if (!ghg) return 0;
+      //
+      // let ch4 = ghg.ch4;
+      // let n2o = ghg.n2o;
+      // let soc = ghg.soc;
+      // let co2 = 0;
+      //
+      // // If SOC is negative, treat it as CO2 emission
+      // if (soc < 0) {
+      //   co2 = Math.abs(soc);
+      //   soc = 0;
+      // }
+      //
+      // let totalGHG = (ch4 * 25) + (n2o * 298) + co2 + soc;
+      //totalGHG = totalGHG / 1000;
 
       // console.log(Tile ${tileId} Total GHG(normalized): ${totalGHG.toFixed(2)});
-      console.log(`Tile ${tileId} GHG Value: ${totalGHG}`);
-      if (totalGHG >= 0 && totalGHG <= 0.1) return 135;         // Very Low
-      else if (totalGHG > 0.1 && totalGHG <= 0.2) return 136;   // Low
-      else if (totalGHG > 0.2 && totalGHG <= 0.3) return 137;   // Moderate
-      else if (totalGHG > 0.3 && totalGHG <= 0.4) return 138;   // High
-      else if (totalGHG > 0.4) return 139;                      // Very High
+
+      if (totalGHG <= -5000) return 135;         // Very Low
+      else if (totalGHG > -5001 && totalGHG <= 0) return 136;   // Low
+      else if (totalGHG > 0 && totalGHG <= 5000) return 137;   // Moderate
+      else if (totalGHG > 5000 && totalGHG <= 15000) return 138;   // High
+      else if (totalGHG > 15000) return 139;                      // Very High                // Very High
     }
-      else if (highlightType === "netrevenue_prairie") {
-        const revenueTexts = getTileNetRevenue(tileId);
-        const match = revenueTexts.match(/\$([\d,.]+)/);
-        let revenueText = match ? parseFloat(match[1].replace(/,/g, '')) : null;
-        let highlightIndex;
-
-        if (revenueText == null) {
-            highlightIndex = 141;  // No Data / Unknown
-        } else if (revenueText < 0) {
-            highlightIndex = 135;  // Loss
-        } else if (revenueText === 0) {
-            highlightIndex = 136;  // Break-even
-        } else if (revenueText > 0 && revenueText <= 220) {
-            highlightIndex = 137;  // Minor Gain
-        } else if (revenueText > 220 && revenueText <= 400) {
-            highlightIndex = 138;  // Moderate Gain
-        } else if (revenueText > 400 && revenueText <= 800) {
-            highlightIndex = 139;  // High Gain
-        } else {
-            highlightIndex = 140;  // Outstanding Gain
-        }
-
-        console.log(`🌾 Prairie Net Revenue - Tile: ${tileId}, Revenue: ${revenueText}, Assigned Color Index: ${highlightIndex}`);
-
-        return highlightIndex;
-    }
-
 
     //nitrite highlight color indices
-  else if (highlightType == "nitrate") {
+  else if (highlightType === "nitrate") {
     var nitrateConcentration = Totals.nitrateContribution[currentYear][tileId];
     if (nitrateConcentration >= 0 && nitrateConcentration <= 0.05) return getBoldedCells(tileId, 125);
     else if (nitrateConcentration > 0.05 && nitrateConcentration <= 0.1) return getBoldedCells(tileId, 126);//return 8;
@@ -2850,12 +2794,12 @@ console.log(highlightType,"highlightType");
 
   }
   //phosphorus highlight color indicies
-  else if (highlightType == "phosphorus") {
+  else if (highlightType === "phosphorus") {
     //-1 for 0 indexing of arrays, sigh
     return (Totals.phosphorusRiskAssessment[currentYear][tileId] - 1);
   }
 
-  else if (highlightType == "sediment") {
+  else if (highlightType === "sediment") {
     var sedimentDelivery = boardData[currentBoard].map[tileId].results[yearSelected].calculatedSedimentDeliveryToStreamTile * boardData[currentBoard].map[tileId].area;
 
     if(sedimentDelivery>=0.0043 && sedimentDelivery<=9.9447) return 140;
@@ -2865,14 +2809,20 @@ console.log(highlightType,"highlightType");
     else if(sedimentDelivery>39.7659) return 144;
   }
 
-  else if (highlightType == "carbon") {
-    var carbonseq = Number(boardData[currentBoard].map[tileId].results[yearSelected].calculatedTileSOC)
-    if(carbonseq>=0 && carbonseq<=4.04) return 130;
-    else if(carbonseq>4.04 && carbonseq<8.09) return 131;
-    else if(carbonseq>8.09 && carbonseq<=12.13) return 132;
-    else if(carbonseq>12.13 && carbonseq<=16.17) return 133;
-    else if(carbonseq>16.17) return 134;
+  else if (highlightType === "carbon") {
+    let carbonseq = Number(boardData[currentBoard].map[tileId].results[yearSelected].calculatedTileSOC)
+  if(carbonseq<=0.1){
+    return 130; // Very low or no sequestration
+  }else if(carbonseq>0.1 && carbonseq<=0.3){
+    return 131;// low
+  }else if(carbonseq>0.3 && carbonseq<=0.5){
+    return 132; // medium
+  }else if(carbonseq > 0.5 && carbonseq<=1){
+    return 133; // high
+  }else if(carbonseq >1){
+    return 134; // very high
   }
+}
 
 
   else if (highlightType == "gamewildlife") {
@@ -3242,6 +3192,33 @@ function CarbonSequestrationClassification(score){
     return "Very High";
   }
 }
+function ghgEmissionsClassification(totalGHG){
+  if (totalGHG <= -5000) return 'Very Low';
+  else if (totalGHG > -5001 && totalGHG <= 0) return 'Low';
+  else if (totalGHG > 0 && totalGHG <= 5000) return 'Moderate';
+  else if (totalGHG > 5000 && totalGHG <= 15000) return  'High';
+  else if (totalGHG > 15000) return "Very High";
+}
+function getRevenuePerTile(year, tileID){
+   return boardData[currentBoard].map[tileID].results[year].calculatedTileNetRevenue || 0;
+}
+function netRevenueClassification(revTile){
+  if (revTile < 0) {
+    return 'Loss'
+  } else if (revTile === 0) {
+    return 'Break-even'
+  } else if (revTile >= 0 && revTile <=500) {
+    return 'Low Gain'
+  } else if (revTile >= 501 && revTile <=2861) {
+    return 'High Gain'
+  } else if (revTile >= 2861 && revTile <=4000) {
+    return 'Very High Gain'
+  } else {
+    return 'Outstanding Gain'
+  }
+
+}
+
 //translate raw gross Erosion score to catalog score in results tab when hover a tile
 function GrossErosionClassification(score){
   if(score<0.5){
@@ -3323,13 +3300,14 @@ function phoshorusIndexRiskAssessmentClassification(pindex) {
 function calculateSubwatershedTotalNitrateScore(tileId){
   const result=boardData[currentBoard].map.filter(
       function(item){
-        return item.subwatershed==boardData[currentBoard].map[tileId].subwatershed;
+        return item.subwatershed===boardData[currentBoard].map[tileId].subwatershed;
       }
   );
   let total=0;
   for (let i = 0; i < result.length; i++) {
     total+=result[i].results[currentYear].calculatedTileNitrate;
   }
+
   return total;
 }
 //getHighlightedInfo returns the value of the corresponding highlighted setting in a tile
@@ -3493,10 +3471,9 @@ function getHighlightedInfo(tileId) {
         break;
         //create string for carbon sequestration
       case 20:
-        //TODO fix the carbon classification scores and check the correlation of soil type with carbon values in the ghg csv file
           // calculatedTileSOC was recalculated from the Econ module
         highlightString = CarbonSequestrationClassification((Number(boardData[currentBoard].map[tileId].results[yearSelected].calculatedTileSOC)).toFixed(3))+"<br>"+
-            (Number(boardData[currentBoard].map[tileId].results[yearSelected].calculatedTileSOC)).toFixed(3) + " Mg" + "<br>";
+            (Number(boardData[currentBoard].map[tileId].results[yearSelected].calculatedTileSOC)).toFixed(3) + " Mg/yr" + "<br>";
         break;
         //create string for Game Wildlife score
       case 21:
@@ -3512,6 +3489,26 @@ function getHighlightedInfo(tileId) {
         highlightString = "Nitrate Tile: " + getTileNitrateInfoText((Number(boardData[currentBoard].map[tileId].results[currentYear].calculatedTileNitrate)).toFixed(2)) + "<br>"+
             ((boardData[currentBoard].map[tileId].results[currentYear].calculatedTileNitrate/calculateSubwatershedTotalNitrateScore(tileId))*boardData[currentBoard].subWatershedNitrateNoMin[subwatershed]).toFixed(4)+" ppm <br>";
         break;
+      case 24:
+        let ghgTile = getGHGForTile(currentYear, tileId)
+        let descriptor;
+        if (ghgTile < 0){ descriptor = "Emission reductions: "}
+        else{ descriptor = "Emissions: "
+        }
+        highlightString = "Annual Greenhouse gases: " +  ghgEmissionsClassification(ghgTile) + "<br>" + descriptor +
+            Number(ghgTile.toFixed(0)).toLocaleString() + " kg CO₂-e<br>";
+            break
+      case 25:
+        let ghgTileToRev = getGHGForTile(currentYear, tileId) || 0
+        let NCRed = getNitrateRevCredit(currentYear, tileId)
+        const carbonValuePrice = parseFloat(document.getElementById("carbonPrices").value)
+          ghgTileToRev = Math.abs(Math.min(0, ghgTileToRev)/1000 * carbonValuePrice) // only those reducing emissions qualifies to sell the carbon
+         let netRevTile= getRevenuePerTile(yearSelected, tileId) + NCRed
+        highlightString = "Annual Net Revenue: " + netRevenueClassification(netRevTile)  + "<br>" +
+            "Annual Net Revenue: $ " + Number(netRevTile.toFixed(0)).toLocaleString() + "<br>" +
+            "Annual Carbon credit: $ " + Number(ghgTileToRev.toFixed(0).toLocaleString()) + "<br>"+
+            "Annual Nitrate credit: $ " + Number(NCRed.toFixed(0).toLocaleString()) + "<br>" ;
+        break
     }
     return highlightString;
   } // END if/else
@@ -6106,29 +6103,34 @@ function switchConsoleTab(value) {
 } //end switchConsoleTab
 
 // Submitting inflation form
-function submitInflationForm() {
-  const inflationFactor = document.getElementById('inflationFactor').value;
-  const cornPrices = document.getElementById('cornPrices').value;
-  const soybeanPrices = document.getElementById('soybeanPrices').value;
-  const carbonPrices = document.getElementById('carbonPrices').value;
-  // Function to check if a value is a number
-  function isNumber(value) {
-    return !isNaN(value);
-  }
-  // Check if any field is empty
-  if (inflationFactor === '' || cornPrices === '' || soybeanPrices === '' || carbonPrices === '') {
-    alert("Please fill in all fields.");
-    return; // Stop form submission if any field is empty
+function validateEconUserInputs() {
+  const fields = [
+    { id: 'inflationFactor', name: 'Inflation Factor' },
+    { id: 'cornPrices', name: 'Corn Prices' },
+    { id: 'soybeanPrices', name: 'Soybean Prices' },
+    { id: 'carbonPrices', name: 'Carbon Prices' }
+  ];
 
+  let errors = [];
+
+  fields.forEach(field => {
+    const value = document.getElementById(field.id).value.trim();
+    if (value === '') {
+      errors.push(`${field.name} is required.`);
+    } else if (isNaN(value)) {
+      errors.push(`${field.name} must be a valid number.`);
+    }
+  });
+
+  if (errors.length > 0) {
+    alert(errors.join('\n'));
+    return false; // Prevent form submission
   }
-  // Validate the inputs
-  if (!isNumber(inflationFactor) || !isNumber(cornPrices) || !isNumber(soybeanPrices) || !isNumber(carbonPrices)) {
-    alert("Please enter valid numbers in all fields.");
-    return; // Stop form submission if validation fails
-  }
+
   alert('Form submitted successfully!');
-
+  return true; // Allow form submission
 }
+
 
 function reloadForEconUpdates(){
   const inputDataValue = document.getElementById("inflationFactor")
@@ -7557,40 +7559,23 @@ function getTileNitrateInfoText(score){
 
 function getTilePrecipitationMultiplier(year){
 
-  if (boardData[currentBoard].precipitation[year] == 24.58 || boardData[currentBoard].precipitation[year] == 28.18) // If it's a dry year
+  if (boardData[currentBoard].precipitation[year] === 24.58 || boardData[currentBoard].precipitation[year] === 28.18) // If it's a dry year
   {
     return 0.86;
-  } else if (boardData[currentBoard].precipitation[year] == 30.39 || boardData[currentBoard].precipitation[year] == 32.16 || boardData[currentBoard].precipitation[year] == 34.34) { // If it's a normal year
-    if (boardData[currentBoard].precipitation[year - 1] == 24.58 || boardData[currentBoard].precipitation[year - 1] == 28.18) {
+  } else if (boardData[currentBoard].precipitation[year] === 30.39 || boardData[currentBoard].precipitation[year] === 32.16 || boardData[currentBoard].precipitation[year] === 34.34) { // If it's a normal year
+    if (boardData[currentBoard].precipitation[year - 1] === 24.58 || boardData[currentBoard].precipitation[year - 1] === 28.18) {
       return 1.69;
     } else {
       return 1;
     }
   } else { // If it's a flood year
-    if (boardData[currentBoard].precipitation[year - 1] == 24.58 || boardData[currentBoard].precipitation[year - 1] == 28.18) {
+    if (boardData[currentBoard].precipitation[year - 1] === 24.58 || boardData[currentBoard].precipitation[year - 1] === 28.18) {
       return 2.11;
     } else {
       return 1;
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -7654,55 +7639,55 @@ function getBoldedCells(tileId, color){
   //The function returns a call to the getColorForBoldedCells function, which determines which image file to be used
 
   //Needs bolded on right
-  if(subwatershedcurr!=subwatershedright && subwatershedcurr==subwatershedleft && subwatershedcurr==subwatershedtop && subwatershedcurr==subwatershedbottom){
+  if(subwatershedcurr!==subwatershedright && subwatershedcurr===subwatershedleft && subwatershedcurr===subwatershedtop && subwatershedcurr===subwatershedbottom){
     return getColorForBoldedCells('right', color);
   }
   //Needs bolded on left
-  else if(subwatershedcurr!=subwatershedleft && subwatershedcurr==subwatershedright && subwatershedcurr==subwatershedtop && subwatershedcurr==subwatershedbottom){
+  else if(subwatershedcurr!==subwatershedleft && subwatershedcurr===subwatershedright && subwatershedcurr===subwatershedtop && subwatershedcurr===subwatershedbottom){
     return getColorForBoldedCells('left', color);
   }
   //Needs bolded on bottom
-  else if(subwatershedcurr!=subwatershedbottom && subwatershedcurr==subwatershedright && subwatershedcurr==subwatershedtop && subwatershedcurr==subwatershedleft){
+  else if(subwatershedcurr!==subwatershedbottom && subwatershedcurr===subwatershedright && subwatershedcurr===subwatershedtop && subwatershedcurr===subwatershedleft){
     return getColorForBoldedCells('bottom', color);
   }
   //Needs bolded on top
-  else if(subwatershedcurr!=subwatershedtop && subwatershedcurr==subwatershedright && subwatershedcurr==subwatershedbottom && subwatershedcurr==subwatershedleft){
+  else if(subwatershedcurr!==subwatershedtop && subwatershedcurr===subwatershedright && subwatershedcurr===subwatershedbottom && subwatershedcurr===subwatershedleft){
     return getColorForBoldedCells('top', color);
   }
   //Needs bolded on top and right
-  else if(subwatershedcurr==subwatershedleft && subwatershedcurr==subwatershedbottom && subwatershedcurr!=subwatershedtop && subwatershedcurr!=subwatershedright){
+  else if(subwatershedcurr===subwatershedleft && subwatershedcurr===subwatershedbottom && subwatershedcurr!==subwatershedtop && subwatershedcurr!==subwatershedright){
     return getColorForBoldedCells('topright', color);
   }
   //Needs bolded on top and left
-  else if(subwatershedcurr==subwatershedright && subwatershedcurr==subwatershedbottom && subwatershedcurr!=subwatershedtop && subwatershedcurr!=subwatershedleft){
+  else if(subwatershedcurr===subwatershedright && subwatershedcurr===subwatershedbottom && subwatershedcurr!==subwatershedtop && subwatershedcurr!==subwatershedleft){
     return getColorForBoldedCells('topleft', color);
   }
   //Needs bolded on bottom and right
-  else if(subwatershedcurr==subwatershedleft && subwatershedcurr==subwatershedtop && subwatershedcurr !=subwatershedbottom && subwatershedcurr!=subwatershedright){
+  else if(subwatershedcurr===subwatershedleft && subwatershedcurr===subwatershedtop && subwatershedcurr !==subwatershedbottom && subwatershedcurr!==subwatershedright){
     return getColorForBoldedCells('bottomright', color);
   }
   //Needs bolded on bottom and left
-  else if(subwatershedcurr==subwatershedright && subwatershedcurr==subwatershedtop && subwatershedcurr!=subwatershedbottom && subwatershedcurr!=subwatershedleft){
+  else if(subwatershedcurr===subwatershedright && subwatershedcurr===subwatershedtop && subwatershedcurr!==subwatershedbottom && subwatershedcurr!==subwatershedleft){
     return getColorForBoldedCells('bottomleft', color);
   }
   //Needs bolded on top and left and right
-  else if(subwatershedcurr==subwatershedbottom && subwatershedcurr!=subwatershedleft && subwatershedcurr!=subwatershedright && subwatershedcurr!=subwatershedtop){
+  else if(subwatershedcurr===subwatershedbottom && subwatershedcurr!==subwatershedleft && subwatershedcurr!==subwatershedright && subwatershedcurr!==subwatershedtop){
     return getColorForBoldedCells('topleftright', color);
   }
   //Needs bolded on bottom and left and right
-  else if(subwatershedcurr==subwatershedtop && subwatershedcurr!=subwatershedleft && subwatershedcurr!=subwatershedright && subwatershedcurr!=subwatershedbottom){
+  else if(subwatershedcurr===subwatershedtop && subwatershedcurr!==subwatershedleft && subwatershedcurr!==subwatershedright && subwatershedcurr!==subwatershedbottom){
     return getColorForBoldedCells('bottomleftright', color);
   }
   //Needs bolded on top and right and bottom
-  else if(subwatershedcurr==subwatershedleft && subwatershedcurr!=subwatershedright && subwatershedcurr!=subwatershedtop && subwatershedcurr!=subwatershedbottom){
+  else if(subwatershedcurr===subwatershedleft && subwatershedcurr!==subwatershedright && subwatershedcurr!==subwatershedtop && subwatershedcurr!==subwatershedbottom){
     return getColorForBoldedCells('toprightbottom', color);
   }
   //Needs bolded on top and left and bottom
-  else if(subwatershedcurr==subwatershedright && subwatershedcurr!=subwatershedleft && subwatershedcurr!=subwatershedtop && subwatershedcurr!=subwatershedbottom){
+  else if(subwatershedcurr===subwatershedright && subwatershedcurr!==subwatershedleft && subwatershedcurr!==subwatershedtop && subwatershedcurr!==subwatershedbottom){
     return getColorForBoldedCells('topleftbottom', color);
   }
   //Needs bolded on left and right
-  else if(subwatershedcurr==subwatershedtop && subwatershedcurr==subwatershedbottom && subwatershedcurr!=subwatershedright && subwatershedcurr!=subwatershedleft){
+  else if(subwatershedcurr===subwatershedtop && subwatershedcurr===subwatershedbottom && subwatershedcurr!==subwatershedright && subwatershedcurr!==subwatershedleft){
     return getColorForBoldedCells('leftright', color);
   }
   //Does not need to be bolded
@@ -7891,26 +7876,6 @@ function getColorForBoldedCells(direction, color){
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */

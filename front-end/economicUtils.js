@@ -363,9 +363,7 @@ function calculateNitrateMass(volumeFt3PerYear, nitratePpm) {
 // end of calculateNitrateMass
 
 
-
-
-console.log(calculateNitrateMass(139389120,10))
+//console.log(calculateNitrateMass(139389120,10))
 
 getCostPerLandUse = (landUseID) => {
     // source '../PEWI Budgets 2024$ - 2025$ (021425).xlsx'
@@ -507,13 +505,13 @@ const calculatedVolumeFt3perYear =139389120
 const pewiACRE = 6000
 let totalNitrogen  = pewiACRE * 90
 let calculatedLostNitrogenMass = calculateNitrateMass(calculatedVolumeFt3perYear,18)
-console.log('Total nitrogen mass', totalNitrogen)
-console.log('calculated nitrogen mass', calculatedLostNitrogenMass)
-let percentageLost = calculatedLostNitrogenMass/totalNitrogen * 100
-console.log("percentage lost: ", percentageLost)
-console.log("======================================")
-console.log(calculatedLostNitrogenMass * 3)
-console.log(getCostPerLandUse('3-1'))
+// console.log('Total nitrogen mass', totalNitrogen)
+// console.log('calculated nitrogen mass', calculatedLostNitrogenMass)
+// let percentageLost = calculatedLostNitrogenMass/totalNitrogen * 100
+// console.log("percentage lost: ", percentageLost)
+// console.log("======================================")
+// console.log(calculatedLostNitrogenMass * 3)
+// console.log(getCostPerLandUse('3-1'))
 
 
 function nc(N) {
@@ -533,12 +531,15 @@ function landUseNitrateCreditContribution(land_use_ID, crop_area, nitrate_reduce
     return (coverArea / total_area) * nitrate_reduced_kg;
 }
 
-const calculateNitrateLoadReduced = function(nConC, streamDischarge) {
+const calculateNitrateLoadReduced = function(nConC, streamDischarge, very_Low=false) {
     /*
    * nConC is the nitrate concentration of a tile or a whole watershed
    *  */
+    if (very_Low){
+        nConC = nConC + 2 // we might not be able to detect, so we add it to 2
+    }
     const NITRATE_MAX_CONCENTRATION = 29.54
-    let N = Math.min(Math.max(nConC, 2), NITRATE_MAX_CONCENTRATION) + 2; // Clamp N between 2 and 29.54
+    let N = Math.min(Math.max(nConC, 2), NITRATE_MAX_CONCENTRATION); // Clamp N between 2 and 29.54
 
     // calculate the fixed maximum load
     const fixedMaximumLoad = calculateNitrateMass(streamDischarge, NITRATE_MAX_CONCENTRATION)

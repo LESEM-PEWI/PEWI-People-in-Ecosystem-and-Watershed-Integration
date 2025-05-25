@@ -1,0 +1,14 @@
+cost_per_acre,Land-Use,Sub Crop,LU_ID,cost_per_unit,units
+738.03,Conventional Corn,corn after soy,1,3.53,bushels
+788.73,Conventional Corn,Corn after Corn,1,3.87,bushels
+743.39,Conservation Corn,Corn after Corn,2,3.56,bushels
+525.9,Conservation Soybean,soy after corn,3,8.76,bushels
+514.43,Conservation Soybean,soy after soy,4,8.57,bushels
+137.0,Switchgrass,,12,137.0,acre
+406.0,Short rotation woody perennial,,13,63.45,Ton
+,Permanent pasture,,6,3496.81,head
+205.03,Prairie,,9,205.03,acre
+312.0,Wetland,,14,312.0,acre
+554.75,Alfalfa,,5,84.8,Ton
+602.73,Grass Hay,,8,63.45,Ton
+,Rotational Grazing,,7,3556.0,head

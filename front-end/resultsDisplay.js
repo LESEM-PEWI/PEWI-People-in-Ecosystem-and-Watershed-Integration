@@ -1608,17 +1608,18 @@ function generateCostRevProfitTable(year, isTheChartInCategoryMode){
   const revenue = economics.econRevenueByLandUse[year];
 
   for (const key in cost) {
-    // second strict evaluation allows us to present only selected land uses
-    if (key != "none" && cost[key] || 0 !==0 ) {
+    // second strict evaluation allows us to present only selected land uses in the table
+    if (key !== "none" && cost[key] || 0 !==0 ) {
       const costValue = cost[key] || 0;
-      const revenueValue = revenue[key] || 0;
+      let revenueValue = revenue[key] || 0;
+
       const profit = revenueValue - costValue;
       const row = document.createElement("tr");
       row.innerHTML = `
         <td>${key}</td>
-        <td>${costValue.toFixed(2)}</td>
-        <td>${revenueValue.toFixed(2)}</td>
-        <td>${profit.toFixed(2)}</td>
+        <td>${Number(costValue.toFixed(0)).toLocaleString()}</td>
+        <td>${Number(revenueValue.toFixed(0)).toLocaleString()}</td>
+        <td>${Number(profit.toFixed(0)).toLocaleString()}</td>
       `;
       tbody.appendChild(row);
     }
@@ -1626,6 +1627,7 @@ function generateCostRevProfitTable(year, isTheChartInCategoryMode){
 }
 
 function getTotalCost(data, givenYear) {
+  //deprecated
   var cost = 0;
 
   for(let i = 0; i < data[givenYear]?.length; ++i){
@@ -6219,9 +6221,8 @@ function EconomicsGraphic1() {
 }
 
 function horizontalBarGraph(year){
-  //TODO plot this in per year model. Either pass a year or run it in a loop with iterators as the length of the year
   const Cost = economics.econCostByLandUse[year];
-  const Revenue = economics.econRevenueByLandUse[year]; // TODO instead of subseting by 1 replace with currentYear and connect it to the year selection tab
+  const Revenue = economics.econRevenueByLandUse[year];
   console.log("econRevenue",economics.econRevenueByLandUse)
   console.log("econCost",economics.econCostByLandUse)
   var horizontalBarGraphSvg = document.getElementById('resultsFrame').contentWindow.document.getElementById('horizontalBarGraphsvg');
@@ -6267,7 +6268,7 @@ function horizontalBarGraph(year){
       .attr("text-anchor", "middle")
       .style("font-size", "14px")
       .style("font-weight", "bold")
-      .text("Cost and Revenue ($)");
+      .text("Annual Cost and Revenue ($)");
 
   svg.append("g")
       .call(d3.axisLeft(yScale))

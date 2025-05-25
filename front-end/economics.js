@@ -26,6 +26,7 @@ var Economics = function () {
   this.totalWatershedRevenue=[];
   this.ghgBenchmark = [];
   this.landUseSummaryByYear;
+  this.carbonPrice =0
  // this.rawCostPerUnit = []
  // this.NetRevenueForMapData = []; // for mapping only
   this.totalWatershedCostArray =[];
@@ -271,7 +272,7 @@ var Economics = function () {
     for(let year = 1; year <= boardData[currentBoard].calculatedToYear; year++) {
       const _streamDischarge = calculateStreamDischarge(boardData[currentBoard], year)
       this.baseLineLoad[year] = calculateNitrateLoadReduced(21.5, _streamDischarge);
-      console.log(this.baseLineLoad);
+
     }
     // get the land use area
     this.areaByLandUse = [
@@ -391,6 +392,7 @@ var Economics = function () {
         }
 
         const carbonPrice = parseFloat(document.getElementById("carbonPrices").value)
+
         const nitrateCreditPrice =  parseFloat(document.getElementById("nitrogenPrices").value)
         let  nitrateRev =  nitrateLoad * nitrateCreditPrice;
         socRev = Math.max(0, socRev) * carbonPrice;
@@ -408,7 +410,7 @@ var Economics = function () {
 
       this.econRevenueByLandUse = convertLandUseIDsToTexts(this.scaledRev)
 
-      console.log(this.scaledRev, 'scaled', this.scaledRev.length)
+
 
       /**
        * 2020 Budget File separates out each land yield.
@@ -793,6 +795,9 @@ var Economics = function () {
       {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0}
     ];
 
+    function getSubWatershedNitrate(tileId){
+      return calculateSubwatershedTotalNitrateScore(tileId)
+    }
 
     for(let year = 1; year <= boardData[currentBoard].calculatedToYear; year++) {
       const totalArea = 5888.75 //Object.values(this.areaByLandUse[i]).reduce((sum, val) => sum + val, 0);
@@ -801,15 +806,26 @@ var Economics = function () {
 
       // start tracking nitrate load per land use
       for (let cellID = 0; cellID < boardData[currentBoard].map.length; cellID++) {
+        const subWatershed=boardData[currentBoard].map[cellID].subwatershed;
 
         let landUseNum = boardData[currentBoard].map[cellID].landType[year]
+        if (landUseNum===0) continue
         let tileNitrate= boardData[currentBoard].map[cellID].results[year].calculatedTileNitrate/100
+       let trackedNitrate = (boardData[currentBoard].map[cellID].results[currentYear].calculatedTileNitrate/getSubWatershedNitrate(cellID)) * boardData[currentBoard].subWatershedNitrateNoMin[subWatershed]
+        //console.log('Nitrate from sub watershed:', trackedNitrate, 'other:', tileNitrate, subWatershed, cellID)
         const calculatedNitrateLoadReduced = calculateNitrateLoadReduced(tileNitrate, streamDischarge)
+        const  newNitrateLoad = calculateNitrateLoadReduced(trackedNitrate, streamDischarge, true)
+        //console.log('new', newNitrateLoad, 'old:', calculatedNitrateLoadReduced)
 
         let tiledArea =boardData[currentBoard].map[cellID].area
         if (landUseNum ===0) continue
         let landUseNitrogen  = landUseNitrateCreditContribution(landUseNum, tiledArea, calculatedNitrateLoadReduced, totalArea)
+        const tileNitrateCredit = landUseNitrateCreditContribution(landUseNum, tiledArea, newNitrateLoad,totalArea)
+       // console.log('TileNitrateCredit: ', tileNitrateCredit, 'old', landUseNitrogen)
         this.nitrateTotalsByLandUse[year][landUseNum] += landUseNitrogen
+        const getNitrateCreditPrice =  parseFloat(document.getElementById("nitrogenPrices").value)
+        boardData[currentBoard].map[cellID].results[currentYear].nitrateTileRevenue = getNitrateCreditPrice * landUseNitrogen
+
 
       }
     }
@@ -1013,8 +1029,10 @@ var Economics = function () {
         }
         // if cost is per acre, cost multiplier is the tile area, otherwise if cost per output of biomass then is the corresponding yield per tile
         costMultiplier = [13, 10, 11, 12, 15, 14, 8, 9, 5].includes(landUseID) ? tileArea : yieldTile;
-
-        grossRevenue = yieldTile * unitPrice;
+        let revenueMultiplier  = [15].includes(landUseID) ? tileArea : yieldTile
+        const carbon_price = parseFloat(document.getElementById("carbonPrices").value)
+        const socRev = carbon_price * boardData[currentBoard].map[cellIndex].results[year].calculatedTileSOC || 0
+        grossRevenue = (revenueMultiplier * unitPrice) + socRev;
 
 
         let rotationKey = landUseKey;
@@ -1039,10 +1057,12 @@ var Economics = function () {
         cost  *= costMultiplier
         cost *= costInflationFactorAdjustment;
         let totalCellCost  = conservationCost + cost
-        let netRevenue = grossRevenue - totalCellCost;
+
+        let tileNitrateRev = 0// dummy for nitrate
+        let netRevenue = (grossRevenue + tileNitrateRev) - totalCellCost;
 
         this.totalWatershedCost[year][0].cost += totalCellCost;
-        cell.results[year].calculatedTileNetRevenue = (cell.results[year].calculatedTileNetRevenue || 0) + netRevenue;
+        cell.results[year].calculatedTileNetRevenue =  netRevenue; // (cell.results[year].calculatedTileNetRevenue || 0) +
         this.econCostByLandUse[year][landUseKey] += totalCellCost;
         totalYearCost.totalCosts += totalCellCost;
       }
@@ -1275,7 +1295,7 @@ var Economics = function () {
           // these will be useful in calculating the scores by getting the maximum and the minimum values for each along the soil types or cells
           boardData[currentBoard].map[j].results[i].calculatedTileGHGs = kpi
           // calculatedTileSOC could be used for mapping soil organic carbon
-          boardData[currentBoard].map[j].results[i].calculatedTileSOC = soc * cellLandArea //already multiplied by area
+          boardData[currentBoard].map[j].results[i].calculatedTileSOC = soc //* cellLandArea //already multiplied by area
           boardData[currentBoard].map[j].results[i].calculatedTileN20 = n20
           boardData[currentBoard].map[j].results[i].calculatedTileNH4 = ch4
           this.landUseSOC[i][numLandUseCode] += soc
