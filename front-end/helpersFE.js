@@ -2718,7 +2718,7 @@ function getHighlightColor(highlightType, tileId) {
         //const revenueTexts = getTileNetRevenue(tileId);
         revTile = getRevenuePerTile(currentYear, tileId);
         revTile = parseFloat(revTile);
-        console.log(revTile, tileId, 'rev tile title tile tile')
+
         // const revenueTexts = revTile.toFixed(2)
         // const match = revenueTexts.match(/\$(-?[\d,.]+)/);
         // let revenueText = match ? parseFloat(match[1].replace(/,/g, '')) : null;

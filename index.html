@@ -671,13 +671,13 @@
       const soybeanPriceInput = document.getElementById('soybeanPrices');
       const nitrateCreditCost = document.getElementById("nitrogenPrices");
       let carbonCreditPrice = document.getElementById("carbonPrices")
-      carbonCreditPrice = parseFloat(carbonCreditPrice)
 
-      carbonCreditPrice.addEventListener('change', ()=>{
+
+      carbonCreditPrice.addEventListener('change', ()=> {
         //validateEconUserInputs() // not required
       refreshEconTotals(currentYear)})
 
-      nitrateCreditCost.addEventListener('change', () =>{
+      nitrateCreditCost.addEventListener('change', () => {
         // Call refreshEconTotals with the input value
         refreshEconTotals(currentYear);
       });

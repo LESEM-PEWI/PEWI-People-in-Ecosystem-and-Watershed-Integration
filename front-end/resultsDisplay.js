@@ -6223,8 +6223,6 @@ function EconomicsGraphic1() {
 function horizontalBarGraph(year){
   const Cost = economics.econCostByLandUse[year];
   const Revenue = economics.econRevenueByLandUse[year];
-  console.log("econRevenue",economics.econRevenueByLandUse)
-  console.log("econCost",economics.econCostByLandUse)
   var horizontalBarGraphSvg = document.getElementById('resultsFrame').contentWindow.document.getElementById('horizontalBarGraphsvg');
   horizontalBarGraphSvg.innerHTML = "";
 
