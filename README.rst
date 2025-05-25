@@ -34,32 +34,33 @@ soil erosion, stream pollution, and wildlife habitat
 
 The goal of this repository is to support open-source and collaborative development of PEWI.
 
-V4.1 Improvements:
+V4.1 Improvements
 =====================================================================
 
-  1. Cost adjustment based on the current inflationary rate
+1. Cost adjustment based on the current inflationary rate.
 
-  2. Changes to corn and soybean
+2. Cost and revenue data updates for all the land uses.
 
-  3. More object oriented implementation
-  
-  4. User-determined commodity prices for economic calculation
-  
-  5. broadcasting land use using ctr + B
-  
-  6. quickly access the results table while in play mode using Ctr + R
+3. More object-oriented implementation for improved modularity.
 
-  7. V4.1 features a dedicated Greenhouse mitigation module, that interacts with all other modules
-  
-  8. Two maps have been added to the results maps, one of net revenue and greenhouse gas emissions
+4. User-defined commodity prices for economic calculations.
 
-  9. when the use hoovers through each cell, he/she is shown the GHG emission status of that cell, i.e., if it is emitting or reducing greenhouse gas emissions
-  
-      the net revenue map also show the carbon and nitrate credit
+5. Broadcast land use using Ctrl + B.
 
-  10. users can turn off carbon or nitrate credit value by going to economic input tab, and turning the corresponding market price to zero
+6. Quickly access the results table while in play mode using Ctrl + R.
 
-  11. uses can also change the prices of corn and soybean according to the prevailing market prices
+7. V4.1 features a dedicated Greenhouse Mitigation module that interacts with all other modules.
+
+8. Two new maps have been added to the results section: one for net revenue and one for greenhouse gas emissions.
+
+9. When the user hovers over each cell, they are shown the GHG emission status of that cell—i.e., whether it is emitting or reducing greenhouse gases.
+   The net revenue map also displays carbon and nitrate credits.
+
+10. Users can turn off carbon or nitrate credit values by navigating to the Economic Input tab and setting the corresponding market price to zero.
+
+11. Users can also update corn and soybean prices to reflect current market conditions.
+
+12. Carbon sequestration is also updated for all the land uses
 
 Code structure:
 =================================================
