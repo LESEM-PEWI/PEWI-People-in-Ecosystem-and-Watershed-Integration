@@ -2701,6 +2701,14 @@ function getGHGForTile(year, tileId) {
   return boardData[currentBoard].map[tileId].results[year].calculatedTileGHGs || 0
 
 }
+function getMethane(year, tileId){
+
+  return boardData[currentBoard].map[tileId].results[year].calculatedTileNH4
+}
+
+function getNitrousOxide(year, tileId){
+  return boardData[currentBoard].map[tileId].results[year].calculatedTileN20
+}
 function getNitrateRevCredit(year, tileId){
   return boardData[currentBoard].map[tileId].results[year].nitrateTileRevenue
 }
@@ -3491,16 +3499,21 @@ function getHighlightedInfo(tileId) {
         break;
       case 24:
         let ghgTile = getGHGForTile(currentYear, tileId)
+        let n20 = getNitrousOxide(currentYear, tileId) || 0
+        const methane = getMethane(currentYear, tileId) || 0
         let descriptor;
-        if (ghgTile < 0){ descriptor = "Emission reductions: "}
-        else{ descriptor = "Emissions: "
+        if (ghgTile < 0){ descriptor = "Emission reductions (KPI): "}
+        else{ descriptor = "Emissions (KPI): "
         }
         highlightString = "Annual Greenhouse gases: " +  ghgEmissionsClassification(ghgTile) + "<br>" + descriptor +
-            Number(ghgTile.toFixed(0)).toLocaleString() + " kg CO₂-e<br>";
+            Number(ghgTile.toFixed(0)).toLocaleString() + " kg CO₂-e<br>" +
+            "Annual Nitrous oxide: " + Number(n20.toFixed(0)).toLocaleString() + " kg CO₂-e<br>" +
+            "Annual Methane: " + Number(methane.toFixed(0)).toLocaleString() + " kg CO₂-e<br>";
             break
       case 25:
         let ghgTileToRev = getGHGForTile(currentYear, tileId) || 0
-        let NCRed = getNitrateRevCredit(currentYear, tileId)
+
+         let NCRed = getNitrateRevCredit(currentYear, tileId)
         const carbonValuePrice = parseFloat(document.getElementById("carbonPrices").value)
           ghgTileToRev = Math.abs(Math.min(0, ghgTileToRev)/1000 * carbonValuePrice) // only those reducing emissions qualifies to sell the carbon
          let netRevTile= getRevenuePerTile(yearSelected, tileId) + NCRed

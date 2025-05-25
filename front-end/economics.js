@@ -1296,8 +1296,8 @@ var Economics = function () {
           boardData[currentBoard].map[j].results[i].calculatedTileGHGs = kpi
           // calculatedTileSOC could be used for mapping soil organic carbon
           boardData[currentBoard].map[j].results[i].calculatedTileSOC = soc //* cellLandArea //already multiplied by area
-          boardData[currentBoard].map[j].results[i].calculatedTileN20 = n20
-          boardData[currentBoard].map[j].results[i].calculatedTileNH4 = ch4
+          boardData[currentBoard].map[j].results[i].calculatedTileN20 = n20 * 298 * 44/28
+          boardData[currentBoard].map[j].results[i].calculatedTileNH4 = ch4 * 28
           this.landUseSOC[i][numLandUseCode] += soc
 
 
