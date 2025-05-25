@@ -18,6 +18,56 @@
   box-sizing: border-box;
 }
 
+/* Styling for popup tab titles*/
+#toolsTabTitle, #terrainTabTitle, #precipTabTitle, #yearTabTitle, #levelsTabTitle, #featuresTabTitle, #yieldTabTitle,#inflationTabTitle {
+    top: 0vw;
+    left: 3vw;
+    width: 300%;
+    height: inherit;
+    /* float: right; */
+    color: #fff;
+    font-family: 'Amatic SC', cursive;
+    font-family: var(--button-font-family);
+    font-size: 1.6vw;
+    font-weight: bold;
+    text-align: center;
+    padding: 12% 0;
+    position: absolute;
+    overflow: hidden;
+    background-image: url('./imgs/consoleTexture.png');
+    background-repeat: repeat;
+    box-shadow: 0px 0px 5px 0px rgba(240, 166, 29, 0.3), 0 17px 50px 0 rgba(240, 166, 29, 0.1);
+    border-radius: 0px 6px 6px 0px;
+    animation: 2s slide-right;
+    transition-duration:0.4s;
+    transition-duration: var(--transition-duration);
+    /* Safari */
+    -webkit-transition-duration: var(--transition-duration);
+    /* z-index specififes the stack order, in other words, it makes itself appears on top of others*/
+    z-index: 1;
+
+  }
+/* Text slides out to right effect*/
+  @keyframes slide-right {
+    from {
+      width: 0%;
+    }
+
+    to {
+      width: 300%;
+    }
+  }
+
+/* Safari 4.0 - 8.0 */
+  @-webkit-keyframes slide-right {
+    from {
+      width: 0%;
+    }
+
+    to {
+      width: 300%;
+    }
+  }
 
 /**Styling for index Menu**/
 #glossarymenu, #combineButton {
@@ -51,6 +101,7 @@
   top: 7.4vw;
   width: 11vw;
 }
+
 
 #combineButton {
   background-color: rgba(50,0,0,.5);
@@ -100,6 +151,26 @@
   width: 12.5vw;
 }
 
+.flydisplay {
+  display: none;
+}
+
+#flyASDW {
+  left:20%;
+  position: absolute;
+  top: 30%;
+  width: 16vw;
+  height: 8vw;
+}
+
+#flyNavigKeys {
+  right:27%;
+  position: absolute;
+  top: 30%;
+  width: 16vw;
+  height: 8vw;
+}
+
 /* left console clickable buttons */
 .consoleButton {
   background-color: rgba(0, 0, 0, 0.7);
@@ -137,7 +208,12 @@
   width: var(--left-console-width);
 }
 
-/* undo button */
+#undo {
+  height: 3vw;
+  top: 4vw;
+  position: absolute;
+}
+
 #undoButton {
   /*border-bottom-right-radius: 5px;*/
   border-radius: 50%;
@@ -162,6 +238,7 @@
   left: 5vw;
   top: 0vw;
 }
+
 /* toolsButton to slide the left console */
 #toolsButton {
   /*border-bottom-right-radius: 5px;*/
@@ -171,7 +248,7 @@
 
 
 /* tabButtons class: container for consoleButton class */
-.tabButtons, #toolsButton, #undoButton {
+.tabButtons, #toolsButton{
   left: 9.6vw;
   left: var(--left-console-width);
   position: absolute;
@@ -222,42 +299,42 @@
   top: var(--first-consoleButton-top);
 }
 
-
-/* left consoleButton, precipatation button */
-#precipButton {
-  top: 18.28vw;
-  top: calc(var(--first-consoleButton-top) + var(--consoleButton-height));
-}
-
-
-/* left consoleButton, year button */
-#yearButton {
-  top: 21.09vw;
-  top: calc(var(--first-consoleButton-top) + 2*var(--consoleButton-height));
-}
-
-
-/* left consoleButton, levels button */
-#levelsButton {
-  top: 23.9vw;
-  top: calc(var(--first-consoleButton-top) + 3*var(--consoleButton-height));
-}
-
-
 /* left consoleButton, features button */
 #featuresButton {
   top: 26.71vw;
-  top: calc(var(--first-consoleButton-top) + 4*var(--consoleButton-height));
+  top: calc(var(--first-consoleButton-top) + var(--consoleButton-height));
 }
-
 
 /* left consoleButton, yield button */
 #yieldButton {
   /*border-bottom-right-radius: 5px;*/
   top: 29.52vw;
-  top: calc(var(--first-consoleButton-top) + 5*var(--consoleButton-height));
+  top: calc(var(--first-consoleButton-top) + 2*var(--consoleButton-height));
 }
 
+/* left consoleButton, year button */
+#yearButton {
+  top: 21.09vw;
+  top: calc(var(--first-consoleButton-top) + 3*var(--consoleButton-height));
+}
+
+/* left consoleButton, precipatation button */
+#precipButton {
+  top: 18.28vw;
+  top: calc(var(--first-consoleButton-top) + 4*var(--consoleButton-height));
+}
+
+/* This is the result maps tab */
+/* left consoleButton, levels button */
+#levelsButton {
+  top: 23.9vw;
+  top: calc(var(--first-consoleButton-top) + 5*var(--consoleButton-height));
+}
+/* left consoleButton, inflationButton */
+#inflationButton {
+  top: 18.28vw;
+  top: calc(var(--first-consoleButton-top) + 6 * var(--consoleButton-height));
+}
 
 /**left console content container**/
 #leftConsole {
@@ -292,7 +369,7 @@
 /* The content div of each tab */
 .consoleTab {
   height: 100%;
-  padding: 3%;
+  /* padding: 3%; */
   width: 100%;
 }
 
@@ -323,6 +400,12 @@
   left: 5vw;
 }
 
+.undocol {
+  width: 3.5vw;
+  display: block;
+  position: absolute;
+  left: 10vw;
+}
 
 /**inner elements of left console**/
 
@@ -357,6 +440,7 @@
 }
 
 
+
 /*terrain selector*/
 .landSelectorIcon {
   margin: 0.5vw;
@@ -373,7 +457,7 @@
 
 /* levels map selector */
 .levelsSelectorIcon {
-  margin: 1vw 3vw 1.2vw;
+  margin: 1vw 1vw 1.2vw;
 }
 
 
@@ -443,6 +527,7 @@
 
 /*precip selector*/
 .styled-select {
+  transition: background-color 0.2s ease;
   background: #3b3b3b;
   border-radius: 6px;
   -webkit-border-radius: 6px;
@@ -454,6 +539,12 @@
   text-align: center;
 }
 
+.styled-select:hover
+{
+    background-image:none !important;
+    background-color:#656224 !important;
+}
+
 #year0PrecipContainer {
 }
 
@@ -461,6 +552,70 @@ select {
   font-size: 1vw;
   font-size: var(--font-size);
   margin: 5%;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+ .tooltip .tooltiptext {
+    visibility: hidden;
+    font-family: Helvetica, Georgia, Arial, "Helvetica Neue", sans-serif;
+    width: 130px;
+    height: 65px;
+    background-color:rgba(58, 58, 58, .9);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    border-radius: 20px;
+    position: absolute;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+/* Position of Land use hover text box*/
+.tooltip .tooltipLandUse {
+  bottom: 0px;
+  left: 70px;
+}
+
+/* Position of hover text box for icons under Results Map tab*/
+.tooltip .tooltipResultsMapTab {
+  bottom: 8px;
+  left: 68px;
+}
+
+/* Position of hover text box for icons under Physical Feature tab*/
+.tooltip .tooltipPhysicalFeatures {
+  bottom: -2px;
+  left: 110px;
+}
+
+/* Position of hover text box for Precipitation tab*/
+.tooltip .tooltipPrecip {
+  bottom: -2px;
+  left: 110px;
+}
+
+
+
+/* For the blue arrow attached to the hover text box*/
+.tooltip .tooltiptext::after {
+  right: 100%;
+	top: 50%;
+  border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(136, 183, 213, 0);
+	border-right-color: #88b7d5;
+	border-width: 10px;
+	margin-top: -10px;
 }
 
 .year-precip-select {
@@ -476,7 +631,7 @@ option {
 
 
 /** year buttons div**/
-.yearButton {
+ .yearButton {
   height: 2.5vw;
   height: var(--selector-icon-length);
   margin-left: 3vw;
@@ -489,6 +644,42 @@ option {
   display: none;
 }
 
+#year1Button
+{
+  position: absolute;
+  top: 15%;
+  right: 58%;
+}
+
+#year2Button
+{
+  position: absolute;
+  top: 11.25%;
+  right: 20%;
+}
+
+#year3Button
+{
+  position: absolute;
+  top: 25%;
+  right: 58%;
+}
+
+/** styling for year add and delete button in the year tab of sandbox mode **/
+#yearAddButton
+{
+  position: absolute;
+  top:50%;
+  right:58%;
+}
+
+#yearDeleteButton
+{
+  position: absolute;
+  top:50%;
+  right:20%;
+}
+
 /** year buttons**/
 .yearSelected {
   box-shadow: 0px 0px 16px 5px rgba(14, 71, 204, 0.5), 0 17px 50px 0 rgba(14, 71, 204, 0.4);
@@ -498,10 +689,40 @@ option {
   box-shadow: 0px 0px 5px 5px rgba(240, 166, 29, 0.3), 0 17px 50px 0 rgba(240, 166, 29, 0.1);
 }
 
-.DetailsList-title {
+/* drop down menus of the year tab */
+
+.year-styled-select {
+  background: #3498DB;
+  border-radius: 6px;
+  border: 1px solid black;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  box-shadow: 0 0px 16px 0 rgba(0, 0, 0, 0.8), 0 17px 50px 0 rgba(0, 0, 0, 0.6);
   color: #fff;
-  font-size: 0.9vw;
   margin: 0.5vw;
+  padding: 0.2vw;
+  text-align: center;
+}
+
+#yearCopyButton
+{
+  position: absolute;
+  top: 65%;
+  left: 11%;
+}
+
+#yearPasteButton
+{
+  position: absolute;
+  top: 80%;
+  left: 11%;
+  width: 63%;
+}
+
+
+.yearCopyPasteSelect {
+  height: 1.8vw;
+  width: 5vw;
 }
 
 /* detail lists */
@@ -519,18 +740,27 @@ option {
   -webkit-transition-duration: var(--transition-duration);
   /* Safari */
   transition-duration: var(--transition-duration);
+
 }
 
 .DetailsList {
   left: 14vw;
 }
 
+
+.DetailsList-title {
+  color: #fff;
+  font-size: 0.9vw;
+  margin: 0.5vw;
+}
+
+
 .DetailsListRolled {
   left: -1000px;
 }
 
 .levelDetailsList {
-  width: 8.5vw;
+  width: 12vw;
 }
 
 .physicalDetailsList {
@@ -615,7 +845,19 @@ table {
     top: 23px;
     width: 57.6px;
   }
-  .consoleButton, #undoButton {
+
+  #undo {
+    top: 23px;
+    height: 23px;
+
+  }
+
+  #undoButton {
+    height: 18px;
+    width: 18px;
+  }
+
+  .consoleButton {
     height: 18px;
     width: 18px;
   }
@@ -629,14 +871,17 @@ table {
     margin: 4px;
     width: 12px;
   }
-  .tabButtons, #toolsButton, #undoButton {
+  .tabButtons, #toolsButton {
     left: 57px;
   }
-  #undoButton {
-    height: 18px;
-    top: 25px;
-    width: 18px;
-  }
+
+ /* #toolsButton:hover #toolsTitle {
+    visibility: visible;
+    display: block;
+ } */
+
+
+
   #toolsButton {
     top: 64px;
   }
@@ -651,6 +896,9 @@ table {
   }
   #levelsButton {
     top: 146px;
+  }
+  #inflationButton {
+    top: 160px;
   }
   #featuresButton {
     top: 164px;
@@ -695,7 +943,7 @@ table {
     left: 78px;
   }
   .levelDetailsList {
-    width: 51px;
+    width: 100px;
   }
   .physicalDetailsList {
     width: 89px;
@@ -714,4 +962,21 @@ table {
 }
 .header h1{
   margin: 0;
+}
+#inflationContainer {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  input {
+    width: 100px;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  #submitInflationButton{
+    width: 100px;
+  }
 }

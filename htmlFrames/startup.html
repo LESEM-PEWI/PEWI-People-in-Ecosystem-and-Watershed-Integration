@@ -24,6 +24,8 @@ Cleaned and Prepared - July 2016
   <link href='https://fonts.googleapis.com/css?family=Amatic+SC:700' rel='stylesheet' type='text/css'>
   <!--helper methods for class modes-->
   <script src="../front-end/helpersFE.js"></script>
+  <script src="./results_scripts.js"></script>
+
   <!-- /INCLUDES -->
 
   <!--additional styling-->
@@ -127,7 +129,7 @@ Cleaned and Prepared - July 2016
         <!-- Renaming Sandbox button as 'Play', and commenting out startupButton2: See Issue 562 for more info-->
         <div id="startupButton1" onmouseover="highlightButtonAndShowInfo(1,1);" onmouseout="highlightButtonAndShowInfo(1,0);" class="mainButton" onclick="startSandbox(); ">Play</div>
         <!--<div id="startupButton2" onmouseover="highlightButtonAndShowInfo(2,1);" onmouseout="highlightButtonAndShowInfo(2,0);" class="mainButton" onclick="startPlay();">Play</div>-->
-        <div id="startupButton3" onmouseover="highlightButtonAndShowInfo(3,1);" onmouseout="highlightButtonAndShowInfo(3,0);" class="mainButton" onclick="startUtilities();">Utilities</div>
+        <!--<div id="startupButton3" onmouseover="highlightButtonAndShowInfo(3,1);" onmouseout="highlightButtonAndShowInfo(3,0);" class="mainButton" onclick="startUtilities();">Utilities</div>-->
       </div>
 
     </div>
@@ -213,7 +215,7 @@ Cleaned and Prepared - July 2016
     function startSandbox() {
       //Update Buttons appropriately
       //document.getElementById('startupButton2').style.display = "none";
-      document.getElementById('startupButton3').style.display = "none";
+      // document.getElementById('startupButton3').style.display = "none";
       ///document.getElementById('newPewiLogo').style.display = "none";
       document.getElementById('startupButton1').style.left = "25%";
       document.getElementById('startupButton1').style.backgroundColor = "#003d4d";
@@ -227,6 +229,8 @@ Cleaned and Prepared - July 2016
       document.getElementById('startupContentsHolder').style.backgroundColor = "rgba(0,0,0,1)";
       //clear informational text
       document.getElementById('startupInformationText').innerHTML = "";
+      // // We need to show the print button in case of the button was hidden in multi-player mode.
+      // document.getElementById('printButton').style.display = 'block';
       //change random tolerance ("S" for sandbox)
       randomAllowed("S");
       //after all of this styling magic, let's actually do something and start the sandbox mode
@@ -238,6 +242,7 @@ Cleaned and Prepared - July 2016
         //Added this to reset the options page any time when sandbox is opened
         parent.resetOptionsPage();
       }, 400);
+
 
       //Update the background information box
       updateGlossaryPopup('This is the background information box! Here, you will find information on different features on the map. Check them out!');
@@ -265,6 +270,8 @@ Cleaned and Prepared - July 2016
       //clear informational text
       document.getElementById('startupInformationText').innerHTML = "";
       //change random tolerance ("U" for utilities)
+      // // We need to show the print button in case of the button was hidden in multi-player mode.
+      // parent.document.getElementById('printButton').style.display = 'block';
       randomAllowed("U");
       //Display utilities frame over the page, then with
       // the background elements hidden, rearrange them in preparation for the user
@@ -296,6 +303,8 @@ Cleaned and Prepared - July 2016
     }
 
     //startPlay hides the startup page elements and displays the level selector
+    // to-do rename startPlay() to be startLevels() (as play is renamed to levels and relocated)
+    // to-do if possible move startLevels() to utilities frame
     function startPlay() {
       // add eventlistener
       document.addEventListener('keyup',playbackUp);
@@ -317,6 +326,8 @@ Cleaned and Prepared - July 2016
       document.getElementById('startupContentsHolder').style.backgroundColor = "rgba(0,0,0,0)";
       //clear informational text
       document.getElementById('startupInformationText').innerHTML = "";
+      // We need to show the print button in case of the button was hidden in multi-player mode.
+      parent.document.getElementById('printButton').style.display = 'block';
       //change random tolerance ("P" for play)
       randomAllowed("P");
       //function multiplayerMode();

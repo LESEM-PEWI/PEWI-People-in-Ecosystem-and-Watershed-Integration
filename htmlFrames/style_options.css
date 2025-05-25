@@ -28,18 +28,6 @@ body {
    width: 100%;
   }
 
-  #exitOptionsButton {
-    margin-left: 5%;
-   margin-top: 5%;
-   width: 12vw;
-  }
-
-#resetOptionsPage{
-    margin-left: 30%;
-   margin-top: 5%;
-   width: 12vw;
-}
-
   #optionsMainHolder {
    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
    margin: 0px 15% 0px 15%;
@@ -73,21 +61,66 @@ body {
     color: white;
   }
 
-  .hkInputs1 {
+  .hkInputs1, .hkInputs2, .minInput, .maxInput, .actualMinInput, .actualMaxInput {
     position: absolute;
-    left: 70%;
     border: 0;
     color: white;
+  }
+
+  .hkInputs1 {
+    left: 72%;
+    top:0px;
   }
 
   .hkInputs2 {
-    position: absolute;
-    left: 80%;
-    border: 0;
-    color: white;
+    left: 85%;
   }
 
-  .hkDivs {
+  .minInput {
+    left: 40%;
+    width: 33px;
+  }
+
+  .maxInput {
+    left: 52%;
+    width: 33px;
+  }
+
+  .actualMinInput {
+    left: 64%;
+    width: 60px;
+  }
+
+  .actualMaxInput {
+    left: 83%;
+    width: 60px;
+  }
+
+  .actualMaxUnit, .minUnit, .maxUnit, .actualMinUnit {
+    position: absolute;
+    font-size: 12px;
+    color: #a9a9a9;
+    line-height: 1.9;
+    text-indent: 0;
+  }
+
+  .actualMaxUnit {
+    left: 92%;
+  }
+
+  .minUnit {
+    left: 45.1%;
+  }
+
+  .maxUnit {
+    left: 57.2%;
+  }
+
+  .actualMinUnit {
+    left: 73%;
+  }
+
+  .hkDivs, .progressbarItems {
     position: relative;
     height: 25px;
     text-indent: 5%;
@@ -118,9 +151,7 @@ body {
     cursor: pointer;
     display: inline-block;
     font-size: 1.2vw;
-    font-size: var(--font-size);
     height: 1vw;
-    height: var(--button-height);
     margin: 1vw;
     padding: 15px 30px 15px 30px;
     position: relative;
@@ -129,10 +160,71 @@ body {
     user-select: none;
     white-space: nowrap;
     width: 12vw;
-    width: var(--button-width);
     /*font-size: 20px;*/
     /*margin: 20px;*/
   }
+
+  button {
+    box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 18px;
+    padding: 15px 30px 15px 23px;
+    line-height: 1px;
+    position: relative;
+    text-align: center;
+    transition: background-color .2s, box-shadow .2s;
+    user-select: none;
+    white-space: nowrap;
+    width: 100px;
+  }
+
+  button:hover {
+    box-shadow: 0 0 30px rgba(255, 255, 255, .7);
+  }
+
+  button:active {
+    border-style: outset;
+  }
+
+  .buttonSelected {
+    background-color: #40A4DF;
+  }
+
+  .buttonUnselected {
+    background-color: #003d4d;
+  }
+
+#metricButton {
+  position: absolute;
+  right: 60px;
+  top: 0; /* Added to position the button relative to the top */
+  border-radius: 0 12px 0 0; /* Correct border-radius order for a top-right rounded corner */
+  background-color: #333; /* Added background color for visibility */
+  padding: 10px 20px; /* Added padding for better button size and click area */
+  color: white; /* Set text color to white for contrast */
+  cursor: pointer; /* Added pointer cursor to indicate it's clickable */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow for depth */
+}
+
+
+#englishButton {
+  position: absolute;            /* Ensures button is positioned relative to the nearest positioned ancestor */
+  left: 50%;                     /* Position button halfway across the parent element */
+  transform: translateX(-50%);   /* Offset the button's left edge by half of its width, to fully center it */
+  border-radius: 12px;           /* Rounded corners */
+  border: 2px solid white;       /* White border */
+  padding: 10px 20px;            /* Padding inside the button */
+  background-color: #333;        /* Dark gray background */
+  color: white;                  /* White text */
+  cursor: pointer;               /* Pointer cursor to indicate it's clickable */
+  text-align: center;            /* Center the text inside the button */
+  font-size: 16px;               /* Set a font size for better readability */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for depth */
+  transition: background-color 0.3s, transform 0.3s; /* Smooth transition for hover effects */
+}
+
 
   label:hover,
   input:focus+label {
@@ -157,7 +249,7 @@ body {
     border-radius: 0px;
   }
 
-  #hotkeySets {
+  #hotkeySets, #progressBarSets {
     border: 5px solid white;
     border-radius: 25px;
   }
@@ -166,12 +258,102 @@ body {
     width: 50%;
   }
 
-  #hk1 {
+#progressBarAggregateTool {
+    width: 750px;
+  }
+
+  #hk1, #itemTitles {
     border-top-left-radius: 25px;
     border-top-right-radius: 25px;
   }
 
-  #hk12 {
+
+ /* This is where you update to make the hokey aggregate tool look nice. Change #hk_ to the last hotkey*/
+  #hk18, #pb16 {
     border-bottom-left-radius: 25px;
     border-bottom-right-radius: 25px;
   }
+
+  /* The following two CSS tags, #closeOptions and #closeDiv, are added for exit button on Intructor Options page.
+   * For more information refer to Issue 362.
+  */
+  #closeOptions {
+    position: absolute;
+    width: 3vw;
+    right: 5%;
+    top: 5%;
+  }
+
+  #closeDiv:hover {
+    cursor: pointer;
+  }
+
+/* The next two tags make the "SAVE & EXIT", and the "RESE%T OPTIONS" stay in the bottom right corner permanently
+*/
+  #exitOptionsButton{
+    position: fixed;
+    width: 12vw;
+    bottom:100px;
+    right:30px;
+  }
+
+  #resetOptionsPage{
+    position: fixed;
+    width: 12vw;
+    bottom: 20px;
+    right: 30px;
+  }
+
+  #progressBarAggregateTool {
+    position: relative;
+    left: 3%;
+  }
+
+  #itemTitles {
+    overflow: auto;
+    background: #2d5986;
+  }
+
+  #maxTitle, #minTitle, #actualMinTitle, #actualMaxTitle {
+    text-indent: 0;
+  }
+
+  .hoverInfo {
+    position: absolute;
+    right: -16vw;
+    /* background-image: url(.././imgs/consoleTexture.png); */
+    background-color: #0f4d70;
+    border: 5px solid white;
+    border-radius: 12px;
+    padding-top: 5px;
+    padding-bottom: 8px;
+    color: white;
+    text-align: center;
+    width: 15vw;
+    height: auto;
+  }
+
+#tableDescrip {
+  color: white;
+  text-align: center;
+  margin: 10px 15px 10px 15px;
+  font-size: 20px;
+}
+
+#metricUnit {
+  right: 0vw;
+}
+
+#englishUnit {
+  right: 2vw;
+}
+
+.blockContainer {
+  width:100%;
+  display: inline;
+  height:20px;
+  left:50px;
+  font-size:25px;
+  color:#fff;
+  position:relative;
+}

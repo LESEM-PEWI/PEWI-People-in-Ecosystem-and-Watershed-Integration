@@ -10,8 +10,10 @@ var controls, controls1;
 var keyboard ={};
 var player = { speed:3, turnSpeed:Math.PI*0.02 };
 var renderer = new THREE.WebGLRenderer();
+// renderer.sortObjects = false;
 var stats = new Stats();
 var SCREEN_WIDTH, ASPECT, NEAR, FAR;
+
 //application data
 var boardData = [];
 var clickTrackings = []; //array for storing all clicks in when click-tracking is enabled
@@ -23,9 +25,13 @@ var Totals; //global current calculated results, NOTE, should be reassigned ever
 //status trackers
 var allLoaded = false;
 var counter = 0;
+
 var currentBoard = -1;
+
+
 var currentYear = 1;
 var currentPlayer = 0;
+
 var isShiftDown = false;
 var mapIsHighlighted = false;
 var modalUp = false;
@@ -34,6 +40,11 @@ var painter = 1;
 var previousHover = null;
 var tToggle = false; //topology off by default
 var uploadedBoard = false;
+
+
+
+var generatedContourMap;
+
 
 //Variables for Zoom Function
 var fov = null,
@@ -52,14 +63,12 @@ var printMode = false;
 var takeScreenshot = false; // used in animationFrames
 
 //===================
-
 //Camera movements Controls for Camera2 ie second view
 function animate() {
-  var hotkeys = giveHotkeys();
   requestAnimationFrame(animate);
 
   //Keyboard movement inputs
-  if (keyboard[hotkeys[8][0]] || keyboard[hotkeys[8][1]]) { // W key Forward Movements
+  if (keyboard[hotkeyArr[8][0]] || keyboard[hotkeyArr[8][1]]) { // Handle W key - Forward Movements
     if (curTracking) {
       pushClick(0, getStamp(), 86, 0, null);
     }
@@ -81,7 +90,7 @@ function animate() {
     console.log(camera2.position);
   }
 
-  if (keyboard[hotkeys[9][0]] || keyboard[hotkeys[9][1]]) { // S key Back Words movements
+  if (keyboard[hotkeyArr[9][0]] || keyboard[hotkeyArr[9][1]]) { // Handle S key - Back Words movements
     if (curTracking) {
       pushClick(0, getStamp(), 87, 0, null);
     }
@@ -103,10 +112,11 @@ function animate() {
     console.log(camera2.position);
   }
 
-  if (keyboard[hotkeys[7][0]] || keyboard[hotkeys[7][1]]) { // A key Left Side Movement
+  if (keyboard[hotkeyArr[7][0]] || keyboard[hotkeyArr[7][1]]) { // Handle A key - Left Side Movement
     if (curTracking) {
       pushClick(0, getStamp(), 89, 0, null);
     }
+
     //Movements Restrictions and setting bounds
     //The four if statements check if the four side of the pewi shed bounds for the camera pass a specific point set
     //and if it does it resets it to that specific position set.
@@ -125,10 +135,11 @@ function animate() {
     console.log(camera2.position);
   }
 
-  if (keyboard[hotkeys[6][0]] || keyboard[hotkeys[6][1]]) { // D key Right side Movements
+  if (keyboard[hotkeyArr[6][0]] || keyboard[hotkeyArr[6][1]]) { // Handle D key - Right side Movements
     if (curTracking) {
       pushClick(0, getStamp(), 88, 0, null);
     }
+
     //Movements Restrictions and setting bounds
     //The four if statements check if the four side of the pewi shed bounds for the camera pass a specific point set
     //and if it does it resets it to that specific position set.
@@ -177,7 +188,7 @@ function animate() {
         camera2.position.y -= 1;
         camera2.position.z -= Math.cos(camera2.rotation.y) * player.speed;
         camera2.position.x -= Math.sin(camera2.rotation.y) * player.speed;
-        console.log(camera2.position.y + " " + camera.position.z);
+        // console.log(camera2.position.y + " " + camera.position.z);
       }
     } else {
       if (camera2.position.y <= 9)
@@ -186,7 +197,7 @@ function animate() {
         camera2.position.y -= 1;
         camera2.position.z -= Math.cos(camera2.rotation.y) * player.speed;
         camera2.position.x -= Math.sin(camera2.rotation.y) * player.speed;
-        console.log(camera2.position.y + " " + camera.position.z);
+        // console.log(camera2.position.y + " " + camera.position.z);
       }
     }
   }
@@ -201,15 +212,14 @@ function animate() {
     camera2.position.z = 299;
     if (camera2.position.y >= 60) {
       camera2.position.y = 60;
-      console.log(camera2.position.y + " " + camera.position.z);
+      // console.log(camera2.position.y + " " + camera.position.z);
     } else {
       camera2.position.y += 1;
       camera2.position.z += Math.cos(camera2.rotation.y) * player.speed;
       camera2.position.x += Math.sin(camera2.rotation.y) * player.speed;
-      console.log(camera2.position.y + " " + camera.position.z);
+      // console.log(camera2.position.y + " " + camera.position.z);
     }
   }
-  renderer.render(scene, camera);
 }
 
 //animationFrames is the key function involved in webGl
@@ -218,7 +228,6 @@ function animationFrames() {
 
   //render animations
   requestAnimationFrame(function animate() {
-
     birdAnimation();
     zoomAnimation();
 
@@ -238,7 +247,6 @@ function animationFrames() {
     if (bgScene != null) {
       renderer.render(bgScene, bgCam);
     }
-
     //wait # update frames to check
     if (counter > 20) {
       gameDirector();
@@ -293,10 +301,12 @@ function birdAnimation() {
 } //end birdAnimation
 
 //Event function that is called when screen is changed
+// Adding navigation keys, asdw
 function CamView(e) {
   tempKeys = giveHotkeys();
   var Uma = String.fromCharCode(tempKeys[11][0]);
   document.getElementById("flyover").innerHTML = "FlyOver Mode, Hit " + Uma +  " to Exit";
+
   if (e.keyCode == tempKeys[11][0] || e.keyCode == tempKeys[11][1]) {
     if(curTracking) {
       pushClick(0,getStamp(),85,0,null);
@@ -344,9 +354,14 @@ function confirmEscape() {
   if (document.getElementById('confirmEscape').style.height != "20vw") {
     document.getElementById('exitToMenuButton').style.backgroundColor = "#003d4d";
     document.getElementById('optionsButton').style.opacity = 0;
+    document.getElementById('escapeButton').style.opacity = 0;
+    /* Commented out Glossary button, which is line below. Reference Issue 363 on explanation for removal.
     document.getElementById('directoryButton').style.opacity = 0;
+    */
     document.getElementById('optionsButton').onclick = function() {};
+    /* Commented out Glossary button, which is line below. Reference Issue 363 on explanation for removal.
     document.getElementById('directoryButton').onclick = function() {};
+    */
     document.getElementById('confirmEscape').style.height = "20vw";
     // document.getElementById('confirmEscape').style.width = "13.2vw";
   } else {
@@ -357,16 +372,40 @@ function confirmEscape() {
       startOptions();
       //}
     };
+    /* Commented out Glossary button, which is the following lines below. Reference Issue 363 on explanation for removal.
     document.getElementById('directoryButton').onclick = function() {
       toggleEscapeFrame();
       toggleGlossary();
     };
+    */
+    document.getElementById('escapeButton').onclick = function() {
+      //if (!multiplayerAssigningModeOn) {
+      toggleEscapeFrame();
+      //}
+    };
     document.getElementById('optionsButton').style.opacity = 1;
+    document.getElementById('escapeButton').style.opacity = 1;
+    /* Commented out Glossary button, which is line below. Reference Issue 363 on explanation for removal.
     document.getElementById('directoryButton').style.opacity = 1;
+    */
     document.getElementById('confirmEscape').style.height = "0px";
     // document.getElementById('confirmEscape').style.width = "0px";
   }
 } //end toggleEscape
+
+// buttons to be shown when user clicks on the 'delete' button
+function confirmYearDelete() {
+
+    document.getElementById('confirmYearDelete').style.display = "block";
+    document.getElementById('yesDelete').style.display = "block";
+    document.getElementById('noDelete').style.display = "block";
+
+    if(curTracking)
+    {
+      pushClick(0, getStamp(), 112, 0 , null);
+    }
+  }
+
 
 /** createThreeFramework instantiates the renderer and scene to render 3D environment
  *   renderer = new THREE.WebGLRenderer(); above
@@ -461,8 +500,10 @@ function initializeCamera() {
 
     //Event listners for scrolling using the wheel or scroll bar ( Used exclusively by click tracking...for now)
     window.frames[0].onscroll = onWheelViewCredits;
-    window.frames[3].onscroll = onWheelViewResults;
-
+    window.frames[4].addEventListener('scroll', onWheelViewResults);
+    window.frames[6].addEventListener('scroll', onWheelViewCustomize);
+    window.frames[7].addEventListener('scroll', onWheelViewPrint);
+    window.frames[3].addEventListener('scroll', onWheelViewGlossary);
 } //end initializeCamera
 
 //initializeLighting adds the lighting with specifications to the scene
@@ -523,6 +564,10 @@ function initWorkspace(file) {
 
 function keyDown(event) {
   keyboard[event.keyCode] = true;
+  // if(event.keyCode === 80 && document.getElementById('printButton').style.display == 'none'){
+  //   // keyboard[event.keyCode] = false;
+  //   closePrintOptions();
+  // }
 }
 
 function keyUp(event) {
@@ -534,14 +579,14 @@ function loadingManager() {
 
   //DefaultLoadingManager.onProgress is a THREE.js function that tracks when items are loaded
   THREE.DefaultLoadingManager.onProgress = function(item, loaded, total) {
-    console.log(" loaded " + loaded + " of " + total);
+    // console.log(" loaded " + loaded + " of " + total);
   };
 
   //DefaultLoadingManager.onload updates boolean allLoaded when all resources are loaded
   THREE.DefaultLoadingManager.onLoad = function() {
 
     //update allLoaded status
-    console.log("Everything is loaded and good to go!");
+    //console.log("Everything is loaded and good to go!");
     allLoaded = true;
 
     //show main PEWI page elements
@@ -601,8 +646,8 @@ function onWheelViewCredits(e) {
   }
 }
 
-//Event function that is called when a user is scrolling in the Glossary [Unused for now...need to find a way to record scroll bar position in nested iframe within Glossary]
-//function onWheelViewGlossary(e) {
+//Event function that is called when a user is scrolling in the Glossary [Unused for now...need to find a way to record scroll bar position in nested iframe within index]
+//function onWheelViewIndex(e) {
 //if(curTracking && scrollGap) {
 //pushClick(0,getStamp(),93,0,window.frames[2].frames[0].pageYOffset);
 //}
@@ -611,9 +656,31 @@ function onWheelViewCredits(e) {
 //Event function that is called when a user is scrolling in results
 function onWheelViewResults(e) {
   if(curTracking && scrollGap) {
-    pushClick(0,getStamp(),94,0,window.frames[3].pageYOffset);
+    pushClick(0,getStamp(),94,0,window.frames[4].scrollY);
   }
 }
+
+//Event function that is called when a user is scrolling in customize window
+function onWheelViewCustomize(e) {
+  if(curTracking && scrollGap) {
+    pushClick(0,getStamp(),110,0,window.frames[6].scrollY);
+  }
+}
+
+//Event function that is called when a user is scrolling in customize window
+function onWheelViewPrint(e) {
+  if(curTracking && scrollGap) {
+    pushClick(0,getStamp(),114,0,window.frames[7].scrollY);
+  }
+}
+
+//Event function that is called when a user is scrolling in glossary window
+function onWheelViewGlossary(e) {
+  if(curTracking && scrollGap) {
+    pushClick(0,getStamp(),93,0,window.frames[3].scrollY);
+  }
+}
+
 
 //renderBackground creates the static background always behind viewpoint
 //  this function used to select for the creation of a skybox
@@ -650,6 +717,7 @@ function setupBoardFromFile(file) {
 
   //addBoard
   var boardFromFile = new GameBoard();
+  // console.log('boardFromFile.map', boardFromFile.map);
   loadBoard(boardFromFile, file);
 
   switchBoards(boardFromFile);
@@ -668,7 +736,7 @@ function setupBoardFromUpload(data) {
     uploadedBoard = true;
     simUpload = data;
     var boardFromUpload = new GameBoard();
-    if (parseInitial(data)) {
+    if (data) {
       propogateBoard(boardFromUpload);
       switchBoards(boardFromUpload);
       previousHover = null;
@@ -775,7 +843,11 @@ function setupRiver() {
 //setupStaticBackground uses the old pewi graphics as a background image
 function setupStaticBackground() {
 
-  var r = Math.floor(Math.random() * oldPewiBackgrounds.length);
+  var r = 2;
+  switch(printPrecipYearType()){
+    case 'Dry': r = 0; break;
+      case 'Normal': r = 1; break;
+  }
 
   var bg = new THREE.Mesh(
     new THREE.PlaneGeometry(2, 2, 0),
@@ -798,11 +870,14 @@ function setupStaticBackground() {
 } //end setupStaticBackground
 
 //showMainMenu uses the esc key to return to the startup screen
+// Adding navigation keys, asdw
 function showMainMenu() {
   //Checking the flag variable to know which camera is functional.
   if (ToggleCam == 1){
     changeCam2();
     document.getElementById("flyover").innerHTML = "";
+    document.getElementById("flyASDW").style.display = "none";
+    document.getElementById("flyNavigKeys").style.display = "none";
     //Reseting camera 2 position when sandbox is reloaded
     camera2.position.x = 70;
     camera2.position.y = 25;
@@ -864,6 +939,7 @@ function switchBoards(newBoard) {
   }
   //push into current board
   boardData.push(newBoard);
+  // console.log('here');
   currentBoard++;
   boardData[currentBoard].updateBoard();
   refreshBoard();
@@ -873,8 +949,10 @@ function switchBoards(newBoard) {
 
   //update Results to point to correct board since currentBoard is updated
   Totals = new Results(boardData[currentBoard]);
+  generatedContourMap = new ContourMap();
 
 } //end switchBoards
+
 
 //switchToZoomView updates a zoom template map with information from the current full map
 function switchToZoomView(tile) {
@@ -890,7 +968,14 @@ function switchToZoomView(tile) {
   for (var i = 0; i < boardData[currentBoard].map.length; i++) {
 
     //update the mesh textures
-    meshMaterials[i].map = textureArray[boardData[fullBoardBeforeZoom].map[tile].landType[currentYear]];
+    if(overlayedToggled != true){
+      meshMaterials[i].map = grayTextureArray[boardData[fullBoardBeforeZoom].map[tile].landType[currentYear]];
+      meshOverlay[i].map = grayTextureArray[boardData[fullBoardBeforeZoom].map[tile].landType[currentYear]];
+    }
+    else{
+      meshMaterials[i].map = textureArray[boardData[fullBoardBeforeZoom].map[tile].landType[currentYear]];
+      meshOverlay[i].map = textureArray[boardData[fullBoardBeforeZoom].map[tile].landType[currentYear]];
+    }
 
     //update the land use types for each year
     boardData[currentBoard].map[i].landType[1] = boardData[fullBoardBeforeZoom].map[tile].landType[1];
@@ -941,8 +1026,15 @@ function toggleCameraView(){
     //Checking the flag variable to know which camera is functional.
     if (ToggleCam == 1){changeCam2();}
     else{ChangeCam();}
-    if (ToggleCam == 1){document.getElementById('flyover').style.display = "block"}
-    else{document.getElementById('flyover').style.display = "none";}
+    if (ToggleCam == 1) {
+      document.getElementById('flyover').style.display = "block";
+      document.getElementById("flyASDW").style.display = "block";
+      document.getElementById("flyNavigKeys").style.display = "block";
+    }
+    else{document.getElementById('flyover').style.display = "none";
+    document.getElementById("flyASDW").style.display = "none";
+    document.getElementById("flyNavigKeys").style.display = "none";
+  }
 }
 
 //zoomAnimation updates field of view positions for zoom animation
@@ -980,3 +1072,6 @@ function zoomAnimation() {
   }
 
 } //end zoomAnimation
+
+//export { boardData[currentYear].map as theMap};
+

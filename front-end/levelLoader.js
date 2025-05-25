@@ -44,6 +44,59 @@ function init() {
 
 } //end init
 
+
+// get ecosystem scores and load them to the corresponding progress bars based on which year user want to load.
+function refreshProgressBar(yearToLoad) {
+  economics.mapChange(); // Load Map change to update values for BMP Budgets - is this good to do here? May need performance optimization.
+  //TODO
+  //Calculated Separately to Update Values based on BMP Budgets
+  let cornYield = Math.round(economics.cornAfters[yearToLoad][1].ConvCornAfterSoybeanYield +
+      economics.cornAfters[yearToLoad][1].ConvCornAfterCornYield +
+      economics.getBMPAreas[yearToLoad][2].landUseYield +
+      economics.getBMPAreas[yearToLoad][3].landUseYield).toFixed(1);
+
+  let soybeanYield = Math.round(economics.getCropYields[yearToLoad][1].convSoybeanYield +
+      economics.getBMPAreas[yearToLoad][1].landUseYield).toFixed(1)
+
+  let cornYieldMax = boardData[currentBoard].maximums.cornMax;
+  let soyYieldMax = boardData[currentBoard].maximums.soybeanMax;
+
+  let cornYieldAdjScore = (cornYield / cornYieldMax) * 100;
+  let soyYieldAdjScore = (soybeanYield / soyYieldMax) * 100;
+  // Green House gases progress Bar
+  $('.progress .progress-bar-greenHouseGases').attr('data-transitiongoal', Math.round(economics.GHGsScore[yearToLoad][0]?.C02_e* 10) / 10);
+  $('.progress .progress-bar-gameWildlife').attr('data-transitiongoal', Math.round(Totals.gameWildlifePointsScore[yearToLoad] * 10) / 10);
+  $('.progress .progress-bar-biodiversity').attr('data-transitiongoal', Math.round(Totals.biodiversityPointsScore[yearToLoad] * 10) / 10);
+  $('.progress .progress-bar-stream-biodiversity').attr('data-transitiongoal', Math.round(Totals.streamBiodiversityScore[yearToLoad] * 10) / 10);
+  $('.progress .progress-bar-carbon').attr('data-transitiongoal', Math.round(Totals.carbonSequestrationScore[yearToLoad] * 10) / 10);
+  $('.progress .progress-bar-erosion').attr('data-transitiongoal', Math.round(Totals.grossErosionScore[yearToLoad] * 10) / 10);
+  $('.progress .progress-bar-nitrate').attr('data-transitiongoal', Math.round(Totals.nitrateConcentrationScore[yearToLoad] * 10) / 10);
+  $('.progress .progress-bar-phoshorus').attr('data-transitiongoal', Math.round(Totals.phosphorusLoadScore[yearToLoad] * 10) / 10);
+  $('.progress .progress-bar-sediment').attr('data-transitiongoal', Math.round(Totals.sedimentDeliveryScore[yearToLoad] * 10) / 10);
+  $('.progress .progress-bar-aquatic').attr('data-transitiongoal', Math.round(Totals.aquaticHealthIndexScore[yearToLoad] * 10) / 10);
+  //var tempTotal = Totals.cornGrainYieldScore[yearToLoad] + Totals.soybeanYieldScore[yearToLoad] + Totals.mixedFruitsAndVegetablesYieldScore[yearToLoad] + Totals.alfalfaHayYieldScore[yearToLoad] + Totals.grassHayYieldScore[yearToLoad] +
+  //  Totals.switchgrassYieldScore[yearToLoad] + Totals.cattleYieldScore[yearToLoad] + Totals.woodYieldScore[yearToLoad] + Totals.shortRotationWoodyBiomassYieldScore[yearToLoad];
+
+  var tempTotal = cornYieldAdjScore + soyYieldAdjScore + Totals.mixedFruitsAndVegetablesYieldScore[yearToLoad] + Totals.alfalfaHayYieldScore[yearToLoad] + Totals.grassHayYieldScore[yearToLoad] +
+      Totals.switchgrassYieldScore[yearToLoad] + Totals.cattleYieldScore[yearToLoad] + Totals.woodYieldScore[yearToLoad] + Totals.shortRotationWoodyBiomassYieldScore[yearToLoad];
+
+  $('.progress .progress-bar-totalYields').attr('data-transitiongoal', Math.min(Math.round(tempTotal * 10) / 10, 100));
+
+  $('.progress .progress-bar-cornGrain').attr('data-transitiongoal', Math.round(cornYieldAdjScore * 10)/10);
+  $('.progress .progress-bar-soybeans').attr('data-transitiongoal', Math.round(soyYieldAdjScore * 10)/10);
+  $('.progress .progress-bar-fruitsAndVegetables').attr('data-transitiongoal', Math.round(Totals.mixedFruitsAndVegetablesYieldScore[yearToLoad] * 10) / 10);
+  $('.progress .progress-bar-cattle').attr('data-transitiongoal', Math.round(Totals.cattleYieldScore[yearToLoad] * 10) / 10);
+  $('.progress .progress-bar-alfalfaHay').attr('data-transitiongoal', Math.round(Totals.alfalfaHayYieldScore[yearToLoad] * 10) / 10);
+  $('.progress .progress-bar-grassHay').attr('data-transitiongoal', Math.round(Totals.grassHayYieldScore[yearToLoad] * 10) / 10);
+  $('.progress .progress-bar-switchgrassBiomass').attr('data-transitiongoal', Math.round(Totals.switchgrassYieldScore[yearToLoad] * 10) / 10);
+  $('.progress .progress-bar-wood').attr('data-transitiongoal', Math.round(Totals.woodYieldScore[yearToLoad] * 10) / 10);
+  $('.progress .progress-bar-woodyBiomass').attr('data-transitiongoal', Math.round(Totals.shortRotationWoodyBiomassYieldScore[yearToLoad] * 10) / 10);
+
+  $('.progress .progress-bar').progressbar(
+      // {display_text: 'center', percent_format: function(p) {return p;}}
+  );
+}
+
 //getFileForExercise can retrieve file name from exercise/level number for the level loader
 function getFileForExercise(exercise) {
 
@@ -61,6 +114,41 @@ function getFileForExercise(exercise) {
 
 } //end getFileForExercise
 
+//Format Numbers
+function addCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+// I think we need to call this everytime we refresh
+//var economics = new Economics();
+function refreshEconTotals(yearToLoad){
+
+
+  //var economics = Economics()
+  //calling map change here so the total is updated with every change; if we don't call it here then it will only be
+  //updated when results are explicitly called.
+  // economics.rawBMPData=costAdjuster(economics.rawBMPData, 'EAA',  parseFloat(document.getElementById('inflationFactor').value))
+  economics.mapChange();
+
+  const collectInflationAdjustment = parseFloat(document.getElementById('inflationFactor').value);
+  const collectCarbonPrice =  parseFloat(document.getElementById("carbonPrices").value);
+  //economics.rawBMPData=costAdjuster(econRawBMP, 'EAA',  collectInflationAdjustment);
+  // economics.rawData=costAdjuster(econRawData, "EAA",  collectInflationAdjustment);
+  /// this works on the econ total at the play but also we are apply a similar factor while downloading the cost data
+
+  let totalCost = economics.totalWatershedCost[yearToLoad][0].cost * collectInflationAdjustment;
+  // we need to update the costs
+  economics.totalWatershedCost[yearToLoad][0].cost = totalCost;
+  // totalRevenue is generated by adding carbonCredit and the current revenue. carbonCredit value is obtained by multiplying carbon price with SOC
+  // I have commented out this one because it already accounted for economics.js
+ // let carbonCredit= Math.round( economics.GHGs[yearToLoad][0]?.SOC) * collectCarbonPrice;
+  let totalRevenue =  economics.totalWatershedRevenue[yearToLoad][0].revenue; //+carbonCredit
+  let totalProfit = totalRevenue - totalCost;
+  document.getElementById('totalCost').innerHTML = '$' + addCommas(Math.round(totalCost));
+  document.getElementById('totalRevenue').innerHTML = '$' + addCommas(Math.round(totalRevenue));
+  document.getElementById('totalProfit').innerHTML = totalProfit > 0 ? '$' + addCommas(Math.round(totalProfit)) : '(-) $' + addCommas(Math.abs(Math.round(totalProfit)));
+}
+
 //loadLevel is triggered by clicking a level button on the html page
 function loadLevel(level) {
 
@@ -76,18 +164,16 @@ function loadLevel(level) {
 
   //switch control for levels
   switch (level) {
-    //sandbox
+      //sandbox
     case 0:
       levelGlobal = 0;
       multiplayerExit();
       initWorkspace('./data.csv');
-      document.getElementById('parameters').innerHTML = "";
-      // console.log("window log:" + window.top.document.getElementById('parameters').innerHTML);
-      // console.log("document log:" + document.getElementById('parameters').innerHTML);
+      // document.getElementById('parameters').innerHTML = "";
+      document.getElementById('parameters').innerHTML = "cornGrainProgressBar" + "\n" + "soybeansProgressBar"+"\n"+"fruitsAndVegetablesProgressBar"+"\n"+"cattleProgressBar"+"\n"+"alfalfaHayProgressBar"+"\n"+
+          "grassHayProgressBar"+"\n"+"switchgrassBiomassProgressBar"+"\n"+"woodProgressBar"+"\n"+"woodyBiomassProgressBar";
       parent.saveAndRandomize();
       parent.toggleVisibility();
-      // console.log("window log:" + window.top.document.getElementById('parameters').innerHTML);
-      // console.log("document log:" + document.getElementById('parameters').innerHTML);
       if (achievedAllLevels) {
         updatePopup("Congratulations! You made it through all the levels. Try out your newfound knowledge in Sandbox mode!");
         setTimeout(function() {
@@ -99,6 +185,17 @@ function loadLevel(level) {
           togglePopupDisplay();
         }, 5000);
       }
+      calculateResults();
+      // Show the progress bars
+      document.getElementById('progressBarContainer').style.display = 'block';
+
+      $(document).ready(function() {
+        refreshEconTotals(1);
+      });
+
+      $(document).ready(function() {
+        refreshProgressBar(1);
+      });
       break;
       //multiplayer assigning mode
     case -1:
@@ -115,7 +212,28 @@ function loadLevel(level) {
       levelGlobal = level;
       loadLevelDetails("./levels/specs/" + getFileForExercise(level));
       initWorkspace('./data.csv');
+      document.getElementById('parameters').innerHTML = "cornGrainProgressBar" + "\n" + "soybeansProgressBar"+"\n"+"fruitsAndVegetablesProgressBar"+"\n"+"cattleProgressBar"+"\n"+"alfalfaHayProgressBar"+"\n"+
+          "grassHayProgressBar"+"\n"+"switchgrassBiomassProgressBar"+"\n"+"woodProgressBar"+"\n"+"woodyBiomassProgressBar";
+
+      var yieldProgressbarIds = ["cornGrainProgressBar","soybeansProgressBar","fruitsAndVegetablesProgressBar","cattleProgressBar","alfalfaHayProgressBar",
+        "grassHayProgressBar","switchgrassBiomassProgressBar","woodProgressBar","woodyBiomassProgressBar"];
+
+      for (var i = 0; i < yieldProgressbarIds.length; i++) {
+        window.frames[6].document.getElementById(yieldProgressbarIds[i]).checked = true;
+      }
       document.getElementById('popup').className = 'popup';
+      calculateResults();
+      // Show the progress bars
+      document.getElementById('progressBarContainer').style.display = 'block';
+
+      $(document).ready(function() {
+        refreshEconTotals(1);
+      });
+
+      $(document).ready(function() {
+        refreshProgressBar(1);
+      });
+
       break;
   }
 
@@ -149,8 +267,10 @@ function loadLevel(level) {
             if (i == currentYear) {
               if (!multiplayerAssigningModeOn) {
                 meshMaterials[j].map = textureArray[Number(levelSpecs.landTypeMonoculture[i])];
+                meshOverlay[j].map = textureArray[Number(levelSpecs.landTypeMonoculture[i])];
               } else {
                 meshMaterials[j].map = multiplayerTextureArray[Number(levelSpecs.landTypeMonoculture[i])];
+                meshOverlay[j].map = multiplayerTextureArray[Number(levelSpecs.landTypeMonoculture[i])];
               }
               boardData[currentBoard].map[j].update(currentYear);
             } //end if
@@ -162,7 +282,6 @@ function loadLevel(level) {
       } //end if
 
     } //end for
-
     //call toggleVisibility to update new precipitation values
     toggleVisibility();
   } //end if level global is > 0
@@ -192,7 +311,7 @@ function parseLevelDetails(data) {
   var strRawContents = data;
   //split based on escape chars
   while (strRawContents.indexOf("\r") >= 0)
-  strRawContents = strRawContents.replace("\r", "");
+    strRawContents = strRawContents.replace("\r", "");
   var arrLines = strRawContents.split("\n");
 
   var curLine = arrLines[0];
@@ -249,7 +368,7 @@ function parseLevelMenuData(data) {
   var strRawContents = data;
   //split based on escape chars
   while (strRawContents.indexOf("\r") >= 0)
-  strRawContents = strRawContents.replace("\r", "");
+    strRawContents = strRawContents.replace("\r", "");
   var arrLines = strRawContents.split("\n");
 
   var levelIndex = -1;
@@ -261,28 +380,28 @@ function parseLevelMenuData(data) {
     var lineContent = arrLines[i].substring(2, arrLines[i].length);
 
     switch (lineType) {
-      //if the line is a new stage
+        //if the line is a new stage
       case "#":
-      stageIndex = -1;
-      levelIndex++;
-      var levelData = {
-        data: [],
-        name: lineContent
-      };
-      levelContainer.push(levelData);
-      break;
-      //if the line is a new level
+        stageIndex = -1;
+        levelIndex++;
+        var levelData = {
+          data: [],
+          name: lineContent
+        };
+        levelContainer.push(levelData);
+        break;
+        //if the line is a new level
       case "@":
-      lastLevel++;
-      var levelNumber = lastLevel;
-      var lineArray = lineContent.split(",");
-      var exerciseData = {
-        exercise: levelNumber,
-        text: lineArray[0],
-        file: lineArray[1]
-      };
-      levelContainer[levelIndex].data.push(exerciseData);
-      break;
+        lastLevel++;
+        var levelNumber = lastLevel;
+        var lineArray = lineContent.split(",");
+        var exerciseData = {
+          exercise: levelNumber,
+          text: lineArray[0],
+          file: lineArray[1]
+        };
+        levelContainer[levelIndex].data.push(exerciseData);
+        break;
     }
   }
 
@@ -347,8 +466,8 @@ function resetLevel() {
 
   clearPopup();
 
-  document.getElementById("mainMenuButton").className = "moveButtonHidden";
-  document.getElementById("nextLevelButton").className = "moveButtonHidden";
+  // document.getElementById("mainMenuButton").className = "moveButtonHidden";
+  // document.getElementById("nextLevelButton").className = "moveButtonHidden";
 } //end resetLevel
 
 //returnCurrentLevel

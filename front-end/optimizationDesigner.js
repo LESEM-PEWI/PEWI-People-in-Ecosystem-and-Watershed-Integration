@@ -559,11 +559,9 @@ function importOptimization() {
 	for(var i = 0; i < usableChoices.length; i++) {
 		optimizationData.shift();
 	}
-	console.log("Primary Parameters allocated...");
 	//Add the precip
 	document.getElementById('precipYear1').value = (optimizationData[0].split(','))[1];
 	optimizationData.shift();
-	console.log("Precip Parameter allocated...");
 	//Add the score parameter
 	document.getElementById('sorter').value = (optimizationData[0].split(','))[1];
 	optimizationData.shift();
