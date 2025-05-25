@@ -27,11 +27,12 @@ People in Ecosystem and Watershed Integration (PEWI)
 
 About PEWI
 ======================
-PEWI is an innovative digital game-based learning (``DGBL``) tool designed and developed at Iowa State University. This platform offers a unique and engaging way to learn about complex ecosystems and watershed management challenges.
+People in Ecosystems/Watershed Integration (PEWI) is a simple web-based educational game designed to provide a scientific platform for teaching,
+discussing, and evaluating the tradeoffs associated with agricultural land use and management. Players iteratively manipulate land use annually
+for three years in a virtual 6000 acre watershed to meet a variety of goals. The tool computes a variety of results, including agricultural yields,
+soil erosion, stream pollution, and wildlife habitat
 
 The goal of this repository is to support open-source and collaborative development of the PEWI.
-Our goal is to build a vibrant coding community that contributes to improving PEWI’s features, usability, and impact.
-By working together in an open environment, we aim to enhance this platform as a powerful, transparent, and accessible tool for exploring sustainable land-use management scenarios.
 
 V4.1 Improvements:
 =====================================================================
