@@ -32,7 +32,7 @@ discussing, and evaluating the tradeoffs associated with agricultural land use a
 for three years in a virtual 6000 acre watershed to meet a variety of goals. The tool computes a variety of results, including agricultural yields,
 soil erosion, stream pollution, and wildlife habitat
 
-The goal of this repository is to support open-source and collaborative development of the PEWI.
+The goal of this repository is to support open-source and collaborative development of PEWI.
 
 V4.1 Improvements:
 =====================================================================
