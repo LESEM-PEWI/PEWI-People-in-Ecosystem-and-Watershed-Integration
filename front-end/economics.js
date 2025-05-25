@@ -1231,9 +1231,10 @@ var Economics = function () {
         let landUseTileID = 0;
         landUseTileID = CurrentBoard.map[j]['landType'][i];
         // console.log(boardData[currentBoard].map[j]['landType'],  'Board land use data, *** ', i)
-        let cellLandArea = CurrentBoard.map[j].area;
+
 
         if (landUseTileID > 0) {
+          let cellLandArea = CurrentBoard.map[j].area;
           let ludID = landUseTileID.toString();
           /**
            * Apparently, the column for  soilType, methane, nitrous oxide kpi, precipitations and land use landUseType, soilType,
