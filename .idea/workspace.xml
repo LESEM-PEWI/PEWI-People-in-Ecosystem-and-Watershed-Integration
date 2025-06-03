@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0bf3db1a-c49a-4003-90ef-e43c9f83c424" name="Changes" comment="contact us form issues fixed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlFrames/contact_us.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/contact_us.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlFrames/credits.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/credits.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +68,8 @@
       <workItem from="1748198575814" duration="1197000" />
       <workItem from="1748396900026" duration="571000" />
       <workItem from="1748445429802" duration="779000" />
-      <workItem from="1748898377478" duration="4289000" />
+      <workItem from="1748898377478" duration="5387000" />
+      <workItem from="1748971193563" duration="350000" />
     </task>
     <task id="LOCAL-00001" summary="minor changes">
       <option name="closed" value="true" />
@@ -160,7 +159,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748964167142</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="contact us form issues fixed">
+      <option name="closed" value="true" />
+      <created>1748966343810</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1748966343810</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
