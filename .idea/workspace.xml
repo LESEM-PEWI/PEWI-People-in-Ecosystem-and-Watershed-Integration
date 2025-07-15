@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0bf3db1a-c49a-4003-90ef-e43c9f83c424" name="Changes" comment="accessibility issue">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/htmlFrames/frameStylesheet.css" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/frameStylesheet.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlFrames/options.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/options.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlFrames/style_options.css" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/style_options.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlFrames/uploadDownload.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/uploadDownload.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,6 +74,9 @@
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -102,7 +109,7 @@
       <option name="presentableId" value="Default" />
       <updated>1723567663003</updated>
       <workItem from="1723567665037" duration="2982000" />
-      <workItem from="1752529885960" duration="12277000" />
+      <workItem from="1752529885960" duration="13658000" />
     </task>
     <task id="LOCAL-00001" summary="minor changes">
       <option name="closed" value="true" />
@@ -192,7 +199,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752606643347</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="accessibility issue">
+      <option name="closed" value="true" />
+      <created>1752606982262</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1752606982262</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
