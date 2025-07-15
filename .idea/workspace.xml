@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0bf3db1a-c49a-4003-90ef-e43c9f83c424" name="Changes" comment="ahead of development branch">
-      <change afterPath="$PROJECT_DIR$/htmlFrames/imgs/w.jpg" afterDir="false" />
+    <list default="true" id="0bf3db1a-c49a-4003-90ef-e43c9f83c424" name="Changes" comment="accessibility issue">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlFrames/frameStylesheet.css" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/frameStylesheet.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/htmlFrames/options.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/options.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/htmlFrames/style_options.css" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/style_options.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlFrames/utilities.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/utilities.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +104,7 @@
       <option name="presentableId" value="Default" />
       <updated>1723567663003</updated>
       <workItem from="1723567665037" duration="2982000" />
-      <workItem from="1752529885960" duration="10753000" />
+      <workItem from="1752529885960" duration="11948000" />
     </task>
     <task id="LOCAL-00001" summary="minor changes">
       <option name="closed" value="true" />
@@ -181,7 +178,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748198049730</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="accessibility issue">
+      <option name="closed" value="true" />
+      <created>1752605868181</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1752605868181</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -190,6 +195,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="minor changes" />
     <MESSAGE value="ahead of development branch" />
-    <option name="LAST_COMMIT_MESSAGE" value="ahead of development branch" />
+    <MESSAGE value="accessibility issue" />
+    <option name="LAST_COMMIT_MESSAGE" value="accessibility issue" />
   </component>
 </project>

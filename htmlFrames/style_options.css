@@ -61,6 +61,15 @@ body {
     color: white;
   }
 
+
+ h1 {
+   font-family: 'Arial', sans-serif;
+   font-size: 36px;
+   color: #FFFFFF;
+   border-bottom: 0px solid #ccc;
+   padding-bottom: 5px;
+ }
+
   .hkInputs1, .hkInputs2, .minInput, .maxInput, .actualMinInput, .actualMaxInput {
     position: absolute;
     border: 0;
