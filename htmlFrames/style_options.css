@@ -11,7 +11,7 @@
 }
 
 body {
-  background-color: #000000;
+  background-color: #524727;
 }
 
 
@@ -47,7 +47,7 @@ body {
   .optionsHeader {
    color: #FFFFFF;
    font-family: 'Amatic SC', cursive;
-   font-size: 35px;
+   font-size: 30px;
    font-weight: bold;
    margin-left: 45px;
    margin-right: 45px;
@@ -124,7 +124,7 @@ body {
     position: relative;
     height: 25px;
     text-indent: 5%;
-    color: white;
+    color: #D3D3D3;
   }
 
   .maxYearOptions-text {
@@ -166,7 +166,7 @@ body {
 
   button {
     box-shadow: 0 0 20px rgba(0, 0, 0, .2);
-    color: #fff;
+    color: #003D4C;
     cursor: pointer;
     display: inline-block;
     font-size: 18px;
@@ -193,7 +193,7 @@ body {
   }
 
   .buttonUnselected {
-    background-color: #003d4d;
+    background-color: #003D4C;
   }
 
 #metricButton {
@@ -250,7 +250,7 @@ body {
   }
 
   #hotkeySets, #progressBarSets {
-    border: 5px solid white;
+    border: 5px solid greenyellow;
     border-radius: 25px;
   }
 

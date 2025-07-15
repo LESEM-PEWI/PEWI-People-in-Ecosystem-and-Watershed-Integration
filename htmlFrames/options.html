@@ -19,7 +19,7 @@ div on open.
 Cleaned and Prepared - July 2016
 -->
 
-<html>
+<html lang="en">
 
 <head>
   <meta charset="utf-8">
@@ -43,17 +43,19 @@ Cleaned and Prepared - July 2016
 
 <body>
 
-  <img id="optionsBackroundImage" alt="" src="./imgs/floodBack.png">
+<!--  <img id="optionsBackroundImage" alt="" src="./imgs/w.jpg">-->
 
   <!--Credit for functionality of hidden checkboxes
   https://codersblock.com/blog/checkbox-trickery-with-css/
   -->
 
   <!--Line below was added to add exit button on top right of Instructor Options page. Reference Issue 362 for details. -->
-  <div id="closeDiv"><img id="closeOptions" onclick="undoSelectedOptions(); checkIfSaved(); parent.resetOptions();" src="../imgs/close_black.png"></div>
+  <div id="closeDiv"><img id="closeOptions" onclick="undoSelectedOptions(); checkIfSaved(); parent.resetOptions();" alt = 'Close page'  title="Close page" src="../imgs/close_black.png"></div>
+
   <div id="optionsMainHolder">
     <div class="optionsHeader" style="margin-top:15px;">
-      Land Use Types
+      <h1>Land Use Types</h1>
+<!--      Land Use Types-->
       <br>
       <hr>
     </div>
@@ -109,7 +111,8 @@ Cleaned and Prepared - July 2016
       <label for = "paint16">Corn Grain</label>-->
     </div>
     <div class="optionsHeader">
-      Hover options
+      <h1>Hover Options</h1>
+<!--      Hover options-->
       <br>
       <hr>
     </div>
@@ -147,7 +150,8 @@ Cleaned and Prepared - July 2016
     </div>
 
     <div class="optionsHeader">
-      Progress Bar Options
+      <h1> Progress Bar Options</h1>
+<!--      Progress Bar Options-->
       <br>
       <hr>
     </div>
@@ -168,7 +172,8 @@ Cleaned and Prepared - July 2016
     </div>
 
     <div class="optionsHeader">
-      Disable Progress Bars
+      <h1>Disable Progress Bars</h1>
+<!--      Disable Progress Bars-->
       <br>
       <hr>
     </div>
@@ -215,7 +220,8 @@ Cleaned and Prepared - July 2016
     </div>
 
     <div class="optionsHeader">
-      Hotkey options
+      <h1>Hotkey options </h1>
+<!--      Hotkey options-->
       <br>
       <hr>
     </div>
@@ -237,7 +243,8 @@ Cleaned and Prepared - July 2016
     </div>
 
     <div class="optionsHeader">
-      Annual Options
+      <h1> Annual Options</h1>
+<!--      Annual Options-->
       <br>
       <hr>
     </div>
@@ -262,6 +269,7 @@ Cleaned and Prepared - July 2016
     </div>
 
     <div class="optionsHeader">
+
       Developer Tools
       <br>
       <hr>
@@ -351,9 +359,10 @@ Cleaned and Prepared - July 2016
     </div>
     -->
 
+<!--    showMainMenu()-->
 
   </div>
-<div id="exitOptionsButton" class="mainButton" onclick="saveCurrentOptionsState(); showMainMenu() ;">Save & Exit</div>
+<div id="exitOptionsButton" class="mainButton" onclick= "saveCurrentOptionsState();handlingBackButton() ">Save & Exit</div>
 <div id="resetOptionsPage" class="mainButton" onclick="resetOptionsSelected(); parent.resetOptions();">Reset Options</div>
 
 </body>
