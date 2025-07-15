@@ -60,7 +60,7 @@ V4.1 Improvements
 
 11. Users can also update corn and soybean prices to reflect current market conditions.
 
-12. Carbon sequestration is also updated for all the land uses, and the map displaying it is also spatially explicit even when the watershed ahs one land use category.
+12. Carbon sequestration is also updated for all the land uses, and the map displaying it is also spatially explicit even when the watershed has one land use category.
 
 Code structure:
 =================================================
