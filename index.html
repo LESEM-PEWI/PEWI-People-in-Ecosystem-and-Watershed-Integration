@@ -2229,9 +2229,9 @@
   <!-- **END Right Side Component** -->
 
   <!-- Create buttons in upper right corner: upperHud-->
-  <img id="pewiLogo" src="./imgs/updatedPewiLogo.png">
-  <img id="logoBase" src="./imgs/PEWI4_1_LOG.png"> <!--inGamePEWI4.png"-->
-  <img id="DownloadButton" class="upperButton" src="./imgs/uploadDownloadIcon.png" title="Download" onclick="triggerDownloadSequence();" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
+  <img id="pewiLogo" alt = 'log' src="./imgs/updatedPewiLogo.png" title ='PEWI Logo'>
+  <img id="logoBase" alt = 'pewi4.1' src="./imgs/PEWI4_1_LOG.png" title = 'PEWI V4.1'> <!--inGamePEWI4.png"-->
+  <img id="DownloadButton" class="upperButton" alt= 'upper button' src="./imgs/uploadDownloadIcon.png" title="Download" onclick="triggerDownloadSequence();" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
 
   <!--This class will hold the input element, so we'll hide this one-->
   <div class="uploadFile1">
@@ -2280,11 +2280,11 @@
   </script>
 
 
-  <img id="emailIcon" class="upperButton" src="./imgs/emailIcon.png" title= "Email" onclick="showEmail();" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
-  <img id="creditsButton" class="upperButton" src="./imgs/credits_button.png" title= "Credits" onclick="showCredits();" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
-  <img id="recordIcon" class="upperButton" style="visibility:hidden;" width="40px" src="./imgs/recordingIcon.gif">
-  <img id="homebutton" class="upperButton" src="imgs/Home_Icon.png" title= "Home" onclick="toggleEscapeFrame();">
-  <img id="printButton" class="upperButton" src="imgs/Button_Print.svg" title="Print" onclick="startPrintOptions();" >
+  <img id="emailIcon" class="upperButton" src="./imgs/emailIcon.png" title= "Email" alt = 'image' onclick="showEmail();" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
+  <img id="creditsButton" class="upperButton" src="./imgs/credits_button.png" alt = 'credits' title= "Credits" onclick="showCredits();" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
+  <img id="recordIcon" class="upperButton" style="visibility:hidden;" width="40px" alt = "recording" src="./imgs/recordingIcon.gif">
+  <img id="homebutton" class="upperButton" src="imgs/Home_Icon.png" alt = "upper button" title= "Home" onclick="toggleEscapeFrame();">
+  <img id="printButton" class="upperButton" src="imgs/Button_Print.svg" alt = "print button" title="Print" onclick="startPrintOptions();" >
 
 
 
@@ -2312,20 +2312,20 @@
   <div id="snackbarNotification"></div>
 
   <!-- Create iFrames for credits, upload/download, contact us and codex -->
-  <div id="modalCreditsFrame"><iframe id="creditsFrame" style="display:none;" src="./htmlFrames/credits.html"></iframe></div>
-  <img id="closeCredits" class="closeButton" style="display:none;" src="./imgs/close_black.png" onclick="closeCreditFrame() ;">
-  <div id="modalUploadFrame"><iframe id="uploadDownloadFrame" style="display:none;" src="./htmlFrames/uploadDownload.html"></iframe></div>
+  <div id="modalCreditsFrame"><iframe id="creditsFrame" style="display:none;" aria-label ='credits' src="./htmlFrames/credits.html"></iframe></div>
+  <img id="closeCredits" class="closeButton" style="display:none;" alt = 'close credit' src="./imgs/close_black.png" onclick="closeCreditFrame() ;">
+  <div id="modalUploadFrame"><iframe id="uploadDownloadFrame" style="display:none;" aria-label="upload" src="./htmlFrames/uploadDownload.html"></iframe></div>
   <img id="closeUploadDownload" class="closeButton" style="display:none;" src="./imgs/close_black.png" onclick="closeUploadDownloadFrame();">
-  <div id="modalEmailFrame"><iframe id="emailFrame" style="display:none;" src="./htmlFrames/contact_us.html"></iframe></div>
+  <div id="modalEmailFrame"><iframe id="emailFrame" style="display:none;" aria-label = 'contact us' src="./htmlFrames/contact_us.html"></iframe></div>
   <img id="closeEmail" class="closeButton" style="display:none;" src="./imgs/close_black.png" onclick="closeEmailFrame() ;">
   <!--<div id="modalCodexFrame"><iframe id="index" src="./modules/codex/codex.html" allowfullscreen="allowfullscreen"></iframe></div>-->
-  <div id="modalCodexFrame"><iframe id="glossary" src="./modules/codex/codex.html" allowfullscreen="allowfullscreen"></iframe></div>
+  <div id="modalCodexFrame"><iframe id="glossary" aria-label = 'codex' src="./modules/codex/codex.html" allowfullscreen="allowfullscreen"></iframe></div>
   <!-- glossary iframe has its own close button -->
 
   <!-- Include fireworks javascript library -->
   <div id="fireworks-template">
     <div id="fw" class="firework"></div>
-    <div id="fp" class="fireworkParticle"><img src="./imgs/particles.gif" alt="" /></div>
+    <div id="fp" class="fireworkParticle"><img  src="./imgs/particles.gif" alt="" /></div>
   </div>
   <div id="fireContainer"></div>
 
@@ -2333,19 +2333,19 @@
   <img id="meadowlark" class="meadowlarkhidden" src="./imgs/meadowlarkanimation.gif">
 
   <!-- Create iframes for the results, options and multiplayer screens -->
-  <div id="modalResultsFrame"><iframe id="resultsFrame" class="resultsFrame" src="./htmlFrames/results.html"></iframe></div>
+  <div id="modalResultsFrame"><iframe id="resultsFrame" aria-label = 'results frame' class="resultsFrame" src="./htmlFrames/results.html"></iframe></div>
   <img id="closeResults" class="closeButton" style="opacity:0; visibility:hidden; right:9%;" src="./imgs/close_black.png" onclick="resultsEnd() ;">
   <iframe id="multiplayer" class="fullPageIframe" src="./htmlFrames/multiDownload.html"></iframe>
-  <iframe id="options" class="fullPageIframe" src="./htmlFrames/options.html"></iframe>
-  <iframe id="printOptions" class="fullPageIframe" src="./htmlFrames/printOptions.html"></iframe>
-  <iframe id="modalReplacement" class="fullPageIframe" src="./htmlFrames/replacementFrame.html"></iframe>
+  <iframe id="options" class="fullPageIframe" src="./htmlFrames/options.html" aria-label ='options'></iframe>
+  <iframe id="printOptions" class="fullPageIframe" src="./htmlFrames/printOptions.html" aria-label = 'print options'></iframe>
+  <iframe id="modalReplacement" class="fullPageIframe" src="./htmlFrames/replacementFrame.html" aria-label  = 'modal replacements'></iframe>
 </div>
 <!-- End of page div, this is all the meaningful content for in-game -->
 
 <!-- the modal frame covers the page with semi-opaque layer, and escape options -->
 <div id="modalEscapeFrame">
   <!--Line below was added to add exit button on top right of Home options page. Reference Issue 361 for details.-->
-  <div id="closeDiv"><img id="escapeButton" onclick="toggleEscapeFrame();" src="./imgs/close_black.png"></div>
+  <div id="closeDiv"><img id="escapeButton" onclick="toggleEscapeFrame();" alt  ='close window' src="./imgs/close_black.png"></div>
   <div id="escapeMenu">
     <!--Commented out Glossary button, which is div below. Reference Issue 363 on explanation for removal.-->
     <div class="mainEscapeButton" id="directoryButton" onclick="toggleEscapeFrame(); toggleGlossary() ;">Glossary</div>
@@ -2388,7 +2388,7 @@
   </div>
 </div>
 <div id="utilitiesContainer" style="position: absolute;width:0px;height:0px;">
-  <iframe id="startupDialogueOverlay" style="visibility: hidden"></iframe>
+  <iframe id="startupDialogueOverlay" style="visibility: hidden" aria-label = "start up dialogue" ></iframe>
 </div>
 
 
