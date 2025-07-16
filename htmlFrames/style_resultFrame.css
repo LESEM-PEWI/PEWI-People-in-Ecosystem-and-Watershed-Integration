@@ -999,3 +999,11 @@ ul table{
   border: none;
   background: transparent;
 }
+
+#closeButton{
+  display: block;
+  opacity: 10;
+  filter: brightness(0) saturate(100%) invert(25%) sepia(100%) saturate(1000%) hue-rotate(10deg);
+  border: none;
+  background: transparent;
+}
