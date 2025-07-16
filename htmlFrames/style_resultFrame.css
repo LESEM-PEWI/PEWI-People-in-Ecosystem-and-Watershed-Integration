@@ -855,7 +855,7 @@ text {
 /*  !*<= 768px *!*/
 /*}*/
 
-@media screen and (min-width: 768px) and (max-width: 992px) {
+@media screen and (min-width: 840px) and (max-width: 992px) {
   /* 768px ~ 992px */
 }
 
@@ -990,4 +990,12 @@ ul table{
 
 #resultBackButton {
   border-bottom: 2px solid white;
+}
+
+#resultBackButton {
+  display: block;
+  opacity: 0;
+  filter: brightness(0) saturate(100%) invert(25%) sepia(100%) saturate(1000%) hue-rotate(10deg);
+  border: none;
+  background: transparent;
 }
