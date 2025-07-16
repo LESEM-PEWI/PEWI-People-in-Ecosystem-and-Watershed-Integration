@@ -174,8 +174,8 @@ body {
   }
 
   button {
-    box-shadow: 0 0 20px rgba(0, 0, 0, .2);
-    color: #003D4C;
+    box-shadow: 0 0 0px rgba(0, 0, 0, .2);
+    color: #FF8C00;
     cursor: pointer;
     display: inline-block;
     font-size: 18px;
