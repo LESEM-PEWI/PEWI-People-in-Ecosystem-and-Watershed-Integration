@@ -777,7 +777,7 @@ label[for=file-upload], #sim-message-repeat {
   /*display: block;*/
   opacity: 100;
   /*filter: brightness(0) saturate(100%) invert(24%) sepia(62%) saturate(704%) hue-rotate(100deg) brightness(93%) contrast(87%);*/
-  filter: brightness(100) saturate(100%);
+  filter: brightness(80%) saturate(100%);
   border: none;
   background: transparent;
 }
