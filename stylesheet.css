@@ -773,16 +773,16 @@ label[for=file-upload], #sim-message-repeat {
     to {left: 0; opacity: 0;}
 }
 
-.upperButton{
+.logoBase{
   /*display: block;*/
   opacity: 100;
-  filter: brightness(0) saturate(100%) invert(25%) sepia(100%) saturate(1000%) hue-rotate(1deg);
+  filter: brightness(0) saturate(100%) invert(24%) sepia(62%) saturate(704%) hue-rotate(30deg) brightness(93%) contrast(87%);
   border: none;
   background: transparent;
 }
-#logoBase {
+.upperButton {
   opacity: 1;
-  filter: brightness(0) saturate(100%) invert(24%) sepia(62%) saturate(704%) hue-rotate(13deg) brightness(93%) contrast(87%);
+  filter: brightness(0) saturate(100%) invert(24%) sepia(62%) saturate(704%) hue-rotate(30deg) brightness(93%) contrast(87%);
   border: none;
   background: transparent;
   display: block; /* Prevents inline spacing glitches */
