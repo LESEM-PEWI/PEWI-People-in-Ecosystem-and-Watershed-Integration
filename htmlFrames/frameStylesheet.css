@@ -63,14 +63,14 @@
 #backButton {
   cursor: pointer;
   display: inline-block;
-  left: 10%;
+  left: 0.5%;
   top: 1%;
   padding: 5px;
   position: relative;
 }
 
 #backButton:hover {
-  border-bottom: 2px solid white;
+  border-bottom: 2px solid darkslategrey;
 }
 
 

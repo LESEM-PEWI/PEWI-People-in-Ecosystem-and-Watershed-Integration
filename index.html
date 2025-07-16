@@ -2313,11 +2313,11 @@
 
   <!-- Create iFrames for credits, upload/download, contact us and codex -->
   <div id="modalCreditsFrame"><iframe id="creditsFrame" style="display:none;" aria-label ='credits' src="./htmlFrames/credits.html"></iframe></div>
-  <img id="closeCredits" class="closeButton" style="display:none;" alt = 'close credit' src="./imgs/close_black.png" onclick="closeCreditFrame() ;">
+  <img id="closeCredits" class="closeButton" style="display:none;" alt = 'close credit' title ='Close Window' src="./imgs/close_black.png" onclick="closeCreditFrame() ;">
   <div id="modalUploadFrame"><iframe id="uploadDownloadFrame" style="display:none;" aria-label="upload" src="./htmlFrames/uploadDownload.html"></iframe></div>
   <img id="closeUploadDownload" class="closeButton" style="display:none;" src="./imgs/close_black.png" onclick="closeUploadDownloadFrame();">
   <div id="modalEmailFrame"><iframe id="emailFrame" style="display:none;" aria-label = 'contact us' src="./htmlFrames/contact_us.html"></iframe></div>
-  <img id="closeEmail" class="closeButton" style="display:none;" src="./imgs/close_black.png" onclick="closeEmailFrame() ;">
+  <img id="closeEmail" class="closeButton" style="display:none;" alt= 'close' src="./imgs/close_black.png" title = 'Close Window' onclick="closeEmailFrame() ;">
   <!--<div id="modalCodexFrame"><iframe id="index" src="./modules/codex/codex.html" allowfullscreen="allowfullscreen"></iframe></div>-->
   <div id="modalCodexFrame"><iframe id="glossary" aria-label = 'codex' src="./modules/codex/codex.html" allowfullscreen="allowfullscreen"></iframe></div>
   <!-- glossary iframe has its own close button -->
@@ -2392,7 +2392,16 @@
   <iframe id="startupDialogueOverlay" style="visibility: hidden" aria-label = "start up dialogue" ></iframe>
 </div>
 
-
+<script>
+  function hideWindow(window_id) {
+    const contactFrame = parent.top.document.getElementById(window_id);
+    if (contactFrame) {
+      contactFrame.style.display = "none";
+      contactFrame.style.width ='0%';
+      contactFrame.style.height ='0%';
+    }
+  }
+</script>
 <!-- Javascript to stop event propogation for bug fix in modalEscapeFrame (above) -->
 <script>
   //prevent modalEscapeFrame from being clicked on when using the buttons stored in the frame
