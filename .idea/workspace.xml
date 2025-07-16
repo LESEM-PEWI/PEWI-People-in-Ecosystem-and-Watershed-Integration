@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0bf3db1a-c49a-4003-90ef-e43c9f83c424" name="Changes" comment="accessibility issue">
+    <list default="true" id="0bf3db1a-c49a-4003-90ef-e43c9f83c424" name="Changes" comment="accessibility issue chevron back">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlFrames/frameStylesheet.css" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/frameStylesheet.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlFrames/results.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/results.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlFrames/style_resultFrame.css" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/style_resultFrame.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlFrames/utilities.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/utilities.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlFrames/options.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/options.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlFrames/style_options.css" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/style_options.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +108,7 @@
       <option name="presentableId" value="Default" />
       <updated>1723567663003</updated>
       <workItem from="1723567665037" duration="2982000" />
-      <workItem from="1752529885960" duration="27152000" />
+      <workItem from="1752529885960" duration="29308000" />
     </task>
     <task id="LOCAL-00001" summary="minor changes">
       <option name="closed" value="true" />
@@ -295,7 +294,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752679862699</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="accessibility issue chevron back">
+      <option name="closed" value="true" />
+      <created>1752682883470</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1752682883470</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -305,6 +312,7 @@
     <MESSAGE value="minor changes" />
     <MESSAGE value="ahead of development branch" />
     <MESSAGE value="accessibility issue" />
-    <option name="LAST_COMMIT_MESSAGE" value="accessibility issue" />
+    <MESSAGE value="accessibility issue chevron back" />
+    <option name="LAST_COMMIT_MESSAGE" value="accessibility issue chevron back" />
   </component>
 </project>

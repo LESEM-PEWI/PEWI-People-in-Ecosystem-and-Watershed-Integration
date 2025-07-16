@@ -306,6 +306,8 @@ body {
     right:30px;
   }
 
+
+
   #resetOptionsPage{
     position: fixed;
     width: 12vw;
@@ -313,7 +315,16 @@ body {
     right: 30px;
   }
 
-  #progressBarAggregateTool {
+
+#homeBackButton{
+    position: fixed;
+    width: 12vw;
+    bottom: 20px;
+    right: 30px;
+}
+
+
+#progressBarAggregateTool {
     position: relative;
     left: 3%;
   }
