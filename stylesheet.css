@@ -773,19 +773,19 @@ label[for=file-upload], #sim-message-repeat {
     to {left: 0; opacity: 0;}
 }
 
-#logoBase{
+#logoBase,.upperButton {
   /*display: block;*/
   opacity: 100;
-  filter: brightness(0) saturate(100%) invert(24%) sepia(62%) saturate(704%) hue-rotate(100deg) brightness(93%) contrast(87%);
-  /*filter: brightness(0) saturate(100%);*/
+  /*filter: brightness(0) saturate(100%) invert(24%) sepia(62%) saturate(704%) hue-rotate(100deg) brightness(93%) contrast(87%);*/
+  filter: brightness(100) saturate(100%);
   border: none;
   background: transparent;
 }
-.upperButton {
-  opacity: 1;
-  /*filter: brightness(0) saturate(100%);*/
-  filter: brightness(0) saturate(100%) invert(24%) sepia(62%) saturate(704%) hue-rotate(100deg) brightness(93%) contrast(87%);
-  border: none;
-  background: transparent;
-  display: block;
-}
+/*.upperButton {*/
+/*  opacity: 1;*/
+/*  !*filter: brightness(0) saturate(100%);*!*/
+/*  filter: brightness(0) saturate(100%) invert(24%) sepia(62%) saturate(704%) hue-rotate(100deg) brightness(93%) contrast(87%);*/
+/*  border: none;*/
+/*  background: transparent;*/
+/*  display: block;*/
+/*}*/
