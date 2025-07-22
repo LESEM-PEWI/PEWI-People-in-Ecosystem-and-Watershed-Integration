@@ -42,6 +42,10 @@ Cleaned and Prepared - August 2016
 </head>
 
 <body>
+<a href="../index.html" onclick="parent.resultsEnd();" id="back-home">
+  <img src="./imgs/chevron-back.png" title="Resume Play">
+  <span class ='.icon-colored'></span>
+</a>
 
   <div id="results-header">
 
@@ -762,9 +766,23 @@ Cleaned and Prepared - August 2016
 
   <script src="../front-end/helpersFE.js"></script>
 
-  <img id="resultBackButton" style="opacity:100;" alt = 'go back' src="./imgs/chevron-back.png" title ='Resume Play'
-       class ='.icon-colored'
-       onclick="parent.resultsEnd() ;">
+<!--  <img id="resultBackButton" style="opacity:100;" alt = 'go back' src="./imgs/chevron-back.png" title ='Resume Play'-->
+<!--       class ='.icon-colored'-->
+<!--       onclick="parent.resultsEnd() ;">-->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function () {
+  $('#back-home').on('click', function (e) {
+    // Optional: store scroll position
+    localStorage.setItem('scrollY', window.scrollY);
+    e.preventDefault();
+    // Allow normal navigation to index.html
+    // No need to call e.preventDefault() unless you're delaying navigation
+  });
+});
+</script>
+
 </body>
 
 </html>

@@ -5,7 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0bf3db1a-c49a-4003-90ef-e43c9f83c424" name="Changes" comment="accessibility issue chevron back">
+      <change beforePath="$PROJECT_DIR$/.idea/pewi3.0.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pewi3.0.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PEWI Budgets 2024$ - 2025$ (021425).xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/PEWI Budgets 2024$ - 2025$ (021425).xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlFrames/results.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/results.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlFrames/style_resultFrame.css" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/style_resultFrame.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stylesheet.css" beforeDir="false" afterPath="$PROJECT_DIR$/stylesheet.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,6 +114,7 @@
       <workItem from="1752529885960" duration="36671000" />
       <workItem from="1752696229557" duration="1769000" />
       <workItem from="1752702784160" duration="1792000" />
+      <workItem from="1753197990077" duration="6942000" />
     </task>
     <task id="LOCAL-00001" summary="minor changes">
       <option name="closed" value="true" />
