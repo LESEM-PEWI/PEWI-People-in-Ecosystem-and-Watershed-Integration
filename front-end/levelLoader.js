@@ -148,6 +148,7 @@ function refreshEconTotals(yearToLoad){
   document.getElementById('totalRevenue').innerHTML = '$' + addCommas(Math.round(totalRevenue));
   document.getElementById('totalProfit').innerHTML = totalProfit > 0 ? '$' + addCommas(Math.round(totalProfit)) : '(-) $' + addCommas(Math.abs(Math.round(totalProfit)));
 }
+console.log('total cost is: totalCost')
 
 //loadLevel is triggered by clicking a level button on the html page
 function loadLevel(level) {

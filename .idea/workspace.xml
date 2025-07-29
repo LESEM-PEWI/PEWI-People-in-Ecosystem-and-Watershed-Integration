@@ -4,14 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0bf3db1a-c49a-4003-90ef-e43c9f83c424" name="Changes" comment="accessibility issue chevron back">
-      <change beforePath="$PROJECT_DIR$/.idea/pewi3.0.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pewi3.0.iml" afterDir="false" />
+    <list default="true" id="0bf3db1a-c49a-4003-90ef-e43c9f83c424" name="Changes" comment="fix skip issues to fit assessment">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PEWI Budgets 2024$ - 2025$ (021425).xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/PEWI Budgets 2024$ - 2025$ (021425).xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_cleaner.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_cleaner.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/economicUtils.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/economicUtils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/levelLoader.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/levelLoader.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ghgData.csv" beforeDir="false" afterPath="$PROJECT_DIR$/ghgData.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlFrames/contact_us.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/contact_us.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlFrames/credits.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/credits.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/htmlFrames/results.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/results.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlFrames/style_resultFrame.css" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/style_resultFrame.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlFrames/utilities.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/utilities.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stylesheet.css" beforeDir="false" afterPath="$PROJECT_DIR$/stylesheet.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +55,6 @@
     &quot;Python.start.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/my_pewi/PEWI-People-in-Ecosystem-and-Watershed-Integration/htmlFrames/imgs&quot;,
@@ -114,7 +116,10 @@
       <workItem from="1752529885960" duration="36671000" />
       <workItem from="1752696229557" duration="1769000" />
       <workItem from="1752702784160" duration="1792000" />
-      <workItem from="1753197990077" duration="6942000" />
+      <workItem from="1753197990077" duration="9100000" />
+      <workItem from="1753284246703" duration="7540000" />
+      <workItem from="1753739657937" duration="658000" />
+      <workItem from="1753748181669" duration="1889000" />
     </task>
     <task id="LOCAL-00001" summary="minor changes">
       <option name="closed" value="true" />
@@ -364,7 +369,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752703222124</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="fix skip issues to fit their rigid assessment">
+      <option name="closed" value="true" />
+      <created>1753205933469</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1753205933469</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -375,6 +388,8 @@
     <MESSAGE value="ahead of development branch" />
     <MESSAGE value="accessibility issue" />
     <MESSAGE value="accessibility issue chevron back" />
-    <option name="LAST_COMMIT_MESSAGE" value="accessibility issue chevron back" />
+    <MESSAGE value="fix skip issues to fit their rigid assessment" />
+    <MESSAGE value="fix skip issues to fit assessment" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix skip issues to fit assessment" />
   </component>
 </project>

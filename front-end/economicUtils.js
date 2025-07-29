@@ -375,11 +375,11 @@ getCostPerLandUse = (landUseID) => {
         case '1':
         case '1-1':
 
-            return 3.87
+            return 3.87; // per bushel
         case '4-1':
         case '2-1':
         case '3-1':
-            return 3.53
+            return 3.53; // per bushel
         // Conventional soybean
         case '1-3':
         case '3-3':
@@ -387,7 +387,7 @@ getCostPerLandUse = (landUseID) => {
         case '2-3':
         case 3:
         case '3':
-            return 8.76;
+            return 8.76; // per bushel
 
         // Conservation corn
         case '1-2':
@@ -401,13 +401,13 @@ getCostPerLandUse = (landUseID) => {
         // Conservation soybean and transition from corn or soybean  application when more than one year are switched on
         case '1-4':
         case '2-4':
-            return 8.76;
+            return 8.76; // per bushel
 
         case '3-4':
         case '4-4':
         case 4:
         case '4':
-            return 8.57;
+            return 8.57; // per bushel
 
         case 5: // alfalfa Hay
         case '5':

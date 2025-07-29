@@ -324,4 +324,43 @@ if __name__ == '__main__':
     plt.savefig('ghg_distribution.png')
     os.startfile('ghg_distribution.png')
     plt.close()
+    import pandas as pd
+
+    # Default dynamic prices
+    corn_price = 4.45     # per bushel
+    soybean_price = 10.37 # per bushel
+
+    # Create the base data
+    price_data = [
+        {"ID": 1,  "Price": corn_price,     "Unit": "per bushel (corn)",   "kg_equiv": 25.4},
+        {"ID": 2,  "Price": corn_price,     "Unit": "per bushel (corn)",   "kg_equiv": 25.4},
+        {"ID": 3,  "Price": soybean_price,  "Unit": "per bushel (soybean)","kg_equiv": 27.2},
+        {"ID": 4,  "Price": soybean_price,  "Unit": "per bushel (soybean)","kg_equiv": 27.2},
+        {"ID": 5,  "Price": 253,            "Unit": "per tonne",           "kg_equiv": 1000},
+        {"ID": 6,  "Price": 3729.00,        "Unit": "per head of cattle",  "kg_equiv": 600},
+        {"ID": 7,  "Price": 3729.00,        "Unit": "per head of cattle",  "kg_equiv": 600},
+        {"ID": 8,  "Price": 180,            "Unit": "per tonne",           "kg_equiv": 1000},
+        {"ID": 9,  "Price": 0,              "Unit": "no yield",            "kg_equiv": None},
+        {"ID": 10, "Price": 0.79,           "Unit": "per board foot",      "kg_equiv": 2.36},
+        {"ID": 11, "Price": 0.79,           "Unit": "per board foot",      "kg_equiv": 2.36},
+        {"ID": 12, "Price": 60,             "Unit": "per tonne",           "kg_equiv": 1000},
+        {"ID": 13, "Price": 60,             "Unit": "per tonne",           "kg_equiv": 1000},
+        {"ID": 14, "Price": 0,              "Unit": "no yield",            "kg_equiv": None},
+        {"ID": 15, "Price": 49900.0,        "Unit": "per acre (sod)",      "kg_equiv": 9071.85},
+        {"ID": 0,  "Price": 0,              "Unit": "no yield",            "kg_equiv": None},
+    ]
+
+    # Create DataFrame
+    df = pd.DataFrame(price_data)
+
+    # Calculate $/kg where applicable
+    df['Price_per_kg'] = df.apply(
+        lambda row: round(row['Price'] / row['kg_equiv'], 4) if row['kg_equiv'] else 0, axis=1
+    )
+
+    # Final display
+    print(df[['ID', 'Unit', 'Price', 'Price_per_kg']])
+    df.to_csv('unit_prices.csv')
+    os.startfile('unit_prices.csv')
+
 
