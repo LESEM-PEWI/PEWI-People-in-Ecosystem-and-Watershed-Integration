@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <linearGradient y2="0.705263" x2="0.610526" y1="-0.052632" x1="-0.087719" id="linearGradient11732" xlink:href="#linearGradient4156-1"/>
+  <linearGradient id="linearGradient4156-1">
+   <stop stop-color="#ffffff" offset="0" id="stop4158-0"/>
+   <stop stop-color="#ffffff" stop-opacity="0" offset="1" id="stop4160-0"/>
+  </linearGradient>
+  <filter color-interpolation-filters="sRGB" id="filter6126-7">
+   <feGaussianBlur stdDeviation="0.530357" id="feGaussianBlur6128-1"/>
+  </filter>
+  <radialGradient r="53.035713" fy="386.57211" fx="312.78131" cy="386.57211" cx="312.78131" gradientTransform="matrix(-0.5932658,-0.5932658,0.7150464,-0.7150486,243.27022,849.03358)" gradientUnits="userSpaceOnUse" id="radialGradient11736" xlink:href="#linearGradient7111-1"/>
+  <linearGradient id="linearGradient7111-1">
+   <stop stop-color="#ffffff" stop-opacity="0.408163" offset="0" id="stop7113-1"/>
+   <stop stop-color="#ffffff" stop-opacity="0" offset="1" id="stop7115-8"/>
+  </linearGradient>
+  <linearGradient id="linearGradient4148-9">
+   <stop stop-color="#ffffff" offset="0" id="stop4150-3"/>
+   <stop stop-color="#ffffff" stop-opacity="0" offset="1" id="stop4152-8"/>
+  </linearGradient>
+  <linearGradient xlink:href="#linearGradient4148-9" id="linearGradient11925" x1="0.050908" y1="0.061893" x2="0.618788" y2="0.877558"/>
+  <linearGradient y2="0" x2="0" y1="0.441406" x1="0.460938" spreadMethod="pad" id="svg_1">
+   <stop offset="0" stop-color="#ff0000"/>
+   <stop offset="1" stop-opacity="0.996094" stop-color="#000000"/>
+  </linearGradient>
+ </defs>
+ <metadata id="metadata11777">image/svg+xml</metadata>
+ <g>
+  <title>Layer 1</title>
+  <path fill="#999999" d="m347.36252,204.65808c0,82.84277 -67.15723,150 -149.99999,150c-82.84275,0 -150.00002,-67.15723 -150.00002,-150c0,-82.84276 67.15727,-150.00006 150.00002,-150.00006c82.84276,0 149.99999,67.1573 149.99999,150.00006z" id="path7177"/>
+  <path fill="url(#linearGradient11732)" d="m345.21368,204.65801c0,81.65602 -66.19516,147.85127 -147.85116,147.85127c-81.65599,0 -147.85117,-66.19525 -147.85117,-147.85127c0,-81.65599 66.19519,-147.85117 147.85117,-147.85117c81.656,0 147.85116,66.19518 147.85116,147.85117z" id="path7179"/>
+  <path fill="#ececec" filter="url(#filter6126-7)" id="path7181" d="m331.95563,204.65807c0,74.33372 -60.25934,134.59315 -134.59311,134.59315c-74.33381,0 -134.59312,-60.25943 -134.59312,-134.59315c0,-74.33373 60.25931,-134.59318 134.59312,-134.59318c74.33377,0 134.59311,60.25945 134.59311,134.59318z"/>
+  <path fill="#999999" filter="url(#filter6126-7)" d="m326.53772,204.65805c0,71.34152 -57.83365,129.17529 -129.17519,129.17529c-71.34156,0 -129.17523,-57.83377 -129.17523,-129.17529c0,-71.34152 57.83367,-129.17528 129.17523,-129.17528c71.34154,0 129.17519,57.83376 129.17519,129.17528z" id="path7183"/>
+  <path fill="url(#svg_1)" d="m321.52799,204.65813c0,68.57469 -55.59073,124.16542 -124.16547,124.16542c-68.57477,0 -124.16547,-55.59073 -124.16547,-124.16542c0,-68.57468 55.5907,-124.16557 124.16547,-124.16557c68.57474,0 124.16547,55.59089 124.16547,124.16557z" id="path7185"/>
+  <path fill="url(#radialGradient11736)" id="path7187" d="m314.19138,204.65797c0,64.52282 -52.30603,116.82891 -116.82889,116.82891c-64.52283,0 -116.82884,-52.30609 -116.82884,-116.82891c0,-64.52282 52.30601,-116.82876 116.82884,-116.82876c64.52286,0 116.82889,52.30594 116.82889,116.82876z"/>
+  <path opacity="0.667708" fill="url(#linearGradient11925)" d="m193.71428,86.96062c-38.72733,0.87363 -76.07435,21.37616 -96.84533,57.35252c-22.34133,38.69621 -19.5049,85.02216 3.35389,120.0715c2.47826,-77.07821 61.39085,-135.13325 134.57739,-130.88795c23.99335,1.39175 46.64011,9.29668 66.40824,22.05226c-9.46424,-21.64267 -25.61499,-40.53587 -47.62613,-53.24411c-18.84484,-10.87994 -39.58226,-15.80188 -59.86806,-15.34422z" id="path7189"/>
+  <text fill="#ffffff" stroke-width="0" x="148.606523" y="198.246106" id="svg_4" font-size="24" font-family="Fantasy" text-anchor="middle" xml:space="preserve" transform="matrix(2.46993018667233,0,0,2.271174842567685,-166.538984160461,-235.192617187252) " stroke="#000000" font-weight="bold">Reload</text>
+ </g>
+</svg>
