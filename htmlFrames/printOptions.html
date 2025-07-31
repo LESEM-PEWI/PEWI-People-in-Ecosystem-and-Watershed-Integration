@@ -301,14 +301,43 @@ Cleaned and Prepared - July 2016 XXX
 
 <body>
 
-  <img id="optionsBackroundImage" alt="" src="./imgs/floodBack.png">
 
+  <img id="optionsBackroundImage" alt="" src="./imgs/floodBack.png">
+  <a href="#" onclick="parent.closePrintOptions();" id="backButton">
+    <img alt= 'backImage' src="./imgs/chevron-back.png" title="Resume Play">
+    <span class ='.icon-colored'></span>
+  </a>
+  <style>
+    #backButton {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 9999;
+    }
+
+    #backButton img {
+      width: 50px;
+      height: 60px;
+    }
+
+    .icon-colored {
+      margin-left: 5px;
+      color: #333;
+      font-size: 14px;
+    }
+  </style>
   <!--Credit for functionality of hidden checkboxes
   http://codersblock.com/blog/checkbox-trickery-with-css/
   -->
 
   <div class="print-options-content-holder">
-    <div id="closePDiv"><img id="closePrintOptions" onclick="parent.closePrintOptions();" src="../imgs/close_black.png"></div>
+    <div id="closePDiv"><img alt="closeDiv" id="closePrintOptions" onclick="parent.closePrintOptions();" src="../imgs/close_black.png"></div>
     <div id="printMessage"><h4> PEWI's Print function works best in FireFox</h4></div>
     <div id="optionsMainHolder">
       <div class="optionsHeader">

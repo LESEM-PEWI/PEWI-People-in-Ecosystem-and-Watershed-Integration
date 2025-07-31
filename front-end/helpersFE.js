@@ -5389,13 +5389,13 @@ function runSimulation() {
        124 - "User hovered over tab titles"
        125 - "User hovered over tab icons"
     */
-    if (tempType == 55 || tempType == 34 || tempType == 35 || tempType == 36 || tempType == 37 || tempType == 80 || tempType == 81 ||
-        tempType == 82 || tempType == 91 || tempType == 92 || tempType == 93 || tempType == 94 || tempType == 101 || tempType == 102 ||
-        tempType == 103 || tempType == 110 || tempType == 114 || tempType == 122 || tempType == 123 || tempType == 124 || tempType == 125 ||
-        tempType == 126 || tempType == 127) {
+    if (tempType === 55 || tempType === 34 || tempType === 35 || tempType === 36 || tempType === 37 || tempType === 80 || tempType === 81 ||
+        tempType === 82 || tempType === 91 || tempType === 92 || tempType === 93 || tempType === 94 || tempType === 101 || tempType === 102 ||
+        tempType === 103 || tempType === 110 || tempType === 114 || tempType === 122 || tempType === 123 || tempType === 124 || tempType === 125 ||
+        tempType === 126 || tempType === 127) {
       var tempTile = tempArr[5]; // Extra data
     }
-    if (tempType == 56 || tempType == 99 || tempType == 100) {
+    if (tempType === 56 || tempType === 99 || tempType === 100) {
       var tempTile = [];
       for (var j = 5; j < tempArr.length; j++) {
         tempTile.push(tempArr[j]);
@@ -5420,7 +5420,7 @@ function saveAndRandomize() {
   var randomPainterTile = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
   //randomizing = true
   //for whole board (as long as randomization is allowed)
-  if (localStorage.getItem("randAllow") == "true" && !multiplayerAssigningModeOn) {
+  if (localStorage.getItem("randAllow") === "true" && !multiplayerAssigningModeOn) {
     //getRandomInt is in back-end helperMethods
     for (var j = 0; j <= randomPainterTile.length; j++) { //Check to see if the landuse type is toggled off or not
       if (document.getElementById('parameters').innerHTML.indexOf('paint' + randomPainterTile[j] + "\n") !== -1) {
@@ -5432,7 +5432,7 @@ function saveAndRandomize() {
     }
     //If the only land use selected is wetlands throw an Error
     //This is because wetlands cannot be placed on tiles that are not suitable for wetlands
-    if(randomPainterTile == 14){
+    if(randomPainterTile === 14){
       throw new Error('Wetlands cannot be the only selected land use. \nPlease select an additional land use.');
     }
     randomPainterTile[0] === 14 ? newDefaultLandUse = randomPainterTile[1]: newDefaultLandUse = randomPainterTile[0];
@@ -5445,7 +5445,7 @@ function saveAndRandomize() {
 
     outer: for (var i = 1; i < boardData[currentBoard].calculatedToYear + 1; i++) {
       for (var j = 0; j < boardData[currentBoard].map.length; j++) {
-        if ((boardData[currentBoard].map[j].landType[i] != LandUseType.none) && !randomPainterTile.includes(boardData[currentBoard].map[j].landType[i])) {
+        if ((boardData[currentBoard].map[j].landType[i] !== LandUseType.none) && !randomPainterTile.includes(boardData[currentBoard].map[j].landType[i])) {
           meshMaterials[j].map = grayTextureArray[painter];
           meshOverlay[j].map = grayTextureArray[painter];
           activeLandUses = randomPainterTile;
@@ -5560,7 +5560,7 @@ function showCredits() {
     document.getElementById('modalCreditsFrame').style.display = "block";
     modalUp = true;
   }
-  //Event Listner to close the credits page
+  //Event Listener to close the credits page
   document.addEventListener('keyup', aboutsEsc);
   // addEvent(document, 'keyup', aboutsEsc);
 } //end showCredits

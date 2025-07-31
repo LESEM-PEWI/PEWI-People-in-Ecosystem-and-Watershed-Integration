@@ -2223,20 +2223,21 @@
 
 
   <!-- **END Right Side Component** -->
-
+<!-- <img id ='refresh' alt="refresh" src="./imgs/reload/refresh2.png"  title="Refresh PEWI">-->
   <!-- Create buttons in upper right corner: upperHud-->
-  <img id="pewiLogo" alt = 'log' src="./imgs/updatedPewiLogo.png" title ='PEWI Logo'>
+  <img id="pewiLogo" alt = 'log' src="./imgs/reload/refresh4.png" onclick="exitToMain()" title ='Refresh Play'>
+<!--  <img id="pewiLogo" alt = 'log' src="./imgs/updatedPewiLogo.png" title ='PEWI Logo'>-->
   <img id="logoBase" alt = 'pewi4.1' src="./imgs/PEWI4_1_LOG.png" title = 'PEWI V4.1'> <!--inGamePEWI4.png"-->
-  <img id="DownloadButton" class="upperButton" alt= 'upper button' src="./imgs/uploadDownloadIcon.png" title="Download" onclick="triggerDownloadSequence();" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
+  <img id="DownloadButton" class="upperButton" alt= 'download button' src="./imgs/uploadDownloadIcon.png" title="Download" onclick="triggerDownloadSequence();" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
 
   <!--This class will hold the input element, so we'll hide this one-->
   <div class="uploadFile1">
-    <!--Label is used so we can click the image and still use it as input-->
+    <!--Label is used, so we can click the image and still use it as input-->
     <label for="file-upload3">
       <!--This element is used to align the button with everything else in the top right-->
       <div id="uploadFile" class="upperButton">
-        <!--Here's the button image itself, give it its own class so it's animation works properly-->
-        <img id="UploadButton" class="uploadButtonClass" src = "./imgs/UploadImage.png" title="Upload" style="height: 3vw" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
+        <!--Here's the button image itself, give it its own class, so it's animation works properly-->
+        <img id="UploadButton" class="uploadButtonClass" alt = "upload button" src = "./imgs/UploadImage.png" title="Upload" style="height: 3vw" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
       </div>
     </label>
     <!--And here's the input we'll be hiding-->
@@ -2397,6 +2398,11 @@
       contactFrame.style.height ='0%';
     }
   }
+  function exitToMain() {
+    //start from scratch
+    window.top.location.reload();
+  }//end exitToMain()
+
 </script>
 <!-- Javascript to stop event propogation for bug fix in modalEscapeFrame (above) -->
 <script>
