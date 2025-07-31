@@ -4,20 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0bf3db1a-c49a-4003-90ef-e43c9f83c424" name="Changes" comment="skips links">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/helpersFE.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/helpersFE.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlFrames/contact_us.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/contact_us.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlFrames/credits.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/credits.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlFrames/multiDownload.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/multiDownload.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlFrames/printOptions.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/printOptions.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlFrames/replacementFrame.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/replacementFrame.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlFrames/results.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/results.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlFrames/uploadDownload.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/uploadDownload.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlFrames/utilities.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/utilities.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/codex/codex.html" beforeDir="false" afterPath="$PROJECT_DIR$/modules/codex/codex.html" afterDir="false" />
-    </list>
+    <list default="true" id="0bf3db1a-c49a-4003-90ef-e43c9f83c424" name="Changes" comment="skips links" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -121,7 +108,7 @@
       <workItem from="1753197990077" duration="9100000" />
       <workItem from="1753284246703" duration="7540000" />
       <workItem from="1753739657937" duration="658000" />
-      <workItem from="1753748181669" duration="15682000" />
+      <workItem from="1753748181669" duration="15879000" />
     </task>
     <task id="LOCAL-00001" summary="minor changes">
       <option name="closed" value="true" />
@@ -395,7 +382,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753809204442</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="skips links">
+      <option name="closed" value="true" />
+      <created>1753929002726</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1753929002726</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
