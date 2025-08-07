@@ -778,14 +778,20 @@ var Economics = function () {
           }
         }
         if(boardData[currentBoard].map[j].landType[i] === 11){
+
+
           if(["C", "L", "O"].indexOf(boardData[currentBoard].map[j]['soilType']) !==- 1){
-            this.getForrestYields[i][1].twentyFiveAreaConv += boardData[currentBoard].map[j].area;
+            let twentyFiveAreaConv = boardData[currentBoard].map[j].area;
+            this.getForrestYields[i][1].twentyFiveAreaConv += twentyFiveAreaConv;
           }
           if(["N", "K", "T", "B"].indexOf(boardData[currentBoard].map[j]['soilType']) !==- 1){
+            let sixtyAreaConv = boardData[currentBoard].map[j].area;
             this.getForrestYields[i][1].sixtyAreaConv += boardData[currentBoard].map[j].area;
           }
           if(["A", "D", "G", "M", "Q", "Y"].indexOf(boardData[currentBoard].map[j]['soilType']) !==- 1){
+            let seventyAreaConv =boardData[currentBoard].map[j].area;
             this.getForrestYields[i][1].seventyAreaConv += boardData[currentBoard].map[j].area;
+           // boardData[currentBoard].map[j].results[i].forestWoodYield =
           }
         }
       }
@@ -956,8 +962,9 @@ var Economics = function () {
         boardData[currentBoard].map[j].results[i].grassedWaterwaysArea = grassedWaterwaysArea;
         this.getBMPAreas[i][numLandUse].bmpArea += cellArea;
         boardData[currentBoard].map[j].results[i].cellAreaAfterBuffer = cellArea;
-
-        this.getBMPAreas[i][numLandUse].landUseYield += boardData[currentBoard].map[j].results[i]['calculatedYieldTile'] * cellArea;
+        let bmpYield =  boardData[currentBoard].map[j].results[i]['calculatedYieldTile'] * cellArea;
+        boardData[currentBoard].map[j].results[i].cellAreaAfterBMPYield = bmpYield;
+        this.getBMPAreas[i][numLandUse].landUseYield += bmpYield;
         }
       }
 
@@ -1042,13 +1049,20 @@ var Economics = function () {
 
         if ([1, 2].includes(landUseID)) {
           yieldTile = cell.getCornGrainYield() / 15.92857142857 * 14.8697 * tileArea;
-        } else if ([3, 4, 5, 8, 12, 13].includes(landUseID)) {
+        } else if ([5, 8, 12, 13].includes(landUseID)) {
+
           yieldTile = cell.results[year].calculatedYieldTile * tileArea;
-        } else if ([6, 7].includes(landUseID)) {
+
+        }
+        else if ([3,4].includes(landUseID)){
+          yieldTile = cell.results[year].cellAreaAfterBMPYield || 0
+        }
+        else if ([6, 7].includes(landUseID)) {
           yieldTile = cell.getCattleSupported(year) * tileArea;
         } else if ([10, 11].includes(landUseID)) {
           yieldTile = cell.getWoodYield() / 171.875 * 423.766 * tileArea;
-        } else if ([15].includes(landUseID)) {
+        }
+        else if ([15].includes(landUseID)) {
           const precipitationFactor = {
             45.10: 0.75,
             36.47: 0.90,

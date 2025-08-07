@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0bf3db1a-c49a-4003-90ef-e43c9f83c424" name="Changes" comment="skips links" />
+    <list default="true" id="0bf3db1a-c49a-4003-90ef-e43c9f83c424" name="Changes" comment="skips links and hix economic data insistence">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/economics.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/economics.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -439,6 +442,7 @@
     <MESSAGE value="fix skip issues to fit their rigid assessment" />
     <MESSAGE value="fix skip issues to fit assessment" />
     <MESSAGE value="skips links" />
-    <option name="LAST_COMMIT_MESSAGE" value="skips links" />
+    <MESSAGE value="skips links and hix economic data insistence" />
+    <option name="LAST_COMMIT_MESSAGE" value="skips links and hix economic data insistence" />
   </component>
 </project>
