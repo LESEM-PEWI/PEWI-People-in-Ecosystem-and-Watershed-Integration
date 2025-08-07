@@ -405,7 +405,6 @@ var Economics = function () {
         this.scaledRev[i][dataPoint['LU_ID']] = this.scaledRev[i][dataPoint['LU_ID']] || 0;
          this.scaledRev[i][dataPoint['LU_ID']] =  grossRev + socRev + (nitrateRev) // all results are already totaled up plus soil carbon value  grossRev + socRev +
 
-
       });
 
       this.econRevenueByLandUse = convertLandUseIDsToTexts(this.scaledRev)
