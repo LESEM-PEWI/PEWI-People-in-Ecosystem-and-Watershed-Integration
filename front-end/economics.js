@@ -1058,7 +1058,8 @@ var Economics = function () {
         cost *= costInflationFactorAdjustment;
         let totalCellCost  = conservationCost + cost
 
-        let tileNitrateRev = 0// dummy for nitrate
+        let tileNitrateRev =  cell.results[year].nitrateTileRevenue ||0
+
         let netRevenue = (grossRevenue + tileNitrateRev) - totalCellCost;
 
         this.totalWatershedCost[year][0].cost += totalCellCost;
