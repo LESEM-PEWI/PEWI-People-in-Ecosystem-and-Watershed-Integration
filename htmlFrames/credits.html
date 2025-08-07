@@ -27,12 +27,35 @@ Cleaned and Prepared - July 2016
         }
     </style>
 
+    <!-- /INCLUDES -->
+    <style>
+        /* Style for skip link (optional but helps accessibility) */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #ff4000;
+            color: #fff;
+            padding: 8px;
+            z-index: 100;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /*html {*/
+        /*    scroll-behavior: smooth;*/
+        /*}*/
+    </style>
+
 </head>
 <body>
-<a href="#" onclick="parent.closeCreditFrame();" id="backButton">
-    <img alt = 'backImage' src="./imgs/chevron-back.png" title="Resume Play">
-    <span class ='.icon-colored'></span>
-</a>
+<a href="#contact" class="skip-link">Skip to main content</a>
+<!--<a href="../index.html#page" onclick="" id="backButton">-->
+<!--    <img alt = 'backImage' src="./imgs/chevron-back.png" title="Resume Play">-->
+<!--    <span class ='.icon-colored'></span>-->
+<!--</a>-->
 
 <div>
     <div style="margin:10px;">

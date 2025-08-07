@@ -1605,7 +1605,7 @@ function generateCostRevProfitTable(year, isTheChartInCategoryMode){
   tbody.innerHTML = "";
 
   const cost = economics.econCostByLandUse[year];
-  const revenue = economics.econRevenueByLandUse[year];
+  const revenue = economics.econGrossRevenueByLandUse[year];
 
   for (const key in cost) {
     // second strict evaluation allows us to present only selected land uses in the table

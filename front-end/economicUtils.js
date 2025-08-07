@@ -442,7 +442,7 @@ getCostPerLandUse = (landUseID) => {
             return 312; // per acre
         case 15:
         case '15':
-            return 42622.47461; // per acre
+            return 12965; // per acre
         case 'NA':
         case 0:
         case '0':
@@ -454,6 +454,7 @@ getCostPerLandUse = (landUseID) => {
 
 getPrice = (ID) => {
     // includes the string version of land use ID in case they are needed
+    // i redfined this in economic.cs because it was accessing the ids of cornices and soybeanPrices well
     switch (ID) {
         case 1:
         case 2:
@@ -489,7 +490,8 @@ getPrice = (ID) => {
         case 14:
             return 0; // no yield
         case 15:
-            return 49900.0 // per acre
+            return  14927.91 // per acre average of6
+        // per acre
         case 'NA':
         case 0:
         case '0':
