@@ -343,57 +343,50 @@ var Economics = function () {
 
       const selectedLandUse15Area = this.areaByLandUse[i][15]
 
-
-      this.rawRev.forEach(dataPoint => {
-        // this is not an ideal way to do this, but I just built on the previous one
-        let LU_ID = Number(dataPoint['LU_ID']);
+      let landUseIDSet = new Set(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15']);
+      for (let landIDUSeID of landUseIDSet) {
+        let LU_ID = Number(landIDUSeID);
         const baselineC = this.baseLineLoad[i] || 0
         let commodityPrice = this.getPrice(LU_ID);
         let socRev = this.landUseSOC[i][LU_ID]
         let nitrateLoad = this.nitrateTotalsByLandUse[i][LU_ID]
-        //socRev = Math.max(0, socRev) * carbonPrice;
-
-
         let YieldValue;
-
-         if (dataPoint['LU_ID'] === "2") {
-          if (dataPoint['Sub Crop'] === 'Corn after Soybean') {
-            YieldValue=  this.getBMPAreas[i][2].landUseYield || 0;  //2 = Cons Corn after Soybean
-          } else {
-            YieldValue =  this.getBMPAreas[i][3].landUseYield || 0; //3 = Cons Corn after Corn
+          if (landIDUSeID==='2' && this.areaByLandUse[i][2] > 0){
+            YieldValue  =  this.getBMPAreas[i][3].landUseYield || 0;
           }
-        } else if (dataPoint['LU_ID'] === "4") {
 
-          YieldValue=  this.getBMPAreas[i][1].landUseYield;
-        }
-         else if (dataPoint['LU_ID'] === "1") {
-          YieldValue =  Totals.yieldByLandUse[i][dataPoint['LU_ID']];
-        } else if (dataPoint['LU_ID'] === "13") {
-          YieldValue =  Totals.yieldByLandUse[i][dataPoint['LU_ID']];
-        } else if (dataPoint['LU_ID'] === "3") {
-          YieldValue =  Totals.yieldByLandUse[i][dataPoint['LU_ID']];
-        }else if (dataPoint["LU_ID"]==='10' && this.areaByLandUse[i][10] > 0 && this.landUseSummaryByYear[i].has(LU_ID)){
-           YieldValue  = (Totals.yieldResults[i].woodYield * 10)/10
-         }else if (dataPoint["LU_ID"]==='11' && this.areaByLandUse[i][11] > 0  && this.landUseSummaryByYear[i].has(LU_ID)) {
-           YieldValue = (Totals.yieldResults[i].woodYield * 10)/10
-         }
-
-         else if (dataPoint['LU_ID']==='7' && this.areaByLandUse[i][7] > 0) {
-           YieldValue = Totals.yieldByLandUse[i][dataPoint['LU_ID']]
-
-         }
-
-         else if (dataPoint['LU_ID']==='6' && this.areaByLandUse[i][6] > 0) {
-          YieldValue = Totals.yieldByLandUse[i][dataPoint['LU_ID']]
-
-        } else if(dataPoint['LU_ID'] ===8){
-          YieldValue  = Totals.yieldByLandUse[i][dataPoint['LU_ID']];
-        }
-
-        else {
-          YieldValue = Totals.yieldByLandUse[i][dataPoint['LU_ID']];
-        }
-
+          else if (landIDUSeID==='4' && this.areaByLandUse[i][4] > 0){
+            YieldValue  =  this.getBMPAreas[i][1].landUseYield || 0;
+          }
+          else if (landIDUSeID==='3' && this.areaByLandUse[i][3] > 0){
+            YieldValue  =  Totals.yieldByLandUse[i][landIDUSeID];
+          }
+          else if (landIDUSeID==='1' && this.areaByLandUse[i][1] > 0){
+            YieldValue  =  Totals.yieldByLandUse[i][landIDUSeID];
+          }
+          else if (landIDUSeID==='6' && this.areaByLandUse[i][6] > 0){
+            YieldValue = Totals.yieldByLandUse[i][landIDUSeID]
+          }
+          else if (landIDUSeID==='7'  && this.areaByLandUse[i][7] > 0){
+            YieldValue = Totals.yieldByLandUse[i][landIDUSeID]
+          }
+          else if (landIDUSeID==='8' && this.areaByLandUse[i][8] > 0){
+            YieldValue = Totals.yieldByLandUse[i][landIDUSeID]
+          }
+          else if (landIDUSeID==='10' && this.areaByLandUse[i][10] > 0 && this.landUseSummaryByYear[i].has(LU_ID)){
+            YieldValue = (Totals.yieldResults[i].woodYield * 10)/10
+          }
+          else if (landIDUSeID==='11' && this.areaByLandUse[i][11] > 0 && this.landUseSummaryByYear[i].has(LU_ID)){
+            YieldValue = (Totals.yieldResults[i].woodYield * 10)/10
+          }
+          else if (landIDUSeID === "13" && this.areaByLandUse[i][13] >0) {
+            YieldValue =  Totals.yieldByLandUse[i][landIDUSeID];
+          }
+          else {
+            if (this.landUseSummaryByYear[i].has(LU_ID)) {
+              YieldValue = Totals.yieldByLandUse[i][landIDUSeID] ||0;
+            }
+          }
         const carbonPrice = parseFloat(document.getElementById("carbonPrices").value)
 
         const nitrateCreditPrice =  parseFloat(document.getElementById("nitrogenPrices").value)
@@ -404,14 +397,81 @@ var Economics = function () {
 
         const grossRev = revenueMultiplier * commodityPrice || 0;
 
+        this.scaledRev[i][landIDUSeID] = this.scaledRev[i][landIDUSeID] || 0;
+        this.scaledRev[i][landIDUSeID] =  grossRev + socRev + (nitrateRev) // all results are already totaled up plus soil carbon value  grossRev + socRev +
+      console.log('Yield value: ', landIDUSeID, YieldValue, 'commodity price: ', commodityPrice)
 
-        this.scaledRev[i][dataPoint['LU_ID']] = this.scaledRev[i][dataPoint['LU_ID']] || 0;
-         this.scaledRev[i][dataPoint['LU_ID']] =  grossRev + socRev + (nitrateRev) // all results are already totaled up plus soil carbon value  grossRev + socRev +
-
-
-      });
-
+      }
       this.econRevenueByLandUse = convertLandUseIDsToTexts(this.scaledRev)
+
+      // this.rawRev.forEach(dataPoint => {
+      //   // this is not an ideal way to do this, but I just built on the previous one
+      //   let LU_ID = Number(dataPoint['LU_ID']);
+      //   const baselineC = this.baseLineLoad[i] || 0
+      //   let commodityPrice = this.getPrice(LU_ID);
+      //   let socRev = this.landUseSOC[i][LU_ID]
+      //   let nitrateLoad = this.nitrateTotalsByLandUse[i][LU_ID]
+      //   //socRev = Math.max(0, socRev) * carbonPrice;
+      //
+      //
+      //   let YieldValue;
+      //
+      //    if (dataPoint['LU_ID'] === "2") {
+      //     if (dataPoint['Sub Crop'] === 'Corn after Soybean') {
+      //       YieldValue=  this.getBMPAreas[i][2].landUseYield || 0;  //2 = Cons Corn after Soybean
+      //     } else {
+      //       YieldValue =  this.getBMPAreas[i][3].landUseYield || 0; //3 = Cons Corn after Corn
+      //     }
+      //   } else if (dataPoint['LU_ID'] === "4") {
+      //
+      //     YieldValue=  this.getBMPAreas[i][1].landUseYield;
+      //   }
+      //    else if (dataPoint['LU_ID'] === "1") {
+      //     YieldValue =  Totals.yieldByLandUse[i][dataPoint['LU_ID']];
+      //   } else if (dataPoint['LU_ID'] === "13") {
+      //     YieldValue =  Totals.yieldByLandUse[i][dataPoint['LU_ID']];
+      //   } else if (dataPoint['LU_ID'] === "3") {
+      //     YieldValue =  Totals.yieldByLandUse[i][dataPoint['LU_ID']];
+      //   }else if (dataPoint["LU_ID"]==='10' && this.areaByLandUse[i][10] > 0 && this.landUseSummaryByYear[i].has(LU_ID)){
+      //      YieldValue  = (Totals.yieldResults[i].woodYield * 10)/10
+      //    }else if (dataPoint["LU_ID"]==='11' && this.areaByLandUse[i][11] > 0  && this.landUseSummaryByYear[i].has(LU_ID)) {
+      //      YieldValue = (Totals.yieldResults[i].woodYield * 10)/10
+      //    }
+      //
+      //    else if (dataPoint['LU_ID']==='7' && this.areaByLandUse[i][7] > 0) {
+      //      YieldValue = Totals.yieldByLandUse[i][dataPoint['LU_ID']]
+      //
+      //    }
+      //
+      //    else if (dataPoint['LU_ID']==='6' && this.areaByLandUse[i][6] > 0) {
+      //     YieldValue = Totals.yieldByLandUse[i][dataPoint['LU_ID']]
+      //
+      //   } else if(dataPoint['LU_ID'] ==='8'){
+      //     YieldValue  = Totals.yieldByLandUse[i][dataPoint['LU_ID']];
+      //   }
+      //
+      //   else {
+      //     YieldValue = Totals.yieldByLandUse[i][dataPoint['LU_ID']];
+      //   }
+      //
+      //   const carbonPrice = parseFloat(document.getElementById("carbonPrices").value)
+      //
+      //   const nitrateCreditPrice =  parseFloat(document.getElementById("nitrogenPrices").value)
+      //   let  nitrateRev =  nitrateLoad * nitrateCreditPrice;
+      //   socRev = Math.max(0, socRev) * carbonPrice;
+      //   // end of yield value allocations
+      //   let revenueMultiplier = [15].includes(LU_ID) ? selectedLandUse15Area :  YieldValue;
+      //
+      //   const grossRev = revenueMultiplier * commodityPrice || 0;
+      //
+      //
+      //   this.scaledRev[i][dataPoint['LU_ID']] = this.scaledRev[i][dataPoint['LU_ID']] || 0;
+      //    this.scaledRev[i][dataPoint['LU_ID']] =  grossRev + socRev + (nitrateRev) // all results are already totaled up plus soil carbon value  grossRev + socRev +
+      //
+      //
+      // });
+      //
+      // this.econRevenueByLandUse = convertLandUseIDsToTexts(this.scaledRev)
 
 
 
@@ -663,7 +723,7 @@ var Economics = function () {
   this.chart3DataByLU();  // Deprecated in version 4.1
     this.graphic5information();  // Deprecated in version 4.1
    this.divideByCategory(['Action - Cost Type', 'Time - Cost Type', 'Fixed/Variable']);  // Deprecated in version 4.1
-  this.chart4Information(['Action - Cost Type', 'Time - Cost Type']);  // Deprecated in version 4.1
+ // this.chart4Information(['Action - Cost Type', 'Time - Cost Type']);  // Deprecated in version 4.1
     this.calcSubcrops();
 
 
@@ -677,8 +737,8 @@ var Economics = function () {
       this.totalWatershedRevenue[i]= [{revenue: 0}];
       this.totalAllWatershedCost[i] = [{cost:0}]
       for (let cellIndex = 0; cellIndex <  boardData[currentBoard].map.length; cellIndex++){
-      // this.totalWatershedRevenue[i][0].revenue += !isNaN(this.scaledRev[i][j]) ? this.scaledRev[i][j]: 0
-        this.totalWatershedRevenue[i][0].revenue +=  boardData[currentBoard].map[cellIndex].results[i].calculatedTileGrossRevenue || 0;
+      this.totalWatershedRevenue[i][0].revenue += !isNaN(this.scaledRev[i][cellIndex]) ? this.scaledRev[i][cellIndex]: 0
+       // this.totalWatershedRevenue[i][0].revenue +=  boardData[currentBoard].map[cellIndex].results[i].calculatedTileGrossRevenue || 0;
         this.totalAllWatershedCost[i][0].cost += boardData[currentBoard].map[cellIndex].results[i].calculatedTileTotalCost || 0;
 
       }
@@ -1129,13 +1189,14 @@ var Economics = function () {
 
         const netRevenue = (tileNitrateRev +grossRevenue) - totalCellCost;
 
-        this.totalWatershedCost[year][0].cost += totalCellCost;
+        //this.totalWatershedCost[year][0].cost += totalCellCost;
         boardData[currentBoard].map[cellIndex].results[year].calculatedTileGrossRevenue = grossRevenue;
         boardData[currentBoard].map[cellIndex].results[year].calculatedTileTotalCost = totalCellCost
         cell.results[year].calculatedTileNetRevenue = netRevenue;
         this.econCostByLandUse[year][landUseKey] += totalCellCost;
         this.econGrossRevenueByLandUse[year][landUseKey] += grossRevenue
         totalYearCost.totalCosts += totalCellCost;
+        this.totalWatershedCost[year][0].cost += totalCellCost;
       }
 
       this.totalWatershedCostArray.push(totalYearCost);
