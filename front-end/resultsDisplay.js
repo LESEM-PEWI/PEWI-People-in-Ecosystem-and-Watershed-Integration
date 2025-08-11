@@ -1605,7 +1605,7 @@ function generateCostRevProfitTable(year, isTheChartInCategoryMode){
   tbody.innerHTML = "";
 
   const cost = economics.econCostByLandUse[year];
-  const revenue = economics.econGrossRevenueByLandUse[year];
+  const revenue = economics.econRevenueByLandUse[year];
 
   for (const key in cost) {
     // second strict evaluation allows us to present only selected land uses in the table
@@ -1636,7 +1636,7 @@ function getTotalCost(data, givenYear) {
   return cost;
 }
 
-//this funtion creates and animates the Ecoscores aster plot
+//this function creates and animates the Eco scores aster plot
 // it also creates the quality indicator gradients to the plot's right
 //======= it's use is currently deprecated
 function drawEcosystemIndicatorsDisplay(year) {

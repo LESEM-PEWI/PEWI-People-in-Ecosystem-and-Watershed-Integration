@@ -27,6 +27,7 @@ var Economics = function () {
   this.totalAllWatershedCost = [];
   this.ghgBenchmark = [];
   this.landUseSummaryByYear;
+  this.calculatedYieldMFVTotalRevenue =0;
   this.carbonPrice =0
  // this.rawCostPerUnit = []
  // this.NetRevenueForMapData = []; // for mapping only
@@ -270,7 +271,7 @@ var Economics = function () {
     nitrateEconomics()
     calculateCostRevenue();
     GHGScores();
-
+    calculateCostRevenueMFV()
     this.baseLineLoad = [];
     for(let year = 1; year <= boardData[currentBoard].calculatedToYear; year++) {
       const _streamDischarge = calculateStreamDischarge(boardData[currentBoard], year)
@@ -342,7 +343,7 @@ var Economics = function () {
       }
 
       const selectedLandUse15Area = this.areaByLandUse[i][15]
-
+      let grossRev = 0;
       let landUseIDSet = new Set(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15']);
       for (let landIDUSeID of landUseIDSet) {
         let LU_ID = Number(landIDUSeID);
@@ -382,6 +383,10 @@ var Economics = function () {
           else if (landIDUSeID === "13" && this.areaByLandUse[i][13] >0) {
             YieldValue =  Totals.yieldByLandUse[i][landIDUSeID];
           }
+          else if(landIDUSeID==='15' && this.areaByLandUse[i][15] >0){
+            YieldValue = this.calculatedYieldMFVTotalRevenue
+            console.log(YieldValue, ';;;;')
+          }
           else {
             if (this.landUseSummaryByYear[i].has(LU_ID)) {
               YieldValue = Totals.yieldByLandUse[i][landIDUSeID] ||0;
@@ -394,10 +399,15 @@ var Economics = function () {
         socRev = Math.max(0, socRev) * carbonPrice;
         // end of yield value allocations
         let revenueMultiplier = [15].includes(LU_ID) ? selectedLandUse15Area :  YieldValue;
-
-        const grossRev = revenueMultiplier * commodityPrice || 0;
+        if ([15].includes(LU_ID)) {
+         grossRev = this.calculatedYieldMFVTotalRevenue
+        }
+        else {
+          grossRev = YieldValue * commodityPrice || 0;
+        }
 
         this.scaledRev[i][landIDUSeID] = this.scaledRev[i][landIDUSeID] || 0;
+
         this.scaledRev[i][landIDUSeID] =  grossRev + socRev + (nitrateRev) // all results are already totaled up plus soil carbon value  grossRev + socRev +
       console.log('Yield value: ', landIDUSeID, YieldValue, 'commodity price: ', commodityPrice)
 
@@ -738,7 +748,7 @@ var Economics = function () {
       this.totalAllWatershedCost[i] = [{cost:0}]
       for (let cellIndex = 0; cellIndex <  boardData[currentBoard].map.length; cellIndex++){
       this.totalWatershedRevenue[i][0].revenue += !isNaN(this.scaledRev[i][cellIndex]) ? this.scaledRev[i][cellIndex]: 0
-       // this.totalWatershedRevenue[i][0].revenue +=  boardData[currentBoard].map[cellIndex].results[i].calculatedTileGrossRevenue || 0;
+     //   this.totalWatershedRevenue[i][0].revenue +=  boardData[currentBoard].map[cellIndex].results[i].calculatedTileGrossRevenue || 0;
         this.totalAllWatershedCost[i][0].cost += boardData[currentBoard].map[cellIndex].results[i].calculatedTileTotalCost || 0;
 
       }
@@ -1066,13 +1076,13 @@ var Economics = function () {
       let currentLandUseMap = {};
       this.totalWatershedCost[year] = [{ cost: 0 }];
       let totalYearCost = { totalCosts: 0 };
-
+      let conservationCost = 0;
       for (let cellIndex = 0; cellIndex < current_Board.map.length; cellIndex++) {
         const cell = current_Board.map[cellIndex];
         const landUseID = cell.landType[year];
         let tileArea = cell.area;
         const landUseKey = landUseID.toString();
-        let conservationCost = 0;
+
         let unitPriceMFV = 0;
 
         if (landUseID <= 0) continue;// go back to the top of the loop if it is zero
@@ -1086,6 +1096,7 @@ var Economics = function () {
           const grassTerracePerCell = costTerrace * ((results.grassedWaterwaysArea || 0) + results.terraceArea||0);
           const coverCropCostPerCell = coverCrop * (results.cellAreaAfterBuffer || 0);
           conservationCost = bufferCostPerCell + grassTerracePerCell + coverCropCostPerCell;
+          console.log(conservationCost, cellIndex, 'conservation cost')
 
           // calculate total area out of production per cell
           tileArea = results.cellAreaAfterBuffer || 0 - results.terraceArea ||0
@@ -1105,7 +1116,7 @@ var Economics = function () {
         let grossRevenue = 0;
         let cost = 0;
         let costMultiplier = 0;
-        let yt =0
+
 
         if ([1, 2].includes(landUseID)) {
           yieldTile = cell.getCornGrainYield() / 15.92857142857 * 14.8697 * tileArea;
@@ -1136,8 +1147,9 @@ var Economics = function () {
           const annualPrecipitationAmount = boardData[currentBoard].precipitation[year] || 0;
           const fruitsPrecipitationMultiplier = precipitationFactor[annualPrecipitationAmount] || 0;
           yieldTile = cell.results[year].calculatedYieldTile * tileArea * fruitsPrecipitationMultiplier;
+          cell.results[year].calculatedYieldMFV += yieldTile
 
-          console.log(yieldTile / tileArea, 'yield tile mfv');
+
         }
 
         costMultiplier = [13, 10, 11, 12, 14, 8, 9, 5].includes(landUseID) ? tileArea : yieldTile;
@@ -1145,12 +1157,13 @@ var Economics = function () {
         const carbon_price = parseFloat(document.getElementById("carbonPrices").value);
         const socRev = (carbon_price || 0) * (boardData[currentBoard].map[cellIndex].results[year].calculatedTileSOC || 0);
         let tileNitrateRev =  cell.results[year].nitrateTileRevenue ||0
-        console.log(tileNitrateRev)
+
 
         if ([15].includes(landUseID)) {
           const y = yieldTile / 10;
           unitPriceMFV = y >= 6.88 ? 4472.82 : (y >= 6.42 && y < 6.88 ? 4219.08 : 5414.64);
           unitPrice = unitPriceMFV;
+
         }
 
         grossRevenue = (yieldTile * unitPrice) + socRev + tileNitrateRev;
@@ -1183,9 +1196,9 @@ var Economics = function () {
 
         cost *= costMultiplier;
         cost *= costInflationFactorAdjustment;
-        yt +=yieldTile
+
         const totalCellCost =  conservationCost + cost;
-        console.log('tile area', landUseID, tileArea)
+
 
         const netRevenue = (tileNitrateRev +grossRevenue) - totalCellCost;
 
@@ -1197,6 +1210,8 @@ var Economics = function () {
         this.econGrossRevenueByLandUse[year][landUseKey] += grossRevenue
         totalYearCost.totalCosts += totalCellCost;
         this.totalWatershedCost[year][0].cost += totalCellCost;
+
+
       }
 
       this.totalWatershedCostArray.push(totalYearCost);
@@ -1206,7 +1221,48 @@ var Economics = function () {
     this.econGrossRevenueByLandUse = convertLandUseIDsToTexts(this.econGrossRevenueByLandUse);
   };
 
+let  calculateCostRevenueMFV = () => {
+  // top loop
+  let yieldTileMFV;
+  const carbon_priceMFV = parseFloat(document.getElementById("carbonPrices").value);
+  for (let year = 1; year <= boardData[currentBoard].calculatedToYear; year++) {
+    // next level loop
+    this.calculatedYieldMFVTotalRevenue = 0;
+    for (let cellLoc = 0; cellLoc < boardData[currentBoard].map.length; cellLoc++) {
+      const cell = boardData[currentBoard].map[cellLoc];
+      const landUseID = cell.landType[year];
+      let tileArea = cell.area;
+      if (landUseID !== 15) continue;
+      const pFactor = {
+        45.10: 0.75,
+        36.47: 0.90,
+        34.34: 1.00,
+        32.16: 1.00,
+        30.4: 1.00,
+        28.18: 0.90,
+        30.39: 1.00,
+        24.58: 0.75
+      };
+      const annualPrecipitationAmount = boardData[currentBoard].precipitation[year] || 0;
+      const fruitsPrecipitationMultiplier = pFactor[annualPrecipitationAmount] || 0;
+      yieldTileMFV = cell.results[year].calculatedYieldTile   * (tileArea * fruitsPrecipitationMultiplier);
+      cell.results[year].calculatedYieldMFV += yieldTileMFV
+      const yb = yieldTileMFV / 10;
+      let sellingPrice = yb >= 6.88 ? 4472.82 : (yb >= 6.42 && yb < 6.88 ? 4219.08 : 5414.64);
+      const fruitRevenue = sellingPrice * yieldTileMFV
+      let tileNitrateRev =  cell.results[year].nitrateTileRevenue ||0
+      const socRev = (carbon_priceMFV || 0) * (boardData[currentBoard].map[cellLoc].results[year].calculatedTileSOC || 0);
+      let grossRevenueMFV = (yieldTileMFV * sellingPrice) //+ socRev + tileNitrateRev;
 
+      this.calculatedYieldMFVTotalRevenue += grossRevenueMFV
+
+
+    }
+
+  }
+
+
+  };
   /**
    * This function is used to calculate acreage of each soil type if the land use of Cons Forest (LU_ID = 10) or Conv Forest (LU_ID =11)
    * this.getSoilArea object array has 4 objects. The first one is a dummy object to avoid undefined errors. (Not the best approach but we needed to store
