@@ -2246,6 +2246,9 @@
         backgroundInfoBox.classList.add("backgroundInfoHidden");
       }
     }
+
+    // drag button script
+
   </script>
 
 
@@ -2253,7 +2256,13 @@
 <!-- <img id ='refresh' alt="refresh" src="./imgs/reload/refresh2.png"  title="Refresh PEWI">-->
   <!-- Create buttons in upper right corner: upperHud-->
   <img id="pewiLogo" alt = 'log' src="./imgs/reload/refresh4.png" onclick="exitToMain()" title ='Refresh Play'>
-<!--  <img id="pewiLogo" alt = 'log' src="./imgs/updatedPewiLogo.png" title ='PEWI Logo'>-->
+  <div class="toolbar">
+    <button id="dragBtn" type="button" aria-pressed="false">Insert target </button>
+  </div>
+  <!-- The draggable vertical line -->
+  <div id="vline" role="separator" aria-orientation="vertical" aria-label="Draggable vertical line" style="display:none;"></div>
+
+  <!--  <img id="pewiLogo" alt = 'log' src="./imgs/updatedPewiLogo.png" title ='PEWI Logo'>-->
   <img id="logoBase" alt = 'pewi4.1' src="./imgs/PEWI4_1_LOG.png" title = 'PEWI V4.1'> <!--inGamePEWI4.png"-->
   <img id="DownloadButton" class="upperButton" alt= 'download button' src="./imgs/uploadDownloadIcon.png" title="Download" onclick="triggerDownloadSequence();" onmouseover="toggleChangeLandType();" onmouseout="toggleChangeLandType();">
 
@@ -2271,6 +2280,91 @@
     <input id="file-upload3" type="file" onchange="uploadFile();" />
   </div>
 
+  <script>
+    const btn   = document.getElementById('dragBtn');
+    const line  = document.getElementById('vline');
+
+    let dragEnabled = false;
+    let dragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    // Toggle drag mode via button
+    btn.addEventListener('click', () => {
+      dragEnabled = !dragEnabled;
+      btn.classList.toggle('active', dragEnabled);
+      btn.setAttribute('aria-pressed', String(dragEnabled));
+      btn.textContent = dragEnabled ? 'Target line: ON' : 'Target line: Off';
+      line.style.display = dragEnabled ? 'block' : 'none';
+    });
+
+    const getPos = () => ({
+      left: parseFloat(getComputedStyle(line).left),
+      top:  parseFloat(getComputedStyle(line).top),
+    });
+
+    function clamp(val, min, max) {
+      return Math.min(Math.max(val, min), max);
+    }
+
+    function startDrag(clientX, clientY) {
+      if (!dragEnabled) return;
+      const { left, top } = getPos();
+      offsetX = clientX - left;
+      offsetY = clientY - top;
+      dragging = true;
+      line.classList.add('dragging');
+    }
+
+    function moveDrag(clientX, clientY) {
+      if (!dragging) return;
+      const vw = document.documentElement.clientWidth;
+      const vh = document.documentElement.clientHeight;
+      const lineRect = line.getBoundingClientRect();
+      const newLeft = clamp(clientX - offsetX, 0, vw - lineRect.width);
+      const newTop  = clamp(clientY - offsetY,  0, vh - lineRect.height);
+      line.style.left = `${newLeft}px`;
+      line.style.top  = `${newTop}px`;
+    }
+
+    function endDrag() {
+      if (!dragging) return;
+      dragging = false;
+      line.classList.remove('dragging');
+    }
+
+    // Mouse events
+    line.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      startDrag(e.clientX, e.clientY);
+    });
+    window.addEventListener('mousemove', (e) => moveDrag(e.clientX, e.clientY));
+    window.addEventListener('mouseup', endDrag);
+
+    // Touch events
+    line.addEventListener('touchstart', (e) => {
+      const t = e.touches[0];
+      startDrag(t.clientX, t.clientY);
+    }, { passive: true });
+    window.addEventListener('touchmove', (e) => {
+      const t = e.touches[0];
+      moveDrag(t.clientX, t.clientY);
+    }, { passive: true });
+    window.addEventListener('touchend', endDrag);
+    window.addEventListener('touchcancel', endDrag);
+
+    // Escape exits drag mode & hides line
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        dragEnabled = false;
+        btn.classList.remove('active');
+        btn.setAttribute('aria-pressed', 'false');
+        btn.textContent = 'Drag vertical line';
+        line.style.display = 'none';
+        endDrag();
+      }
+    });
+  </script>
   <!--Script for uploading and downloading-->
   <script type="text/javascript">
     /**
