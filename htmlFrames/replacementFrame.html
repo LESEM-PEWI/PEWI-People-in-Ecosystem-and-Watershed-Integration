@@ -5,8 +5,9 @@
   <title>Exit to the main frame</title>
 
   <link rel="stylesheet" href="../stylesheet.css" />
-  <link rel="stylesheet" href="style_left.css" />
-  <link rel="stylesheet" href="style_right.css" />
+  <link rel="stylesheet" href="../style_left.css" />
+  <link rel="stylesheet" href="../style_right.css" />
+  <link rel="stylesheet" type="text/css" href="./skips.css">
 
   <style>
     /* Optional: helper for screen-reader-only text */
@@ -21,12 +22,13 @@
 </head>
 
 <body>
+<a href="#replacementSubmit" >Skip to main content</a>
 <!-- Modal dialog (context-giving element) -->
 <div id="modalReplacementFrame"
      class="modalFrame"
      role="dialog"
      aria-modal="true"
-     aria-labelledby="replacementPrompt">
+     aria-labelledby="dialogHeading">
 
   <!-- Back action: use a button for an action (not a link to #) -->
   <button id="backButton" class="backButton" type="button" onclick="parent.exitToMain()">
@@ -37,6 +39,11 @@
 
   <!-- Dialog content (owned by the dialog) -->
   <div id="replacementContent">
+    <!-- Added heading for the dialog -->
+    <h1 id="dialogHeading" class="modalText">
+      Replace Deactivated Land Uses
+    </h1>
+
     <p id="replacementPrompt" class="modalText">
       One or more land uses you have deactivated are currently used on the map.
       What would you like to replace them with?
