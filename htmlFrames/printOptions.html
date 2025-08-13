@@ -37,7 +37,12 @@ Cleaned and Prepared - July 2016 XXX
   <!--page scripting-->
   <script type= "text/javascript" src="./front-end/helpersFE.js"></script>
   <!-- /INCLUDES -->
-
+ <style>
+   body{
+     /* replaces the background images that was not providing the required contrast by ISU*/
+     background: teal;
+   }
+ </style>
   <script>
     var yearAvailable;
     // download from preview if there is preview src, or create new PDF according to print options
@@ -302,7 +307,7 @@ Cleaned and Prepared - July 2016 XXX
 <body>
 
 
-  <img id="optionsBackroundImage" alt="" src="./imgs/floodBack.png">
+<!--  <img id="optionsBackroundImage" alt="" src="./imgs/floodBack.png">-->
   <a href="#" onclick="parent.closePrintOptions();" id="backButton">
     <img alt= 'backImage' src="./imgs/chevron-back.png" title="Resume Play">
     <span class ='.icon-colored'></span>
@@ -366,7 +371,15 @@ Cleaned and Prepared - July 2016 XXX
       </div>
 
       <div id="year-group-checkbox" class="optionsSubContainer">
-        <input id="year1-checkbox" class="print-options-checkbox" style="inline-block" checked>
+        <label for="year1-checkbox">Year 1</label>
+        <input
+                id="year1-checkbox"
+                type="checkbox"
+                class="print-options-checkbox"
+                style="display: inline-block;"
+                checked
+        >
+
         <!-- <label style="background-color: #4c6167; cursor: not-allowed;"> -->
         <label style="color: #fff; cursor: not-allowed; display: inline-block;">
           <div>
@@ -710,9 +723,9 @@ Cleaned and Prepared - July 2016 XXX
 
     </div>
 
-    <iframe id="pdf_preview" class="pdf_preview" type="application/pdf" src=""></iframe>
+    <iframe aria-label="Preview pdf"  id="pdf_preview" class="pdf_preview" type="application/pdf" src=""></iframe>
   </div>
-<a href="doc/general.pdf">General Index Document</a>
+<a href="/doc/general.pdf" class =skip-link>General Index Document</a>
   <div>
     <div id="savePP" class="mainButton preview-btn" onclick="saveCurrentPrintOptions(0);">Preview PDF</div>
     <div id="downloadC" class="mainButton print-btn" onclick="downloadControl();">Download</div>
