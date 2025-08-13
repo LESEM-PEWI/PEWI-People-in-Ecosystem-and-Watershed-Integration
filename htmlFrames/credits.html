@@ -49,13 +49,28 @@ Cleaned and Prepared - July 2016
         /*}*/
     </style>
 
+    <style>
+        p {
+            color: hsl(0, 50%, 25%);
+            background-color: white;
+        }
+        a {
+            text-decoration: none;
+            color: hsl(232, 50%, 25%);
+            background-color: white;
+        }
+        a:hover,
+        a:focus {
+            text-decoration: underline;
+        }
+    </style>
+
+
+
 </head>
 <body>
 <a href="#contact" class="skip-link">Skip to main content</a>
-<!--<a href="../index.html#page" onclick="" id="backButton">-->
-<!--    <img alt = 'backImage' src="./imgs/chevron-back.png" title="Resume Play">-->
-<!--    <span class ='.icon-colored'></span>-->
-<!--</a>-->
+
 
 <div>
     <div style="margin:10px;">
@@ -88,18 +103,24 @@ Cleaned and Prepared - July 2016
 
                     <tr>
                         <td>
-                            <input type="text" name="Name" tabindex="1" class="text" placeholder="Your Name">
+                            <label>
+                                <input type="text" name="Name" tabindex="1" class="text" placeholder="Your Name">
+                            </label>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <input type="text" name="Email" tabindex="2" class="text" placeholder="Your@email.com">
+                            <label>
+                                <input type="text" name="Email" tabindex="2" class="text" placeholder="Your@email.com">
+                            </label>
                         </td>
                     </tr>
 
                     <tr>
                         <td>
-                            <textarea name="Message" cols="50" rows="5" tabindex="3" class="mess" placeholder="Message"></textarea>
+                            <label>
+                                <textarea name="Message" cols="50" rows="5" tabindex="3" class="mess" placeholder="Message"></textarea>
+                            </label>
                         </td>
                     </tr>
                     <tr>
@@ -113,20 +134,6 @@ Cleaned and Prepared - July 2016
         </div>
     </div>
 </div>
-<!--<img   onclick="parent.closeCreditFrame();"-->
-<!--        id="backButton"-->
-<!--        src="./imgs/chevron-back.png"-->
-<!--        alt="Go Back <&#45;&#45;"-->
-<!--        title="Resume Play" >-->
-
-<!--<a href="../index.html#" onclick="parent.closeCreditFrame();" id="back-home">-->
-<!--  <img src="./imgs/chevron-back.png" title="Resume Play">-->
-<!--  <span class ='.icon-colored'></span>-->
-<!--</a>-->
-
-
-
-<!--<a href="#" onclick=" parent.closeCreditFrame()">Resume Play</a>-->
 
 </body>
 </html>

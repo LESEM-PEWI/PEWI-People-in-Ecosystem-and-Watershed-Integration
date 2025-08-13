@@ -1,18 +1,57 @@
+<!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" type="text/css" href="../stylesheet.css">
-<link rel="stylesheet" type="text/css" href="style_left.css">
-<link rel="stylesheet" type="text/css" href="style_right.css">
-  <div id="modalReplacementFrame" class="modalFrame">
-    <a href="#" onclick="parent.exitToMain();" id="backButton">
-      <img alt = "backImage" src="./imgs/chevron-back.png" title="Resume Play">
-      <span class ='.icon-colored'></span>
-    </a>
-    <div id="replacementContent">
-      <div id="replacementPrompt" class="modalText">
-        One or more land uses you have deactivated are currently used on the map. What would you like to replace them with?
-      </div>
-      <select class="modalText" id="replacementSelect"></select>
-      <div class="mainEscapeButton" id="replacementSubmit" onclick="window.top.fillDeactivatedLands()">Submit</div>
-    </div>
+<head>
+  <meta charset="utf-8" />
+  <title>Exit to the main frame</title>
+
+  <link rel="stylesheet" href="../stylesheet.css" />
+  <link rel="stylesheet" href="style_left.css" />
+  <link rel="stylesheet" href="style_right.css" />
+
+  <style>
+    /* Optional: helper for screen-reader-only text */
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0);
+      white-space: nowrap; border: 0;
+    }
+  </style>
+</head>
+
+<body>
+<!-- Modal dialog (context-giving element) -->
+<div id="modalReplacementFrame"
+     class="modalFrame"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="replacementPrompt">
+
+  <!-- Back action: use a button for an action (not a link to #) -->
+  <button id="backButton" class="backButton" type="button" onclick="parent.exitToMain()">
+    <img src="./imgs/chevron-back.png" alt="Back" />
+    <span class="icon-colored" aria-hidden="true"></span>
+    <span class="visually-hidden">Resume Play</span>
+  </button>
+
+  <!-- Dialog content (owned by the dialog) -->
+  <div id="replacementContent">
+    <p id="replacementPrompt" class="modalText">
+      One or more land uses you have deactivated are currently used on the map.
+      What would you like to replace them with?
+    </p>
+
+    <label for="replacementSelect" class="visually-hidden">Replacement land use</label>
+    <select class="modalText" id="replacementSelect">
+      <!-- options will be injected dynamically -->
+    </select>
+
+    <button class="mainEscapeButton" id="replacementSubmit" type="button"
+            onclick="window.top.fillDeactivatedLands()">
+      Submit
+    </button>
   </div>
+</div>
+</body>
 </html>

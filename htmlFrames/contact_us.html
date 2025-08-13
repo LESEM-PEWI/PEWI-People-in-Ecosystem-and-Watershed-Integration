@@ -17,6 +17,7 @@ No scripted functionality is needed.
   <!-- INCLUDES -->
   <!--css-->
   <link rel="stylesheet" type="text/css" href="./frameStylesheet.css">
+  <link rel="stylesheet" type="text/css" href="./skips.css">
   <!-- /INCLUDES -->
 
   <!--additional styling-->
@@ -30,11 +31,8 @@ No scripted functionality is needed.
 </head>
 
 <body>
-<a href="#" onclick="parent.closeEmailFrame();" id="backButton">
-  <img alt= 'backImage' src="./imgs/chevron-back.png" title="Resume Play">
-  <span class ='.icon-colored'></span>
-</a>
-  <div id="contact">
+<a href="#main_section" class="skip-link">Skip to main content</a>
+  <div id="main_section">
     <h3 style=" text-align:left;">Contact Us</h3>
     <form name="fedback" method="POST" action="https://formspree.io/f/xqabkozy">
       <table>
@@ -42,18 +40,24 @@ No scripted functionality is needed.
 
           <tr>
             <td>
-              <input type="text" name="Name" tabindex="1" class="text" placeholder="Your Name">
+              <label>
+                <input type="text" name="Name" tabindex="1" class="text" placeholder="Your Name">
+              </label>
             </td>
           </tr>
           <tr>
             <td>
-              <input type="text" name="Email" tabindex="2" class="text" placeholder="Your@email.com">
+              <label>
+                <input type="text" name="Email" tabindex="2" class="text" placeholder="Your@email.com">
+              </label>
             </td>
           </tr>
 
           <tr>
             <td>
-              <textarea name="Message" cols="50" rows="5" tabindex="3" class="mess" placeholder="Message"></textarea>
+              <label>
+                <textarea name="Message" cols="50" rows="5" tabindex="3" class="mess" placeholder="Message"></textarea>
+              </label>
             </td>
           </tr>
           <tr>
@@ -65,16 +69,6 @@ No scripted functionality is needed.
       </table>
     </form>
   </div>
-  </div>
-
-
-
-<!--    <img-->
-<!--            onclick="parent.closeEmailFrame();"-->
-<!--            id="backButton"-->
-<!--            src="./imgs/chevron-back.png"-->
-<!--            alt="Go Back <&#45;&#45;"-->
-<!--            title="Resume Play" >-->
 
 
 </body>
