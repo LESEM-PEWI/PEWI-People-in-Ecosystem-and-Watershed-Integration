@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0bf3db1a-c49a-4003-90ef-e43c9f83c424" name="Changes" comment="skips links and hix economic data insistence">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlFrames/credits.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/credits.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlFrames/startup.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/startup.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-    </list>
+    <list default="true" id="0bf3db1a-c49a-4003-90ef-e43c9f83c424" name="Changes" comment="fixtures" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -467,7 +462,15 @@
       <option name="project" value="LOCAL" />
       <updated>1755110177951</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="fixtures">
+      <option name="closed" value="true" />
+      <created>1755113723786</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1755113723786</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -482,6 +485,7 @@
     <MESSAGE value="fix skip issues to fit assessment" />
     <MESSAGE value="skips links" />
     <MESSAGE value="skips links and hix economic data insistence" />
-    <option name="LAST_COMMIT_MESSAGE" value="skips links and hix economic data insistence" />
+    <MESSAGE value="fixtures" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixtures" />
   </component>
 </project>
