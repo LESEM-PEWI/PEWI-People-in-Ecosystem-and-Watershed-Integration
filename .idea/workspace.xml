@@ -6,14 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0bf3db1a-c49a-4003-90ef-e43c9f83c424" name="Changes" comment="accessibility fixtures">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlFrames/multiDownload.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/multiDownload.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlFrames/options.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/options.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlFrames/replacementFrame.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/replacementFrame.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlFrames/results.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/results.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlFrames/startup.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/startup.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlFrames/uploadDownload.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlFrames/uploadDownload.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/codex/codex.html" beforeDir="false" afterPath="$PROJECT_DIR$/modules/codex/codex.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,24 +42,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.start.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "skip__drag",
-    "last_opened_file_path": "D:/my_pewi/PEWI-People-in-Ecosystem-and-Watershed-Integration/htmlFrames",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2023.2.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.start.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;skip__drag&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/my_pewi/PEWI-People-in-Ecosystem-and-Watershed-Integration/htmlFrames&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2023.2.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\my_pewi\PEWI-People-in-Ecosystem-and-Watershed-Integration\htmlFrames\imgs" />
@@ -127,6 +119,7 @@
       <workItem from="1754075126910" duration="17211000" />
       <workItem from="1754493986304" duration="9337000" />
       <workItem from="1754511936269" duration="21321000" />
+      <workItem from="1755704868321" duration="592000" />
     </task>
     <task id="LOCAL-00001" summary="minor changes">
       <option name="closed" value="true" />
@@ -496,7 +489,23 @@
       <option name="project" value="LOCAL" />
       <updated>1755119294930</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="accessibility fixtures">
+      <option name="closed" value="true" />
+      <created>1755123816076</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1755123816076</updated>
+    </task>
+    <task id="LOCAL-00048" summary="accessibility fixtures">
+      <option name="closed" value="true" />
+      <created>1755123851493</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1755123851493</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
