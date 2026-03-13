@@ -1,0 +1,20 @@
+Index: .idea/pewi3.0.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module type=\"WEB_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\" inherit-compiler-output=\"true\">\r\n    <exclude-output />\r\n    <content url=\"file://$MODULE_DIR$\">\r\n      <excludeFolder url=\"file://$MODULE_DIR$/.tmp\" />\r\n      <excludeFolder url=\"file://$MODULE_DIR$/temp\" />\r\n      <excludeFolder url=\"file://$MODULE_DIR$/tmp\" />\r\n    </content>\r\n    <orderEntry type=\"inheritedJdk\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n    <orderEntry type=\"library\" name=\"three.js\" level=\"application\" />\r\n    <orderEntry type=\"library\" name=\"d3.v4\" level=\"application\" />\r\n    <orderEntry type=\"library\" name=\"d3.v4\" level=\"application\" />\r\n    <orderEntry type=\"library\" name=\"canvg\" level=\"application\" />\r\n  </component>\r\n</module>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/pewi3.0.iml b/.idea/pewi3.0.iml
+--- a/.idea/pewi3.0.iml	(revision 333c5f018af4c202e09ef1271c35c71a4a88fbfc)
++++ b/.idea/pewi3.0.iml	(date 1756767141370)
+@@ -10,8 +10,5 @@
+     <orderEntry type="inheritedJdk" />
+     <orderEntry type="sourceFolder" forTests="false" />
+     <orderEntry type="library" name="three.js" level="application" />
+-    <orderEntry type="library" name="d3.v4" level="application" />
+-    <orderEntry type="library" name="d3.v4" level="application" />
+-    <orderEntry type="library" name="canvg" level="application" />
+   </component>
+ </module>
+\ No newline at end of file
