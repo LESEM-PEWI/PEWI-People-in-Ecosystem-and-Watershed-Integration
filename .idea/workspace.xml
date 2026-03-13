@@ -4,409 +4,82 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0bf3db1a-c49a-4003-90ef-e43c9f83c424" name="Changes" comment="skips links">
+    <list default="true" id="55dc68c9-bbfa-44d9-888f-a25c45dd51b6" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/pewi3.0.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/economics.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/economics.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Python Script" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="skip" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "MAGALA-RICHARD"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/LESEM-PEWI/PEWI-People-in-Ecosystem-and-Watershed-Integration.git",
+    "accountId": "b148c91d-68fd-48ee-8fa0-a91250913938"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 0
 }</component>
-  <component name="ProjectId" id="2kc0fccijR3ri051u9jXeTiwsIR" />
+  <component name="ProjectId" id="3Arxt0iGro3sumoXGfhPTxtUGKo" />
   <component name="ProjectViewState">
-    <option name="autoscrollFromSource" value="true" />
-    <option name="autoscrollToSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.start.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/my_pewi/PEWI-People-in-Ecosystem-and-Watershed-Integration/htmlFrames/imgs&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2023.2.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "git-widget-placeholder": "master",
+    "javascript.preferred.runtime.type.id": "node",
+    "last_opened_file_path": "/Users/richardmagala/Documents/code_pewi",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\my_pewi\PEWI-People-in-Ecosystem-and-Watershed-Integration\htmlFrames\imgs" />
-    </key>
-  </component>
-  <component name="RunManager">
-    <configuration name="start" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="pewi3.0" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/start.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-  </component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-5a2391486177-2887949eec09-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-233.13763.11" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-WS-253.31033.133" />
       </set>
     </attachedChunks>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="0bf3db1a-c49a-4003-90ef-e43c9f83c424" name="Changes" comment="" />
-      <created>1723567663003</created>
+      <changelist id="55dc68c9-bbfa-44d9-888f-a25c45dd51b6" name="Changes" comment="" />
+      <created>1773364702026</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1723567663003</updated>
-      <workItem from="1723567665037" duration="2982000" />
-      <workItem from="1752529885960" duration="36671000" />
-      <workItem from="1752696229557" duration="1769000" />
-      <workItem from="1752702784160" duration="1792000" />
-      <workItem from="1753197990077" duration="9100000" />
-      <workItem from="1753284246703" duration="7540000" />
-      <workItem from="1753739657937" duration="658000" />
-      <workItem from="1753748181669" duration="15879000" />
+      <updated>1773364702026</updated>
+      <workItem from="1773364703031" duration="26000" />
+      <workItem from="1773364786243" duration="526000" />
     </task>
-    <task id="LOCAL-00001" summary="minor changes">
-      <option name="closed" value="true" />
-      <created>1723576090473</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1723576090473</updated>
-    </task>
-    <task id="LOCAL-00002" summary="minor changes">
-      <option name="closed" value="true" />
-      <created>1748148333157</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1748148333157</updated>
-    </task>
-    <task id="LOCAL-00003" summary="minor changes">
-      <option name="closed" value="true" />
-      <created>1748189364763</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1748189364763</updated>
-    </task>
-    <task id="LOCAL-00004" summary="ahead of development branch">
-      <option name="closed" value="true" />
-      <created>1748194712063</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1748194712063</updated>
-    </task>
-    <task id="LOCAL-00005" summary="ahead of development branch">
-      <option name="closed" value="true" />
-      <created>1748196612257</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1748196612257</updated>
-    </task>
-    <task id="LOCAL-00006" summary="ahead of development branch">
-      <option name="closed" value="true" />
-      <created>1748197334001</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1748197334001</updated>
-    </task>
-    <task id="LOCAL-00007" summary="ahead of development branch">
-      <option name="closed" value="true" />
-      <created>1748197350278</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1748197350278</updated>
-    </task>
-    <task id="LOCAL-00008" summary="ahead of development branch">
-      <option name="closed" value="true" />
-      <created>1748197447985</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1748197447985</updated>
-    </task>
-    <task id="LOCAL-00009" summary="ahead of development branch">
-      <option name="closed" value="true" />
-      <created>1748198049730</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1748198049730</updated>
-    </task>
-    <task id="LOCAL-00010" summary="accessibility issue">
-      <option name="closed" value="true" />
-      <created>1752605868181</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1752605868181</updated>
-    </task>
-    <task id="LOCAL-00011" summary="accessibility issue">
-      <option name="closed" value="true" />
-      <created>1752606643347</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1752606643347</updated>
-    </task>
-    <task id="LOCAL-00012" summary="accessibility issue">
-      <option name="closed" value="true" />
-      <created>1752606982262</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1752606982262</updated>
-    </task>
-    <task id="LOCAL-00013" summary="accessibility issue">
-      <option name="closed" value="true" />
-      <created>1752608580873</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1752608580873</updated>
-    </task>
-    <task id="LOCAL-00014" summary="accessibility issue">
-      <option name="closed" value="true" />
-      <created>1752609384579</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1752609384579</updated>
-    </task>
-    <task id="LOCAL-00015" summary="accessibility issue">
-      <option name="closed" value="true" />
-      <created>1752609528175</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1752609528175</updated>
-    </task>
-    <task id="LOCAL-00016" summary="accessibility issue">
-      <option name="closed" value="true" />
-      <created>1752610106587</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1752610106587</updated>
-    </task>
-    <task id="LOCAL-00017" summary="accessibility issue">
-      <option name="closed" value="true" />
-      <created>1752611821310</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1752611821310</updated>
-    </task>
-    <task id="LOCAL-00018" summary="accessibility issue">
-      <option name="closed" value="true" />
-      <created>1752612385834</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1752612385834</updated>
-    </task>
-    <task id="LOCAL-00019" summary="accessibility issue">
-      <option name="closed" value="true" />
-      <created>1752673242457</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1752673242457</updated>
-    </task>
-    <task id="LOCAL-00020" summary="accessibility issue">
-      <option name="closed" value="true" />
-      <created>1752673278762</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1752673278762</updated>
-    </task>
-    <task id="LOCAL-00021" summary="accessibility issue">
-      <option name="closed" value="true" />
-      <created>1752673357943</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1752673357943</updated>
-    </task>
-    <task id="LOCAL-00022" summary="accessibility issue">
-      <option name="closed" value="true" />
-      <created>1752673416891</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1752673416891</updated>
-    </task>
-    <task id="LOCAL-00023" summary="accessibility issue">
-      <option name="closed" value="true" />
-      <created>1752679862699</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1752679862699</updated>
-    </task>
-    <task id="LOCAL-00024" summary="accessibility issue chevron back">
-      <option name="closed" value="true" />
-      <created>1752682883470</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1752682883470</updated>
-    </task>
-    <task id="LOCAL-00025" summary="accessibility issue chevron back">
-      <option name="closed" value="true" />
-      <created>1752685142873</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1752685142873</updated>
-    </task>
-    <task id="LOCAL-00026" summary="accessibility issue chevron back">
-      <option name="closed" value="true" />
-      <created>1752688730564</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1752688730564</updated>
-    </task>
-    <task id="LOCAL-00027" summary="accessibility issue chevron back">
-      <option name="closed" value="true" />
-      <created>1752692193676</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1752692193676</updated>
-    </task>
-    <task id="LOCAL-00028" summary="accessibility issue chevron back">
-      <option name="closed" value="true" />
-      <created>1752692350288</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1752692350288</updated>
-    </task>
-    <task id="LOCAL-00029" summary="accessibility issue chevron back">
-      <option name="closed" value="true" />
-      <created>1752693202179</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1752693202179</updated>
-    </task>
-    <task id="LOCAL-00030" summary="accessibility issue chevron back">
-      <option name="closed" value="true" />
-      <created>1752702970329</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1752702970329</updated>
-    </task>
-    <task id="LOCAL-00031" summary="accessibility issue chevron back">
-      <option name="closed" value="true" />
-      <created>1752703222124</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1752703222124</updated>
-    </task>
-    <task id="LOCAL-00032" summary="fix skip issues to fit their rigid assessment">
-      <option name="closed" value="true" />
-      <created>1753205933469</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1753205933469</updated>
-    </task>
-    <task id="LOCAL-00033" summary="skips links">
-      <option name="closed" value="true" />
-      <created>1753750184203</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1753750184203</updated>
-    </task>
-    <task id="LOCAL-00034" summary="skips links">
-      <option name="closed" value="true" />
-      <created>1753809204442</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1753809204442</updated>
-    </task>
-    <task id="LOCAL-00035" summary="skips links">
-      <option name="closed" value="true" />
-      <created>1753929002726</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1753929002726</updated>
-    </task>
-    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="minor changes" />
-    <MESSAGE value="ahead of development branch" />
-    <MESSAGE value="accessibility issue" />
-    <MESSAGE value="accessibility issue chevron back" />
-    <MESSAGE value="fix skip issues to fit their rigid assessment" />
-    <MESSAGE value="fix skip issues to fit assessment" />
-    <MESSAGE value="skips links" />
-    <option name="LAST_COMMIT_MESSAGE" value="skips links" />
   </component>
 </project>
