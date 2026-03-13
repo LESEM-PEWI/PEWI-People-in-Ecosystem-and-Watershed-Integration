@@ -654,16 +654,17 @@
         <div>
         </div><form id="adjustmentForm" method="post" action="">
         <div>
-          <label for="inflationFactor" title="1 indicates no change in inflation">Inflation Factor Adjustment</label>
+          <label for="inflationFactor" title="1 indicates no change in inflation">Inflation Factor</label>
 <!--           keep it to 1 apparently because we have just updated the price-->
           <input type="number" id="inflationFactor" name="inflationFactor" value="1" step = "0.1">
+<!--          in case of drop down button, the inflation factor will be incremented or decremented by 0.1-->
         </div>
         <div>
-          <label for="cornPrices" title ="Adjust Corn Prices Per Bushel(bu)">Corn Prices ($/bu)</label>
+          <label for="cornPrices" title ="Adjust Corn Prices Per Bushel($/bu)">Corn Prices ($/bu)</label>
           <input type="number" id="cornPrices" name="cornPrices" value="4.35" step="0.1" >
         </div>
         <div>
-          <label for="soybeanPrices" title="Adjust Soybean Prices Per Bushel(bu)">Soybean Prices ($/bu)</label>
+          <label for="soybeanPrices" title="Adjust Soybean Prices Per Bushel($/bu)">Soybean Prices ($/bu)</label>
           <input type="number" id="soybeanPrices" name="soybeanPrices" value="10.37" step="0.1">
         </div>
         <div>
