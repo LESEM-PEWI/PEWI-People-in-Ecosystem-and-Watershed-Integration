@@ -121,15 +121,7 @@
       <workItem from="1754493986304" duration="9337000" />
       <workItem from="1754511936269" duration="21321000" />
       <workItem from="1755704868321" duration="592000" />
-      <workItem from="1774402519874" duration="2108000" />
-    </task>
-    <task id="LOCAL-00003" summary="minor changes">
-      <option name="closed" value="true" />
-      <created>1748189364763</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1748189364763</updated>
+      <workItem from="1774402519874" duration="3075000" />
     </task>
     <task id="LOCAL-00004" summary="ahead of development branch">
       <option name="closed" value="true" />
@@ -515,7 +507,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773416484919</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="Trying to undo the overflow suppression">
+      <option name="closed" value="true" />
+      <created>1774546455375</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1774546455376</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
