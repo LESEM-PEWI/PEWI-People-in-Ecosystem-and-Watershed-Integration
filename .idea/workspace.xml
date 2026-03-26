@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0bf3db1a-c49a-4003-90ef-e43c9f83c424" name="Changes" comment="Trying to undo the overflow suppression">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="0bf3db1a-c49a-4003-90ef-e43c9f83c424" name="Changes" comment="changed overflowing content to clip rather than hidden">
       <change beforePath="$PROJECT_DIR$/style_left.css" beforeDir="false" afterPath="$PROJECT_DIR$/style_left.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -121,15 +120,7 @@
       <workItem from="1754493986304" duration="9337000" />
       <workItem from="1754511936269" duration="21321000" />
       <workItem from="1755704868321" duration="592000" />
-      <workItem from="1774402519874" duration="3075000" />
-    </task>
-    <task id="LOCAL-00004" summary="ahead of development branch">
-      <option name="closed" value="true" />
-      <created>1748194712063</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1748194712063</updated>
+      <workItem from="1774402519874" duration="3458000" />
     </task>
     <task id="LOCAL-00005" summary="ahead of development branch">
       <option name="closed" value="true" />
@@ -515,7 +506,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774546455376</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="changed overflowing content to clip rather than hidden">
+      <option name="closed" value="true" />
+      <created>1774547623782</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1774547623782</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -535,6 +534,7 @@
     <MESSAGE value="Removed the scientific notation in the economic data input panel and the target line. The scientific notation was replaced with $/unit" />
     <MESSAGE value="restrict console tab content overflow over x on zoom in" />
     <MESSAGE value="Trying to undo the overflow suppression" />
-    <option name="LAST_COMMIT_MESSAGE" value="Trying to undo the overflow suppression" />
+    <MESSAGE value="changed overflowing content to clip rather than hidden" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed overflowing content to clip rather than hidden" />
   </component>
 </project>
