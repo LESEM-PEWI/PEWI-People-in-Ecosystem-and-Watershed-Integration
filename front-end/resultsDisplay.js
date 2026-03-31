@@ -1636,7 +1636,7 @@ function getTotalCost(data, givenYear) {
   return cost;
 }
 
-//this funtion creates and animates the Ecoscores aster plot
+//this function creates and animates the Eco scores aster plot
 // it also creates the quality indicator gradients to the plot's right
 //======= it's use is currently deprecated
 function drawEcosystemIndicatorsDisplay(year) {

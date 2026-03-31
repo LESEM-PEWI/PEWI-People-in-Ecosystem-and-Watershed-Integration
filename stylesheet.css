@@ -803,3 +803,61 @@ label[for=file-upload], #sim-message-repeat {
 .skip-link:focus {
   top: 0;
 }
+
+sup {
+  font-size: 0.8em;
+  vertical-align: super;
+}
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #ff4000;
+  color: #fff;
+  padding: 8px;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+
+#dragBtn {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+}
+
+#dragBtn {
+  position: fixed;   /* so it can be placed anywhere */
+  top: 10px;        /* distance from top */
+  right: 500px;        /* distance from left */
+}
+#dragBtn.active { outline: 2px solid #4a90e2; }
+
+/* The vertical line */
+#vline {
+  position: fixed;
+  top: 235px;
+  right: 10%;
+  width: 2px;
+  height: 40vh;
+  background: #222;
+  cursor: grab;
+  z-index: 999;
+  will-change: left, top;
+}
+#vline::before {
+  content: "";
+  position: absolute;
+  left: -10px; right: -10px; top: -10px; bottom: -10px;
+}
+#vline.dragging { cursor: grabbing; }
+
+#vline {
+  background: orange;  /* any CSS color */
+}

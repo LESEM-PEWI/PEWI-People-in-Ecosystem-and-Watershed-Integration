@@ -27,12 +27,64 @@ Cleaned and Prepared - July 2016
         }
     </style>
 
+    <!-- /INCLUDES -->
+    <style>
+        /* Style for skip link (optional but helps accessibility) */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #ff4000;
+            color: #fff;
+            padding: 8px;
+            z-index: 100;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /*html {*/
+        /*    scroll-behavior: smooth;*/
+        /*}*/
+    </style>
+
+    <style>
+        p {
+            color: hsl(0, 50%, 25%);
+            background-color: white;
+        }
+        a {
+            text-decoration: none;
+            color: hsl(232, 50%, 25%);
+            background-color: white;
+        }
+        a:hover,
+        a:focus {
+            text-decoration: underline;
+        }
+    </style>
+
+    <style>
+        p {
+            color: hsl(0, 50%, 25%);
+            background-color: white;
+        }
+        a {
+            text-decoration: none;
+            color: hsl(232, 50%, 25%);
+            background-color: white;
+        }
+        a:hover,
+        a:focus {
+            text-decoration: underline;
+        }
+    </style>
+
 </head>
 <body>
-<a href="#" onclick="parent.closeCreditFrame();" id="backButton">
-    <img alt = 'backImage' src="./imgs/chevron-back.png" title="Resume Play">
-    <span class ='.icon-colored'></span>
-</a>
+<a href="#contact" class="skip-link">Skip to main content</a>
+
 
 <div>
     <div style="margin:10px;">
@@ -58,25 +110,31 @@ Cleaned and Prepared - July 2016
             <a class="aboutLinks" href="http://www.nrem.iastate.edu/pewi" target="_blank">www.nrem.iastate.edu/pewi</a>. Questions can be sent to pewi@iastate.edu.
         </p>
         <div id="contact">
-            <h3 style=" text-align:left;">Contact Us</h3>
+            <h2 style=" text-align:left;">Contact Us</h2>
             <form name="fedback" method ="POST" action="https://formspree.io/f/xqabkozy">
                 <table>
                     <tbody>
 
                     <tr>
                         <td>
-                            <input type="text" name="Name" tabindex="1" class="text" placeholder="Your Name">
+                            <label>
+                                <input type="text" name="Name" tabindex="1" class="text" placeholder="Your Name">
+                            </label>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <input type="text" name="Email" tabindex="2" class="text" placeholder="Your@email.com">
+                            <label>
+                                <input type="text" name="Email" tabindex="2" class="text" placeholder="Your@email.com">
+                            </label>
                         </td>
                     </tr>
 
                     <tr>
                         <td>
-                            <textarea name="Message" cols="50" rows="5" tabindex="3" class="mess" placeholder="Message"></textarea>
+                            <label>
+                                <textarea name="Message" cols="50" rows="5" tabindex="3" class="mess" placeholder="Message"></textarea>
+                            </label>
                         </td>
                     </tr>
                     <tr>
@@ -90,20 +148,6 @@ Cleaned and Prepared - July 2016
         </div>
     </div>
 </div>
-<!--<img   onclick="parent.closeCreditFrame();"-->
-<!--        id="backButton"-->
-<!--        src="./imgs/chevron-back.png"-->
-<!--        alt="Go Back <&#45;&#45;"-->
-<!--        title="Resume Play" >-->
-
-<!--<a href="../index.html#" onclick="parent.closeCreditFrame();" id="back-home">-->
-<!--  <img src="./imgs/chevron-back.png" title="Resume Play">-->
-<!--  <span class ='.icon-colored'></span>-->
-<!--</a>-->
-
-
-
-<!--<a href="#" onclick=" parent.closeCreditFrame()">Resume Play</a>-->
 
 </body>
 </html>

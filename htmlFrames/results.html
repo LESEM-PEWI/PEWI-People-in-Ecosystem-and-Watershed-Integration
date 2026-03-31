@@ -26,6 +26,7 @@ Cleaned and Prepared - August 2016
   <!-- INCLUDES -->
   <!--css-->
   <link rel="stylesheet" type="text/css" href="style_resultFrame.css">
+  <link rel="stylesheet" type="text/css" href="./skips.css">
 
   <!-- import JQuery -->
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script> -->
@@ -43,7 +44,7 @@ Cleaned and Prepared - August 2016
 
 <body>
 
-
+<a href="#centralContentHolder" class="skip-link">Skip to main content</a>
   <div id="results-header">
 
     <div style="visibility:hidden;" id="upTo"></div>
@@ -74,8 +75,8 @@ Cleaned and Prepared - August 2016
     <div id="innerContainer">
       <div id="graphics">
         <div id="contentsG">
-          <div id= "landUseTitle">  Area by Land-Use </div>
-          <div id= "landUseTitleMulti">  Area by Land-Use </div>
+          <div id= "landUseTitle" role ='heading' aria-level="1">  Area by Land-Use </div>
+          <div id= "landUseTitleMulti" role ='heading' aria-level="1">  Area by Land-Use </div>
           <div id="landUseTypeContainer" class="graph-section">
             <div id="yearHolder">
               <div id="yearArrows">
@@ -633,7 +634,7 @@ Cleaned and Prepared - August 2016
     <div style="display:none;" id="economics">
       <div class="container">
         <div class="year-section">
-          <div id="yearTextEcon">Year</div>
+          <div id="yearTextEcon" role ='heading' aria-level="1">Year</div>
           <div id="yearArrowsEcon">
             <div id="yearUpEcon" onclick="changeEconPieBy(1);" class="upArrowEcon"></div>
             <div id="yearDownEcon" onclick="changeEconPieBy(-1);" class="downArrowEcon"></div>
@@ -641,12 +642,12 @@ Cleaned and Prepared - August 2016
         </div>
         <div class="charts-grid">
           <div class="chart-item">
-            <div id="landUseTitleEconCost">Cost by Land-Use</div>
+            <div id="landUseTitleEconCost" role ='heading' aria-level="1">Cost by Land-Use</div>
             <div class="rightE" id="econPieChart"></div>
           </div>
 
           <div class="chart-item">
-            <div id="landUseTitleEconRev">Revenue by Land-Use</div>
+            <div id="landUseTitleEconRev" role ='heading' aria-level="1">Revenue by Land-Use</div>
             <div class="rightE" id="econRevPieChart"></div>
           </div>
 

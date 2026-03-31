@@ -3516,7 +3516,7 @@ function getHighlightedInfo(tileId) {
          let NCRed = getNitrateRevCredit(currentYear, tileId)
         const carbonValuePrice = parseFloat(document.getElementById("carbonPrices").value)
           ghgTileToRev = Math.abs(Math.min(0, ghgTileToRev)/1000 * carbonValuePrice) // only those reducing emissions qualifies to sell the carbon
-         let netRevTile= getRevenuePerTile(yearSelected, tileId) + NCRed
+         let netRevTile= getRevenuePerTile(yearSelected, tileId) //+ NCRed
         highlightString = "Annual Net Revenue: " + netRevenueClassification(netRevTile)  + "<br>" +
             "Annual Net Revenue: $ " + Number(netRevTile.toFixed(0)).toLocaleString() + "<br>" +
             "Annual Carbon credit: $ " + Number(ghgTileToRev.toFixed(0).toLocaleString()) + "<br>"+

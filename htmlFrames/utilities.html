@@ -37,6 +37,7 @@ Cleaned and Prepared - August 2016
 <!--   <script src=".././back-end/helperMethods.js"></script>-->
   <!--external fonts-->
   <link href='https://fonts.googleapis.com/css?family=Amatic+SC:700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" type="text/css" href="./skips.css">
 <!--  <script src="../front-end/mainFE.js"></script>-->
 <!--  <script src="../back-end/helperObjects.js"></script>-->
 <!--  <script src="../front-end/helpersFE.js" info></script>-->
@@ -51,11 +52,20 @@ Cleaned and Prepared - August 2016
     }
   </script>
 
+
+  <style>
+    body {
+      color:  #333333;
+      background: #FFFFFF;
+    }
+  </style>
   <!-- /INCLUDES -->
 </head>
 
 <body>
-<a href="#" onclick="parent.reset();handlingBackButton();" id="backButton">
+<a href="#utilitiesContentsHolder" class="skip-link">Skip to main Utilities</a>
+<!--<a href="javascript:void(0)">Goes Nowhere</a>-->
+<a href="#" onclick="parent.reset();handlingBackButton(); " class='skip-links' id="backButton">
   <img alt ="backImage"  src="./imgs/chevron-back.png" title="Resume Play">
   <span class ='.icon-colored'></span>
 </a>
@@ -120,7 +130,7 @@ Cleaned and Prepared - August 2016
       <ul id="fileList"></ul>
     </div>
 
-    <div id="topoMapButton" class="mainButton" onclick="parent.parent.confirmTopoMapGenerate();"/>Create Topographic Map</div>
+    <div id="topoMapButton" class="mainButton" onclick="parent.parent.confirmTopoMapGenerate();"></div>Create Topographic Map</div>
 
 
 
